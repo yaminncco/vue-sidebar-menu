@@ -1,0 +1,54 @@
+{
+  "name": "vue-sidebar-menu",
+  "description": "A Vue.js Sidebar Menu Component",
+  "version": "1.0.2",
+  "author": "yaminncco <yaminncco@gmail.com>",
+  "license": "MIT",
+  "main": "dist/vue-sidebar-menu.js",
+  "files": [
+    "dist/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yaminncco/vue-sidebar-menu.git"
+  },
+  "homepage": "https://yaminncco.github.io/vue-sidebar-menu/",
+  "keywords": [
+    "vue",
+    "vue-component",
+    "vue-sidebar",
+    "vue-sidebar-menu",
+    "sidebar",
+    "sidebar-menu",
+    "admin-sidebar"
+  ],
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --hot --open --config webpack.config.dev.js",
+    "build:demo": "cross-env NODE_ENV=production webpack --progress --hide-modules --config webpack.config.dev.js",
+    "build:lib": "cross-env NODE_ENV=production webpack --progress --hide-modules --config webpack.config.prod.js"
+  },
+  "dependencies": {
+    "vue": "^2.5.11"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "cross-env": "^5.0.5",
+    "css-loader": "^0.28.7",
+    "file-loader": "^1.1.4",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.6",
+    "vue-loader": "^13.0.5",
+    "vue-template-compiler": "^2.4.4",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1",
+    "webpack-merge": "^4.1.4"
+  }
+}

@@ -1,0 +1,253 @@
+@import './var.scss';
+
+#sidebar-menu, #sidebar-menu * {
+  box-sizing: border-box;
+}
+
+#sidebar-menu {
+  position: fixed;
+  top: 0;
+	left: 0;
+	background-color: $baseBg;
+	max-width: 350px;
+  width: 100%;
+	height: 100vh;
+	padding-bottom: 50px;
+  transition: 0.3s max-width;
+}
+
+#sidebar-menu.collapsed {
+  max-width: 50px;
+}
+
+#sidebar-menu .default-list {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#sidebar-menu .menu-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.menu-list li {
+  position: relative;
+}
+
+.menu-list li > a {
+  position: relative;
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba( $textColor, 0.8 );
+  padding: 15px;
+  text-decoration: none;
+}
+.menu-list > li > a {
+  color: $textColor;
+  height: 50px;
+  line-height: 30px;
+  padding: 10px;
+  z-index: 20;
+}
+.menu-list li > a:hover {
+  color: $textColor;
+}
+
+.menu-list > li.active:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: $primaryColor;
+  z-index: 22;
+}
+.menu-list li.active > a {
+  font-weight: 600;
+  color: $textColor;
+}
+
+.menu-list li.has-dropdown > a > .item-text {
+  padding-right: 50px;
+}
+.menu-list > li > a > .item-text {
+  padding-left: 50px;
+}
+
+.menu-list > li > a > .item-text:after  {
+	content: "";
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color: $primaryColor;
+	height: 50px;
+	width: 0%;
+	z-index: -1;
+  transition: 0.3s width;
+}
+.menu-list > li.has-dropdown.open > a > .item-text:after {
+  width: 100%;
+}
+.menu-list > li > a > .item-text:before  {
+	content: "";
+	position: absolute;
+	top: 0px;
+	left: 0px;
+  width: 100%;
+  height: 100%;
+	background-color: $lightenBg;
+	z-index: -1;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s all;
+}
+.menu-list > li > a:hover > .item-text:before {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu-list li > a > .item-icon {
+  font-size: 14px;
+  color: $textColor;
+  margin-right: 10px;
+}
+.menu-list > li > a > .item-icon {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  height: 30px;
+  line-height: 30px;
+  width: 30px;
+  text-align: center;
+  color: $textColor;
+  background: $darkenBg;
+  border-radius: 3px;
+}
+
+.menu-list li.has-dropdown > a > .item-arrow {
+  font-style: normal;
+  font-weight: 900;
+  width: 30px;
+  height: 30px;
+  color: #ffff;
+  text-align: center;
+  line-height: 30px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 0.3s transform;
+}
+.menu-list li.has-dropdown > a > .item-arrow::after {
+  content: "\f105";
+  font-family: "Font Awesome 5 Free";
+}
+.menu-list li.has-dropdown.open > a > .item-arrow {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.menu-list .dropdown > ul {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  background: $lightenBg;
+  padding-left: 15px;
+}
+.menu-list .dropdown > ul li::before {
+  content: '';
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  background: $textColor;
+  position: absolute;
+  left: 0px;
+  top: 23px;
+  z-index: 3;
+}
+
+.show-animation-enter-active {
+  animation: show-animation .2s;
+}
+.show-animation-leave-active {
+  animation: show-animation .2s reverse;
+}
+@keyframes show-animation {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+#sidebar-menu .mobile-list {
+  position: absolute;
+  width: 300px;
+  padding-left: 50px;
+}
+.mobile-list > li > .dropdown {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+}
+.mobile-list .item-bg {
+  position: absolute;
+  left: -50px;
+  right: 0;
+  height: 50px;
+  top: 0;
+  z-index: -1;
+}
+.mobile-list .item-bg > span {
+  position: absolute;
+  background-color: $primaryColor;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+}
+.slide-animation-enter-active {
+  animation: slide-animation .2s;
+}
+.slide-animation-leave-active {
+  animation: slide-animation .2s reverse;
+}
+@keyframes slide-animation {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+
+#sidebar-menu .aside-toggle-btn {
+  display: block;
+  color: $textColor;
+  background-color: $darkenBg;
+  text-align: center;
+  font-style: normal;
+  font-weight: 900;
+  position: absolute;
+  height: 50px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+}
+#sidebar-menu .aside-toggle-btn::after {
+  content: "\f337";
+  font-family: "Font Awesome 5 Free";
+}
