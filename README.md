@@ -8,14 +8,29 @@ A Vue.js Sidebar Menu Component
 npm i vue-sidebar-menu --save
 ```
 
-## Usage
+Install the plugin globally.
 
 ```
+//main.js
 import Vue from 'vue'
 import VueSidebarMenu from 'vue-sidebar-menu'
 
 Vue.use(VueSidebarMenu)
 ```
+
+Or import the component locally.
+
+```
+//App.vue
+import { SidebarMenu } from 'vue-sidebar-menu'
+export default {
+  components: {
+    SidebarMenu,
+  },
+}
+```
+
+## Usage
 
 ```
 <template>
