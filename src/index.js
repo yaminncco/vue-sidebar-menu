@@ -5,3 +5,5 @@ export default {
     Vue.component('sidebar-menu', SidebarMenu)
   }
 }
+
+export { SidebarMenu }
