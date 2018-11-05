@@ -1,5 +1,8 @@
 <template>
-  <sidebar-menu :menu="menu" />
+  <div id="demo" :class="{'collapsed' : collapsed}">
+    <sidebar-menu :menu="menu" :collapsed="collapsed" @collapse="onCollapse" />
+    <router-view/>
+  </div>
 </template>
 
 <script>
@@ -14,12 +17,12 @@ export default {
           icon: 'fa fa-user'
         },
         {
-          href: '#',
+          href: '/charts',
           title: 'Charts',
           icon: 'fa fa-chart-area'
         },
         {
-          href: '#',
+          href: '/tables',
           title: 'Tables',
           icon: 'fa fa-table'
         },
@@ -28,12 +31,12 @@ export default {
           icon: 'fa fa-file',
           child: [
             {
-              href: '#',
+              href: '/auth/login',
               title: 'Login Page',
               icon: 'fa fa-lock',
             },
             {
-              href: '#',
+              href: '/auth/registration',
               title: 'Registration Page',
               icon: 'fa fa-lock'
             },
@@ -95,7 +98,14 @@ export default {
             },
           ]
         },
-      ]
+      ],
+      collapsed: false
+    }
+  },
+  methods: {
+    onCollapse(val) {
+      console.log(`collapsed ${val}`)
+      this.collapsed = val
     }
   }
 }
@@ -111,5 +121,12 @@ body,html {
 
 body {
   font-family: 'Source Sans Pro', sans-serif;
+}
+
+#demo {
+  padding-left: 350px;
+}
+#demo.collapsed {
+  padding-left: 50px;
 }
 </style>

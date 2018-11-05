@@ -6,7 +6,7 @@
     <ul v-if="isCollapsed" class="mobile-list menu-list" :style="{'top' : `${mobileItemPos}px`}">
       <mobile-item :item="mobileItem" :mobileItemPos="mobileItemPos" />
     </ul>
-    <button class="aside-toggle-btn" @click="toggleCollapse"></button>
+    <button class="collapse-btn" @click="toggleCollapse"></button>
   </div>
 </template>
 
@@ -22,10 +22,19 @@ export default {
     SubItem,
     MobileItem
   },
-  props: ["menu"],
+  props: {
+    menu: {
+      type: Array,
+      required: true
+    },
+    collapsed: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
-      isCollapsed: false,
+      isCollapsed: this.collapsed,
       mobileItem: null,
       mobileItemPos: 0
     }
@@ -42,7 +51,7 @@ export default {
     },
     toggleCollapse() {
       this.isCollapsed = !this.isCollapsed
-      this.$emit('toggleCollapse')
+      this.$emit('collapse', this.isCollapsed)
     }
   },
 }
@@ -50,5 +59,5 @@ export default {
 
 
 <style lang="scss">
-@import 'src/styles/main.scss';
+@import '../styles/main.scss';
 </style>

@@ -34,6 +34,7 @@
 
 .menu-list li {
   position: relative;
+  display: block;
 }
 
 .menu-list li > a {
@@ -45,6 +46,23 @@
   padding: 15px;
   text-decoration: none;
 }
+.menu-list li > a.active,
+.menu-list li > a.router-link-exact-active {
+  font-weight: 600;
+  color: $textColor;
+}
+.default-list.menu-list > li > a.active:before,
+.default-list.menu-list > li > a.router-link-exact-active:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: $primaryColor;
+  z-index: 22;
+}
+
 .menu-list > li > a {
   color: $textColor;
   height: 50px;
@@ -56,25 +74,11 @@
   color: $textColor;
 }
 
-.menu-list > li.active:before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: $primaryColor;
-  z-index: 22;
-}
-.menu-list li.active > a {
-  font-weight: 600;
-  color: $textColor;
-}
-
 .menu-list li.has-dropdown > a > .item-text {
   padding-right: 50px;
 }
 .menu-list > li > a > .item-text {
+  display: block;
   padding-left: 50px;
 }
 
@@ -142,7 +146,7 @@
   transform: translateY(-50%);
   transition: 0.3s transform;
 }
-.menu-list li.has-dropdown > a > .item-arrow::after {
+.menu-list li.has-dropdown > a > .item-arrow:after {
   content: "\f105";
   font-family: "Font Awesome 5 Free";
 }
@@ -158,7 +162,7 @@
   background: $lightenBg;
   padding-left: 15px;
 }
-.menu-list .dropdown > ul li::before {
+.menu-list .dropdown > ul li:before {
   content: '';
   height: 5px;
   width: 5px;
@@ -231,7 +235,7 @@
 }
 
 
-#sidebar-menu .aside-toggle-btn {
+#sidebar-menu .collapse-btn {
   display: block;
   color: $textColor;
   background-color: $darkenBg;
@@ -247,7 +251,7 @@
   border: none;
   width: 100%;
 }
-#sidebar-menu .aside-toggle-btn::after {
+#sidebar-menu .collapse-btn:after {
   content: "\f337";
   font-family: "Font Awesome 5 Free";
 }

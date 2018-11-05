@@ -1,18 +1,24 @@
 export const itemMixin = {
     methods: {
-        toggleDropdown() {
-            if (!this.item.child) return
+        toggleDropdown(e) {
+            e.preventDefault()
             this.show = !this.show
         },
         closeDropdown() {
             this.show = false
         },
-        isLinkActive() {
-            if ( this.item && this.item.href ) {
-                if ( this.item.href == window.location.pathname ) {
-                    return true
-                }
-            }
+        clickEvent(e) {
+            if (this.item.child) this.toggleDropdown(e)
         }
     },
+    computed: {
+        isRouterLink() {
+            return this.$router && this.item && this.item.href !== undefined
+        },
+        isLinkActive() {
+            if ( this.item && this.item.href ) {
+                return this.item.href == window.location.pathname
+            }
+        }
+    }
 }

@@ -1,12 +1,23 @@
 <template>
-    <li :class="[{'has-dropdown' : item.child}, {'open' : show}, {'active' : isLinkActive()}]" @mouseenter="mouseEnter($event)">
-        <a :href="item.href" @click="toggleDropdown">
-            <i v-if="item.icon" class="item-icon" :class="item.icon"></i>
-            <template v-if="!isCollapsed">
-                <span class="item-text">{{item.title}}</span>
-                <i class="item-arrow" v-if="item.child"></i>
-            </template>
-        </a>   
+    <li :class="[{'has-dropdown' : item.child}, {'open' : show}]" @mouseenter="mouseEnter($event)">
+        <template v-if="isRouterLink">
+            <router-link :to="item.href" @click.native="clickEvent">
+                <i v-if="item.icon" class="item-icon" :class="item.icon"></i>
+                <template v-if="!isCollapsed">
+                    <span class="item-text">{{item.title}}</span>
+                    <i class="item-arrow" v-if="item.child"></i>
+                </template>
+            </router-link>
+        </template>
+        <template v-else>
+            <a :href="!item.child ? item.href : '#'" @click="clickEvent" :class="{'active' : isLinkActive}">
+                <i v-if="item.icon" class="item-icon" :class="item.icon"></i>
+                <template v-if="!isCollapsed">
+                    <span class="item-text">{{item.title}}</span>
+                    <i class="item-arrow" v-if="item.child"></i>
+                </template>
+            </a>
+        </template>
         <div class="dropdown" v-if="!isCollapsed && item.child">
             <transition name="show-animation">
                 <ul v-if="show">
@@ -46,7 +57,7 @@ export default {
     mixins: [itemMixin],
     created() {
         if ( this.firstItem ) {
-            this.$parent.$on('toggleCollapse',  this.closeDropdown)
+            this.$parent.$on('collapse',  this.closeDropdown)
         }
     },
     methods: {

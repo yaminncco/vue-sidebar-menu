@@ -1,11 +1,13 @@
 <template>
-    <li :class="[{'has-dropdown open' : item && item.child}, {'active' :  isLinkActive()}]">
-        <transition name="show-animation">
-            <a v-if="item" :href="item.href">
-                {{item.title}}
-                <i class="item-arrow" v-if="item.child"></i>
-            </a>
-        </transition>
+    <li :class="[{'has-dropdown open' : item && item.child}]">
+        <router-link v-if="isRouterLink" :to="item.href">
+            {{item.title}}
+            <i class="item-arrow" v-if="item.child"></i>
+        </router-link>
+        <a v-else-if="item" :href="!item.child ? item.href : '#'" @click="clickEvent">
+            {{item.title}}
+            <i class="item-arrow" v-if="item.child"></i>
+        </a>
         <div class="item-bg">
             <transition name="slide-animation">
                 <span v-if="item"></span>
@@ -41,4 +43,3 @@ export default {
     mixins: [itemMixin],
 }
 </script>
-

@@ -59,6 +59,31 @@ export default {
 </script>
 ```
 
+### Vue-router Support
+
+if you are using vue-router, the component will use `<router-link>` instead of hyperlink `<a>`
+
+### Props
+
+```
+props: {
+    menu: {
+        type: Array,
+        required: true
+    },
+    collapsed: {
+        type: Boolean,
+        default: false
+    }
+}
+```
+
+### Events
+
+```
+<sidebar-menu @collapse="onCollapse" />
+```
+
 ## Demo
 
 [vue-sidebar-menu-demo](https://yaminncco.github.io/vue-sidebar-menu/)
