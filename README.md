@@ -10,7 +10,7 @@ npm i vue-sidebar-menu --save
 
 Install the plugin globally.
 
-```
+```js
 //main.js
 import Vue from 'vue'
 import VueSidebarMenu from 'vue-sidebar-menu'
@@ -20,7 +20,7 @@ Vue.use(VueSidebarMenu)
 
 Or import the component locally.
 
-```
+```js
 //App.vue
 import { SidebarMenu } from 'vue-sidebar-menu'
 export default {
@@ -32,7 +32,7 @@ export default {
 
 ## Usage
 
-```
+```html
 <template>
   <sidebar-menu :menu="menu" />
 </template>
@@ -65,7 +65,7 @@ if you are using vue-router, the component will use `<router-link>` instead of h
 
 ### Props
 
-```
+```js
 props: {
     menu: {
         type: Array,
@@ -80,7 +80,7 @@ props: {
 
 ### Events
 
-```
+```html
 <sidebar-menu @collapse="onCollapse" />
 ```
 
