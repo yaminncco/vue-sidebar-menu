@@ -259,8 +259,8 @@
   color: #fff;
   text-align: center;
   font-weight: 600;
-  border-top: 1px solid rgba(66, 133, 244, 0.5);
-  border-bottom: 1px solid rgba(66, 133, 244, 0.5);
-  background-color: rgba(66, 133, 244, 0.5);
+  border-top: 1px solid $primaryColor;
+  border-bottom: 1px solid $primaryColor;
+  background-color: $primaryColor;
   padding: 10px;
 }
