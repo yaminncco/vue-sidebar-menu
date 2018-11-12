@@ -1,29 +1,18 @@
 @import './var.scss';
 
-#sidebar-menu, #sidebar-menu * {
+.v-sidebar-menu, .v-sidebar-menu * {
   box-sizing: border-box;
 }
 
-#sidebar-menu {
+.v-sidebar-menu {
   position: fixed;
   top: 0;
 	left: 0;
 	background-color: $baseBg;
-	max-width: 350px;
   width: 100%;
 	height: 100vh;
 	padding-bottom: 50px;
   transition: 0.3s max-width;
-}
-
-#sidebar-menu.collapsed {
-  max-width: 50px;
-}
-
-#sidebar-menu .default-list {
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .v-sidebar-menu .vsm-item {
@@ -40,6 +29,7 @@
   padding: 10px;
   line-height: 30px;
   text-decoration: none;
+  z-index: 20;
 }
 
 .v-sidebar-menu .vsm-item.first-item > .vsm-link:after {
@@ -109,33 +99,8 @@
   }
 }
 
-.v-sidebar-menu .mobile-list {
-  position: absolute;
-  width: 300px;
-  left: 50px;
-}
-.v-sidebar-menu .mobile-list > .vsm-item > .vsm-dropdown {
-  position: absolute;
-  top: 50px;
-  left: 0;
-  right: 0;
-  overflow-y: auto;
-}
-.mobile-list .item-bg {
-  position: absolute;
-  left: -50px;
-  right: 0;
-  height: 50px;
-  top: 0;
-  z-index: -1;
-}
-.mobile-list .item-bg > span {
-  position: absolute;
+.v-sidebar-menu .vsm-mobile-bg {
   background-color: $primaryColor;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  top: 0;
 }
 .slide-animation-enter-active {
   animation: slide-animation .2s;
@@ -153,7 +118,7 @@
 }
 
 
-#sidebar-menu .collapse-btn {
+.v-sidebar-menu .collapse-btn {
   display: block;
   color: $textColor;
   background-color: $darkenBg;
@@ -169,7 +134,7 @@
   border: none;
   width: 100%;
 }
-#sidebar-menu .collapse-btn:after {
+.v-sidebar-menu .collapse-btn:after {
   content: "\f337";
   font-family: "Font Awesome 5 Free";
 }
