@@ -23,7 +23,7 @@ export default {
           icon: 'fa fa-chart-area'
         },
         {
-          name: 'Cock',
+          name: 'Other',
           href: '/tables',
           title: 'Tables',
           icon: 'fa fa-table'
