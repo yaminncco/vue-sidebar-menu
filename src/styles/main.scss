@@ -30,6 +30,7 @@
   line-height: 30px;
   text-decoration: none;
   z-index: 20;
+  transition: 0.3s all;
 }
 
 .v-sidebar-menu .vsm-item.first-item > .vsm-link:after {
@@ -117,6 +118,14 @@
   }
 }
 
+.v-sidebar-menu:not(.collapsed) .vsm-link:hover,
+.v-sidebar-menu .vsm-dropdown>.vsm-list .vsm-link:hover {
+  background-color: $darkenBg;
+}
+
+.v-sidebar-menu:not(.collapsed) .vsm-item.first-item.open-item>.vsm-link {
+  background: $primaryColor;
+}
 
 .v-sidebar-menu .collapse-btn {
   display: block;

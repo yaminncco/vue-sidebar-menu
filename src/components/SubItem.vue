@@ -1,5 +1,5 @@
 <template>
-    <div class="vsm-item" :class="[{'has-dropdown' : item.child}, {'open' : show}]">
+    <div class="vsm-item" :class="[{'open-item' : show}]">
         <template v-if="isRouterLink">
             <router-link class="vsm-link" :to="item.href" @click.native="clickEvent">
                 <i v-if="item.icon" class="vsm-icon" :class="item.icon" ></i>

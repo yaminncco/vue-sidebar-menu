@@ -1,5 +1,5 @@
 <template>
-    <div class="vsm-item" :class="[{'first-item' : firstItem}, {'has-dropdown' : item.child}, {'open' : show}]" @mouseenter="mouseEnter($event)">
+    <div class="vsm-item" :class="[{'first-item' : firstItem}, {'open-item' : show}]" @mouseenter="mouseEnter($event)">
         <template v-if="isRouterLink">
             <router-link class="vsm-link" :to="item.href" @click.native="clickEvent">
                 <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>

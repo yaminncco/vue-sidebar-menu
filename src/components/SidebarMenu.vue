@@ -4,11 +4,11 @@
       <item v-for="(item, index) in menu" :key="index" :item="item" :firstItem="true" :isCollapsed="isCollapsed" />
     </div>
     <div v-if="isCollapsed" :style="[{'position' : 'absolute'}, {'top' : `${mobileItemPos}px`}, {'left' : '0px'}, {'padding-left' : sidebarWidth}, {'width' : width}]">
-      <mobile-item :item="mobileItem" :mobileItemPos="mobileItemPos" />
+      <mobile-item :item="mobileItem" />
       <transition name="slide-animation">
         <div class="vsm-mobile-bg" v-if="mobileItem" :style="[{'position' : 'absolute'}, {'left' : '0px'}, {'right' : '0px'}, {'top' : '0px'}, {'height' : `${mobileItemHeight}px`}]"></div>
       </transition>
-      <div class="vsm-dropdown" :style="[{'position' : 'absolute'}, {'top' : `${mobileItemHeight}px`}, {'left' : sidebarWidth}, {'right' : '0px'}, {'max-height' : `calc(100vh - ${mobileItemPos + 50}px)`}]">
+      <div class="vsm-dropdown" :style="[{'position' : 'absolute'}, {'top' : `${mobileItemHeight}px`}, {'left' : sidebarWidth}, {'right' : '0px'}, {'max-height' : `calc(100vh - ${mobileItemPos + mobileItemHeight}px)`}, {'overflow-y' : 'auto'}]">
         <transition name="show-animation">
           <div class="vsm-list" v-if="mobileItem && mobileItem.child">
             <sub-item v-for="(subItem, index) in mobileItem.child" :item="subItem" :key="index"/>

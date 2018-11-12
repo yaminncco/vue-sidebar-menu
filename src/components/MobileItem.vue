@@ -1,5 +1,5 @@
 <template>
-    <div class="vsm-item mobile-item" v-if="item" :class="[{'has-dropdown open' : item && item.child}]">
+    <div class="vsm-item mobile-item" v-if="item" :class="[{'open-item' : item.child}]">
         <router-link class="vsm-link" v-if="isRouterLink" :to="item.href">
             {{item.title}}
             <i class="vsm-arrow" v-if="item.child" :class="{'open-arrow' : show}"></i>
@@ -20,10 +20,6 @@ export default {
         item: {
             type: Object,
         },
-        mobileItemPos: {
-            type: Number,
-            required: true
-        }
     },
     components: {
         SubItem
