@@ -1,7 +1,7 @@
 <template>
     <li :class="[{'has-dropdown' : item.child}, {'open' : show}]" @mouseenter="mouseEnter($event)">
         <template v-if="item.name">
-            <Heading :name="item.name" />
+            <Heading :name="item.name" :isCollapsed="isCollapsed"/>
         </template>
         <template v-if="isRouterLink">
             <router-link :to="item.href" @click.native="clickEvent">
