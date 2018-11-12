@@ -53,6 +53,11 @@ export default {
                         icon: 'fa fa-chart-area'
                     },
                     {
+                        heading: true,
+                        title: 'Admin',
+                        icon: 'fa fa-dashboard'
+                    },
+                    {
                         href: 'reports',
                         title: 'Reports',
                         icon: 'fa fa-clipboard',

@@ -14,13 +14,15 @@
 import Item from './Item.vue'
 import SubItem from './SubItem.vue'
 import MobileItem from './MobileItem.vue'
+import Heading from './Heading.vue'
 
 export default {
   name: 'SidebarMenu',
   components: {
     Item,
     SubItem,
-    MobileItem
+    MobileItem,
+    Heading
   },
   props: {
     menu: {

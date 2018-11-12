@@ -1,5 +1,8 @@
 <template>
     <li :class="[{'has-dropdown' : item.child}, {'open' : show}]" @mouseenter="mouseEnter($event)">
+        <template v-if="item.name">
+            <Heading :name="item.name" />
+        </template>
         <template v-if="isRouterLink">
             <router-link :to="item.href" @click.native="clickEvent">
                 <i v-if="item.icon" class="item-icon" :class="item.icon"></i>
@@ -30,6 +33,7 @@
 
 <script>
 import SubItem from './SubItem.vue'
+import Heading from './Heading.vue'
 import {itemMixin} from '../mixin'
 
 export default {
@@ -49,10 +53,11 @@ export default {
         },
         isCollapsed: {
             type: Boolean,
-        },
+        }
     },
     components: {
-        SubItem
+        SubItem,
+        Heading
     },
     mixins: [itemMixin],
     created() {

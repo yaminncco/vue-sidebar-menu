@@ -12,6 +12,7 @@ export default {
     return {
       menu: [
         {
+          name: 'Admin',
           href: '/',
           title: 'Dashboard',
           icon: 'fa fa-user'
@@ -22,6 +23,7 @@ export default {
           icon: 'fa fa-chart-area'
         },
         {
+          name: 'Cock',
           href: '/tables',
           title: 'Tables',
           icon: 'fa fa-table'
