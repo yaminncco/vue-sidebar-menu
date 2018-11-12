@@ -1,27 +1,27 @@
 <template>
-    <li :class="[{'has-dropdown' : item.child}, {'open' : show}]">
+    <div class="vsm-item" :class="[{'has-dropdown' : item.child}, {'open' : show}]">
         <template v-if="isRouterLink">
-            <router-link :to="item.href" @click.native="clickEvent">
-                <i v-if="item.icon" class="item-icon" :class="item.icon" ></i>
-                <span class="item-text">{{item.title}}</span>
-                <i class="item-arrow" v-if="item.child"></i>
+            <router-link class="vsm-link" :to="item.href" @click.native="clickEvent">
+                <i v-if="item.icon" class="vsm-icon" :class="item.icon" ></i>
+                <span class="vsm-title">{{item.title}}</span>
+                <i class="vsm-arrow" v-if="item.child" :class="{'open-arrow' : show}"></i>
             </router-link>
         </template>
         <template v-else>
-            <a :href="!item.child ? item.href : '#'" @click="clickEvent" :class="{'active' : isLinkActive}">
-                <i v-if="item.icon" class="item-icon" :class="item.icon" ></i>
-                <span class="item-text">{{item.title}}</span>
-                <i class="item-arrow" v-if="item.child"></i>
+            <a class="vsm-link" :href="!item.child ? item.href : '#'" @click="clickEvent" :class="{'active' : isLinkActive}">
+                <i v-if="item.icon" class="vsm-icon" :class="item.icon" ></i>
+                <span class="vsm-title">{{item.title}}</span>
+                <i class="vsm-arrow" v-if="item.child" :class="{'open-arrow' : show}"></i>
             </a>
         </template>
-        <div class="dropdown" v-if="item.child">
+        <div class="vsm-dropdown" v-if="item.child">
             <transition name="show-animation">
-                <ul v-if="show">
+                <div class="vsm-list" v-if="show">
                     <item v-for="(subItem, index) in item.child" :item="subItem" :key="index" />
-                </ul>
+                </div>
             </transition>
         </div>
-    </li>
+    </div>
 </template>
 
 <script>

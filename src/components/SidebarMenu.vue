@@ -1,11 +1,11 @@
 <template>
-  <div id="sidebar-menu" :class="{'collapsed' : isCollapsed}" @mouseleave="mouseLeave">
-    <ul class="default-list menu-list">
+  <div id="sidebar-menu" class="v-sidebar-menu" :class="{'collapsed' : isCollapsed}" @mouseleave="mouseLeave">
+    <div class="vsm-list">
       <item v-for="(item, index) in menu" :key="index" :item="item" :firstItem="true" :isCollapsed="isCollapsed" />
-    </ul>
-    <ul v-if="isCollapsed" class="mobile-list menu-list" :style="{'top' : `${mobileItemPos}px`}">
+    </div>
+    <div v-if="isCollapsed" class="mobile-list menu-list" :style="{'top' : `${mobileItemPos}px`}">
       <mobile-item :item="mobileItem" :mobileItemPos="mobileItemPos" />
-    </ul>
+    </div>
     <button class="collapse-btn" @click="toggleCollapse"></button>
   </div>
 </template>

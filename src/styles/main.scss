@@ -26,152 +26,70 @@
   overflow-x: hidden;
 }
 
-#sidebar-menu .menu-list {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.menu-list li {
+.v-sidebar-menu .vsm-item {
   position: relative;
   display: block;
 }
 
-.menu-list li > a {
+.v-sidebar-menu .vsm-item .vsm-link {
   position: relative;
   display: block;
   font-size: 16px;
   font-weight: 400;
-  color: rgba( $textColor, 0.8 );
-  padding: 15px;
+  color: $textColor;
+  padding: 10px;
+  line-height: 30px;
   text-decoration: none;
 }
-.menu-list li > a.active,
-.menu-list li > a.router-link-exact-active {
-  font-weight: 600;
-  color: $textColor;
-}
-.default-list.menu-list > li > a.active:before,
-.default-list.menu-list > li > a.router-link-exact-active:before {
+
+.v-sidebar-menu .vsm-item.first-item > .vsm-link:after {
   content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: $primaryColor;
-  z-index: 22;
-}
-
-.menu-list > li > a {
-  color: $textColor;
-  height: 50px;
-  line-height: 30px;
-  padding: 10px;
-  z-index: 20;
-}
-.menu-list li > a:hover {
-  color: $textColor;
-}
-
-.menu-list li.has-dropdown > a > .item-text {
-  padding-right: 50px;
-}
-.menu-list > li > a > .item-text {
   display: block;
-  padding-left: 50px;
+  clear: both;
 }
 
-.menu-list > li > a > .item-text:after  {
-	content: "";
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	background-color: $primaryColor;
-	height: 50px;
-	width: 0%;
-	z-index: -1;
-  transition: 0.3s width;
-}
-.menu-list > li.has-dropdown.open > a > .item-text:after {
-  width: 100%;
-}
-.menu-list > li > a > .item-text:before  {
-	content: "";
-	position: absolute;
-	top: 0px;
-	left: 0px;
-  width: 100%;
-  height: 100%;
-	background-color: $lightenBg;
-	z-index: -1;
-  opacity: 0;
-  visibility: hidden;
-  transition: 0.3s all;
-}
-.menu-list > li > a:hover > .item-text:before {
-  opacity: 1;
-  visibility: visible;
+.v-sidebar-menu .vsm-item.first-item > .vsm-link > .vsm-title {
+  display: block;
+  overflow: hidden;
 }
 
-.menu-list li > a > .item-icon {
-  font-size: 14px;
-  color: $textColor;
+.v-sidebar-menu .vsm-icon {
   margin-right: 10px;
+  color: $textColor;
 }
-.menu-list > li > a > .item-icon {
-  position: absolute;
-  left: 10px;
-  top: 10px;
+.v-sidebar-menu .vsm-item.first-item > .vsm-link > .vsm-icon {
+  float: left;
   height: 30px;
   line-height: 30px;
   width: 30px;
   text-align: center;
-  color: $textColor;
   background: $darkenBg;
   border-radius: 3px;
 }
 
-.menu-list li.has-dropdown > a > .item-arrow {
+.v-sidebar-menu .vsm-arrow {
+  width: 30px;
+  text-align: center;
   font-style: normal;
   font-weight: 900;
-  width: 30px;
-  height: 30px;
   color: #ffff;
-  text-align: center;
-  line-height: 30px;
   position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  transition: 0.3s transform;
+  transition: 0.3s transform;   
 }
-.menu-list li.has-dropdown > a > .item-arrow:after {
+.v-sidebar-menu .vsm-arrow:after {
   content: "\f105";
   font-family: "Font Awesome 5 Free";
 }
-.menu-list li.has-dropdown.open > a > .item-arrow {
+.v-sidebar-menu .vsm-arrow.open-arrow {
   transform: translateY(-50%) rotate(90deg);
 }
 
-.menu-list .dropdown > ul {
-  position: relative;
-  padding: 0;
-  margin: 0;
-  list-style: none;
+.v-sidebar-menu .vsm-dropdown>.vsm-list {
   background: $lightenBg;
-  padding-left: 15px;
-}
-.menu-list .dropdown > ul li:before {
-  content: '';
-  height: 5px;
-  width: 5px;
-  border-radius: 50%;
-  background: $textColor;
-  position: absolute;
-  left: 0px;
-  top: 23px;
-  z-index: 3;
+  padding: 5px;
 }
 
 .show-animation-enter-active {
@@ -191,12 +109,12 @@
   }
 }
 
-#sidebar-menu .mobile-list {
+.v-sidebar-menu .mobile-list {
   position: absolute;
   width: 300px;
-  padding-left: 50px;
+  left: 50px;
 }
-.mobile-list > li > .dropdown {
+.v-sidebar-menu .mobile-list > .vsm-item > .vsm-dropdown {
   position: absolute;
   top: 50px;
   left: 0;

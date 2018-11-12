@@ -1,26 +1,26 @@
 <template>
-    <li :class="[{'has-dropdown open' : item && item.child}]">
-        <router-link v-if="isRouterLink" :to="item.href">
+    <div class="vsm-item" :class="[{'has-dropdown open' : item && item.child}]">
+        <router-link class="vsm-link" v-if="isRouterLink" :to="item.href">
             {{item.title}}
-            <i class="item-arrow" v-if="item.child"></i>
+            <i class="vsm-arrow" v-if="item.child" :class="{'open-arrow' : show}"></i>
         </router-link>
-        <a v-else-if="item" :href="!item.child ? item.href : '#'" @click="clickEvent">
+        <a class="vsm-link" v-else-if="item" :href="!item.child ? item.href : '#'" @click="clickEvent">
             {{item.title}}
-            <i class="item-arrow" v-if="item.child"></i>
+            <i class="vsm-arrow" v-if="item.child" :class="{'open-arrow' : show}"></i>
         </a>
         <div class="item-bg">
             <transition name="slide-animation">
                 <span v-if="item"></span>
             </transition>
         </div>
-        <div class="dropdown" :style="{'max-height' : `calc(100vh - ${mobileItemPos + 50}px)`}">
+        <div class="vsm-dropdown" :style="{'max-height' : `calc(100vh - ${mobileItemPos + 50}px)`}">
             <transition name="show-animation">
-                <ul v-if="item && item.child">
+                <div class="vsm-list" v-if="item && item.child">
                     <sub-item v-for="(subItem, index) in item.child" :item="subItem" :key="index"/>
-                </ul>
+                </div>
             </transition>
         </div>
-    </li>
+    </div>
 </template>
 
 <script>
