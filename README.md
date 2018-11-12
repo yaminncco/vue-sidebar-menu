@@ -52,6 +52,19 @@ export default {
                         title: 'Charts',
                         icon: 'fa fa-chart-area'
                     },
+                    {
+                        href: 'reports',
+                        title: 'Reports',
+                        icon: 'fa fa-clipboard',
+                        // SubItem
+                        child: [
+                            {
+                                href: 'usage',
+                                title: 'Usage Report',
+                                icon: 'fa fa-people'
+                            }
+                        ]
+                    }
                 ]
             }
         }
