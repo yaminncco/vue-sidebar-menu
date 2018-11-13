@@ -118,12 +118,12 @@
   }
 }
 
-.v-sidebar-menu:not(.collapsed) .vsm-link:hover,
+.v-sidebar-menu.vsm-default .vsm-link:hover,
 .v-sidebar-menu .vsm-dropdown>.vsm-list .vsm-link:hover {
   background-color: $darkenBg;
 }
 
-.v-sidebar-menu:not(.collapsed) .vsm-item.first-item.open-item>.vsm-link {
+.v-sidebar-menu.vsm-default .vsm-item.first-item.open-item>.vsm-link {
   background: $primaryColor;
 }
 
