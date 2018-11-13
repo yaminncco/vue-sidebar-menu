@@ -1,5 +1,5 @@
 <template>
-  <div class="v-sidebar-menu" :class="[!isCollapsed ? 'vsm-default' : 'vsm-collapsed']" :style="{'max-width': sidebarWidth}" @mouseleave="mouseLeave">
+  <div class="v-sidebar-menu" :class="[!isCollapsed ? 'vsm-default' : 'vsm-collapsed']" :style="{'width': sidebarWidth}" @mouseleave="mouseLeave">
     <div class="vsm-list" :style="[{'height' : '100%'}, {'overflow' : 'hidden auto'}]">
       <item v-for="(item, index) in menu" :key="index" :item="item" :firstItem="true" :isCollapsed="isCollapsed" />
     </div>
