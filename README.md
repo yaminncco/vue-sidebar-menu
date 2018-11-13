@@ -48,10 +48,15 @@ export default {
                         icon: 'fa fa-user'
                     },
                     {
-                        href: '#',
                         title: 'Charts',
-                        icon: 'fa fa-chart-area'
-                    },
+                        icon: 'fa fa-chart-area',
+                        child: [
+                            {
+                                href: '/charts/sublink',
+                                title: 'Sub Link',
+                            }
+                        ]
+                    }
                 ]
             }
         }
