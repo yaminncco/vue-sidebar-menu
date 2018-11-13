@@ -74,6 +74,14 @@ props: {
     collapsed: {
         type: Boolean,
         default: false
+    },
+    width: {
+        type: String,
+        default: '350px'
+    },
+    widthCollapsed: {
+        type: String,
+        default: '50px'
     }
 }
 ```
@@ -82,6 +90,29 @@ props: {
 
 ```html
 <sidebar-menu @collapse="onCollapse" />
+```
+
+### Styles
+
+All styles customization can be done in normal CSS by using this classes
+
+```css
+.v-sidebar-menu {}
+.v-sidebar-menu.vsm-default {}
+.v-sidebar-menu.vsm-collapsed {}
+.v-sidebar-menu .vsm-list {}
+.v-sidebar-menu .vsm-dropdown>.vsm-list {}
+.v-sidebar-menu .vsm-item {}
+.v-sidebar-menu .vsm-item.first-item {}
+.v-sidebar-menu .vsm-item.mobile-item {}
+.v-sidebar-menu .vsm-item.open-item {}
+.v-sidebar-menu .vsm-item.active-item {}
+.v-sidebar-menu .vsm-link {}
+.v-sidebar-menu .vsm-title {}
+.v-sidebar-menu .vsm-icon {}
+.v-sidebar-menu .vsm-arrow {}
+.v-sidebar-menu .vsm-arrow.open-arrow {}
+.v-sidebar-menu .vsm-mobile-bg {}
 ```
 
 ## Demo
