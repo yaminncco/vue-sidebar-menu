@@ -1,5 +1,5 @@
 <template>
-    <div class="vsm-item" :class="[{'first-item' : firstItem}, {'open-item' : show}]" @mouseenter="mouseEnter($event)">
+    <div class="vsm-item" :class="[{'first-item' : firstItem}, {'open-item' : show}, {'active-item' : active}]" @mouseenter="mouseEnter($event)">
         <template v-if="isRouterLink">
             <router-link class="vsm-link" :to="item.href" @click.native="clickEvent">
                 <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
@@ -10,7 +10,7 @@
             </router-link>
         </template>
         <template v-else>
-            <a class="vsm-link" :href="!item.child ? item.href : '#'" @click="clickEvent" :class="{'active' : isLinkActive}">
+            <a class="vsm-link" :href="!item.child ? item.href : '#'" @click="clickEvent">
                 <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
                 <template v-if="!isCollapsed">
                     <span class="vsm-title">{{item.title}}</span>

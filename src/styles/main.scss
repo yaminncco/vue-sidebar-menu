@@ -127,6 +127,14 @@
   background: $primaryColor;
 }
 
+.v-sidebar-menu .vsm-item.first-item.active-item>.vsm-link {
+  box-shadow: 3px 0px 0px 0px $primaryColor inset;
+}
+
+.v-sidebar-menu .vsm-item.active-item>.vsm-link {
+  font-weight: 600;
+}
+
 .v-sidebar-menu .collapse-btn {
   display: block;
   color: $textColor;

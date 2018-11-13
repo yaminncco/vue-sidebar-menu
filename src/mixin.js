@@ -1,4 +1,12 @@
 export const itemMixin = {
+    data() {
+        return {
+            active: false
+        }
+    },
+    created() {
+        this.active = this.isLinkActive()
+    },
     methods: {
         toggleDropdown(e) {
             e.preventDefault()
@@ -9,16 +17,25 @@ export const itemMixin = {
         },
         clickEvent(e) {
             if (this.item.child) this.toggleDropdown(e)
+        },
+        isLinkActive() {
+            if ( this.item && this.item.href ) { 
+                if ( this.$route ) {
+                    return this.item.href == this.$route.path
+                } else {
+                    return this.item.href == window.location.pathname
+                }
+            }
         }
     },
     computed: {
         isRouterLink() {
             return this.$router && this.item && this.item.href !== undefined
-        },
-        isLinkActive() {
-            if ( this.item && this.item.href ) {
-                return this.item.href == window.location.pathname
-            }
         }
-    }
+    },
+    watch: {
+        $route() {
+            this.active = this.isLinkActive()
+        }
+    },
 }
