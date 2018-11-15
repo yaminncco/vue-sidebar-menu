@@ -43,6 +43,10 @@ export default {
             return {
                 menu: [
                     {
+                        header: true,
+                        title: 'Main Navigation',
+                    },
+                    {
                         href: '/',
                         title: 'Dashboard',
                         icon: 'fa fa-user'
