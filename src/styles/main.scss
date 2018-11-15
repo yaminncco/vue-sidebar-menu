@@ -41,7 +41,7 @@
 
 .v-sidebar-menu .vsm-item.first-item > .vsm-link > .vsm-title {
   display: block;
-  overflow: hidden;
+  white-space: nowrap;
 }
 
 .v-sidebar-menu .vsm-icon {
@@ -133,6 +133,15 @@
 
 .v-sidebar-menu .vsm-item.active-item>.vsm-link {
   font-weight: 600;
+}
+
+.v-sidebar-menu .vsm-header {
+  color: rgba( $textColor, .7 );
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px;
+  white-space: nowrap;
+  text-transform: uppercase;
 }
 
 .v-sidebar-menu .collapse-btn {

@@ -12,6 +12,10 @@ export default {
     return {
       menu: [
         {
+          header: true,
+          title: 'Main Navigation',
+        },
+        {
           href: '/',
           title: 'Dashboard',
           icon: 'fa fa-user'
@@ -25,6 +29,10 @@ export default {
           href: '/tables',
           title: 'Tables',
           icon: 'fa fa-table'
+        },
+        {
+          header: true,
+          title: 'Other',
         },
         {
           title: 'Pages',
