@@ -33,7 +33,8 @@ export default {
     mixins: [itemMixin],
     watch: {
         item() {
-            this.active = this.isLinkActive()
+            this.active = this.item && this.item.href ? this.isLinkActive(this.item) : false
+            this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
         }
     }
 }

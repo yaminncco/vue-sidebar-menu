@@ -1,11 +1,14 @@
 export const itemMixin = {
     data() {
         return {
-            active: false
+            active: false,
+            childActive: false
         }
     },
     created() {
-        this.active = this.isLinkActive()
+        this.active = this.item && this.item.href ? this.isLinkActive(this.item) : false
+        this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
+        this.show = this.item && this.item.child ? this.isChildActive(this.item.child) : false
     },
     methods: {
         toggleDropdown() {
@@ -14,14 +17,23 @@ export const itemMixin = {
         closeDropdown() {
             this.show = false
         },
-        isLinkActive() {
-            if ( this.item && this.item.href ) { 
-                if ( this.$route ) {
-                    return this.item.href == this.$route.path
-                } else {
-                    return this.item.href == window.location.pathname
+        isLinkActive(item) {
+            if ( this.$route ) {
+                return item.href == this.$route.path
+            } else {
+                return item.href == window.location.pathname
+            }
+        },
+        isChildActive(child) {
+            for (let item of child) {
+                if (this.isLinkActive(item)) {
+                    return true
+                }
+                if (item.child) {
+                    return this.isChildActive(item.child)
                 }
             }
+            return false
         }
     },
     computed: {
@@ -31,7 +43,8 @@ export const itemMixin = {
     },
     watch: {
         $route() {
-            this.active = this.isLinkActive()
+            this.active = this.item && this.item.href ? this.isLinkActive(this.item) : false
+            this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
         }
     },
 }
