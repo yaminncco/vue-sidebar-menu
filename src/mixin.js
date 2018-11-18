@@ -8,15 +8,11 @@ export const itemMixin = {
         this.active = this.isLinkActive()
     },
     methods: {
-        toggleDropdown(e) {
-            e.preventDefault()
+        toggleDropdown() {
             this.show = !this.show
         },
         closeDropdown() {
             this.show = false
-        },
-        clickEvent(e) {
-            if (this.item.child) this.toggleDropdown(e)
         },
         isLinkActive() {
             if ( this.item && this.item.href ) { 

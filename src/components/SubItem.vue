@@ -1,26 +1,33 @@
 <template>
     <div class="vsm-item" :class="[{'open-item' : show}, {'active-item' : active}]">
-        <template v-if="isRouterLink">
-            <router-link class="vsm-link" :to="item.href" @click.native="clickEvent">
-                <i v-if="item.icon" class="vsm-icon" :class="item.icon" ></i>
-                <span class="vsm-title">{{item.title}}</span>
-                <i class="vsm-arrow" v-if="item.child" :class="{'open-arrow' : show}"></i>
-            </router-link>
+        <template v-if="!item.child">
+            <template v-if="isRouterLink">
+                <router-link class="vsm-link" :to="item.href">
+                    <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
+                    <span class="vsm-title">{{item.title}}</span>
+                </router-link>
+            </template>
+            <template v-else>
+                <a class="vsm-link" :href="item.href">
+                    <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
+                    <span class="vsm-title">{{item.title}}</span>
+                </a>
+            </template>
         </template>
         <template v-else>
-            <a class="vsm-link" :href="!item.child ? item.href : '#'" @click="clickEvent" :class="{'active' : isLinkActive}">
-                <i v-if="item.icon" class="vsm-icon" :class="item.icon" ></i>
+            <div class="vsm-link" @click="toggleDropdown">
+                <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
                 <span class="vsm-title">{{item.title}}</span>
-                <i class="vsm-arrow" v-if="item.child" :class="{'open-arrow' : show}"></i>
-            </a>
+                <i class="vsm-arrow" :class="{'open-arrow' : show}"></i>
+            </div>
+            <div class="vsm-dropdown">
+                <transition name="show-animation">
+                    <div class="vsm-list" v-if="show">
+                        <item v-for="(subItem, index) in item.child" :item="subItem" :key="index" />
+                    </div>
+                </transition>
+            </div>
         </template>
-        <div class="vsm-dropdown" v-if="item.child">
-            <transition name="show-animation">
-                <div class="vsm-list" v-if="show">
-                    <item v-for="(subItem, index) in item.child" :item="subItem" :key="index" />
-                </div>
-            </transition>
-        </div>
     </div>
 </template>
 
