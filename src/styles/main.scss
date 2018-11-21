@@ -44,12 +44,18 @@
   white-space: nowrap;
 }
 
+.v-sidebar-menu .vsm-title {
+  display: block;
+  white-space: nowrap;
+}
+
 .v-sidebar-menu .vsm-icon {
+  float: left;
+  line-height: 30px;
   margin-right: 10px;
   color: $textColor;
 }
 .v-sidebar-menu .vsm-item.first-item > .vsm-link > .vsm-icon {
-  float: left;
   height: 30px;
   line-height: 30px;
   width: 30px;

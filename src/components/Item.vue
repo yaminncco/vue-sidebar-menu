@@ -60,11 +60,6 @@ export default {
         SubItem
     },
     mixins: [itemMixin],
-    created() {
-        if ( this.firstItem ) {
-            this.$parent.$on('collapse',  this.closeDropdown)
-        }
-    },
     methods: {
         mouseEnter(event) {
             if (this.isCollapsed && this.firstItem) {

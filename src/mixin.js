@@ -14,9 +14,6 @@ export const itemMixin = {
         toggleDropdown() {
             this.show = !this.show
         },
-        closeDropdown() {
-            this.show = false
-        },
         isLinkActive(item) {
             if ( this.$route ) {
                 return item.href == this.$route.path
