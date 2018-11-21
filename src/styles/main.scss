@@ -135,6 +135,14 @@
   font-weight: 600;
 }
 
+.v-sidebar-menu .vsm-item.first-item.parent-active-item>.vsm-link {
+  box-shadow: 3px 0px 0px 0px $primaryColor inset;
+}
+
+.v-sidebar-menu .vsm-item.parent-active-item>.vsm-link {
+  font-weight: 600;
+}
+
 .v-sidebar-menu .vsm-header {
   color: rgba( $textColor, .7 );
   font-size: 14px;

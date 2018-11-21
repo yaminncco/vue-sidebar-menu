@@ -1,5 +1,5 @@
 <template>
-    <div class="vsm-item mobile-item" v-if="item" :class="[{'open-item' : item.child}, {'active-item' : active}]">
+    <div class="vsm-item mobile-item" v-if="item" :class="[{'open-item' : item.child}, {'active-item' : active}, {'parent-active-item' : childActive}]">
         <template v-if="!item.child">
             <router-link class="vsm-link" v-if="isRouterLink" :to="item.href">
                 {{item.title}}
