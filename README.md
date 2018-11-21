@@ -109,6 +109,7 @@ All styles customization can be done in normal CSS by using this classes
 .v-sidebar-menu {}
 .v-sidebar-menu.vsm-default {}
 .v-sidebar-menu.vsm-collapsed {}
+.v-sidebar-menu .vsm-header {}
 .v-sidebar-menu .vsm-list {}
 .v-sidebar-menu .vsm-dropdown>.vsm-list {}
 .v-sidebar-menu .vsm-item {}
@@ -116,6 +117,7 @@ All styles customization can be done in normal CSS by using this classes
 .v-sidebar-menu .vsm-item.mobile-item {}
 .v-sidebar-menu .vsm-item.open-item {}
 .v-sidebar-menu .vsm-item.active-item {}
+.v-sidebar-menu .vsm-item.parent-active-item {}
 .v-sidebar-menu .vsm-link {}
 .v-sidebar-menu .vsm-title {}
 .v-sidebar-menu .vsm-icon {}
