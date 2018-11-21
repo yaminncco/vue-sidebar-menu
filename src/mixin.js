@@ -27,7 +27,9 @@ export const itemMixin = {
                     return true
                 }
                 if (item.child) {
-                    return this.isChildActive(item.child)
+                    if ( this.isChildActive(item.child) ) {
+                        return true
+                    }
                 }
             }
             return false
