@@ -125,6 +125,11 @@
   }
 }
 
+.v-sidebar-menu .vsm-link[disabled] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
 .v-sidebar-menu.vsm-default .vsm-link:hover,
 .v-sidebar-menu .vsm-dropdown > .vsm-list .vsm-link:hover {
   background-color: $darkenBg;

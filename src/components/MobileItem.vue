@@ -1,10 +1,10 @@
 <template>
     <div class="vsm-item mobile-item" v-if="item" :class="[{'open-item' : item.child}, {'active-item' : active}, {'parent-active-item' : childActive}]">
         <template v-if="!item.child">
-            <router-link class="vsm-link" v-if="isRouterLink" :to="item.href">
+            <router-link class="vsm-link" v-if="isRouterLink" :to="item.href" :disabled="item.disabled">
                 {{item.title}}
             </router-link>
-            <a class="vsm-link" v-else :href="item.href">
+            <a class="vsm-link" v-else :href="item.href" :disabled="item.disabled">
                 {{item.title}}
             </a>
         </template>

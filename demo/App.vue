@@ -13,7 +13,7 @@ export default {
       menu: [
         {
           header: true,
-          title: 'Main Navigation',
+          title: 'Main Navigation'
         },
         {
           href: '/',
@@ -31,8 +31,14 @@ export default {
           icon: 'fa fa-table'
         },
         {
+          href: '/disabled',
+          title: 'Disabled',
+          icon: 'fa fa-cog',
+          disabled: true
+        },
+        {
           header: true,
-          title: 'Other',
+          title: 'Other'
         },
         {
           title: 'Pages',
@@ -41,7 +47,7 @@ export default {
             {
               href: '/auth/login',
               title: 'Login Page',
-              icon: 'fa fa-lock',
+              icon: 'fa fa-lock'
             },
             {
               href: '/auth/registration',
@@ -49,10 +55,11 @@ export default {
               icon: 'fa fa-lock'
             },
             {
-              href: '#',
-              title: '404 Page',
-              icon: 'fa fa-lock'
-            },
+              href: '/auth/disabled',
+              title: 'Disabled',
+              icon: 'fa fa-unlock',
+              disabled: true
+            }
           ]
         },
         {
@@ -66,18 +73,18 @@ export default {
           child: [
             {
               href: '#',
-              title: 'Page 01',
+              title: 'Page 01'
             },
             {
               title: 'Page 02',
               child: [
                 {
                   href: '#',
-                  title: 'Page 04',
+                  title: 'Page 04'
                 },
                 {
                   href: '#',
-                  title: 'Page 05',
+                  title: 'Page 05'
                 }
               ]
             },
@@ -94,18 +101,18 @@ export default {
                   child: [
                     {
                       href: '#',
-                      title: 'Page',
+                      title: 'Page'
                     },
                     {
                       href: '#',
-                      title: 'Page',
+                      title: 'Page'
                     }
                   ]
-                },
+                }
               ]
-            },
+            }
           ]
-        },
+        }
       ],
       collapsed: false
     }
@@ -122,7 +129,8 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600');
 
-body,html {
+body,
+html {
   margin: 0;
   padding: 0;
 }
