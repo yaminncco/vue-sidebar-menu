@@ -19,23 +19,27 @@
 
 <script>
 import SubItem from './SubItem.vue'
-import {itemMixin} from '../mixin'
+import { itemMixin } from '../mixin'
 
 export default {
-    props: {
-        item: {
-            type: Object,
-        },
-    },
-    components: {
-        SubItem
-    },
-    mixins: [itemMixin],
-    watch: {
-        item() {
-            this.active = this.item && this.item.href ? this.isLinkActive(this.item) : false
-            this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
-        }
+  props: {
+    item: {
+      type: Object
     }
+  },
+  components: {
+    SubItem
+  },
+  mixins: [itemMixin],
+  watch: {
+    item() {
+      this.active =
+        this.item && this.item.href ? this.isLinkActive(this.item) : false
+      this.childActive =
+        this.item && this.item.child
+          ? this.isChildActive(this.item.child)
+          : false
+    }
+  }
 }
 </script>

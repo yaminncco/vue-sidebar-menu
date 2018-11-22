@@ -1,17 +1,18 @@
 @import './var.scss';
 
-.v-sidebar-menu, .v-sidebar-menu * {
+.v-sidebar-menu,
+.v-sidebar-menu * {
   box-sizing: border-box;
 }
 
 .v-sidebar-menu {
   position: fixed;
   top: 0;
-	left: 0;
-	background-color: $baseBg;
+  left: 0;
+  background-color: $baseBg;
   width: 100%;
-	height: 100vh;
-	padding-bottom: 50px;
+  height: 100vh;
+  padding-bottom: 50px;
   transition: 0.3s width;
 }
 
@@ -74,26 +75,26 @@
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  transition: 0.3s transform;   
+  transition: 0.3s transform;
 }
 .v-sidebar-menu .vsm-arrow:after {
-  content: "\f105";
-  font-family: "Font Awesome 5 Free";
+  content: '\f105';
+  font-family: 'Font Awesome 5 Free';
 }
 .v-sidebar-menu .vsm-arrow.open-arrow {
   transform: translateY(-50%) rotate(90deg);
 }
 
-.v-sidebar-menu .vsm-dropdown>.vsm-list {
+.v-sidebar-menu .vsm-dropdown > .vsm-list {
   background: $lightenBg;
   padding: 5px;
 }
 
 .show-animation-enter-active {
-  animation: show-animation .2s;
+  animation: show-animation 0.2s;
 }
 .show-animation-leave-active {
-  animation: show-animation .2s reverse;
+  animation: show-animation 0.2s reverse;
 }
 @keyframes show-animation {
   0% {
@@ -110,10 +111,10 @@
   background-color: $primaryColor;
 }
 .slide-animation-enter-active {
-  animation: slide-animation .2s;
+  animation: slide-animation 0.2s;
 }
 .slide-animation-leave-active {
-  animation: slide-animation .2s reverse;
+  animation: slide-animation 0.2s reverse;
 }
 @keyframes slide-animation {
   0% {
@@ -125,32 +126,32 @@
 }
 
 .v-sidebar-menu.vsm-default .vsm-link:hover,
-.v-sidebar-menu .vsm-dropdown>.vsm-list .vsm-link:hover {
+.v-sidebar-menu .vsm-dropdown > .vsm-list .vsm-link:hover {
   background-color: $darkenBg;
 }
 
-.v-sidebar-menu.vsm-default .vsm-item.first-item.open-item>.vsm-link {
+.v-sidebar-menu.vsm-default .vsm-item.first-item.open-item > .vsm-link {
   background: $primaryColor;
 }
 
-.v-sidebar-menu .vsm-item.first-item.active-item>.vsm-link {
+.v-sidebar-menu .vsm-item.first-item.active-item > .vsm-link {
   box-shadow: 3px 0px 0px 0px $primaryColor inset;
 }
 
-.v-sidebar-menu .vsm-item.active-item>.vsm-link {
+.v-sidebar-menu .vsm-item.active-item > .vsm-link {
   font-weight: 600;
 }
 
-.v-sidebar-menu .vsm-item.first-item.parent-active-item>.vsm-link {
+.v-sidebar-menu .vsm-item.first-item.parent-active-item > .vsm-link {
   box-shadow: 3px 0px 0px 0px $primaryColor inset;
 }
 
-.v-sidebar-menu .vsm-item.parent-active-item>.vsm-link {
+.v-sidebar-menu .vsm-item.parent-active-item > .vsm-link {
   font-weight: 600;
 }
 
 .v-sidebar-menu .vsm-header {
-  color: rgba( $textColor, .7 );
+  color: rgba($textColor, 0.7);
   font-size: 14px;
   font-weight: 600;
   padding: 10px;
@@ -175,6 +176,6 @@
   width: 100%;
 }
 .v-sidebar-menu .collapse-btn:after {
-  content: "\f337";
-  font-family: "Font Awesome 5 Free";
+  content: '\f337';
+  font-family: 'Font Awesome 5 Free';
 }

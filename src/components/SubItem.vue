@@ -33,23 +33,23 @@
 
 <script>
 import Item from './Item.vue'
-import {itemMixin} from '../mixin'
+import { itemMixin } from '../mixin'
 
 export default {
-    data() {
-        return {
-            show: false,
-        }
-    },
-    mixins: [itemMixin],
-    props: {
-        item: Object,
-    },
-    components: {
-        Item
-    },
-    beforeCreate() {
-        this.$options.components.Item = require('./Item.vue').default
-    },
+  data() {
+    return {
+      show: false
+    }
+  },
+  mixins: [itemMixin],
+  props: {
+    item: Object
+  },
+  components: {
+    Item
+  },
+  beforeCreate() {
+    this.$options.components.Item = require('./Item.vue').default
+  }
 }
 </script>

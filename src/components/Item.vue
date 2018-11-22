@@ -35,42 +35,44 @@
 
 <script>
 import SubItem from './SubItem.vue'
-import {itemMixin} from '../mixin'
+import { itemMixin } from '../mixin'
 
 export default {
-    data() {
-        return {
-            show: false,
-        }
+  data() {
+    return {
+      show: false
+    }
+  },
+  props: {
+    item: {
+      type: Object,
+      required: true
     },
-    props: {
-        item: {
-            type: Object,
-            required: true
-        },
-        firstItem: {
-            type: Boolean,
-            default: false
-        },
-        isCollapsed: {
-            type: Boolean,
-        },
+    firstItem: {
+      type: Boolean,
+      default: false
     },
-    components: {
-        SubItem
-    },
-    mixins: [itemMixin],
-    methods: {
-        mouseEnter(event) {
-            if (this.isCollapsed && this.firstItem) {
-               this.$parent.$emit('mouseEnterItem', {
-                   item : this.item,
-                   pos: event.currentTarget.getBoundingClientRect().top - this.$parent.$el.getBoundingClientRect().top,
-                   height: this.$el.offsetHeight
-                })
-            }
-        },
-    },
+    isCollapsed: {
+      type: Boolean
+    }
+  },
+  components: {
+    SubItem
+  },
+  mixins: [itemMixin],
+  methods: {
+    mouseEnter(event) {
+      if (this.isCollapsed && this.firstItem) {
+        this.$parent.$emit('mouseEnterItem', {
+          item: this.item,
+          pos:
+            event.currentTarget.getBoundingClientRect().top -
+            this.$parent.$el.getBoundingClientRect().top,
+          height: this.$el.offsetHeight
+        })
+      }
+    }
+  }
 }
 </script>
 
