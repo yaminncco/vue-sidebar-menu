@@ -25,8 +25,8 @@ Or import the component locally.
 import { SidebarMenu } from 'vue-sidebar-menu'
 export default {
   components: {
-    SidebarMenu,
-  },
+    SidebarMenu
+  }
 }
 ```
 
@@ -49,7 +49,8 @@ export default {
                     {
                         href: '/',
                         title: 'Dashboard',
-                        icon: 'fa fa-user'
+                        icon: 'fa fa-user',
+                        disabled: true
                     },
                     {
                         title: 'Charts',
@@ -111,7 +112,7 @@ All styles customization can be done in normal CSS by using this classes
 .v-sidebar-menu.vsm-collapsed {}
 .v-sidebar-menu .vsm-header {}
 .v-sidebar-menu .vsm-list {}
-.v-sidebar-menu .vsm-dropdown>.vsm-list {}
+.v-sidebar-menu .vsm-dropdown > .vsm-list {}
 .v-sidebar-menu .vsm-item {}
 .v-sidebar-menu .vsm-item.first-item {}
 .v-sidebar-menu .vsm-item.mobile-item {}
