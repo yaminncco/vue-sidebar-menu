@@ -2,14 +2,17 @@
     <div class="vsm-item mobile-item" v-if="item" :class="[{'open-item' : item.child}, {'active-item' : active}, {'parent-active-item' : childActive}]">
         <template v-if="!item.child">
             <router-link class="vsm-link" v-if="isRouterLink" :to="item.href" :disabled="item.disabled">
+                <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
                 {{item.title}}
             </router-link>
             <a class="vsm-link" v-else :href="item.href" :disabled="item.disabled">
+                <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
                 {{item.title}}
             </a>
         </template>
         <template v-else>
             <div class="vsm-link">
+                <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
                 {{item.title}}
                 <i class="vsm-arrow open-arrow"></i>
             </div>

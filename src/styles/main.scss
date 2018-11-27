@@ -64,6 +64,12 @@
   background: $darkenBg;
   border-radius: 3px;
 }
+.v-sidebar-menu .vsm-item.mobile-item > .vsm-link > .vsm-icon {
+  height: 30px;
+  line-height: 30px;
+  width: 30px;
+  text-align: center;
+}
 
 .v-sidebar-menu .vsm-arrow {
   width: 30px;

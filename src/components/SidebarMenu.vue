@@ -8,7 +8,7 @@
          <item v-else :key="index" :item="item" :firstItem="true" :isCollapsed="isCollapsed" />
       </template>
     </div>
-    <div v-if="isCollapsed" :style="[{'position' : 'absolute'}, {'top' : `${mobileItemPos}px`}, {'left' : '0px'}, {'padding-left' : sidebarWidth}, {'width' : width}]">
+    <div v-if="isCollapsed" :style="[{'position' : 'absolute'}, {'top' : `${mobileItemPos}px`}, {'left' : '0px'}, {'z-index' : 30}, {'width' : width}]">
       <mobile-item :item="mobileItem" />
       <transition name="slide-animation">
         <div class="vsm-mobile-bg" v-if="mobileItem" :style="[{'position' : 'absolute'}, {'left' : '0px'}, {'right' : '0px'}, {'top' : '0px'}, {'height' : `${mobileItemHeight}px`}]"></div>
@@ -61,7 +61,8 @@ export default {
       isCollapsed: this.collapsed,
       mobileItem: null,
       mobileItemPos: 0,
-      mobileItemHeight: 0
+      mobileItemHeight: 0,
+      closeTimeout: null
     }
   },
   created() {
@@ -69,6 +70,13 @@ export default {
       this.mobileItem = val.item
       this.mobileItemPos = val.pos
       this.mobileItemHeight = val.height
+    })
+
+    this.$on('clickItem', () => {
+      if (this.closeTimeout) clearTimeout(this.closeTimeout)
+      this.closeTimeout = setTimeout(() => {
+        this.mouseLeave()
+      }, 600)
     })
   },
   methods: {
