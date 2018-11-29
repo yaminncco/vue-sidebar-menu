@@ -33,6 +33,15 @@ export const itemMixin = {
                 }
             }
             return false
+        },
+        clickEvent(event) {
+            if (this.item.disabled) {
+                event.preventDefault()
+                return
+            }
+            if (this.isCollapsed && this.firstItem) {
+                this.$parent.$emit('clickItem')
+            }
         }
     },
     computed: {

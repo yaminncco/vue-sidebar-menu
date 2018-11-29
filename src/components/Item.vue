@@ -2,13 +2,13 @@
     <div class="vsm-item" :class="[{'first-item' : firstItem}, {'open-item' : show}, {'active-item' : active}, {'parent-active-item' : childActive}]" @mouseenter="mouseEnter($event)">
         <template v-if="!item.child">
             <template v-if="isRouterLink">
-                <router-link class="vsm-link" :to="item.href" :disabled="item.disabled" @click.native="clickEvent">
+                <router-link class="vsm-link" :to="item.href" :disabled="item.disabled" :event="item.disabled ? '' : 'click'" @click.native="clickEvent">
                     <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
                     <span v-if="!isCollapsed" class="vsm-title">{{item.title}}</span>
                 </router-link>
             </template>
             <template v-else>
-                <a class="vsm-link" :href="item.href" :disabled="item.disabled">
+                <a class="vsm-link" :href="item.href" :disabled="item.disabled" @click="clickEvent">
                     <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
                     <span v-if="!isCollapsed" class="vsm-title">{{item.title}}</span>
                 </a>
@@ -70,11 +70,6 @@ export default {
               this.$parent.$el.getBoundingClientRect().top,
             height: this.$el.offsetHeight
           })
-      }
-    },
-    clickEvent() {
-      if (this.isCollapsed && this.firstItem) {
-        this.$parent.$emit('clickItem')
       }
     }
   }
