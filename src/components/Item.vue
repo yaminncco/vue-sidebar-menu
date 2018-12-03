@@ -15,13 +15,13 @@
             </template>
         </template>
         <template v-else>
-            <div class="vsm-link" @click="toggleDropdown">
+            <a href="#" class="vsm-link" @click.prevent="toggleDropdown">
                 <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
                 <template v-if="!isCollapsed">
                     <span class="vsm-title">{{item.title}}</span>
                     <i class="vsm-arrow" :class="{'open-arrow' : show}" ></i>
                 </template>
-            </div>
+            </a>
             <div class="vsm-dropdown" v-if="!isCollapsed">
                 <transition name="show-animation">
                     <div class="vsm-list" v-if="show">
