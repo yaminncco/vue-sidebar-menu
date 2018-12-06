@@ -53,6 +53,10 @@ export default {
     widthCollapsed: {
       type: String,
       default: '50px'
+    },
+    showChild: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -87,6 +91,11 @@ export default {
       this.isCollapsed = !this.isCollapsed
       this.sidebarWidth = this.isCollapsed ? this.widthCollapsed : this.width
       this.$emit('collapse', this.isCollapsed)
+    }
+  },
+  provide() {
+    return {
+      showChild: this.showChild
     }
   },
 }

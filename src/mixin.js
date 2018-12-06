@@ -8,7 +8,15 @@ export const itemMixin = {
     created() {
         this.active = this.item && this.item.href ? this.isLinkActive(this.item) : false
         this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
-        this.show = this.item && this.item.child ? this.isChildActive(this.item.child) : false
+        if (this.item && this.item.child) {
+            if (this.showChild) {
+                this.show = true
+            } else {
+                this.show = this.isChildActive(this.item.child)
+            }
+        } else {
+            this.show = false
+        }
     },
     methods: {
         toggleDropdown() {
@@ -55,4 +63,5 @@ export const itemMixin = {
             this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
         }
     },
+    inject:['showChild'],
 }
