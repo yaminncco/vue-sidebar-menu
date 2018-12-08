@@ -92,6 +92,10 @@ props: {
     widthCollapsed: {
         type: String,
         default: '50px'
+    },
+    showChild: {
+        type: Boolean,
+        default: false
     }
 }
 ```
