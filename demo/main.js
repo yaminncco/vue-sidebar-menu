@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-import VueSidebarMenu from '../src/index'
+import '../dist/vue-sidebar-menu.css'
+import VueSidebarMenu from '../dist/vue-sidebar-menu'
 Vue.use(VueSidebarMenu)
 
 Vue.use(VueRouter)

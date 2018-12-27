@@ -1,6 +1,7 @@
 var path = require('path')
 var merge = require('webpack-merge')
 var baseConfig = require('./webpack.config.base')
+var ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 module.exports = merge(baseConfig, {
     entry: './src/index.js',
@@ -14,4 +15,7 @@ module.exports = merge(baseConfig, {
     externals: {
         "vue": "Vue"
     },
+    plugins: [
+        new ExtractTextPlugin("vue-sidebar-menu.css")
+    ]
 });

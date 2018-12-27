@@ -103,5 +103,5 @@ export default {
 
 
 <style lang="scss">
-@import '../styles/main.scss';
+@import '../scss/vue-sidebar-menu.scss';
 </style>
