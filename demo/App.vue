@@ -1,6 +1,9 @@
 <template>
-  <div id="demo" :class="{'collapsed' : collapsed}">
-    <sidebar-menu :menu="menu" :collapsed="collapsed" @collapse="onCollapse" />
+  <div id="demo" :class="[{'collapsed' : collapsed}]">
+    <sidebar-menu :menu="menu" :collapsed="collapsed" @collapse="onCollapse" :theme="selectedTheme" />
+    <select v-model="selectedTheme">
+      <option v-for="(theme, index) in themes" :key="index">{{theme == '' ? 'default-theme' : theme}}</option>
+    </select>
     <router-view/>
   </div>
 </template>
@@ -114,7 +117,9 @@ export default {
           ]
         }
       ],
-      collapsed: false
+      collapsed: false,
+      themes: ['', 'white-theme'],
+      selectedTheme: 'white-theme'
     }
   },
   methods: {
@@ -126,7 +131,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600');
 
 body,
@@ -137,6 +142,7 @@ html {
 
 body {
   font-family: 'Source Sans Pro', sans-serif;
+  background-color: #f2f4f7;
 }
 
 #demo {

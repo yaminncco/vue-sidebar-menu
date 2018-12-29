@@ -1,5 +1,5 @@
 <template>
-  <div class="v-sidebar-menu" :class="[!isCollapsed ? 'vsm-default' : 'vsm-collapsed']" :style="{'width': sidebarWidth}" @mouseleave="mouseLeave">
+  <div class="v-sidebar-menu" :class="[!isCollapsed ? 'vsm-default' : 'vsm-collapsed', theme]" :style="{'width': sidebarWidth}" @mouseleave="mouseLeave">
     <div class="vsm-list" :style="[{'height' : '100%'}, {'overflow' : 'hidden auto'}]">
       <template v-for="(item, index) in menu">
          <template v-if="item.header">
@@ -57,6 +57,10 @@ export default {
     showChild: {
       type: Boolean,
       default: false
+    },
+    theme: {
+      type: String,
+      default: ''
     }
   },
   data() {

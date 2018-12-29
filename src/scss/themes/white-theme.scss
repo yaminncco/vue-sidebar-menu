@@ -1,0 +1,100 @@
+$primaryColor: #4285f4;
+$baseBg: #fff;
+$darkenBg: darken( $baseBg, 5% );
+$lightenBg: #e0e0e0;
+
+$itemColor: #262626;
+
+$itemOpenColor: #fff;
+$itemOpenBg: $primaryColor;
+
+$itemHoverColor: #262626;
+$itemHoverBg: $darkenBg;
+
+$iconColor: #262626;
+$iconBg: #bbc5d6;
+
+$iconActiveColor: #fff;
+$iconActiveBg: #262626;
+
+$iconOpenColor: #fff;
+$iconOpenBg: transparent;
+
+$mobileItemColor: #fff;
+$mobileItemBg: $primaryColor;
+$mobileIconBg: transparent;
+$mobileIconColor: #fff;
+
+$dropDownColor: #262626;
+$dropDownBg: #e3e3e3;
+
+.v-sidebar-menu.white-theme {
+  background-color: $baseBg;
+  & .vsm-item {
+      & .vsm-link {
+          color: $itemColor;
+      }
+  }
+  & .vsm-item.mobile-item {
+      & > .vsm-link {
+          color: $mobileItemColor;
+      }
+      & > .vsm-icon {
+          color: $mobileIconColor;
+          background-color: $mobileIconBg;
+      }
+  }
+  & .vsm-item.first-item {
+      & > .vsm-link {
+          & > .vsm-icon {
+              color: $iconColor;
+              background-color: $iconBg;
+          }
+      }
+      &.active-item > .vsm-link, &.parent-active-item > .vsm-link {
+          box-shadow: 3px 0px 0px 0px $primaryColor inset;
+          & > .vsm-icon {
+              color: $iconActiveColor;
+              background-color: $iconActiveBg;
+          }
+      }
+  }
+  &.vsm-default {
+      & .vsm-item.first-item {
+          &.open-item > .vsm-link {
+              color: $itemOpenColor;
+              background-color: $itemOpenBg;
+              & > .vsm-icon {
+                  color: $iconOpenColor;
+                  background-color: $iconOpenBg;
+              }
+          }
+      }
+      & .vsm-link:hover {
+          color: $itemHoverColor;
+          background-color: $itemHoverBg;
+      }
+  }
+  & .vsm-dropdown {
+      & > .vsm-list {
+          background: $dropDownBg;
+          & .vsm-link {
+              color: $dropDownColor;
+          }         
+          & .vsm-link:hover {
+              color: $itemHoverColor;
+              background-color: $itemHoverBg; 
+          }
+      }
+  }
+  & .vsm-mobile-bg {
+      background-color: $mobileItemBg;
+  }
+  & .vsm-header {
+      color: rgba($itemColor, 0.7);
+  }
+  & .collapse-btn {
+      color: $itemColor;
+      background-color: $darkenBg;
+  }
+}
