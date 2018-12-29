@@ -61,7 +61,6 @@ export default {
   },
   data() {
     return {
-      sidebarWidth: this.collapsed ? this.widthCollapsed : this.width,
       isCollapsed: this.collapsed,
       mobileItem: null,
       mobileItemPos: 0,
@@ -89,8 +88,17 @@ export default {
     },
     toggleCollapse() {
       this.isCollapsed = !this.isCollapsed
-      this.sidebarWidth = this.isCollapsed ? this.widthCollapsed : this.width
       this.$emit('collapse', this.isCollapsed)
+    }
+  },
+  computed: {
+    sidebarWidth() {
+      return this.isCollapsed ? this.widthCollapsed : this.width
+    }
+  },
+  watch: {
+    collapsed(val) {
+      this.isCollapsed = val
     }
   },
   provide() {
