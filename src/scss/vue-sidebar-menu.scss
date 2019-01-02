@@ -15,28 +15,9 @@
   & .vsm-item {
     position: relative;
     display: block;
-    & .vsm-link {
-      position: relative;
-      display: block;
-      font-size: 16px;
-      font-weight: 400;
-      padding: 10px;
-      line-height: 30px;
-      text-decoration: none;
-      z-index: 20;
-      transition: 0.3s all;
-      &[disabled] {
-        opacity: 0.4;
-        pointer-events: none;
-      }
-    }
   }
   & .vsm-item.first-item {
     & > .vsm-link {
-      & > .vsm-title {
-        display: block;
-        white-space: nowrap;
-      }
       & > .vsm-icon {
         height: 30px;
         line-height: 30px;
@@ -66,6 +47,25 @@
     & > .vsm-link {
       font-weight: 600;
     }
+  }
+  & .vsm-link {
+    position: relative;
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 10px;
+    line-height: 30px;
+    text-decoration: none;
+    z-index: 20;
+    transition: 0.3s all;
+    &[disabled] {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+  }
+  & .vsm-title {
+    display: block;
+    white-space: nowrap;
   }
   & .vsm-icon {
     float: left;

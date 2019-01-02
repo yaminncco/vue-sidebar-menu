@@ -1,9 +1,7 @@
 .v-sidebar-menu {
     background-color: $baseBg;
-    & .vsm-item {
-        & .vsm-link {
-            color: $itemColor;
-        }
+    & .vsm-link {
+        color: $itemColor;
     }
     & .vsm-item.mobile-item {
         & > .vsm-link {
@@ -47,7 +45,7 @@
     }
     & .vsm-dropdown {
         & > .vsm-list {
-            background: $dropDownBg;
+            background-color: $dropDownBg;
             & .vsm-link {
                 color: $dropDownColor;
             }         
