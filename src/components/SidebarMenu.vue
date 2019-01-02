@@ -14,7 +14,7 @@
         <div class="vsm-mobile-bg" v-if="mobileItem" :style="[{'position' : 'absolute'}, {'left' : '0px'}, {'right' : '0px'}, {'top' : '0px'}, {'height' : `${mobileItemHeight}px`}]"></div>
       </transition>
       <div class="vsm-dropdown" :style="[{'position' : 'absolute'}, {'top' : `${mobileItemHeight}px`}, {'left' : sidebarWidth}, {'right' : '0px'}, {'max-height' : `calc(100vh - ${mobileItemPos + mobileItemHeight}px)`}, {'overflow-y' : 'auto'}]">
-        <transition name="show-animation">
+        <transition name="expand" @enter="expandEnter" @afterEnter="expandAfterEnter" @beforeLeave="expandBeforeLeave">
           <div class="vsm-list" v-if="mobileItem && mobileItem.child">
             <sub-item v-for="(subItem, index) in mobileItem.child" :item="subItem" :key="index"/>
           </div>
@@ -29,6 +29,7 @@
 import Item from './Item.vue'
 import SubItem from './SubItem.vue'
 import MobileItem from './MobileItem.vue'
+import { animationMixin } from '../mixin'
 
 export default {
   name: 'SidebarMenu',
@@ -63,6 +64,7 @@ export default {
       default: ''
     }
   },
+  mixins: [animationMixin],
   data() {
     return {
       sidebarWidth: this.collapsed ? this.widthCollapsed : this.width,

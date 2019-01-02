@@ -22,20 +22,22 @@
                     <i class="vsm-arrow" :class="{'open-arrow' : show}" ></i>
                 </template>
             </a>
-            <div class="vsm-dropdown" v-if="!isCollapsed">
-                <transition name="show-animation">
-                    <div class="vsm-list" v-if="show">
-                        <sub-item v-for="(subItem, index) in item.child" :item="subItem" :key="index" />
+            <template v-if="!isCollapsed">
+                <transition name="expand" @enter="expandEnter" @afterEnter="expandAfterEnter" @beforeLeave="expandBeforeLeave">
+                    <div class="vsm-dropdown" v-if="show">
+                        <div class="vsm-list">
+                            <sub-item v-for="(subItem, index) in item.child" :item="subItem" :key="index" />
+                        </div>
                     </div>
                 </transition>
-            </div>
+            </template>
         </template>
     </div>
 </template>
 
 <script>
 import SubItem from './SubItem.vue'
-import { itemMixin } from '../mixin'
+import { itemMixin, animationMixin } from '../mixin'
 
 export default {
   data() {
@@ -59,7 +61,7 @@ export default {
   components: {
     SubItem
   },
-  mixins: [itemMixin],
+  mixins: [itemMixin, animationMixin],
   methods: {
     mouseEnter(event) {
       if (this.isCollapsed && this.firstItem) {
