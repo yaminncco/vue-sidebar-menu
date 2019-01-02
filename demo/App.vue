@@ -1,10 +1,16 @@
 <template>
   <div id="demo" :class="[{'collapsed' : collapsed}]">
+    <div class="demo">
+      <h1>vue-sidebar-menu</h1>
+      <div>select theme:
+        <select v-model="selectedTheme">
+          <option v-for="(theme, index) in themes" :key="index">{{theme == '' ? 'default-theme' : theme}}</option>
+        </select>
+      </div>
+      <hr style="margin: 50px 0px;border: 1px solid #e3e3e3;">
+      <router-view/>
+    </div>
     <sidebar-menu :menu="menu" :collapsed="collapsed" @collapse="onCollapse" :theme="selectedTheme" />
-    <select v-model="selectedTheme">
-      <option v-for="(theme, index) in themes" :key="index">{{theme == '' ? 'default-theme' : theme}}</option>
-    </select>
-    <router-view/>
   </div>
 </template>
 
@@ -150,5 +156,9 @@ body {
 }
 #demo.collapsed {
   padding-left: 50px;
+}
+
+.demo {
+  padding: 50px;
 }
 </style>
