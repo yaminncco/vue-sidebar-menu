@@ -14,7 +14,7 @@ Install the plugin globally.
 //main.js
 import Vue from 'vue'
 import VueSidebarMenu from 'vue-sidebar-menu'
-
+import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 Vue.use(VueSidebarMenu)
 ```
 
@@ -29,6 +29,8 @@ export default {
   }
 }
 ```
+
+from v3.0.0 you will need to import the style file in your project.
 
 ## Usage
 
@@ -96,6 +98,10 @@ props: {
     showChild: {
         type: Boolean,
         default: false
+    },
+    theme: { // available themes: 'white-theme'
+      type: String,
+      default: ''
     }
 }
 ```
@@ -129,6 +135,14 @@ All styles customization can be done in normal CSS by using this classes
 .v-sidebar-menu .vsm-arrow {}
 .v-sidebar-menu .vsm-arrow.open-arrow {}
 .v-sidebar-menu .vsm-mobile-bg {}
+```
+
+or you can override Sass variables and create your own theme
+
+```css
+//app.scss
+@import "custom-var.scss";
+@import "vue-sidebar-menu/src/scss/vue-sidebar-menu.scss";
 ```
 
 ## Demo
