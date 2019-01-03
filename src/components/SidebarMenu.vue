@@ -1,5 +1,5 @@
 <template>
-  <div class="v-sidebar-menu" :class="[!isCollapsed ? 'vsm-default' : 'vsm-collapsed']" :style="{'width': sidebarWidth}" @mouseleave="mouseLeave">
+  <div class="v-sidebar-menu" :class="[!isCollapsed ? 'vsm-default' : 'vsm-collapsed', theme]" :style="{'width': sidebarWidth}" @mouseleave="mouseLeave">
     <div class="vsm-list" :style="[{'height' : '100%'}, {'overflow' : 'hidden auto'}]">
       <template v-for="(item, index) in menu">
          <template v-if="item.header">
@@ -14,7 +14,7 @@
         <div class="vsm-mobile-bg" v-if="mobileItem" :style="[{'position' : 'absolute'}, {'left' : '0px'}, {'right' : '0px'}, {'top' : '0px'}, {'height' : `${mobileItemHeight}px`}]"></div>
       </transition>
       <div class="vsm-dropdown" :style="[{'position' : 'absolute'}, {'top' : `${mobileItemHeight}px`}, {'left' : sidebarWidth}, {'right' : '0px'}, {'max-height' : `calc(100vh - ${mobileItemPos + mobileItemHeight}px)`}, {'overflow-y' : 'auto'}]">
-        <transition name="show-animation">
+        <transition name="expand" @enter="expandEnter" @afterEnter="expandAfterEnter" @beforeLeave="expandBeforeLeave">
           <div class="vsm-list" v-if="mobileItem && mobileItem.child">
             <sub-item v-for="(subItem, index) in mobileItem.child" :item="subItem" :key="index"/>
           </div>
@@ -29,6 +29,7 @@
 import Item from './Item.vue'
 import SubItem from './SubItem.vue'
 import MobileItem from './MobileItem.vue'
+import { animationMixin } from '../mixin'
 
 export default {
   name: 'SidebarMenu',
@@ -57,8 +58,13 @@ export default {
     showChild: {
       type: Boolean,
       default: false
+    },
+    theme: {
+      type: String,
+      default: ''
     }
   },
+  mixins: [animationMixin],
   data() {
     return {
       isCollapsed: this.collapsed,
@@ -111,5 +117,5 @@ export default {
 
 
 <style lang="scss">
-@import '../styles/main.scss';
+@import '../scss/vue-sidebar-menu.scss';
 </style>

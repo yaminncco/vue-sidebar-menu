@@ -20,20 +20,20 @@
                 <span class="vsm-title">{{item.title}}</span>
                 <i class="vsm-arrow" :class="{'open-arrow' : show}"></i>
             </a>
-            <div class="vsm-dropdown">
-                <transition name="show-animation">
-                    <div class="vsm-list" v-if="show">
+            <transition name="expand" @enter="expandEnter" @afterEnter="expandAfterEnter" @beforeLeave="expandBeforeLeave">
+                <div class="vsm-dropdown" v-if="show">
+                    <div class="vsm-list">
                         <item v-for="(subItem, index) in item.child" :item="subItem" :key="index" />
                     </div>
-                </transition>
-            </div>
+                </div>
+            </transition>
         </template>
     </div>
 </template>
 
 <script>
 import Item from './Item.vue'
-import { itemMixin } from '../mixin'
+import { itemMixin, animationMixin } from '../mixin'
 
 export default {
   data() {
@@ -41,7 +41,7 @@ export default {
       show: false
     }
   },
-  mixins: [itemMixin],
+  mixins: [itemMixin, animationMixin],
   props: {
     item: Object
   },

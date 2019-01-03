@@ -1,0 +1,29 @@
+$primaryColor: #4285f4 !default;
+$baseBg: #2a2a2e !default;
+$darkenBg: darken( $baseBg, 5% ) !default;
+$lightenBg: lighten( $baseBg, 5% ) !default;
+
+$itemColor: #fff !default;
+
+$itemOpenColor: #fff !default;
+$itemOpenBg: $primaryColor !default;
+
+$itemHoverColor: #fff !default;
+$itemHoverBg: rgba($darkenBg, 0.5) !default;
+
+$iconColor: #fff !default;
+$iconBg: $darkenBg !default;
+
+$iconActiveColor: #fff !default;
+$iconActiveBg: $darkenBg !default;
+
+$iconOpenColor: #fff !default;
+$iconOpenBg: transparent !default;
+
+$mobileItemColor: #fff !default;
+$mobileItemBg: $primaryColor !default;
+$mobileIconBg: transparent !default;
+$mobileIconColor: #fff !default;
+
+$dropDownColor: #fff !default;
+$dropDownBg: $lightenBg !default;

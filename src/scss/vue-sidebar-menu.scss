@@ -1,0 +1,147 @@
+@import './var.scss';
+.v-sidebar-menu {
+  & , * {
+    box-sizing: border-box;
+  }
+  & {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    padding-bottom: 50px;
+    transition: 0.3s width;
+  }
+  & .vsm-item {
+    position: relative;
+    display: block;
+  }
+  & .vsm-item.first-item {
+    & > .vsm-link {
+      & > .vsm-icon {
+        height: 30px;
+        line-height: 30px;
+        width: 30px;
+        text-align: center;
+        border-radius: 3px;
+      }
+      &:after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+    }
+  }
+  & .vsm-item.mobile-item {
+    & > .vsm-link {
+      & > .vsm-icon {
+        height: 30px;
+        line-height: 30px;
+        width: 30px;
+        text-align: center;
+        border-radius: 3px;
+      }
+    }
+  }
+  & .vsm-item.active-item, .vsm-item.parent-active-item {
+    & > .vsm-link {
+      font-weight: 600;
+    }
+  }
+  & .vsm-link {
+    position: relative;
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 10px;
+    line-height: 30px;
+    text-decoration: none;
+    z-index: 20;
+    transition: 0.3s all;
+    &[disabled] {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+  }
+  & .vsm-title {
+    display: block;
+    white-space: nowrap;
+  }
+  & .vsm-icon {
+    float: left;
+    line-height: 30px;
+    margin-right: 10px;
+  }
+  & .vsm-arrow {
+    width: 30px;
+    text-align: center;
+    font-style: normal;
+    font-weight: 900;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: 0.3s transform;
+    &:after {
+      content: '\f105';
+      font-family: 'Font Awesome 5 Free';
+    }
+    &.open-arrow {
+      transform: translateY(-50%) rotate(90deg);
+    }
+  }
+  & .vsm-dropdown > .vsm-list {
+    padding: 5px;
+  }
+  & .expand-enter-active,
+  & .expand-leave-active {
+    transition: height 0.35s ease;
+    overflow: hidden;
+  }
+  & .expand-enter,
+  & .expand-leave-to {
+    height: 0 !important;
+  }
+  & .slide-animation-enter-active {
+    animation: slide-animation 0.2s;
+  }
+  & .slide-animation-leave-active {
+    animation: slide-animation 0.2s reverse;
+  }
+  @keyframes slide-animation {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+  & .vsm-header {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+  & .collapse-btn {
+    display: block;
+    text-align: center;
+    font-style: normal;
+    font-weight: 900;
+    position: absolute;
+    height: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    &:after {
+      content: '\f337';
+      font-family: 'Font Awesome 5 Free';
+    }
+  }
+}
+
+@import './themes/default-theme.scss';
+@import './themes/white-theme.scss';
