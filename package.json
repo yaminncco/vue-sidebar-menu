@@ -29,7 +29,7 @@
     "build:lib": "cross-env NODE_ENV=production webpack --progress --hide-modules --config webpack.config.prod.js"
   },
   "dependencies": {
-    "vue": "^2.5.11"
+    "vue": "^2.5.21"
   },
   "postcss": {
     "plugins": {
@@ -42,21 +42,23 @@
     "not ie <= 8"
   ],
   "devDependencies": {
-    "autoprefixer": "^9.3.1",
+    "autoprefixer": "^9.4.4",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-3": "^6.24.1",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
-    "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.4",
-    "node-sass": "^4.5.3",
+    "mini-css-extract-plugin": "^0.5.0",
+    "node-sass": "^4.11.0",
+    "postcss-loader": "^3.0.0",
     "sass-loader": "^6.0.6",
-    "vue-loader": "^13.0.5",
-    "vue-template-compiler": "^2.4.4",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.9.1",
-    "webpack-merge": "^4.1.4"
+    "vue-loader": "^15.5.0",
+    "vue-template-compiler": "^2.5.21",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.2.0",
+    "webpack-dev-server": "^3.1.14",
+    "webpack-merge": "^4.2.1"
   }
 }

@@ -1,9 +1,10 @@
 var path = require('path')
 var merge = require('webpack-merge')
 var baseConfig = require('./webpack.config.base')
-var ExtractTextPlugin = require("extract-text-webpack-plugin")
+var MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = merge(baseConfig, {
+    mode: 'production',
     entry: './src/index.js',
     output: {
         library: 'vue-sidebar-menu',
@@ -15,7 +16,30 @@ module.exports = merge(baseConfig, {
     externals: {
         "vue": "Vue"
     },
+    module: {
+        rules: [
+            {
+            test: /\.css$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader'
+                ]
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader'
+                ]
+            },
+        ]
+    },
     plugins: [
-        new ExtractTextPlugin("vue-sidebar-menu.css")
+        new MiniCssExtractPlugin({
+            filename: "vue-sidebar-menu.css"
+        })
     ]
 });

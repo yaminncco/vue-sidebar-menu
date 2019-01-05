@@ -1,29 +1,12 @@
 var webpack = require('webpack')
+var { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader'
-        ],
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-          'sass-loader'
-        ]
-      },
-      {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: {
-          extractCSS: process.env.NODE_ENV != 'production' ? false : true
-        }
       },
       {
         test: /\.js$/,
@@ -53,7 +36,10 @@ module.exports = {
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  plugins: [
+    new VueLoaderPlugin(),
+  ]
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -63,12 +49,6 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false
       }
     }),
     new webpack.LoaderOptionsPlugin({
