@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 const Dashboard = { template: '<div>Dashboard Page</div>' }
 const Charts = { template: '<div>Charts Page</div>' }
 const Tables = { template: '<div>Tables Page</div>' }
-const Auth = { template: '<div><router-view/></div>' }
+const Auth = { template: '<div>Auth <router-view/></div>' }
 const Login = { template: '<div>Login Page</div>' }
 const Registration = { template: '<div>Registration Page</div>' }
 

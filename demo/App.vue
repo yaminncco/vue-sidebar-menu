@@ -52,6 +52,7 @@ export default {
         {
           title: 'Pages',
           icon: 'fa fa-file',
+          href: '/auth',
           child: [
             {
               href: '/auth/login',

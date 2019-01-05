@@ -12,7 +12,7 @@ export const itemMixin = {
             if (this.showChild) {
                 this.show = true
             } else {
-                this.show = this.isChildActive(this.item.child)
+                this.show = this.isLinkActive(this.item) || this.isChildActive(this.item.child)
             }
         } else {
             this.show = false
@@ -42,13 +42,27 @@ export const itemMixin = {
             }
             return false
         },
-        clickEvent(event) {
-            if (this.item.disabled) {
+        clickEvent(event, mobileItem) {
+            if (this.item.disabled || mobileItem && !this.item.href) {
                 event.preventDefault()
                 return
             }
-            if (this.isCollapsed && this.firstItem) {
+
+            if (this.isCollapsed && this.firstItem && !this.item.child) {
                 this.$parent.$emit('clickItem')
+            }
+
+            if (!mobileItem && this.item.child) {
+                if ( this.isCollapsed && this.firstItem ) {
+                    event.preventDefault()
+                    return
+                }
+                if (this.isRouterLink) {
+                    this.active ? this.toggleDropdown() : this.show = true
+                } else if (!this.item.href) {
+                    event.preventDefault()
+                    this.toggleDropdown()
+                }
             }
         }
     },

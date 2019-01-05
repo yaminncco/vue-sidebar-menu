@@ -1,27 +1,24 @@
 <template>
     <div class="vsm-item" :class="[{'first-item' : firstItem}, {'open-item' : show}, {'active-item' : active}, {'parent-active-item' : childActive}]" @mouseenter="mouseEnter($event)">
-        <template v-if="!item.child">
-            <template v-if="isRouterLink">
-                <router-link class="vsm-link" :to="item.href" :disabled="item.disabled" :event="item.disabled ? '' : 'click'" @click.native="clickEvent">
-                    <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
-                    <span v-if="!isCollapsed" class="vsm-title">{{item.title}}</span>
-                </router-link>
-            </template>
-            <template v-else>
-                <a class="vsm-link" :href="item.href" :disabled="item.disabled" @click="clickEvent">
-                    <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
-                    <span v-if="!isCollapsed" class="vsm-title">{{item.title}}</span>
-                </a>
-            </template>
-        </template>
-        <template v-else>
-            <a href="#" class="vsm-link" @click.prevent="toggleDropdown">
+        <template v-if="isRouterLink">
+            <router-link class="vsm-link" :to="item.href" :disabled="item.disabled" :event="item.disabled ? '' : 'click'" @click.native="clickEvent">
                 <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
                 <template v-if="!isCollapsed">
-                    <span class="vsm-title">{{item.title}}</span>
-                    <i class="vsm-arrow" :class="{'open-arrow' : show}" ></i>
+                  <span class="vsm-title">{{item.title}}</span>
+                  <i v-if="item.child" class="vsm-arrow" :class="{'open-arrow' : show}" ></i>
+                </template>
+            </router-link>
+        </template>
+        <template v-else>
+            <a class="vsm-link" :href="item.href ? item.href : '#'" :disabled="item.disabled" @click="clickEvent">
+                <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
+                <template v-if="!isCollapsed">
+                  <span class="vsm-title">{{item.title}}</span>
+                  <i v-if="item.child" class="vsm-arrow" :class="{'open-arrow' : show}" ></i>
                 </template>
             </a>
+        </template>
+        <template v-if="item.child">
             <template v-if="!isCollapsed">
                 <transition name="expand" @enter="expandEnter" @afterEnter="expandAfterEnter" @beforeLeave="expandBeforeLeave">
                     <div class="vsm-dropdown" v-if="show">

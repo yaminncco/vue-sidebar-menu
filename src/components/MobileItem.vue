@@ -1,22 +1,19 @@
 <template>
     <div class="vsm-item mobile-item" v-if="item" :class="[{'open-item' : item.child}, {'active-item' : active}, {'parent-active-item' : childActive}]">
-        <template v-if="!item.child">
-            <router-link class="vsm-link" v-if="isRouterLink" :to="item.href" :disabled="item.disabled" :event="item.disabled ? '' : 'click'" @click.native="clickEvent">
-                <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
-                {{item.title}}
+        <template v-if="isRouterLink">
+            <router-link class="vsm-link" :to="item.href" :disabled="item.disabled" :event="item.disabled ? '' : 'click'" @click.native="clickEvent($event, true)">
+              <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
+              {{item.title}}
+              <i v-if="item.child" class="vsm-arrow open-arrow"></i>
             </router-link>
-            <a class="vsm-link" v-else :href="item.href" :disabled="item.disabled" @click="clickEvent">
-                <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
-                {{item.title}}
-            </a>
         </template>
         <template v-else>
-            <div class="vsm-link">
-                <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
-                {{item.title}}
-                <i class="vsm-arrow open-arrow"></i>
-            </div>
-        </template>
+            <a class="vsm-link" :href="item.href ? item.href : '#'" :disabled="item.disabled" @click="clickEvent($event, true)">
+              <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
+              {{item.title}}
+              <i v-if="item.child" class="vsm-arrow open-arrow"></i>
+            </a>
+        </template>       
     </div>
 </template>
 
