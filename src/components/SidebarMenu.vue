@@ -2,9 +2,14 @@
   <div class="v-sidebar-menu" :class="[!isCollapsed ? 'vsm-default' : 'vsm-collapsed', theme]" :style="{'width': sidebarWidth}" @mouseleave="mouseLeave">
     <div class="vsm-list" :style="[{'height' : '100%'}, {'overflow' : 'hidden auto'}]">
       <template v-for="(item, index) in menu">
-         <template v-if="item.header">
-           <div v-if="!isCollapsed" :key="index" class="vsm-header">{{item.title}}</div>
-         </template>
+          <template v-if="item.header">
+            <template v-if="!isCollapsed && item.component">
+              <component :key="index" :is="item.component" />
+            </template>
+            <template v-else-if="!isCollapsed">
+              <div :key="index" class="vsm-header">{{item.title}}</div>
+            </template>
+          </template>
          <item v-else :key="index" :item="item" :firstItem="true" :isCollapsed="isCollapsed" />
       </template>
     </div>

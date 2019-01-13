@@ -123,6 +123,17 @@
     white-space: nowrap;
     text-transform: uppercase;
   }
+  & .vsm-badge {
+    padding: 0px 6px;
+    font-size: 12px;
+    border-radius: 3px;
+    float: right;
+    height: 20px;
+    line-height: 20px;
+    margin-top: 5px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
   & .collapse-btn {
     display: block;
     text-align: center;

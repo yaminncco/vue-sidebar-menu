@@ -3,6 +3,7 @@
         <template v-if="isRouterLink">
             <router-link class="vsm-link" :to="item.href" :disabled="item.disabled" :event="item.disabled ? '' : 'click'" @click.native="clickEvent">
                 <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
+                <span v-if="item.badge" :style="[item.child ? {'margin-right' : '30px'} : '']" class="vsm-badge" :class="[item.badge.class ? item.badge.class : 'default-badge']">{{item.badge.text}}</span>
                 <span class="vsm-title">{{item.title}}</span>
                 <i v-if="item.child" class="vsm-arrow" :class="{'open-arrow' : show}" ></i>
             </router-link>
@@ -10,6 +11,7 @@
         <template v-else>
             <a class="vsm-link" :href="item.href ? item.href : '#'" :disabled="item.disabled" @click="clickEvent">
                 <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
+                <span v-if="item.badge" :style="[item.child ? {'margin-right' : '30px'} : '']" class="vsm-badge" :class="[item.badge.class ? item.badge.class : 'default-badge']">{{item.badge.text}}</span>
                 <span class="vsm-title">{{item.title}}</span>
                 <i v-if="item.child" class="vsm-arrow" :class="{'open-arrow' : show}" ></i>
             </a>

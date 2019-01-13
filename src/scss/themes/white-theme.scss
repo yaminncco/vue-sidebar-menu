@@ -91,6 +91,10 @@ $dropDownBg: #e3e3e3;
     & .vsm-header {
         color: rgba($itemColor, 0.7);
     }
+    & .vsm-badge.default-badge {
+        color: $itemColor;
+        background-color: $lightenBg;
+    }
     & .collapse-btn {
         color: $itemColor;
         background-color: $darkenBg;

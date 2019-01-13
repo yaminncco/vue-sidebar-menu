@@ -15,6 +15,10 @@
 </template>
 
 <script>
+const separator = {
+  template: `<hr style="border-color: rgba(0, 0, 0, 0.1); margin: 20px;">`
+}
+
 export default {
   name: 'app',
   data() {
@@ -32,7 +36,11 @@ export default {
         {
           href: '/charts',
           title: 'Charts',
-          icon: 'fa fa-chart-area'
+          icon: 'fa fa-chart-area',
+          badge: {
+            text: 'pro',
+            class: 'badge-danger'
+          }
         },
         {
           href: '/tables',
@@ -43,7 +51,14 @@ export default {
           href: '/disabled',
           title: 'Disabled',
           icon: 'fa fa-cog',
-          disabled: true
+          disabled: true,
+          badge: {
+            text: '20',
+          }
+        },
+        {
+          header: true,
+          component: separator,
         },
         {
           header: true,
@@ -53,6 +68,9 @@ export default {
           title: 'Pages',
           icon: 'fa fa-file',
           href: '/auth',
+          badge: {
+            text: 'new',
+          },
           child: [
             {
               href: '/auth/login',
@@ -161,5 +179,10 @@ body {
 
 .demo {
   padding: 50px;
+}
+
+.badge-danger {
+  background-color: #ff2a2a;
+  color: #fff;
 }
 </style>
