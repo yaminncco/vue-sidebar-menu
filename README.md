@@ -47,12 +47,19 @@ from v3.0.0 you will need to import the style file in your project.
                     {
                         header: true,
                         title: 'Main Navigation',
+                        // component: componentName
                     },
                     {
                         href: '/',
                         title: 'Dashboard',
                         icon: 'fa fa-user',
+                        /*
                         disabled: true
+                        badge: {
+                            text: 'new',
+                            // class:''
+                        }
+                        */
                     },
                     {
                         title: 'Charts',
@@ -100,8 +107,8 @@ props: {
         default: false
     },
     theme: { // available themes: 'white-theme'
-      type: String,
-      default: ''
+        type: String,
+        default: ''
     }
 }
 ```
@@ -135,12 +142,13 @@ All styles customization can be done in normal CSS by using this classes
 .v-sidebar-menu .vsm-arrow {}
 .v-sidebar-menu .vsm-arrow.open-arrow {}
 .v-sidebar-menu .vsm-mobile-bg {}
+.v-sidebar-menu .vsm-badge {}
 ```
 
 or you can override Sass variables and create your own theme
 
 ```css
-//app.scss
+/*app.scss*/
 @import "custom-var.scss";
 @import "vue-sidebar-menu/src/scss/vue-sidebar-menu.scss";
 ```
