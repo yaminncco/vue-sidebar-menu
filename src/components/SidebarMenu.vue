@@ -3,10 +3,10 @@
     <div class="vsm-list" :style="[{'height' : '100%'}, {'overflow' : 'hidden auto'}]">
       <template v-for="(item, index) in menu">
           <template v-if="item.header">
-            <template v-if="!isCollapsed && item.component">
+            <template v-if="(item.visibleOnCollapse || !isCollapsed) && item.component">
               <component :key="index" :is="item.component" />
             </template>
-            <template v-else-if="!isCollapsed">
+            <template v-else-if="item.visibleOnCollapse || !isCollapsed">
               <div :key="index" class="vsm-header">{{item.title}}</div>
             </template>
           </template>

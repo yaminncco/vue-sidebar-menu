@@ -59,6 +59,7 @@ export default {
         {
           header: true,
           component: separator,
+          visibleOnCollapse: true
         },
         {
           header: true,
