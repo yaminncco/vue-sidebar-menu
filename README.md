@@ -110,6 +110,10 @@ props: {
     theme: { // available themes: 'white-theme'
         type: String,
         default: ''
+    },
+    showOneChild: {
+      type: Boolean,
+      default: false
     }
 }
 ```

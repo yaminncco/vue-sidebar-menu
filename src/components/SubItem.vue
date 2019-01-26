@@ -33,11 +33,6 @@ import Item from './Item.vue'
 import { itemMixin, animationMixin } from '../mixin'
 
 export default {
-  data() {
-    return {
-      show: false
-    }
-  },
   mixins: [itemMixin, animationMixin],
   props: {
     item: Object

@@ -10,7 +10,7 @@
       <hr style="margin: 50px 0px;border: 1px solid #e3e3e3;">
       <router-view/>
     </div>
-    <sidebar-menu :menu="menu" :collapsed="collapsed" @collapse="onCollapse" :theme="selectedTheme" />
+    <sidebar-menu :menu="menu" :collapsed="collapsed" @collapse="onCollapse" :theme="selectedTheme" :showOneChild="true" />
   </div>
 </template>
 

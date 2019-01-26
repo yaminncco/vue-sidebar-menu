@@ -5,7 +5,7 @@
                 <i v-if="item.icon" class="vsm-icon" :class="item.icon"></i>
                 <template v-if="!isCollapsed">
                   <span v-if="item.badge" :style="[item.child ? {'margin-right' : '30px'} : '']" class="vsm-badge" :class="[item.badge.class ? item.badge.class : 'default-badge']">{{item.badge.text}}</span>
-                  <span class="vsm-title">{{item.title}}</span>
+                  <span class="vsm-title">{{item.title}}</span> 
                   <i v-if="item.child" class="vsm-arrow" :class="{'open-arrow' : show}" ></i>
                 </template>
             </router-link>
@@ -39,11 +39,6 @@ import SubItem from './SubItem.vue'
 import { itemMixin, animationMixin } from '../mixin'
 
 export default {
-  data() {
-    return {
-      show: false
-    }
-  },
   props: {
     item: {
       type: Object,

@@ -67,6 +67,10 @@ export default {
     theme: {
       type: String,
       default: ''
+    },
+    showOneChild: {
+      type: Boolean,
+      default: false
     }
   },
   mixins: [animationMixin],
@@ -76,14 +80,18 @@ export default {
       mobileItem: null,
       mobileItemPos: 0,
       mobileItemHeight: 0,
-      closeTimeout: null
+      closeTimeout: null,
+      activeShow: null
     }
   },
   created() {
     this.$on('mouseEnterItem', (val) => {
-      this.mobileItem = val.item
-      this.mobileItemPos = val.pos
-      this.mobileItemHeight = val.height
+      this.mobileItem = null
+      this.$nextTick(() => {
+        this.mobileItem = val.item
+        this.mobileItemPos = val.pos
+        this.mobileItemHeight = val.height
+      })
     })
 
     this.$on('clickItem', () => {
@@ -100,6 +108,9 @@ export default {
     toggleCollapse() {
       this.isCollapsed = !this.isCollapsed
       this.$emit('collapse', this.isCollapsed)
+    },
+    onActiveShow(uid) {
+      this.activeShow = uid
     }
   },
   computed: {
@@ -113,8 +124,16 @@ export default {
     }
   },
   provide() {
+    const activeShow = {}
+    Object.defineProperty(activeShow, 'uid', {
+      enumerable: true,
+      get: () => this.activeShow
+    })
     return {
-      showChild: this.showChild
+      showChild: this.showChild,
+      showOneChild: this.showOneChild,
+      emitActiveShow: this.onActiveShow,
+      activeShow
     }
   },
 }

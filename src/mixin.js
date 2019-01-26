@@ -2,7 +2,8 @@ export const itemMixin = {
     data() {
         return {
             active: false,
-            childActive: false
+            childActive: false,
+            itemShow: false
         }
     },
     created() {
@@ -10,17 +11,18 @@ export const itemMixin = {
         this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
         if (this.item && this.item.child) {
             if (this.showChild) {
-                this.show = true
+                this.itemShow = true
             } else {
-                this.show = this.isLinkActive(this.item) || this.isChildActive(this.item.child)
+                this.itemShow = this.isLinkActive(this.item) || this.isChildActive(this.item.child)
+                if ( this.showOneChild && !this.showChild && (this.active || this.childActive) && this.firstItem ) {
+                    this.emitActiveShow(this._uid)
+                }
             }
-        } else {
-            this.show = false
         }
     },
     methods: {
         toggleDropdown() {
-            this.show = !this.show
+            this.itemShow = !this.itemShow
         },
         isLinkActive(item) {
             if ( this.$route ) {
@@ -58,17 +60,56 @@ export const itemMixin = {
                     return
                 }
                 if (this.isRouterLink) {
-                    this.active ? this.toggleDropdown() : this.show = true
+                    if (this.firstItem && this.showOneChild && !this.showChild) {
+                        if (this.active) {
+                            if (this.activeShow.uid == this._uid) {
+                                this.itemShow = false
+                                this.emitActiveShow(null)
+                            } else {
+                                this.itemShow = true
+                                this.emitActiveShow(this._uid)
+                            }
+                        } else {
+                            this.itemShow = true
+                            this.emitActiveShow(this._uid)
+                        }
+                    } else {
+                        this.active ? this.toggleDropdown() : this.itemShow = true
+                    }
                 } else if (!this.item.href) {
                     event.preventDefault()
-                    this.toggleDropdown()
+                    if ( this.firstItem && this.showOneChild && !this.showChild ) {
+                        if ( this.activeShow.uid == this._uid) {
+                            this.itemShow = false
+                            this.emitActiveShow(null)
+                        } else {
+                            this.itemShow = true
+                            this.emitActiveShow(this._uid)
+                        }
+                    } else {
+                        this.toggleDropdown()
+                    }
                 }
+            } else if (!mobileItem && !this.isCollapsed && this.firstItem && !this.item.child) {
+                this.emitActiveShow(null)
             }
         }
     },
     computed: {
         isRouterLink() {
             return this.$router && this.item && this.item.href !== undefined
+        },
+        show() {
+            if ( !this.item || !this.item.child ) return false
+            if ( this.firstItem && this.showOneChild && !this.showChild ) {
+                if ( !this.activeShow.uid ) {
+                    return false
+                } else {
+                    return this._uid == this.activeShow.uid
+                }
+            } else {
+                return this.itemShow
+            }
         }
     },
     watch: {
@@ -77,7 +118,7 @@ export const itemMixin = {
             this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
         }
     },
-    inject:['showChild'],
+    inject:['showChild', 'showOneChild', 'emitActiveShow', 'activeShow'],
 }
 
 export const animationMixin = {
