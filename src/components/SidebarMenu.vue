@@ -1,5 +1,5 @@
 <template>
-  <div class="v-sidebar-menu" :class="[!isCollapsed ? 'vsm-default' : 'vsm-collapsed', theme]" :style="{'width': sidebarWidth}" @mouseleave="mouseLeave">
+  <div class="v-sidebar-menu" :class="[!isCollapsed ? 'vsm-default' : 'vsm-collapsed', theme, position]" :style="{'width': sidebarWidth}" @mouseleave="mouseLeave">
     <div class="vsm-list" :style="[{'height' : '100%'}, {'overflow' : 'hidden auto'}]">
       <template v-for="(item, index) in menu">
           <template v-if="item.header">
@@ -13,12 +13,12 @@
          <item v-else :key="index" :item="item" :firstItem="true" :isCollapsed="isCollapsed" />
       </template>
     </div>
-    <div v-if="isCollapsed" :style="[{'position' : 'absolute'}, {'top' : `${mobileItemPos}px`}, {'left' : '0px'}, {'z-index' : 30}, {'width' : width}]">
+    <div v-if="isCollapsed" class="vsm-mobile" :style="[{'top' : `${mobileItemPos}px`}, {'width' : width}]">
       <mobile-item :item="mobileItem" />
       <transition name="slide-animation">
         <div class="vsm-mobile-bg" v-if="mobileItem" :style="[{'position' : 'absolute'}, {'left' : '0px'}, {'right' : '0px'}, {'top' : '0px'}, {'height' : `${mobileItemHeight}px`}]"></div>
       </transition>
-      <div class="vsm-dropdown" :style="[{'position' : 'absolute'}, {'top' : `${mobileItemHeight}px`}, {'left' : sidebarWidth}, {'right' : '0px'}, {'max-height' : `calc(100vh - ${mobileItemPos + mobileItemHeight}px)`}, {'overflow-y' : 'auto'}]">
+      <div class="vsm-dropdown" :style="[{'position' : 'absolute'}, {'top' : `${mobileItemHeight}px`}, {'left' : position == 'left' ? sidebarWidth : '0px'}, {'right' : position == 'left' ? '0px' : sidebarWidth}, {'max-height' : `calc(100vh - ${mobileItemPos + mobileItemHeight}px)`}, {'overflow-y' : 'auto'}]">
         <transition name="expand" @enter="expandEnter" @afterEnter="expandAfterEnter" @beforeLeave="expandBeforeLeave">
           <div class="vsm-list" v-if="mobileItem && mobileItem.child">
             <sub-item v-for="(subItem, index) in mobileItem.child" :item="subItem" :key="index"/>
@@ -71,6 +71,10 @@ export default {
     showOneChild: {
       type: Boolean,
       default: false
+    },
+    position: {
+      type: String,
+      default: 'left'
     }
   },
   mixins: [animationMixin],

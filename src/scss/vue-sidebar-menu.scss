@@ -6,12 +6,13 @@
   & {
     position: fixed;
     top: 0;
-    left: 0;
     width: 100%;
     height: 100vh;
     padding-bottom: 50px;
     transition: 0.3s width;
   }
+  &.left { left: 0; }
+  &.right { right: 0; text-align: right; }
   & .vsm-item {
     position: relative;
     display: block;
@@ -68,17 +69,16 @@
     white-space: nowrap;
   }
   & .vsm-icon {
-    float: left;
     line-height: 30px;
-    margin-right: 10px;
   }
+  &.left .vsm-icon { float: left; margin-right: 10px; }
+  &.right .vsm-icon { float: right; margin-left: 10px; }
   & .vsm-arrow {
     width: 30px;
     text-align: center;
     font-style: normal;
     font-weight: 900;
     position: absolute;
-    right: 10px;
     top: 50%;
     transform: translateY(-50%);
     transition: 0.3s transform;
@@ -90,6 +90,11 @@
       transform: translateY(-50%) rotate(90deg);
     }
   }
+  &.left .vsm-arrow { right: 10px; }
+  &.right .vsm-arrow { left: 10px; }
+  & .vsm-mobile { position: absolute; z-index: 30; }
+  &.left .vsm-mobile { left: 0px; }
+  &.right .vsm-mobile { right: 0px; }
   & .vsm-dropdown > .vsm-list {
     padding: 5px;
   }

@@ -100,3 +100,16 @@ $dropDownBg: #e3e3e3;
         background-color: $darkenBg;
     }
 }
+.v-sidebar-menu.white-theme.right {
+    & .vsm-item {
+        .vsm-link {
+            margin-right: 3px;
+        }
+    }
+    & .vsm-item.first-item {
+        &.active-item > .vsm-link, &.parent-active-item > .vsm-link {
+            box-shadow: 3px 0px 0px 0px $primaryColor;
+        }
+    }
+}
+

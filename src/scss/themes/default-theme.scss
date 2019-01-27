@@ -70,3 +70,16 @@
         background-color: $darkenBg;
     }
 }
+.v-sidebar-menu.right {
+    & .vsm-item {
+        .vsm-link {
+            margin-right: 3px;
+        }
+    }
+    & .vsm-item.first-item {
+        &.active-item > .vsm-link, &.parent-active-item > .vsm-link {
+            box-shadow: 3px 0px 0px 0px $primaryColor;
+            margin-right: 3px;
+        }
+    }
+}
