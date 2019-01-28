@@ -114,6 +114,10 @@ props: {
     showOneChild: {
       type: Boolean,
       default: false
+    },
+    position: {
+      type: String,
+      default: 'left'
     }
 }
 ```
@@ -134,6 +138,7 @@ All styles customization can be done in normal CSS by using this classes
 .v-sidebar-menu.vsm-collapsed {}
 .v-sidebar-menu .vsm-header {}
 .v-sidebar-menu .vsm-list {}
+.v-sidebar-menu .vsm-mobile {}
 .v-sidebar-menu .vsm-dropdown > .vsm-list {}
 .v-sidebar-menu .vsm-item {}
 .v-sidebar-menu .vsm-item.first-item {}
