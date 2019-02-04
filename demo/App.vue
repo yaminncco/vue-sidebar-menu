@@ -10,7 +10,7 @@
       <hr style="margin: 50px 0px;border: 1px solid #e3e3e3;">
       <router-view/>
     </div>
-    <sidebar-menu :menu="menu" :collapsed="collapsed" @collapse="onCollapse" :theme="selectedTheme" :showOneChild="true" />
+    <sidebar-menu :menu="menu" :collapsed="collapsed" @collapse="onCollapse" :theme="selectedTheme" :showOneChild="true" @itemClick="onItemClick"/>
   </div>
 </template>
 
@@ -149,9 +149,14 @@ export default {
     }
   },
   methods: {
-    onCollapse(val) {
-      console.log(`collapsed ${val}`)
-      this.collapsed = val
+    onCollapse(collapsed) {
+      console.log(collapsed)
+      this.collapsed = collapsed
+    },
+    onItemClick(event, item) {
+      console.log('onItemClick')
+      // console.log(event)
+      // console.log(item)
     }
   }
 }

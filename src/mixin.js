@@ -45,6 +45,8 @@ export const itemMixin = {
             return false
         },
         clickEvent(event, mobileItem) {
+            this.emitItemClick(event, this.item)
+
             if (this.item.disabled || mobileItem && !this.item.href) {
                 event.preventDefault()
                 return
@@ -118,7 +120,7 @@ export const itemMixin = {
             this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
         }
     },
-    inject:['showChild', 'showOneChild', 'emitActiveShow', 'activeShow'],
+    inject:['showChild', 'showOneChild', 'emitActiveShow', 'activeShow', 'emitItemClick'],
 }
 
 export const animationMixin = {

@@ -111,6 +111,9 @@ export default {
     },
     onActiveShow(uid) {
       this.activeShow = uid
+    },
+    onItemClick(event, item) {
+      this.$emit('itemClick', event, item)
     }
   },
   computed: {
@@ -133,7 +136,8 @@ export default {
       showChild: this.showChild,
       showOneChild: this.showOneChild,
       emitActiveShow: this.onActiveShow,
-      activeShow
+      activeShow,
+      emitItemClick: this.onItemClick
     }
   },
 }

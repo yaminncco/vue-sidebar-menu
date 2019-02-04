@@ -121,8 +121,18 @@ props: {
 ### Events
 
 ```html
-<sidebar-menu @collapse="onCollapse" />
+<sidebar-menu @collapse="onCollapse" @itemClick="onItemClick" />
+...
+methods: {
+    onCollapse(collapsed) {},
+    onItemClick(event, item) {}
+}
+...
 ```
+
+__@collapse(collapsed)__ Trigger on btn-collapse click
+
+__@itemClick(event, item)__ Trigger on item click
 
 ### Styles
 
