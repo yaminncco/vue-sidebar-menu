@@ -19,6 +19,13 @@ export const itemMixin = {
                 }
             }
         }
+
+        if ( !this.$router ) {
+            window.addEventListener('hashchange', () => {
+                this.active = this.item && this.item.href ? this.isLinkActive(this.item) : false
+                this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
+            })
+        }
     },
     methods: {
         toggleDropdown() {
@@ -26,9 +33,9 @@ export const itemMixin = {
         },
         isLinkActive(item) {
             if ( this.$route ) {
-                return item.href == this.$route.path
+                return item.href == this.$route.path + this.$route.hash
             } else {
-                return item.href == window.location.pathname
+                return item.href == window.location.pathname + window.location.hash
             }
         },
         isChildActive(child) {
