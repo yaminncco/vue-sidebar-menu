@@ -114,6 +114,10 @@ props: {
     showOneChild: {
       type: Boolean,
       default: false
+    },
+    rtl: {
+      type: Boolean,
+      default: false
     }
 }
 ```
