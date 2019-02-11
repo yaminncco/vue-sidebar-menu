@@ -127,7 +127,7 @@ export const itemMixin = {
             this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
         }
     },
-    inject:['showChild', 'showOneChild', 'emitActiveShow', 'activeShow', 'emitItemClick'],
+    inject:['showChild', 'showOneChild', 'emitActiveShow', 'activeShow', 'emitItemClick', 'rtl'],
 }
 
 export const animationMixin = {

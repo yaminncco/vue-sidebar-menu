@@ -11,6 +11,11 @@
     height: 100vh;
     padding-bottom: 50px;
     transition: 0.3s width;
+    &.rtl {
+      right: 0;
+      left: inherit;
+      text-align: right;
+    }
   }
   & .vsm-item {
     position: relative;
@@ -72,6 +77,11 @@
     line-height: 30px;
     margin-right: 10px;
   }
+  &.rtl .vsm-icon {
+    float: right;
+    margin-left: 10px;
+    margin-right: 0px;
+  }
   & .vsm-arrow {
     width: 30px;
     text-align: center;
@@ -89,6 +99,10 @@
     &.open-arrow {
       transform: translateY(-50%) rotate(90deg);
     }
+  }
+  &.rtl .vsm-arrow {
+    left: 10px;
+    right: inherit;
   }
   & .vsm-dropdown > .vsm-list {
     padding: 5px;
@@ -134,6 +148,10 @@
     margin-top: 5px;
     font-weight: 600;
     text-transform: uppercase;
+  }
+  &.rtl .vsm-badge {
+    left: 10px;
+    right: inherit;
   }
   & .collapse-btn {
     display: block;
