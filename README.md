@@ -2,6 +2,10 @@
 
 A Vue.js Sidebar Menu Component
 
+## Demo
+
+[vue-sidebar-menu-demo](https://yaminncco.github.io/vue-sidebar-menu/)
+
 ## Installation
 
 ```
@@ -171,10 +175,6 @@ or you can override Sass variables and create your own theme
 @import "custom-var.scss";
 @import "vue-sidebar-menu/src/scss/vue-sidebar-menu.scss";
 ```
-
-## Demo
-
-[vue-sidebar-menu-demo](https://yaminncco.github.io/vue-sidebar-menu/)
 
 ## Development
 
