@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
-
+import VueRouter from 'vue-router'
 import VueSidebarMenu from '../src/index'
-Vue.use(VueSidebarMenu)
 
 Vue.use(VueRouter)
+Vue.use(VueSidebarMenu)
+
 const Dashboard = { template: '<div>Dashboard Page</div>' }
 const Charts = { template: '<div>Charts Page</div>' }
 const Tables = { template: '<div>Tables Page</div>' }
@@ -17,17 +18,17 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'Dashboard',
-      component: Dashboard,
+      component: Dashboard
     },
     {
       path: '/charts',
       name: 'Charts',
-      component: Charts,
+      component: Charts
     },
     {
       path: '/tables',
       name: 'Tables',
-      component: Tables,
+      component: Tables
     },
     {
       path: '/auth',
@@ -37,19 +38,19 @@ const router = new VueRouter({
         {
           path: 'login',
           name: 'Login',
-          component: Login,
+          component: Login
         },
         {
           path: 'registration',
           name: 'Registration',
-          component: Registration,
+          component: Registration
         }
       ]
-    },
+    }
   ]
 })
 
-new Vue({
+new Vue({ // eslint-disable-line no-new
   el: '#app',
   router,
   render: h => h(App)

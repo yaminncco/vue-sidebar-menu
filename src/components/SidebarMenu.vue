@@ -1,32 +1,79 @@
 <template>
-  <div class="v-sidebar-menu" :class="[!isCollapsed ? 'vsm-default' : 'vsm-collapsed', theme, rtl ? 'rtl' : '']" :style="{'width': sidebarWidth}" @mouseleave="mouseLeave">
-    <div class="vsm-list" :style="[{'height' : '100%'}, {'overflow' : 'hidden auto'}]">
+  <div
+    class="v-sidebar-menu"
+    :class="[!isCollapsed ? 'vsm-default' : 'vsm-collapsed', theme, rtl ? 'rtl' : '']"
+    :style="{'width': sidebarWidth}"
+    @mouseleave="mouseLeave"
+  >
+    <div
+      class="vsm-list"
+      :style="[{'height' : '100%'}, {'overflow' : 'hidden auto'}]"
+    >
       <template v-for="(item, index) in menu">
-          <template v-if="item.header">
-            <template v-if="(item.visibleOnCollapse || !isCollapsed) && item.component">
-              <component :key="index" :is="item.component" />
-            </template>
-            <template v-else-if="item.visibleOnCollapse || !isCollapsed">
-              <div :key="index" class="vsm-header">{{item.title}}</div>
-            </template>
+        <template v-if="item.header">
+          <template v-if="(item.visibleOnCollapse || !isCollapsed) && item.component">
+            <component
+              :is="item.component"
+              :key="index"
+            />
           </template>
-         <item v-else :key="index" :item="item" :firstItem="true" :isCollapsed="isCollapsed" />
+          <template v-else-if="item.visibleOnCollapse || !isCollapsed">
+            <div
+              :key="index"
+              class="vsm-header"
+            >
+              {{ item.title }}
+            </div>
+          </template>
+        </template>
+        <item
+          v-else
+          :key="index"
+          :item="item"
+          :first-item="true"
+          :is-collapsed="isCollapsed"
+        />
       </template>
     </div>
-    <div v-if="isCollapsed" :style="[{'position' : 'absolute'}, {'top' : `${mobileItemPos}px`}, rtl ? {'right' : '0px'} : {'left' : '0px'}, {'z-index' : 30}, {'width' : width}]">
+    <div
+      v-if="isCollapsed"
+      :style="[{'position' : 'absolute'}, {'top' : `${mobileItemPos}px`}, rtl ? {'right' : '0px'} : {'left' : '0px'}, {'z-index' : 30}, {'width' : width}]"
+    >
       <mobile-item :item="mobileItem" />
       <transition name="slide-animation">
-        <div class="vsm-mobile-bg" v-if="mobileItem" :style="[{'position' : 'absolute'}, {'left' : '0px'}, {'right' : '0px'}, {'top' : '0px'}, {'height' : `${mobileItemHeight}px`}]"></div>
+        <div
+          v-if="mobileItem"
+          class="vsm-mobile-bg"
+          :style="[{'position' : 'absolute'}, {'left' : '0px'}, {'right' : '0px'}, {'top' : '0px'}, {'height' : `${mobileItemHeight}px`}]"
+        />
       </transition>
-      <div class="vsm-dropdown" :style="[{'position' : 'absolute'}, {'top' : `${mobileItemHeight}px`}, {'left' : rtl ? '0px': sidebarWidth}, {'right' : rtl ? sidebarWidth: '0px'}, {'max-height' : `calc(100vh - ${mobileItemPos + mobileItemHeight}px)`}, {'overflow-y' : 'auto'}]">
-        <transition name="expand" @enter="expandEnter" @afterEnter="expandAfterEnter" @beforeLeave="expandBeforeLeave">
-          <div class="vsm-list" v-if="mobileItem && mobileItem.child">
-            <sub-item v-for="(subItem, index) in mobileItem.child" :item="subItem" :key="index"/>
+      <div
+        class="vsm-dropdown"
+        :style="[{'position' : 'absolute'}, {'top' : `${mobileItemHeight}px`}, {'left' : rtl ? '0px': sidebarWidth}, {'right' : rtl ? sidebarWidth: '0px'}, {'max-height' : `calc(100vh - ${mobileItemPos + mobileItemHeight}px)`}, {'overflow-y' : 'auto'}]"
+      >
+        <transition
+          name="expand"
+          @enter="expandEnter"
+          @afterEnter="expandAfterEnter"
+          @beforeLeave="expandBeforeLeave"
+        >
+          <div
+            v-if="mobileItem && mobileItem.child"
+            class="vsm-list"
+          >
+            <sub-item
+              v-for="(subItem, index) in mobileItem.child"
+              :key="index"
+              :item="subItem"
+            />
           </div>
         </transition>
       </div>
     </div>
-    <button class="collapse-btn" @click="toggleCollapse"></button>
+    <button
+      class="collapse-btn"
+      @click="toggleCollapse"
+    />
   </div>
 </template>
 
@@ -43,6 +90,7 @@ export default {
     SubItem,
     MobileItem
   },
+  mixins: [animationMixin],
   props: {
     menu: {
       type: Array,
@@ -77,8 +125,7 @@ export default {
       default: false
     }
   },
-  mixins: [animationMixin],
-  data() {
+  data () {
     return {
       isCollapsed: this.collapsed,
       mobileItem: null,
@@ -88,7 +135,17 @@ export default {
       activeShow: null
     }
   },
-  created() {
+  computed: {
+    sidebarWidth () {
+      return this.isCollapsed ? this.widthCollapsed : this.width
+    }
+  },
+  watch: {
+    collapsed (val) {
+      this.isCollapsed = val
+    }
+  },
+  created () {
     this.$on('mouseEnterItem', (val) => {
       this.mobileItem = null
       this.$nextTick(() => {
@@ -106,31 +163,21 @@ export default {
     })
   },
   methods: {
-    mouseLeave() {
+    mouseLeave () {
       this.mobileItem = null
     },
-    toggleCollapse() {
+    toggleCollapse () {
       this.isCollapsed = !this.isCollapsed
       this.$emit('collapse', this.isCollapsed)
     },
-    onActiveShow(uid) {
+    onActiveShow (uid) {
       this.activeShow = uid
     },
-    onItemClick(event, item) {
+    onItemClick (event, item) {
       this.$emit('itemClick', event, item)
     }
   },
-  computed: {
-    sidebarWidth() {
-      return this.isCollapsed ? this.widthCollapsed : this.width
-    }
-  },
-  watch: {
-    collapsed(val) {
-      this.isCollapsed = val
-    }
-  },
-  provide() {
+  provide () {
     const activeShow = {}
     Object.defineProperty(activeShow, 'uid', {
       enumerable: true,
@@ -144,10 +191,9 @@ export default {
       emitItemClick: this.onItemClick,
       rtl: this.rtl
     }
-  },
+  }
 }
 </script>
-
 
 <style lang="scss">
 @import '../scss/vue-sidebar-menu.scss';

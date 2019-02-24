@@ -6,7 +6,7 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
+        loader: 'vue-loader'
       },
       {
         test: /\.js$/,
@@ -30,15 +30,15 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    noInfo: true,
-    overlay: true
+    overlay: true,
+    stats: 'minimal'
   },
   performance: {
     hints: false
   },
   devtool: '#eval-source-map',
   plugins: [
-    new VueLoaderPlugin(),
+    new VueLoaderPlugin()
   ]
 }
 

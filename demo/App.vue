@@ -1,16 +1,32 @@
 <template>
-  <div id="demo" :class="[{'collapsed' : collapsed}]">
+  <div
+    id="demo"
+    :class="[{'collapsed' : collapsed}]"
+  >
     <div class="demo">
       <h1>vue-sidebar-menu</h1>
-      <div>select theme:
+      <div>
+        select theme:
         <select v-model="selectedTheme">
-          <option v-for="(theme, index) in themes" :key="index">{{theme == '' ? 'default-theme' : theme}}</option>
+          <option
+            v-for="(theme, index) in themes"
+            :key="index"
+          >
+            {{ theme == '' ? 'default-theme' : theme }}
+          </option>
         </select>
       </div>
       <hr style="margin: 50px 0px;border: 1px solid #e3e3e3;">
-      <router-view/>
+      <router-view />
     </div>
-    <sidebar-menu :menu="menu" :collapsed="collapsed" @collapse="onCollapse" :theme="selectedTheme" :showOneChild="true" @itemClick="onItemClick"/>
+    <sidebar-menu
+      :menu="menu"
+      :collapsed="collapsed"
+      :theme="selectedTheme"
+      :show-one-child="true"
+      @collapse="onCollapse"
+      @itemClick="onItemClick"
+    />
   </div>
 </template>
 
@@ -20,8 +36,8 @@ const separator = {
 }
 
 export default {
-  name: 'app',
-  data() {
+  name: 'App',
+  data () {
     return {
       menu: [
         {
@@ -53,7 +69,7 @@ export default {
           icon: 'fa fa-cog',
           disabled: true,
           badge: {
-            text: '20',
+            text: '20'
           }
         },
         {
@@ -70,7 +86,7 @@ export default {
           icon: 'fa fa-file',
           href: '/auth',
           badge: {
-            text: 'new',
+            text: 'new'
           },
           child: [
             {
@@ -149,11 +165,11 @@ export default {
     }
   },
   methods: {
-    onCollapse(collapsed) {
+    onCollapse (collapsed) {
       console.log(collapsed)
       this.collapsed = collapsed
     },
-    onItemClick(event, item) {
+    onItemClick (event, item) {
       console.log('onItemClick')
       // console.log(event)
       // console.log(item)
