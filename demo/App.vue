@@ -4,29 +4,40 @@
     :class="[{'collapsed' : collapsed}]"
   >
     <div class="demo">
-      <h1>vue-sidebar-menu</h1>
-      <div>
-        select theme:
-        <select v-model="selectedTheme">
-          <option
-            v-for="(theme, index) in themes"
-            :key="index"
+      <div class="container">
+        <h1>
+          vue-sidebar-menu
+          <a
+            style="color: #000;text-transform: uppercase;font-size: 14px;font-weight: 400;"
+            href="https://github.com/yaminncco/vue-sidebar-menu"
           >
-            {{ theme == '' ? 'default-theme' : theme }}
-          </option>
-        </select>
+            Github
+          </a>
+        </h1>
+        <p>A vue.js sidebar menu component</p>
+        <div>
+          Select theme:
+          <select v-model="selectedTheme">
+            <option
+              v-for="(theme, index) in themes"
+              :key="index"
+            >
+              {{ theme == '' ? 'default-theme' : theme }}
+            </option>
+          </select>
+        </div>
+        <hr style="margin: 50px 0px;border: 1px solid #e3e3e3;">
+        <router-view />
       </div>
-      <hr style="margin: 50px 0px;border: 1px solid #e3e3e3;">
-      <router-view />
+      <sidebar-menu
+        :menu="menu"
+        :collapsed="collapsed"
+        :theme="selectedTheme"
+        :show-one-child="true"
+        @collapse="onCollapse"
+        @itemClick="onItemClick"
+      />
     </div>
-    <sidebar-menu
-      :menu="menu"
-      :collapsed="collapsed"
-      :theme="selectedTheme"
-      :show-one-child="true"
-      @collapse="onCollapse"
-      @itemClick="onItemClick"
-    />
   </div>
 </template>
 
@@ -42,35 +53,36 @@ export default {
       menu: [
         {
           header: true,
-          title: 'Main Navigation'
+          title: 'Getting Started'
         },
         {
           href: '/',
-          title: 'Dashboard',
-          icon: 'fa fa-user'
+          title: 'Installation',
+          icon: 'fa fa-download'
         },
         {
-          href: '/charts',
-          title: 'Charts',
-          icon: 'fa fa-chart-area',
-          badge: {
-            text: 'pro',
-            class: 'badge-danger'
-          }
+          href: '/basic-usage',
+          title: 'Basic Usage',
+          icon: 'fa fa-code'
         },
         {
-          href: '/tables',
-          title: 'Tables',
-          icon: 'fa fa-table'
+          header: true,
+          title: 'Usage'
         },
         {
-          href: '/disabled',
-          title: 'Disabled',
-          icon: 'fa fa-cog',
-          disabled: true,
-          badge: {
-            text: '20'
-          }
+          href: '/props',
+          title: 'Props',
+          icon: 'fa fa-cogs'
+        },
+        {
+          href: '/events',
+          title: 'Events',
+          icon: 'fa fa-bell'
+        },
+        {
+          href: '/styling',
+          title: 'Styling',
+          icon: 'fa fa-palette'
         },
         {
           header: true,
@@ -79,38 +91,39 @@ export default {
         },
         {
           header: true,
-          title: 'Other'
+          title: 'Example'
         },
         {
-          title: 'Pages',
-          icon: 'fa fa-file',
-          href: '/auth',
-          badge: {
-            text: 'new'
-          },
-          child: [
-            {
-              href: '/auth/login',
-              title: 'Login Page',
-              icon: 'fa fa-lock'
-            },
-            {
-              href: '/auth/registration',
-              title: 'Registration Page',
-              icon: 'fa fa-lock'
-            },
-            {
-              href: '/auth/disabled',
-              title: 'Disabled',
-              icon: 'fa fa-unlock',
-              disabled: true
-            }
-          ]
+          href: '/disabled',
+          title: 'Disabled page',
+          icon: 'fa fa-lock',
+          disabled: true
         },
         {
           href: '#',
-          title: 'Mailbox',
-          icon: 'fa fa-envelope'
+          title: 'Badge',
+          icon: 'fa fa-cog',
+          badge: {
+            text: 'new',
+            class: 'badge-danger'
+          }
+        },
+        {
+          href: '/page',
+          title: 'Dropdown Page',
+          icon: 'fa fa-list-ul',
+          child: [
+            {
+              href: '/page/sub-page-1',
+              title: 'Sub Page 01',
+              icon: 'fa fa-file-alt'
+            },
+            {
+              href: '/page/sub-page-2',
+              title: 'Sub Page 02',
+              icon: 'fa fa-file-alt'
+            }
+          ]
         },
         {
           title: 'Multiple Level',
@@ -118,30 +131,29 @@ export default {
           child: [
             {
               href: '#',
-              title: 'Page 01'
+              title: 'page'
             },
             {
-              title: 'Page 02',
+              title: 'Level 2 ',
               child: [
                 {
                   href: '#',
-                  title: 'Page 04'
+                  title: 'page'
                 },
                 {
                   href: '#',
-                  title: 'Page 05'
+                  title: 'Page'
                 }
               ]
             },
             {
               href: '#',
-              title: 'Page 03'
+              title: 'Page'
             },
             {
-              title: 'Level 2',
+              title: 'Another Level 2',
               child: [
                 {
-                  href: '#',
                   title: 'Level 3',
                   child: [
                     {
@@ -206,5 +218,17 @@ body {
 .badge-danger {
   background-color: #ff2a2a;
   color: #fff;
+}
+
+.container {
+  max-width: 600px;
+}
+
+pre {
+  color: #2a2a2e;
+  background: #fff;
+  border-radius: 2px;
+  padding: 10px;
+  overflow: auto;
 }
 </style>

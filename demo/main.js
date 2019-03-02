@@ -3,49 +3,41 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import VueSidebarMenu from '../src/index'
 
+import Installation from './components/Installation.vue'
+import BasicUsage from './components/BasicUsage.vue'
+import Props from './components/Props.vue'
+import Events from './components/Events.vue'
+import Styling from './components/Styling.vue'
+
 Vue.use(VueRouter)
 Vue.use(VueSidebarMenu)
-
-const Dashboard = { template: '<div>Dashboard Page</div>' }
-const Charts = { template: '<div>Charts Page</div>' }
-const Tables = { template: '<div>Tables Page</div>' }
-const Auth = { template: '<div>Auth <router-view/></div>' }
-const Login = { template: '<div>Login Page</div>' }
-const Registration = { template: '<div>Registration Page</div>' }
 
 const router = new VueRouter({
   routes: [
     {
       path: '/',
-      name: 'Dashboard',
-      component: Dashboard
+      name: 'Installation',
+      component: Installation
     },
     {
-      path: '/charts',
-      name: 'Charts',
-      component: Charts
+      path: '/basic-usage',
+      name: 'BasicUsage',
+      component: BasicUsage
     },
     {
-      path: '/tables',
-      name: 'Tables',
-      component: Tables
+      path: '/props',
+      name: 'Props',
+      component: Props
     },
     {
-      path: '/auth',
-      name: 'Auth',
-      component: Auth,
-      children: [
-        {
-          path: 'login',
-          name: 'Login',
-          component: Login
-        },
-        {
-          path: 'registration',
-          name: 'Registration',
-          component: Registration
-        }
-      ]
+      path: '/events',
+      name: 'Events',
+      component: Events
+    },
+    {
+      path: '/styling',
+      name: 'Styling',
+      component: Styling
     }
   ]
 })
