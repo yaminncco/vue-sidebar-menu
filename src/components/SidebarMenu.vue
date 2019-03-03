@@ -7,7 +7,6 @@
   >
     <div
       class="vsm-list"
-      :style="[{'height' : '100%'}, {'overflow' : 'hidden auto'}]"
     >
       <template v-for="(item, index) in menu">
         <template v-if="item.header">

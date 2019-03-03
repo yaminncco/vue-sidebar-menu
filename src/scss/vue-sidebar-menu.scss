@@ -16,6 +16,23 @@
       left: inherit;
       text-align: right;
     }
+    & > .vsm-list {
+      width: 100%;
+      height: 100%;
+      overflow: hidden auto;
+    }
+    &.vsm-collapsed > .vsm-list {
+      width: calc(100% + 17px);
+      padding-right: 17px;
+    }
+    &.rtl > .vsm-list {
+      direction: rtl;
+    }
+    &.vsm-collapsed.rtl > .vsm-list {
+      padding-right: 0px;
+      padding-left: 17px;
+      float: right;
+    }
   }
   & .vsm-item {
     position: relative;
