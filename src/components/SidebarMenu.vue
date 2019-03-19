@@ -154,7 +154,11 @@ export default {
       })
     })
 
-    this.$on('clickItem', () => {
+    this.$on('touchClickItem', (clearCloseTimeout) => {
+      if (clearCloseTimeout) {
+        clearTimeout(this.closeTimeout)
+        return
+      }
       if (this.closeTimeout) clearTimeout(this.closeTimeout)
       this.closeTimeout = setTimeout(() => {
         this.mouseLeave()
