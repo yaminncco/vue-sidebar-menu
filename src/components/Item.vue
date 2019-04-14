@@ -11,6 +11,7 @@
         :disabled="item.disabled"
         :event="item.disabled ? '' : 'click'"
         @click.native="clickEvent"
+        v-bind="item.attributes"
       >
         <i
           v-if="item.icon"
@@ -23,6 +24,7 @@
             :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
             class="vsm-badge"
             :class="[item.badge.class ? item.badge.class : 'default-badge']"
+            v-bind="item.badge.attributes"
           >{{ item.badge.text }}</span>
           <span class="vsm-title">{{ item.title }}</span>
           <i
@@ -39,6 +41,7 @@
         :href="item.href ? item.href : '#'"
         :disabled="item.disabled"
         @click="clickEvent"
+        v-bind="item.attributes"
       >
         <i
           v-if="item.icon"
@@ -51,6 +54,7 @@
             :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
             class="vsm-badge"
             :class="[item.badge.class ? item.badge.class : 'default-badge']"
+            v-bind="item.badge.attributes"
           >{{ item.badge.text }}</span>
           <span class="vsm-title">{{ item.title }}</span>
           <i

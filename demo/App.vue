@@ -53,12 +53,18 @@ export default {
       menu: [
         {
           header: true,
-          title: 'Getting Started'
+          title: 'Getting Started',
+          attributes: {
+            id: 'header'
+          }
         },
         {
           href: '/',
           title: 'Installation',
-          icon: 'fa fa-download'
+          icon: 'fa fa-download',
+          attributes: {
+            id: 'installation'
+          }
         },
         {
           href: '/basic-usage',
@@ -105,7 +111,10 @@ export default {
           icon: 'fa fa-cog',
           badge: {
             text: 'new',
-            class: 'badge-danger'
+            class: 'badge-danger',
+            attributes: {
+              title: 'new danger'
+            }
           }
         },
         {
@@ -116,7 +125,10 @@ export default {
             {
               href: '/page/sub-page-1',
               title: 'Sub Page 01',
-              icon: 'fa fa-file-alt'
+              icon: 'fa fa-file-alt',
+              attributes: {
+                id: 'sub-page-1'
+              }
             },
             {
               href: '/page/sub-page-2',
