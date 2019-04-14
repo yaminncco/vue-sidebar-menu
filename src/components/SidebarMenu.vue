@@ -20,6 +20,7 @@
             <div
               :key="index"
               class="vsm-header"
+              :class="item.class"
               v-bind="item.attributes"
             >
               {{ item.title }}

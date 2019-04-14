@@ -7,11 +7,12 @@
     <template v-if="isRouterLink">
       <router-link
         class="vsm-link"
+        :class="item.class"
         :to="item.href"
         :disabled="item.disabled"
         :event="item.disabled ? '' : 'click'"
-        @click.native="clickEvent"
         v-bind="item.attributes"
+        @click.native="clickEvent"
       >
         <i
           v-if="item.icon"
@@ -38,10 +39,11 @@
     <template v-else>
       <a
         class="vsm-link"
+        :class="item.class"
         :href="item.href ? item.href : '#'"
         :disabled="item.disabled"
-        @click="clickEvent"
         v-bind="item.attributes"
+        @click="clickEvent"
       >
         <i
           v-if="item.icon"
