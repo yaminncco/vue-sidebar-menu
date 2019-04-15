@@ -53,16 +53,21 @@ from v3.0.0 you will need to import the style file in your project.
                         title: 'Main Navigation',
                         // component: componentName
                         // visibleOnCollapse: true
+                        // class:''
+                        // attributes: {}
                     },
                     {
                         href: '/',
                         title: 'Dashboard',
                         icon: 'fa fa-user',
+                        // disabled: true
+                        // class:''
+                        // attributes: {}
                         /*
-                        disabled: true
                         badge: {
                             text: 'new',
                             // class:''
+                            // attributes: {}
                         }
                         */
                     },

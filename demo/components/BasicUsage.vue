@@ -15,16 +15,21 @@
                         title: 'Main Navigation',
                         // component: componentName
                         // visibleOnCollapse: true
+                        // class:''
+                        // attributes: {}
                     },
                     { // item
                         href: '/',
                         title: 'Dashboard',
                         icon: 'fa fa-user',
                         // disabled: true
+                        // class:''
+                        // attributes: {}
                         /*
                         badge: {
                             text: 'new',
                             // class:''
+                            // attributes: {}
                         }
                         */
                     },
