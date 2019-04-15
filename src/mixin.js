@@ -54,7 +54,7 @@ export const itemMixin = {
     clickEvent (event, mobileItem) {
       this.emitItemClick(event, this.item)
 
-      if (this.item.disabled || (mobileItem && !this.item.href)) {
+      if ((!this.item.href && !this.item.child) || this.item.disabled || (mobileItem && !this.item.href)) {
         event.preventDefault()
         return
       }
@@ -100,8 +100,10 @@ export const itemMixin = {
             this.toggleDropdown()
           }
         }
-      } else if (!mobileItem && !this.isCollapsed && this.firstItem && !this.item.child) {
-        this.emitActiveShow(null)
+      } else if (!mobileItem && !this.isCollapsed && !this.item.child) {
+        if (this.firstItem && this.showOneChild && !this.showChild) {
+          this.emitActiveShow(null)
+        }
       }
     }
   },
