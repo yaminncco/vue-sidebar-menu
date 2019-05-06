@@ -33,9 +33,9 @@ export const itemMixin = {
     },
     isLinkActive (item) {
       if (this.$route) {
-        return item.href === this.$route.path + this.$route.hash
+        return this.$route.fullPath.endsWith(item.href)
       } else {
-        return item.href === window.location.pathname + window.location.hash
+        return window.location.href.endsWith(item.href)
       }
     },
     isChildActive (child) {
