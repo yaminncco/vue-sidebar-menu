@@ -100,7 +100,6 @@ export default {
           disabled: true
         },
         {
-          href: '#',
           title: 'Badge',
           icon: 'fa fa-cog',
           badge: {
@@ -130,24 +129,20 @@ export default {
           icon: 'fa fa-list-alt',
           child: [
             {
-              href: '#',
               title: 'page'
             },
             {
               title: 'Level 2 ',
               child: [
                 {
-                  href: '#',
                   title: 'page'
                 },
                 {
-                  href: '#',
                   title: 'Page'
                 }
               ]
             },
             {
-              href: '#',
               title: 'Page'
             },
             {
@@ -157,11 +152,9 @@ export default {
                   title: 'Level 3',
                   child: [
                     {
-                      href: '#',
                       title: 'Page'
                     },
                     {
-                      href: '#',
                       title: 'Page'
                     }
                   ]
