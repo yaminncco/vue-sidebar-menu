@@ -26,6 +26,8 @@
             </option>
           </select>
         </div>
+        <router-link :to="'/alias-b'">alias-b</router-link>
+        <router-link :to="'/alias-c'">alias-c</router-link>
         <hr style="margin: 50px 0px;border: 1px solid #e3e3e3;">
         <router-view />
       </div>
@@ -54,6 +56,12 @@ export default {
         {
           header: true,
           title: 'Getting Started'
+        },
+        {
+          href: '/alias',
+          title: 'alias',
+          // alias: ['/alias-b', '/alias-c']
+          alias: '/alias-b'
         },
         {
           href: '/',
@@ -176,6 +184,7 @@ export default {
     },
     onItemClick (event, item) {
       console.log('onItemClick')
+      console.log(this.$router)
       // console.log(event)
       // console.log(item)
     }

@@ -32,11 +32,7 @@ export const itemMixin = {
       this.itemShow = !this.itemShow
     },
     isLinkActive (item) {
-      if (this.$route) {
-        return this.$route.fullPath.endsWith(item.href)
-      } else {
-        return window.location.href.endsWith(item.href)
-      }
+      return this.matchRoute(item.href) || this.isAliasActive(item)
     },
     isChildActive (child) {
       for (let item of child) {
@@ -50,6 +46,28 @@ export const itemMixin = {
         }
       }
       return false
+    },
+    isAliasActive (item) {
+      if (item.alias) {
+        if (Array.isArray(item.alias)) {
+          for (let alias of item.alias) {
+            if (this.matchRoute(alias)) {
+              return true
+            }
+          }
+          return false
+        } else {
+          return this.matchRoute(item.alias)
+        }
+      }
+      return false
+    },
+    matchRoute (route) {
+      if (this.$route) {
+        return this.$route.fullPath.endsWith(route)
+      } else {
+        return window.location.href.endsWith(route)
+      }
     },
     clickEvent (event, mobileItem) {
       this.emitItemClick(event, this.item)
