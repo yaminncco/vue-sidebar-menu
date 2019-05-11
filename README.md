@@ -63,6 +63,7 @@ from v3.0.0 you will need to import the style file in your project.
                         // disabled: true
                         // class:''
                         // attributes: {}
+                        // alias: '/path'
                         /*
                         badge: {
                             text: 'new',

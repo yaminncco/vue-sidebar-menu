@@ -25,6 +25,7 @@
                         // disabled: true
                         // class:''
                         // attributes: {}
+                        // alias: '/path'
                         /*
                         badge: {
                             text: 'new',
