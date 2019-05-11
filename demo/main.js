@@ -12,21 +12,12 @@ import Styling from './components/Styling.vue'
 Vue.use(VueRouter)
 Vue.use(VueSidebarMenu)
 
-const alias = {
-  template: `<div>alias</div>`
-}
-
 const router = new VueRouter({
   routes: [
     {
       path: '/',
       name: 'Installation',
       component: Installation
-    },
-    {
-      path: '/alias',
-      alias: ['/alias-b', '/alias-c'],
-      component: alias
     },
     {
       path: '/basic-usage',
