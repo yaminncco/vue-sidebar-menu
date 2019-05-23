@@ -14,11 +14,20 @@
         v-bind="item.attributes"
         @click.native="clickEvent"
       >
-        <i
-          v-if="item.icon"
-          class="vsm-icon"
-          :class="item.icon"
-        />
+        <template v-if="item.icon">
+          <i
+            v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
+            class="vsm-icon"
+            :class="item.icon"
+          />
+          <component
+            :is="item.icon.element"
+            v-else
+            class="vsm-icon"
+            :class="item.icon.class"
+            v-bind="item.icon.attributes"
+          />
+        </template>
         <template v-if="!isCollapsed">
           <span
             v-if="item.badge"
@@ -45,11 +54,20 @@
         v-bind="item.attributes"
         @click="clickEvent"
       >
-        <i
-          v-if="item.icon"
-          class="vsm-icon"
-          :class="item.icon"
-        />
+        <template v-if="item.icon">
+          <i
+            v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
+            class="vsm-icon"
+            :class="item.icon"
+          />
+          <component
+            :is="item.icon.element"
+            v-else
+            class="vsm-icon"
+            :class="item.icon.class"
+            v-bind="item.icon.attributes"
+          />
+        </template>
         <template v-if="!isCollapsed">
           <span
             v-if="item.badge"

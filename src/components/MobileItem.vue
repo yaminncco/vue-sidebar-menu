@@ -12,11 +12,20 @@
         :event="item.disabled ? '' : 'click'"
         @click.native="clickEvent($event, true)"
       >
-        <i
-          v-if="item.icon"
-          class="vsm-icon"
-          :class="item.icon"
-        />
+        <template v-if="item.icon">
+          <i
+            v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
+            class="vsm-icon"
+            :class="item.icon"
+          />
+          <component
+            :is="item.icon.element"
+            v-else
+            class="vsm-icon"
+            :class="item.icon.class"
+            v-bind="item.icon.attributes"
+          />
+        </template>
         <span
           v-if="item.badge"
           :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
@@ -37,11 +46,20 @@
         :disabled="item.disabled"
         @click="clickEvent($event, true)"
       >
-        <i
-          v-if="item.icon"
-          class="vsm-icon"
-          :class="item.icon"
-        />
+        <template v-if="item.icon">
+          <i
+            v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
+            class="vsm-icon"
+            :class="item.icon"
+          />
+          <component
+            :is="item.icon.element"
+            v-else
+            class="vsm-icon"
+            :class="item.icon.class"
+            v-bind="item.icon.attributes"
+          />
+        </template>
         <span
           v-if="item.badge"
           :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
