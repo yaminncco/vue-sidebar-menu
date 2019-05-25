@@ -41,10 +41,11 @@
   }
   & .vsm-item.first-item {
     & > .vsm-link {
+      line-height: $iconHeight;
       & > .vsm-icon {
-        height: 30px;
-        line-height: 30px;
-        width: 30px;
+        height: $iconHeight;
+        line-height: $iconHeight;
+        width: $iconWidth;
         text-align: center;
         border-radius: 3px;
       }
@@ -58,9 +59,9 @@
   & .vsm-item.mobile-item {
     & > .vsm-link {
       & > .vsm-icon {
-        height: 30px;
-        line-height: 30px;
-        width: 30px;
+        height: $iconHeight;
+        line-height: $iconHeight;
+        width: $iconWidth;
         text-align: center;
         border-radius: 3px;
       }
@@ -76,8 +77,8 @@
     display: block;
     font-size: 16px;
     font-weight: 400;
-    padding: 10px;
-    line-height: 30px;
+    padding: $itemPadding;
+    line-height: $itemlineHeight;
     text-decoration: none;
     z-index: 20;
     transition: 0.3s all;
@@ -92,7 +93,7 @@
   }
   & .vsm-icon {
     float: left;
-    line-height: 30px;
+    line-height: $itemlineHeight;
     margin-right: 10px;
   }
   &.rtl .vsm-icon {
