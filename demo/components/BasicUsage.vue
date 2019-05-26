@@ -22,15 +22,24 @@
                         href: '/',
                         title: 'Dashboard',
                         icon: 'fa fa-user',
+                        /*
+                        // custom icon
+                        icon: {
+                            element: 'span',
+                            class: 'fa fa-user',
+                            attributes: {}
+                        }
+                        */
                         // disabled: true
-                        // class:''
+                        // class: ''
                         // attributes: {}
                         // alias: '/path'
                         /*
                         badge: {
                             text: 'new',
-                            // class:''
+                            class: 'default-badge'
                             // attributes: {}
+                            // element: 'span'
                         }
                         */
                     },
