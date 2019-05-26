@@ -32,7 +32,7 @@
           v-if="item.badge"
           :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
           class="vsm-badge"
-          :class="[item.badge.class ? item.badge.class : 'default-badge']"
+          :class="item.badge.class"
           v-bind="item.badge.attributes"
         >
           {{ item.badge.text }}
@@ -73,7 +73,7 @@
           v-if="item.badge"
           :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
           class="vsm-badge"
-          :class="[item.badge.class ? item.badge.class : 'default-badge']"
+          :class="item.badge.class"
           v-bind="item.badge.attributes"
         >
           {{ item.badge.text }}

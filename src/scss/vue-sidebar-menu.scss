@@ -157,14 +157,17 @@
     text-transform: uppercase;
   }
   & .vsm-badge {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  & .vsm-badge.default-badge {
     padding: 0px 6px;
     font-size: 12px;
     border-radius: 3px;
-    position: absolute;
-    right: 10px;
     height: 20px;
     line-height: 20px;
-    margin-top: 5px;
     font-weight: 600;
     text-transform: uppercase;
   }

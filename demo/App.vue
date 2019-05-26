@@ -104,7 +104,7 @@ export default {
           icon: 'fa fa-cog',
           badge: {
             text: 'new',
-            class: 'badge-danger'
+            class: 'default-badge'
           }
         },
         {
@@ -206,11 +206,6 @@ body {
 
 .demo {
   padding: 50px;
-}
-
-.badge-danger {
-  background-color: #ff2a2a;
-  color: #fff;
 }
 
 .container {
