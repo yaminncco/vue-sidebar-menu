@@ -20,7 +20,7 @@
             :class="item.icon"
           />
           <component
-            :is="item.icon.element"
+            :is="item.icon.element ? item.icon.element : 'i'"
             v-else
             class="vsm-icon"
             :class="item.icon.class"
@@ -61,7 +61,7 @@
             :class="item.icon"
           />
           <component
-            :is="item.icon.element"
+            :is="item.icon.element ? item.icon.element : 'i'"
             v-else
             class="vsm-icon"
             :class="item.icon.class"
