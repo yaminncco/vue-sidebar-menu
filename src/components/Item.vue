@@ -29,13 +29,16 @@
           />
         </template>
         <template v-if="!isCollapsed">
-          <span
+          <component
+            :is="item.badge.element ? item.badge.element : 'span'"
             v-if="item.badge"
             :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
             class="vsm-badge"
             :class="[item.badge.class ? item.badge.class : 'default-badge']"
             v-bind="item.badge.attributes"
-          >{{ item.badge.text }}</span>
+          >
+            {{ item.badge.text }}
+          </component>
           <span class="vsm-title">{{ item.title }}</span>
           <i
             v-if="item.child"
@@ -69,13 +72,14 @@
           />
         </template>
         <template v-if="!isCollapsed">
-          <span
+          <component
+            :is="item.badge.element ? item.badge.element : 'span'"
             v-if="item.badge"
             :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
             class="vsm-badge"
             :class="[item.badge.class ? item.badge.class : 'default-badge']"
             v-bind="item.badge.attributes"
-          >{{ item.badge.text }}</span>
+          >{{ item.badge.text }}</component>
           <span class="vsm-title">{{ item.title }}</span>
           <i
             v-if="item.child"

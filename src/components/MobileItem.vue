@@ -26,12 +26,16 @@
             v-bind="item.icon.attributes"
           />
         </template>
-        <span
+        <component
+          :is="item.badge.element ? item.badge.element : 'span'"
           v-if="item.badge"
           :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
           class="vsm-badge"
           :class="[item.badge.class ? item.badge.class : 'default-badge']"
-        >{{ item.badge.text }}</span>
+          v-bind="item.badge.attributes"
+        >
+          {{ item.badge.text }}
+        </component>
         {{ item.title }}
         <i
           v-if="item.child"
@@ -60,12 +64,16 @@
             v-bind="item.icon.attributes"
           />
         </template>
-        <span
+        <component
+          :is="item.badge.element ? item.badge.element : 'span'"
           v-if="item.badge"
           :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
           class="vsm-badge"
           :class="[item.badge.class ? item.badge.class : 'default-badge']"
-        >{{ item.badge.text }}</span>
+          v-bind="item.badge.attributes"
+        >
+          {{ item.badge.text }}
+        </component>
         {{ item.title }}
         <i
           v-if="item.child"
