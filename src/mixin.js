@@ -82,10 +82,7 @@ export const itemMixin = {
       let showOneChildEnabled = this.firstItem && this.showOneChild && !this.showChild
       if (!mobileItem && this.item.child) {
         if (this.isRouterLink && !this.active) {
-          if (showOneChildEnabled) {
-            this.setActiveShow(true, this._uid)
-            return
-          }
+          showOneChildEnabled ? this.setActiveShow(true, this._uid) : this.itemShow = true
           return
         }
         if (showOneChildEnabled) {
