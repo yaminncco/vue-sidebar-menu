@@ -28,9 +28,6 @@ export const itemMixin = {
     }
   },
   methods: {
-    toggleDropdown () {
-      this.itemShow = !this.itemShow
-    },
     isLinkActive (item) {
       return this.matchRoute(item.href) || this.isAliasActive(item)
     },
@@ -72,57 +69,40 @@ export const itemMixin = {
     clickEvent (event, mobileItem) {
       this.emitItemClick(event, this.item)
 
-      if ((!this.item.href && !this.item.child) || this.item.disabled || (mobileItem && !this.item.href)) {
+      if ((!this.item.href && (!this.item.child || mobileItem)) || this.item.disabled) {
         event.preventDefault()
         return
       }
 
-      if (this.isCollapsed && this.firstItem) {
+      if (!mobileItem && this.isCollapsed && this.firstItem) {
         let clearCloseTimeout = this.item.child
         this.$parent.$emit('touchClickItem', clearCloseTimeout)
       }
 
+      let showOneChildEnabled = this.firstItem && this.showOneChild && !this.showChild
       if (!mobileItem && this.item.child) {
-        if (this.isCollapsed && this.firstItem) {
-          event.preventDefault()
+        if (this.isRouterLink && !this.active) {
+          if (showOneChildEnabled) {
+            this.setActiveShow(true, this._uid)
+            return
+          }
           return
         }
-        if (this.isRouterLink) {
-          if (this.firstItem && this.showOneChild && !this.showChild) {
-            if (this.active) {
-              if (this.activeShow.uid === this._uid) {
-                this.itemShow = false
-                this.emitActiveShow(null)
-              } else {
-                this.itemShow = true
-                this.emitActiveShow(this._uid)
-              }
-            } else {
-              this.itemShow = true
-              this.emitActiveShow(this._uid)
-            }
-          } else {
-            this.active ? this.toggleDropdown() : this.itemShow = true
+        if (showOneChildEnabled) {
+          if (!this.item.href) {
+            event.preventDefault()
           }
-        } else if (!this.item.href) {
-          event.preventDefault()
-          if (this.firstItem && this.showOneChild && !this.showChild) {
-            if (this.activeShow.uid === this._uid) {
-              this.itemShow = false
-              this.emitActiveShow(null)
-            } else {
-              this.itemShow = true
-              this.emitActiveShow(this._uid)
-            }
-          } else {
-            this.toggleDropdown()
-          }
+          this.activeShow.uid === this._uid ? this.setActiveShow(false) : this.setActiveShow(true, this._uid)
+        } else {
+          this.itemShow = !this.itemShow
         }
-      } else if (!mobileItem && !this.isCollapsed && !this.item.child) {
-        if (this.firstItem && this.showOneChild && !this.showChild) {
-          this.emitActiveShow(null)
-        }
+      } else if (!mobileItem && showOneChildEnabled) {
+        this.emitActiveShow(null)
       }
+    },
+    setActiveShow (itemShow, uid = null) {
+      this.emitActiveShow(itemShow ? uid : null)
+      this.itemShow = itemShow
     }
   },
   computed: {
@@ -132,11 +112,7 @@ export const itemMixin = {
     show () {
       if (!this.item || !this.item.child) return false
       if (this.firstItem && this.showOneChild && !this.showChild) {
-        if (!this.activeShow.uid) {
-          return false
-        } else {
-          return this._uid === this.activeShow.uid
-        }
+        return this.activeShow.uid ? this._uid === this.activeShow.uid : false
       } else {
         return this.itemShow
       }

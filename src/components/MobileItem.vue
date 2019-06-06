@@ -95,6 +95,11 @@ export default {
       default: null
     }
   },
+  data () {
+    return {
+      firstItem: true
+    }
+  },
   watch: {
     item () {
       this.active =
