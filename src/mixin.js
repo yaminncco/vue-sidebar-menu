@@ -7,23 +7,12 @@ export const itemMixin = {
     }
   },
   created () {
-    this.active = this.item && this.item.href ? this.isLinkActive(this.item) : false
-    this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
-    if (this.item && this.item.child) {
-      if (this.showChild) {
-        this.itemShow = true
-      } else {
-        this.itemShow = this.isLinkActive(this.item) || this.isChildActive(this.item.child)
-        if (this.showOneChild && !this.showChild && (this.active || this.childActive) && this.firstItem) {
-          this.emitActiveShow(this._uid)
-        }
-      }
-    }
+    this.initActiveState()
+    this.initShowState()
 
     if (!this.$router) {
       window.addEventListener('hashchange', () => {
-        this.active = this.item && this.item.href ? this.isLinkActive(this.item) : false
-        this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
+        this.initActiveState()
       })
     }
   },
@@ -100,6 +89,22 @@ export const itemMixin = {
     setActiveShow (itemShow, uid = null) {
       this.emitActiveShow(itemShow ? uid : null)
       this.itemShow = itemShow
+    },
+    initActiveState () {
+      this.active = this.item && this.item.href ? this.isLinkActive(this.item) : false
+      this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
+    },
+    initShowState () {
+      if (this.item && this.item.child) {
+        if (this.showChild) {
+          this.itemShow = true
+        } else {
+          this.itemShow = this.isLinkActive(this.item) || this.isChildActive(this.item.child)
+          if (this.showOneChild && !this.showChild && this.firstItem && (this.active || this.childActive)) {
+            this.emitActiveShow(this._uid)
+          }
+        }
+      }
     }
   },
   computed: {
@@ -117,8 +122,7 @@ export const itemMixin = {
   },
   watch: {
     $route () {
-      this.active = this.item && this.item.href ? this.isLinkActive(this.item) : false
-      this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
+      this.initActiveState()
     }
   },
   inject: ['showChild', 'showOneChild', 'emitActiveShow', 'activeShow', 'emitItemClick', 'rtl']
