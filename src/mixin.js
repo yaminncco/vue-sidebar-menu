@@ -74,10 +74,10 @@ export const itemMixin = {
           showOneChildEnabled ? this.setActiveShow(true, this._uid) : this.itemShow = true
           return
         }
+        if (!this.item.href) {
+          event.preventDefault()
+        }
         if (showOneChildEnabled) {
-          if (!this.item.href) {
-            event.preventDefault()
-          }
           this.activeShow.uid === this._uid ? this.setActiveShow(false) : this.setActiveShow(true, this._uid)
         } else {
           this.itemShow = !this.itemShow
