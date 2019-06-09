@@ -21,27 +21,16 @@ export const itemMixin = {
       return this.matchRoute(item.href) || this.isAliasActive(item)
     },
     isChildActive (child) {
-      for (let item of child) {
-        if (this.isLinkActive(item)) {
-          return true
-        }
-        if (item.child) {
-          if (this.isChildActive(item.child)) {
-            return true
-          }
-        }
-      }
-      return false
+      return child.some(item => {
+        return item.child ? this.isLinkActive(item) || this.isChildActive(item.child) : this.isLinkActive(item)
+      })
     },
     isAliasActive (item) {
       if (item.alias) {
         if (Array.isArray(item.alias)) {
-          for (let alias of item.alias) {
-            if (this.matchRoute(alias)) {
-              return true
-            }
-          }
-          return false
+          return item.alias.some(alias => {
+            return this.matchRoute(alias)
+          })
         } else {
           return this.matchRoute(item.alias)
         }
