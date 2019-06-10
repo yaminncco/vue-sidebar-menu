@@ -22,7 +22,7 @@ export const itemMixin = {
     },
     isChildActive (child) {
       return child.some(item => {
-        return item.child ? this.isLinkActive(item) || this.isChildActive(item.child) : this.isLinkActive(item)
+        return this.isLinkActive(item) || (item.child ? this.isChildActive(item.child) : false)
       })
     },
     isAliasActive (item) {
