@@ -39,9 +39,9 @@ export const itemMixin = {
     },
     matchRoute (route) {
       if (this.$route) {
-        return this.$route.fullPath.endsWith(route)
+        return route === this.$route.fullPath
       } else {
-        return window.location.href.endsWith(route)
+        return route === window.location.pathname + window.location.search + window.location.hash
       }
     },
     clickEvent (event, mobileItem) {
