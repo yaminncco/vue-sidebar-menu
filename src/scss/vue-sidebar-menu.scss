@@ -29,10 +29,17 @@
     &.rtl > .vsm-list {
       direction: rtl;
     }
-    &.vsm-collapsed.rtl > .vsm-list {
-      padding-right: 0px;
-      padding-left: 17px;
-      float: right;
+    &.vsm-collapsed.rtl {
+      & > .vsm-list {
+        padding-right: 0px;
+        padding-left: 17px;
+        float: right;
+      }
+      &:after {
+        content: '';
+        display: block;
+        clear: both;
+      }
     }
   }
   & .vsm-item {
