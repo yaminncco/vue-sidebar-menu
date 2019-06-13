@@ -50,7 +50,7 @@
       </transition>
       <div
         class="vsm-dropdown"
-        :style="[{'position' : 'absolute'}, {'top' : `${mobileItemHeight}px`}, {'left' : rtl ? '0px': sidebarWidth}, {'right' : rtl ? sidebarWidth: '0px'}, {'max-height' : `calc(100vh - ${mobileItemPos + mobileItemHeight}px)`}, {'overflow-y' : 'auto'}]"
+        :style="[{'position' : 'absolute'}, {'top' : `${mobileItemHeight}px`}, {'left' : rtl ? '0px': sidebarWidth}, {'right' : rtl ? sidebarWidth: '0px'}, {'max-height' : `calc(${sidebarHeight}px - ${mobileItemPos + mobileItemHeight}px)`}, {'overflow-y' : 'auto'}]"
       >
         <transition
           name="expand"
@@ -133,7 +133,8 @@ export default {
       mobileItemPos: 0,
       mobileItemHeight: 0,
       closeTimeout: null,
-      activeShow: null
+      activeShow: null,
+      sidebarHeight: 0
     }
   },
   computed: {
@@ -144,6 +145,9 @@ export default {
   watch: {
     collapsed (val) {
       this.isCollapsed = val
+      this.$nextTick(() => {
+        this.initSidebarHeight()
+      })
     }
   },
   created () {
@@ -167,12 +171,18 @@ export default {
       }, 600)
     })
   },
+  mounted () {
+    this.initSidebarHeight()
+  },
   methods: {
     mouseLeave () {
       this.mobileItem = null
     },
     toggleCollapse () {
       this.isCollapsed = !this.isCollapsed
+      this.$nextTick(() => {
+        this.initSidebarHeight()
+      })
       this.$emit('collapse', this.isCollapsed)
     },
     onActiveShow (uid) {
@@ -180,6 +190,9 @@ export default {
     },
     onItemClick (event, item) {
       this.$emit('itemClick', event, item)
+    },
+    initSidebarHeight () {
+      this.sidebarHeight = this.$el.offsetHeight
     }
   },
   provide () {
