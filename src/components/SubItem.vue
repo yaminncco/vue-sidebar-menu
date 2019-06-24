@@ -25,7 +25,9 @@
             class="vsm-icon"
             :class="item.icon.class"
             v-bind="item.icon.attributes"
-          />
+          >
+            <template v-if="item.icon.template">{{ item.icon.text }}</template>
+          </component>
         </template>
         <component
           :is="item.badge.element ? item.badge.element : 'span'"
@@ -66,7 +68,9 @@
             class="vsm-icon"
             :class="item.icon.class"
             v-bind="item.icon.attributes"
-          />
+          >
+            <template v-if="item.icon.template">{{ item.icon.text }}</template>
+          </component>
         </template>
         <component
           :is="item.badge.element ? item.badge.element : 'span'"
