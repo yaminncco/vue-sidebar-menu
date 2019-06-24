@@ -35,7 +35,7 @@
         :theme="selectedTheme"
         :show-one-child="true"
         @collapse="onCollapse"
-        @itemClick="onItemClick"
+        @item-click="onItemClick"
       />
     </div>
   </div>
