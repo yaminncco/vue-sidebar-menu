@@ -27,7 +27,7 @@
             :class="item.icon.class"
             v-bind="item.icon.attributes"
           >
-            <text v-if="item.icon.template">{{ item.icon.template }}</text>
+            <template v-if="item.icon.template">{{ item.icon.text }}</template>
           </component>
         </template>
         <template v-if="!isCollapsed">
@@ -72,7 +72,7 @@
             :class="item.icon.class"
             v-bind="item.icon.attributes"
           >
-            <text v-if="item.icon.template">{{ item.icon.template }}</text>
+            <template v-if="item.icon.template">{{ item.icon.text }}</template>
           </component>
         </template>
         <template v-if="!isCollapsed">
