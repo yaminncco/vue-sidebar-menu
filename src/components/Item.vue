@@ -26,7 +26,9 @@
             class="vsm-icon"
             :class="item.icon.class"
             v-bind="item.icon.attributes"
-          />
+          >
+            <template v-if="item.icon.template">{{ item.icon.template }}</template>
+          </component>
         </template>
         <template v-if="!isCollapsed">
           <component
@@ -69,7 +71,9 @@
             class="vsm-icon"
             :class="item.icon.class"
             v-bind="item.icon.attributes"
-          />
+          >
+            <template v-if="item.icon.template">{{ item.icon.template }}</template>
+          </component>
         </template>
         <template v-if="!isCollapsed">
           <component
