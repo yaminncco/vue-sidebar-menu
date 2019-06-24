@@ -190,6 +190,7 @@ export default {
     },
     onItemClick (event, item) {
       this.$emit('itemClick', event, item)
+      this.$emit('item-click', event, item)
     },
     initSidebarHeight () {
       this.sidebarHeight = this.$el.offsetHeight
