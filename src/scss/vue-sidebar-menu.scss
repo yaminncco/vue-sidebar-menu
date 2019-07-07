@@ -122,6 +122,9 @@
       content: '\f105';
       font-family: 'Font Awesome 5 Free';
     }
+    &.slot-icon:after {
+      display: none;
+    }
     &.open-arrow {
       transform: translateY(-50%) rotate(90deg);
     }
@@ -198,6 +201,9 @@
     &:after {
       content: '\f337';
       font-family: 'Font Awesome 5 Free';
+    }
+    &.slot-icon:after {
+      display: none;
     }
   }
 }

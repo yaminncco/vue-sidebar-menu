@@ -33,14 +33,24 @@
           :item="item"
           :first-item="true"
           :is-collapsed="isCollapsed"
-        />
+        >
+          <slot
+            slot="dropdown-icon"
+            name="dropdown-icon"
+          />
+        </item>
       </template>
     </div>
     <div
       v-if="isCollapsed"
       :style="[{'position' : 'absolute'}, {'top' : `${mobileItemPos}px`}, rtl ? {'right' : '0px'} : {'left' : '0px'}, {'z-index' : 30}, {'width' : width}]"
     >
-      <mobile-item :item="mobileItem" />
+      <mobile-item :item="mobileItem">
+        <slot
+          slot="dropdown-icon"
+          name="dropdown-icon"
+        />
+      </mobile-item>
       <transition name="slide-animation">
         <div
           v-if="mobileItem"
@@ -66,15 +76,23 @@
               v-for="(subItem, index) in mobileItem.child"
               :key="index"
               :item="subItem"
-            />
+            >
+              <slot
+                slot="dropdown-icon"
+                name="dropdown-icon"
+              />
+            </sub-item>
           </div>
         </transition>
       </div>
     </div>
     <button
       class="collapse-btn"
+      :class="{'slot-icon' : $slots['collapse-icon']}"
       @click="toggleCollapse"
-    />
+    >
+      <slot name="collapse-icon" />
+    </button>
   </div>
 </template>
 

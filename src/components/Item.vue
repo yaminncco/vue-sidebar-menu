@@ -42,11 +42,13 @@
             {{ item.badge.text }}
           </component>
           <span class="vsm-title">{{ item.title }}</span>
-          <i
+          <div
             v-if="item.child"
             class="vsm-arrow"
-            :class="{'open-arrow' : show}"
-          />
+            :class="[{'open-arrow' : show}, {'slot-icon' : $slots['dropdown-icon']}]"
+          >
+            <slot name="dropdown-icon" />
+          </div>
         </template>
       </router-link>
     </template>
@@ -85,11 +87,13 @@
             v-bind="item.badge.attributes"
           >{{ item.badge.text }}</component>
           <span class="vsm-title">{{ item.title }}</span>
-          <i
+          <div
             v-if="item.child"
             class="vsm-arrow"
-            :class="{'open-arrow' : show}"
-          />
+            :class="[{'open-arrow' : show}, {'slot-icon' : $slots['dropdown-icon']}]"
+          >
+            <slot name="dropdown-icon" />
+          </div>
         </template>
       </a>
     </template>
@@ -110,7 +114,12 @@
                 v-for="(subItem, index) in item.child"
                 :key="index"
                 :item="subItem"
-              />
+              >
+                <slot
+                  slot="dropdown-icon"
+                  name="dropdown-icon"
+                />
+              </sub-item>
             </div>
           </div>
         </transition>

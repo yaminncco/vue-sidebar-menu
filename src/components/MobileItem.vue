@@ -39,10 +39,13 @@
           {{ item.badge.text }}
         </component>
         {{ item.title }}
-        <i
+        <div
           v-if="item.child"
           class="vsm-arrow open-arrow"
-        />
+          :class="[{'slot-icon' : $slots['dropdown-icon']}]"
+        >
+          <slot name="dropdown-icon" />
+        </div>
       </router-link>
     </template>
     <template v-else>
@@ -79,10 +82,13 @@
           {{ item.badge.text }}
         </component>
         {{ item.title }}
-        <i
+        <div
           v-if="item.child"
           class="vsm-arrow open-arrow"
-        />
+          :class="[{'slot-icon' : $slots['dropdown-icon']}]"
+        >
+          <slot name="dropdown-icon" />
+        </div>
       </a>
     </template>
   </div>
