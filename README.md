@@ -182,6 +182,7 @@ All styles customization can be done in normal CSS by using this classes
 .v-sidebar-menu .vsm-arrow.open-arrow {}
 .v-sidebar-menu .vsm-mobile-bg {}
 .v-sidebar-menu .vsm-badge {}
+.v-sidebar-menu .collapse-btn {}
 ```
 
 or you can override Sass variables and create your own theme
@@ -190,6 +191,19 @@ or you can override Sass variables and create your own theme
 /*app.scss*/
 @import "custom-var.scss";
 @import "vue-sidebar-menu/src/scss/vue-sidebar-menu.scss";
+```
+
+### Customize Icons
+
+The component use `Font Awesome 5 Free` as default for the icons, but you can customize them using slots
+
+## Slots
+
+```html
+<sidebar-menu>
+    <span name="collapse-icon">collapse-icon</span>
+    <span name="dropdown-icon">dropdown-icon</span>
+</sidebar-menu>
 ```
 
 ## Development

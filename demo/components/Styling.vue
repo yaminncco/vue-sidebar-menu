@@ -27,5 +27,14 @@
 @import "custom-var.scss";
 @import "vue-sidebar-menu/src/scss/vue-sidebar-menu.scss";
 </pre>
+    <h3>Customize Icons</h3>
+    <p>The component use 'Font Awesome 5 Free' as default for the icons, but you can customize them using slots</p>
+    <h2>Slots</h2>
+    <pre>
+&lt;sidebar-menu&gt;
+    &lt;span name="collapse-icon"&gt;collapse-icon&lt;/span&gt;
+    &lt;span name="dropdown-icon"&gt;dropdown-icon&lt;/span&gt;
+&lt;/sidebar-menu&gt;
+</pre>
   </div>
 </template>
