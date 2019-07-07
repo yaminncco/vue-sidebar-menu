@@ -32,8 +32,8 @@
     <h2>Slots</h2>
     <pre>
 &lt;sidebar-menu&gt;
-    &lt;span name="collapse-icon"&gt;collapse-icon&lt;/span&gt;
-    &lt;span name="dropdown-icon"&gt;dropdown-icon&lt;/span&gt;
+    &lt;span slot="collapse-icon"&gt;collapse-icon&lt;/span&gt;
+    &lt;span slot="dropdown-icon"&gt;dropdown-icon&lt;/span&gt;
 &lt;/sidebar-menu&gt;
 </pre>
   </div>
