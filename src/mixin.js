@@ -44,25 +44,21 @@ export const itemMixin = {
         return route === window.location.pathname + window.location.search + window.location.hash
       }
     },
-    clickEvent (event, mobileItem) {
+    clickEvent (event) {
       this.emitItemClick(event, this.item)
 
-      if ((!this.item.href && (!this.item.child || mobileItem)) || this.item.disabled) {
+      if ((!this.item.href && (!this.item.child || this.mobileItem)) || this.item.disabled) {
         event.preventDefault()
         return
       }
 
-      if (!mobileItem && this.isCollapsed && this.firstItem) {
+      if (!this.mobileItem && this.isCollapsed && this.firstItem) {
         let clearCloseTimeout = this.item.child
         this.$parent.$emit('touchClickItem', clearCloseTimeout)
       }
 
       let showOneChildEnabled = this.firstItem && this.showOneChild && !this.showChild
-      if (!mobileItem && this.item.child) {
-        if (this.isRouterLink && !this.active) {
-          showOneChildEnabled ? this.setActiveShow(true, this._uid) : this.itemShow = true
-          return
-        }
+      if (!this.mobileItem && this.item.child) {
         if (!this.item.href) {
           event.preventDefault()
         }
@@ -71,7 +67,7 @@ export const itemMixin = {
         } else {
           this.itemShow = !this.itemShow
         }
-      } else if (!mobileItem && showOneChildEnabled) {
+      } else if (!this.mobileItem && showOneChildEnabled) {
         this.emitActiveShow(null)
       }
     },
@@ -103,13 +99,9 @@ export const itemMixin = {
     show () {
       if (!this.item || !this.item.child) return false
       if (this.firstItem && this.showOneChild && !this.showChild) {
-        return this.activeShow.uid ? this._uid === this.activeShow.uid : false
+        return this._uid === this.activeShow.uid
       } else {
-        if (this.mobileItem) {
-          return true
-        } else {
-          return this.itemShow
-        }
+        return this.mobileItem ? true : this.itemShow
       }
     }
   },

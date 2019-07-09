@@ -12,7 +12,7 @@
         :disabled="item.disabled"
         :event="item.disabled ? '' : 'click'"
         v-bind="item.attributes"
-        @click.native="clickEvent($event, mobileItem ? true : false)"
+        @click.native="clickEvent"
       >
         <template v-if="item.icon">
           <i
@@ -59,7 +59,7 @@
         :href="item.href ? item.href : '#'"
         :disabled="item.disabled"
         v-bind="item.attributes"
-        @click="clickEvent($event, mobileItem ? true : false)"
+        @click="clickEvent"
       >
         <template v-if="item.icon">
           <i
