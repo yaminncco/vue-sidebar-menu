@@ -1,7 +1,7 @@
 <template>
   <div
     class="vsm-item"
-    :class="[{'first-item' : firstItem}, {'open-item' : show}, {'active-item' : active}, {'parent-active-item' : childActive}]"
+    :class="[{'first-item' : firstItem }, {'mobile-item' : mobileItem}, {'open-item' : show}, {'active-item' : active}, {'parent-active-item' : childActive}]"
     @mouseenter="mouseEnter($event)"
   >
     <template v-if="isRouterLink">
@@ -12,7 +12,7 @@
         :disabled="item.disabled"
         :event="item.disabled ? '' : 'click'"
         v-bind="item.attributes"
-        @click.native="clickEvent"
+        @click.native="clickEvent($event, mobileItem ? true : false)"
       >
         <template v-if="item.icon">
           <i
@@ -30,7 +30,7 @@
             {{ item.icon.text }}
           </component>
         </template>
-        <template v-if="!isCollapsed">
+        <template v-if="!isCollapsed || mobileItem">
           <component
             :is="item.badge.element ? item.badge.element : 'span'"
             v-if="item.badge"
@@ -59,7 +59,7 @@
         :href="item.href ? item.href : '#'"
         :disabled="item.disabled"
         v-bind="item.attributes"
-        @click="clickEvent"
+        @click="clickEvent($event, mobileItem ? true : false)"
       >
         <template v-if="item.icon">
           <i
@@ -77,7 +77,7 @@
             {{ item.icon.text }}
           </component>
         </template>
-        <template v-if="!isCollapsed">
+        <template v-if="!isCollapsed || mobileItem">
           <component
             :is="item.badge.element ? item.badge.element : 'span'"
             v-if="item.badge"
@@ -109,18 +109,7 @@
             v-if="show"
             class="vsm-dropdown"
           >
-            <div class="vsm-list">
-              <sub-item
-                v-for="(subItem, index) in item.child"
-                :key="index"
-                :item="subItem"
-              >
-                <slot
-                  slot="dropdown-icon"
-                  name="dropdown-icon"
-                />
-              </sub-item>
-            </div>
+            <listItem :items="item.child" />
           </div>
         </transition>
       </template>
@@ -129,12 +118,12 @@
 </template>
 
 <script>
-import SubItem from './SubItem.vue'
+import ListItem from './ListItem.vue'
 import { itemMixin, animationMixin } from '../mixin'
 
 export default {
   components: {
-    SubItem
+    ListItem
   },
   mixins: [itemMixin, animationMixin],
   props: {
@@ -148,11 +137,15 @@ export default {
     },
     isCollapsed: {
       type: Boolean
+    },
+    mobileItem: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
     mouseEnter (event) {
-      if (this.isCollapsed && this.firstItem) {
+      if (this.isCollapsed && this.firstItem && !this.mobileItem) {
         this.$parent.$emit('mouseEnterItem', {
           item: this.item,
           pos:

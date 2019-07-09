@@ -105,7 +105,11 @@ export const itemMixin = {
       if (this.firstItem && this.showOneChild && !this.showChild) {
         return this.activeShow.uid ? this._uid === this.activeShow.uid : false
       } else {
-        return this.itemShow
+        if (this.mobileItem) {
+          return true
+        } else {
+          return this.itemShow
+        }
       }
     }
   },

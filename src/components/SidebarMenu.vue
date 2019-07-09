@@ -45,12 +45,17 @@
       v-if="isCollapsed"
       :style="[{'position' : 'absolute'}, {'top' : `${mobileItemPos}px`}, rtl ? {'right' : '0px'} : {'left' : '0px'}, {'z-index' : 30}, {'width' : width}]"
     >
-      <mobile-item :item="mobileItem">
+      <item
+        v-if="mobileItem"
+        :item="mobileItem"
+        :mobile-item="true"
+        :is-collapsed="isCollapsed"
+      >
         <slot
           slot="dropdown-icon"
           name="dropdown-icon"
         />
-      </mobile-item>
+      </item>
       <transition name="slide-animation">
         <div
           v-if="mobileItem"
@@ -68,21 +73,10 @@
           @afterEnter="expandAfterEnter"
           @beforeLeave="expandBeforeLeave"
         >
-          <div
+          <listItem
             v-if="mobileItem && mobileItem.child"
-            class="vsm-list"
-          >
-            <sub-item
-              v-for="(subItem, index) in mobileItem.child"
-              :key="index"
-              :item="subItem"
-            >
-              <slot
-                slot="dropdown-icon"
-                name="dropdown-icon"
-              />
-            </sub-item>
-          </div>
+            :items="mobileItem.child"
+          />
         </transition>
       </div>
     </div>
@@ -98,16 +92,14 @@
 
 <script>
 import Item from './Item.vue'
-import SubItem from './SubItem.vue'
-import MobileItem from './MobileItem.vue'
+import ListItem from './ListItem.vue'
 import { animationMixin } from '../mixin'
 
 export default {
   name: 'SidebarMenu',
   components: {
     Item,
-    SubItem,
-    MobileItem
+    ListItem
   },
   mixins: [animationMixin],
   props: {
