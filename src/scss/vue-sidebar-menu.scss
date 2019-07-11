@@ -9,7 +9,8 @@
     left: 0;
     width: 100%;
     height: 100vh;
-    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
     z-index: 999;
     transition: 0.3s width;
     &.rtl {
@@ -190,11 +191,7 @@
     text-align: center;
     font-style: normal;
     font-weight: 900;
-    position: absolute;
     height: 50px;
-    left: 0;
-    right: 0;
-    bottom: 0;
     cursor: pointer;
     border: none;
     width: 100%;
