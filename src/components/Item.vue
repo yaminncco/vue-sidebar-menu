@@ -109,7 +109,12 @@
             v-if="show"
             class="vsm-dropdown"
           >
-            <listItem :items="item.child" />
+            <listItem :items="item.child">
+              <slot
+                slot="dropdown-icon"
+                name="dropdown-icon"
+              />
+            </listItem>
           </div>
         </transition>
       </template>
