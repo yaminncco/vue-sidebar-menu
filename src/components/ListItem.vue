@@ -14,12 +14,7 @@
 </template>
 
 <script>
-import Item from './Item.vue'
-
 export default {
-  components: {
-    Item
-  },
   props: {
     items: {
       type: Array,
