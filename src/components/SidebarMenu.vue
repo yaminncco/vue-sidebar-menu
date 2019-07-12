@@ -76,7 +76,12 @@
           <listItem
             v-if="mobileItem && mobileItem.child"
             :items="mobileItem.child"
-          />
+          >
+            <slot
+              slot="dropdown-icon"
+              name="dropdown-icon"
+            />
+          </listItem>
         </transition>
       </div>
     </div>
