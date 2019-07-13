@@ -10,7 +10,7 @@
         :class="item.class"
         :to="item.href"
         :disabled="item.disabled"
-        :event="item.disabled ? '' : 'click'"
+        :tabindex="item.disabled ? -1 : ''"
         v-bind="item.attributes"
         @click.native="clickEvent"
       >
@@ -58,6 +58,7 @@
         :class="item.class"
         :href="item.href ? item.href : '#'"
         :disabled="item.disabled"
+        :tabindex="item.disabled ? -1 : ''"
         v-bind="item.attributes"
         @click="clickEvent"
       >
