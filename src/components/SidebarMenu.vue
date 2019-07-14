@@ -5,7 +5,7 @@
     :style="{'width': sidebarWidth}"
     @mouseleave="mouseLeave"
   >
-    <slot name="header"></slot>
+    <slot name="header" />
     <div
       class="vsm-list"
     >
@@ -86,7 +86,7 @@
         </transition>
       </div>
     </div>
-    <slot name="footer"></slot>
+    <slot name="footer" />
     <button
       class="collapse-btn"
       :class="{'slot-icon' : $slots['collapse-icon']}"

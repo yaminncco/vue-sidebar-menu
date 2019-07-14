@@ -201,6 +201,8 @@ The component use `Font Awesome 5 Free` as default for the icons, but you can cu
 
 ```html
 <sidebar-menu>
+    <div slot="header">header</div>
+    <div slot="footer">footer</div>
     <span slot="collapse-icon">collapse-icon</span>
     <span slot="dropdown-icon">dropdown-icon</span>
 </sidebar-menu>
