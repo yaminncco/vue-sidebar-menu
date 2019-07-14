@@ -151,7 +151,7 @@ export default {
   },
   methods: {
     mouseEnter (event) {
-      if (this.isCollapsed && this.firstItem && !this.mobileItem) {
+      if (this.isCollapsed && this.firstItem && !this.mobileItem && !this.item.disabled) {
         this.$parent.$emit('mouseEnterItem', {
           item: this.item,
           pos:
