@@ -34,7 +34,7 @@
       & > .vsm-list {
         padding-right: 0px;
         padding-left: 17px;
-        float: right;
+        margin-left: -17px;
       }
       &:after {
         content: '';
