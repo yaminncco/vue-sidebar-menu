@@ -63,7 +63,7 @@ export const itemMixin = {
           event.preventDefault()
         }
         if (showOneChildEnabled) {
-          this.activeShow.uid === this._uid ? this.setActiveShow(false) : this.setActiveShow(true, this._uid)
+          this.activeShow === this._uid ? this.setActiveShow(false) : this.setActiveShow(true, this._uid)
         } else {
           this.itemShow = !this.itemShow
         }
@@ -81,13 +81,9 @@ export const itemMixin = {
     },
     initShowState () {
       if (this.item && this.item.child) {
-        if (this.showChild) {
-          this.itemShow = true
-        } else {
-          this.itemShow = this.isLinkActive(this.item) || this.isChildActive(this.item.child)
-          if (this.showOneChild && !this.showChild && this.firstItem && (this.active || this.childActive)) {
-            this.emitActiveShow(this._uid)
-          }
+        this.itemShow = this.isLinkActive(this.item) || this.isChildActive(this.item.child)
+        if (this.showOneChild && !this.showChild && this.firstItem && (this.active || this.childActive)) {
+          this.emitActiveShow(this._uid)
         }
       }
     }
@@ -98,8 +94,9 @@ export const itemMixin = {
     },
     show () {
       if (!this.item || !this.item.child) return false
-      if (this.firstItem && this.showOneChild && !this.showChild) {
-        return this._uid === this.activeShow.uid
+      if (this.showChild) return this.showChild
+      if (this.firstItem && this.showOneChild) {
+        return this._uid === this.activeShow
       } else {
         return this.mobileItem ? true : this.itemShow
       }
@@ -110,7 +107,7 @@ export const itemMixin = {
       this.initActiveState()
     }
   },
-  inject: ['showChild', 'showOneChild', 'emitActiveShow', 'activeShow', 'emitItemClick', 'rtl']
+  inject: ['emitActiveShow', 'emitItemClick']
 }
 
 export const animationMixin = {

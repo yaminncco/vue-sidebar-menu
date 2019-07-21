@@ -110,7 +110,11 @@
             v-if="show"
             class="vsm-dropdown"
           >
-            <listItem :items="item.child">
+            <listItem
+              :items="item.child"
+              :show-child="showChild"
+              :rtl="rtl"
+            >
               <slot
                 slot="dropdown-icon"
                 name="dropdown-icon"
@@ -145,6 +149,22 @@ export default {
       type: Boolean
     },
     mobileItem: {
+      type: Boolean,
+      default: false
+    },
+    activeShow: {
+      type: Number,
+      default: null
+    },
+    showChild: {
+      type: Boolean,
+      default: false
+    },
+    showOneChild: {
+      type: Boolean,
+      default: false
+    },
+    rtl: {
       type: Boolean,
       default: false
     }

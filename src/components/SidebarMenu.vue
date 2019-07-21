@@ -34,6 +34,10 @@
           :item="item"
           :first-item="true"
           :is-collapsed="isCollapsed"
+          :active-show="activeShow"
+          :show-one-child="showOneChild"
+          :show-child="showChild"
+          :rtl="rtl"
         >
           <slot
             slot="dropdown-icon"
@@ -51,6 +55,8 @@
         :item="mobileItem"
         :mobile-item="true"
         :is-collapsed="isCollapsed"
+        :show-child="showChild"
+        :rtl="rtl"
       >
         <slot
           slot="dropdown-icon"
@@ -77,6 +83,8 @@
           <listItem
             v-if="mobileItem && mobileItem.child"
             :items="mobileItem.child"
+            :show-child="showChild"
+            :rtl="rtl"
           >
             <slot
               slot="dropdown-icon"
@@ -214,18 +222,9 @@ export default {
     }
   },
   provide () {
-    const activeShow = {}
-    Object.defineProperty(activeShow, 'uid', {
-      enumerable: true,
-      get: () => this.activeShow
-    })
     return {
-      showChild: this.showChild,
-      showOneChild: this.showOneChild,
       emitActiveShow: this.onActiveShow,
-      activeShow,
-      emitItemClick: this.onItemClick,
-      rtl: this.rtl
+      emitItemClick: this.onItemClick
     }
   }
 }

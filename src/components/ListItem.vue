@@ -4,6 +4,8 @@
       v-for="(subItem, index) in items"
       :key="index"
       :item="subItem"
+      :show-child="showChild"
+      :rtl="rtl"
     >
       <slot
         slot="dropdown-icon"
@@ -19,6 +21,14 @@ export default {
     items: {
       type: Array,
       required: true
+    },
+    showChild: {
+      type: Boolean,
+      default: false
+    },
+    rtl: {
+      type: Boolean,
+      default: false
     }
   },
   beforeCreate () {
