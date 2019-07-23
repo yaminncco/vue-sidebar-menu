@@ -1,9 +1,10 @@
 <template>
-  <div class="vsm-list">
+  <div class="vsm--list">
     <item
       v-for="(subItem, index) in items"
       :key="index"
       :item="subItem"
+      :level="level"
       :show-child="showChild"
       :rtl="rtl"
     >
@@ -21,6 +22,10 @@ export default {
     items: {
       type: Array,
       required: true
+    },
+    level: {
+      type: Number,
+      default: 2
     },
     showChild: {
       type: Boolean,

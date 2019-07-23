@@ -21,8 +21,9 @@
             <option
               v-for="(theme, index) in themes"
               :key="index"
+              :value="theme.input"
             >
-              {{ theme == '' ? 'default-theme' : theme }}
+              {{ theme.name }}
             </option>
           </select>
         </div>
@@ -104,7 +105,7 @@ export default {
           icon: 'fa fa-cog',
           badge: {
             text: 'new',
-            class: 'default-badge'
+            class: 'vsm--badge_default'
           }
         },
         {
@@ -165,8 +166,17 @@ export default {
         }
       ],
       collapsed: false,
-      themes: ['', 'white-theme'],
-      selectedTheme: 'white-theme'
+      themes: [
+        {
+          name: 'Default theme',
+          input: ''
+        },
+        {
+          name: 'White theme',
+          input: 'vsm_white-theme'
+        }
+      ],
+      selectedTheme: 'vsm_white-theme'
     }
   },
   methods: {

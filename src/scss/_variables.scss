@@ -1,0 +1,35 @@
+$primary-color: #4285f4 !default;
+$base-bg: #2a2a2e !default;
+
+$item-color: #fff !default;
+
+$item-active-color: #fff !default;
+
+$item-open-color: #fff !default;
+$item-open-bg: $primary-color !default;
+
+$item-hover-color: #fff !default;
+$item-hover-bg: rgba(darken( $base-bg, 5% ), 0.5) !default;
+
+$icon-color: #fff !default;
+$icon-bg: darken( $base-bg, 5% ) !default;
+
+$icon-active-color: #fff !default;
+$icon-active-bg: $icon-bg !default;
+
+$icon-open-color: #fff !default;
+$icon-open-bg: transparent !default;
+
+$mobile-item-color: #fff !default;
+$mobile-icon-color: #fff !default;
+$mobile-item-bg: $primary-color !default;
+$mobile-icon-bg: $icon-open-bg !default;
+
+$dropdown-bg: lighten( $base-bg, 5% ) !default;
+$dropdown-color: #fff !default;
+
+$item-font-size: 16px !default;
+$item-line-height: 30px !default;
+$item-padding: 10px !default;
+$icon-height: 30px !default;
+$icon-width: 30px !default;

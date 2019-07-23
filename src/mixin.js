@@ -52,12 +52,12 @@ export const itemMixin = {
         return
       }
 
-      if (!this.mobileItem && this.isCollapsed && this.firstItem) {
+      if (!this.mobileItem && this.isCollapsed && this.isFirstLevel) {
         let clearCloseTimeout = this.item.child
         this.$parent.$emit('touchClickItem', clearCloseTimeout)
       }
 
-      let showOneChildEnabled = this.firstItem && this.showOneChild && !this.showChild
+      let showOneChildEnabled = this.isFirstLevel && this.showOneChild && !this.showChild
       if (!this.mobileItem && this.item.child) {
         if (!this.item.href) {
           event.preventDefault()
@@ -82,7 +82,7 @@ export const itemMixin = {
     initShowState () {
       if (this.item && this.item.child) {
         this.itemShow = this.isLinkActive(this.item) || this.isChildActive(this.item.child)
-        if (this.showOneChild && !this.showChild && this.firstItem && (this.active || this.childActive)) {
+        if (this.showOneChild && !this.showChild && this.isFirstLevel && (this.active || this.childActive)) {
           this.emitActiveShow(this._uid)
         }
       }
@@ -92,14 +92,28 @@ export const itemMixin = {
     isRouterLink () {
       return this.$router && this.item && this.item.href !== undefined
     },
+    isFirstLevel () {
+      return this.level === 1
+    },
     show () {
       if (!this.item || !this.item.child) return false
       if (this.showChild) return this.showChild
-      if (this.firstItem && this.showOneChild) {
+      if (this.isFirstLevel && this.showOneChild) {
         return this._uid === this.activeShow
       } else {
         return this.mobileItem ? true : this.itemShow
       }
+    },
+    itemLinkClass () {
+      return [
+        'vsm--link',
+        `vsm--link_level-${this.level}`,
+        { 'vsm--link_mobile-item': this.mobileItem },
+        { 'vsm--link_exact-active': this.active },
+        { 'vsm--link_active': this.childActive },
+        { 'vsm--link_disabled': this.item.disabled },
+        this.item.class
+      ]
     }
   },
   watch: {

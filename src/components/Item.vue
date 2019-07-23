@@ -1,29 +1,28 @@
 <template>
   <div
-    class="vsm-item"
-    :class="[{'first-item' : firstItem }, {'mobile-item' : mobileItem}, {'open-item' : show}, {'active-item' : active}, {'parent-active-item' : childActive}]"
+    class="vsm--item"
+    :class="[{'vsm--item_open' : show}]"
     @mouseenter="mouseEnter($event)"
   >
     <template v-if="isRouterLink">
       <router-link
-        class="vsm-link"
-        :class="item.class"
+        :class="itemLinkClass"
         :to="item.href"
         :disabled="item.disabled"
-        :tabindex="item.disabled ? -1 : ''"
+        :tabindex="item.disabled ? -1 : undefined"
         v-bind="item.attributes"
         @click.native="clickEvent"
       >
         <template v-if="item.icon">
           <i
             v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
-            class="vsm-icon"
+            class="vsm--icon"
             :class="item.icon"
           />
           <component
             :is="item.icon.element ? item.icon.element : 'i'"
             v-else
-            class="vsm-icon"
+            class="vsm--icon"
             :class="item.icon.class"
             v-bind="item.icon.attributes"
           >
@@ -35,17 +34,17 @@
             :is="item.badge.element ? item.badge.element : 'span'"
             v-if="item.badge"
             :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
-            class="vsm-badge"
+            class="vsm--badge"
             :class="item.badge.class"
             v-bind="item.badge.attributes"
           >
             {{ item.badge.text }}
           </component>
-          <span class="vsm-title">{{ item.title }}</span>
+          <span class="vsm--title">{{ item.title }}</span>
           <div
             v-if="item.child"
-            class="vsm-arrow"
-            :class="[{'open-arrow' : show}, {'slot-icon' : $slots['dropdown-icon']}]"
+            class="vsm--arrow"
+            :class="[{'vsm--arrow_open' : show}, {'vsm--arrow_slot' : $slots['dropdown-icon']}]"
           >
             <slot name="dropdown-icon" />
           </div>
@@ -54,24 +53,23 @@
     </template>
     <template v-else>
       <a
-        class="vsm-link"
-        :class="item.class"
+        :class="itemLinkClass"
         :href="item.href ? item.href : '#'"
         :disabled="item.disabled"
-        :tabindex="item.disabled ? -1 : ''"
+        :tabindex="item.disabled ? -1 : undefined"
         v-bind="item.attributes"
         @click="clickEvent"
       >
         <template v-if="item.icon">
           <i
             v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
-            class="vsm-icon"
+            class="vsm--icon"
             :class="item.icon"
           />
           <component
             :is="item.icon.element ? item.icon.element : 'i'"
             v-else
-            class="vsm-icon"
+            class="vsm--icon"
             :class="item.icon.class"
             v-bind="item.icon.attributes"
           >
@@ -83,15 +81,15 @@
             :is="item.badge.element ? item.badge.element : 'span'"
             v-if="item.badge"
             :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
-            class="vsm-badge"
+            class="vsm--badge"
             :class="item.badge.class"
             v-bind="item.badge.attributes"
           >{{ item.badge.text }}</component>
-          <span class="vsm-title">{{ item.title }}</span>
+          <span class="vsm--title">{{ item.title }}</span>
           <div
             v-if="item.child"
-            class="vsm-arrow"
-            :class="[{'open-arrow' : show}, {'slot-icon' : $slots['dropdown-icon']}]"
+            class="vsm--arrow"
+            :class="[{'vsm--arrow_open' : show}, {'vsm--arrow_slot' : $slots['dropdown-icon']}]"
           >
             <slot name="dropdown-icon" />
           </div>
@@ -108,10 +106,11 @@
         >
           <div
             v-if="show"
-            class="vsm-dropdown"
+            class="vsm--dropdown"
           >
             <listItem
               :items="item.child"
+              :level="level+1"
               :show-child="showChild"
               :rtl="rtl"
             >
@@ -141,9 +140,9 @@ export default {
       type: Object,
       required: true
     },
-    firstItem: {
-      type: Boolean,
-      default: false
+    level: {
+      type: Number,
+      default: 1
     },
     isCollapsed: {
       type: Boolean
@@ -171,7 +170,7 @@ export default {
   },
   methods: {
     mouseEnter (event) {
-      if (this.isCollapsed && this.firstItem && !this.mobileItem && !this.item.disabled) {
+      if (this.isCollapsed && this.isFirstLevel && !this.mobileItem && !this.item.disabled) {
         this.$parent.$emit('mouseEnterItem', {
           item: this.item,
           pos:

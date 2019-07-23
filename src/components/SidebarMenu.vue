@@ -1,13 +1,13 @@
 <template>
   <div
     class="v-sidebar-menu"
-    :class="[!isCollapsed ? 'vsm-default' : 'vsm-collapsed', theme, rtl ? 'rtl' : '']"
+    :class="[!isCollapsed ? 'vsm_default' : 'vsm_collapsed', theme, rtl ? 'vsm_rtl' : '']"
     :style="{'width': sidebarWidth}"
     @mouseleave="mouseLeave"
   >
     <slot name="header" />
     <div
-      class="vsm-list"
+      class="vsm--list"
     >
       <template v-for="(item, index) in menu">
         <template v-if="item.header">
@@ -20,7 +20,7 @@
           <template v-else-if="item.visibleOnCollapse || !isCollapsed">
             <div
               :key="index"
-              class="vsm-header"
+              class="vsm--header"
               :class="item.class"
               v-bind="item.attributes"
             >
@@ -32,7 +32,6 @@
           v-else
           :key="index"
           :item="item"
-          :first-item="true"
           :is-collapsed="isCollapsed"
           :active-show="activeShow"
           :show-one-child="showOneChild"
@@ -66,12 +65,12 @@
       <transition name="slide-animation">
         <div
           v-if="mobileItem"
-          class="vsm-mobile-bg"
+          class="vsm--mobile-bg"
           :style="[{'position' : 'absolute'}, {'left' : '0px'}, {'right' : '0px'}, {'top' : '0px'}, {'height' : `${mobileItemHeight}px`}]"
         />
       </transition>
       <div
-        class="vsm-dropdown"
+        class="vsm--dropdown"
         :style="[{'position' : 'absolute'}, {'top' : `${mobileItemHeight}px`}, {'left' : rtl ? '0px': sidebarWidth}, {'right' : rtl ? sidebarWidth: '0px'}, {'max-height' : `calc(${sidebarHeight}px - ${mobileItemPos + mobileItemHeight}px)`}, {'overflow-y' : 'auto'}]"
       >
         <transition
@@ -96,8 +95,8 @@
     </div>
     <slot name="footer" />
     <button
-      class="collapse-btn"
-      :class="{'slot-icon' : $slots['collapse-icon']}"
+      class="vsm--toggle-btn"
+      :class="{'vsm--toggle-btn_slot' : $slots['collapse-icon']}"
       @click="toggleCollapse"
     >
       <slot name="collapse-icon" />
@@ -214,7 +213,6 @@ export default {
       this.activeShow = uid
     },
     onItemClick (event, item) {
-      this.$emit('itemClick', event, item)
       this.$emit('item-click', event, item)
     },
     initSidebarHeight () {
@@ -231,5 +229,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/vue-sidebar-menu.scss';
+@import '../scss/vue-sidebar-menu';
 </style>

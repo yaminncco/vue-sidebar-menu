@@ -1,115 +1,81 @@
-@import './var.scss';
+@import './variables';
+
 .v-sidebar-menu {
-  & , * {
+  * {
     box-sizing: border-box;
   }
-  & {
-    position: fixed;
-    top: 0;
-    left: 0;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  box-sizing: border-box;
+  transition: 0.3s width;
+
+  > .vsm--list {
     width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    z-index: 999;
-    transition: 0.3s width;
-    &.rtl {
-      right: 0;
-      left: inherit;
-      text-align: right;
-    }
-    & > .vsm-list {
-      width: 100%;
-      height: 100%;
-      overflow: hidden auto;
-    }
-    &.vsm-collapsed > .vsm-list {
-      width: calc(100% + 17px);
-      padding-right: 17px;
-    }
-    &.rtl > .vsm-list {
-      direction: rtl;
-    }
-    &.vsm-collapsed.rtl {
-      & > .vsm-list {
-        padding-right: 0px;
-        padding-left: 17px;
-        margin-left: -17px;
-      }
-      &:after {
-        content: '';
-        display: block;
-        clear: both;
-      }
-    }
+    height: 100%;
+    overflow: hidden auto;
   }
-  & .vsm-item {
+  
+  .vsm--dropdown > .vsm--list {
+    padding: 5px;
+  }
+  
+  .vsm--item {
     position: relative;
     display: block;
   }
-  & .vsm-item.first-item {
-    & > .vsm-link {
-      line-height: $iconHeight;
-      & > .vsm-icon {
-        height: $iconHeight;
-        line-height: $iconHeight;
-        width: $iconWidth;
-        text-align: center;
-        border-radius: 3px;
-      }
-      &:after {
-        content: '';
-        display: block;
-        clear: both;
-      }
-    }
-  }
-  & .vsm-item.mobile-item {
-    & > .vsm-link {
-      & > .vsm-icon {
-        height: $iconHeight;
-        line-height: $iconHeight;
-        width: $iconWidth;
-        text-align: center;
-        border-radius: 3px;
-      }
-    }
-  }
-  & .vsm-item.active-item, .vsm-item.parent-active-item {
-    & > .vsm-link {
-      font-weight: 600;
-    }
-  }
-  & .vsm-link {
+
+  .vsm--link {
     position: relative;
     display: block;
-    font-size: 16px;
+    font-size: $item-font-size;
     font-weight: 400;
-    padding: $itemPadding;
-    line-height: $itemlineHeight;
+    padding: $item-padding;
+    line-height: $item-line-height;
     text-decoration: none;
     z-index: 20;
     transition: 0.3s all;
-    &[disabled] {
+    &_exact-active,
+    &_active {
+      font-weight: 600;
+    }
+    &_disabled {
       opacity: 0.4;
       pointer-events: none;
     }
+    &_level-1 {
+      .vsm--icon {
+        height: $icon-height;
+        line-height: $icon-height;
+        width: $icon-width;
+        text-align: center;
+        border-radius: 3px;
+      }
+    }
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
   }
-  & .vsm-title {
+
+  .vsm--title {
     display: block;
     white-space: nowrap;
   }
-  & .vsm-icon {
+
+  .vsm--icon {
     float: left;
-    line-height: $itemlineHeight;
+    line-height: $item-line-height;
     margin-right: 10px;
   }
-  &.rtl .vsm-icon {
-    float: right;
-    margin-left: 10px;
-    margin-right: 0px;
-  }
-  & .vsm-arrow {
+
+  .vsm--arrow {
     width: 30px;
     text-align: center;
     font-style: normal;
@@ -123,70 +89,39 @@
       content: '\f105';
       font-family: 'Font Awesome 5 Free';
     }
-    &.slot-icon:after {
-      display: none;
-    }
-    &.open-arrow {
+    &_open {
       transform: translateY(-50%) rotate(90deg);
     }
-  }
-  &.rtl .vsm-arrow {
-    left: 10px;
-    right: inherit;
-  }
-  & .vsm-dropdown > .vsm-list {
-    padding: 5px;
-  }
-  & .expand-enter-active,
-  & .expand-leave-active {
-    transition: height 0.35s ease;
-    overflow: hidden;
-  }
-  & .expand-enter,
-  & .expand-leave-to {
-    height: 0 !important;
-  }
-  & .slide-animation-enter-active {
-    animation: slide-animation 0.2s;
-  }
-  & .slide-animation-leave-active {
-    animation: slide-animation 0.2s reverse;
-  }
-  @keyframes slide-animation {
-    0% {
-      width: 0%;
-    }
-    100% {
-      width: 100%;
+    &_slot:after {
+      display: none;
     }
   }
-  & .vsm-header {
+
+  .vsm--header {
     font-size: 14px;
     font-weight: 600;
     padding: 10px;
     white-space: nowrap;
     text-transform: uppercase;
   }
-  & .vsm-badge {
+
+  .vsm--badge {
     position: absolute;
     right: 10px;
     top: 50%;
     transform: translateY(-50%);
+    &_default {
+      padding: 0px 6px;
+      font-size: 12px;
+      border-radius: 3px;
+      height: 20px;
+      line-height: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
   }
-  & .vsm-badge.default-badge {
-    padding: 0px 6px;
-    font-size: 12px;
-    border-radius: 3px;
-    height: 20px;
-    line-height: 20px;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-  &.rtl .vsm-badge {
-    left: 10px;
-    right: inherit;
-  }
-  & .collapse-btn {
+
+  .vsm--toggle-btn {
     display: block;
     text-align: center;
     font-style: normal;
@@ -199,11 +134,69 @@
       content: '\f337';
       font-family: 'Font Awesome 5 Free';
     }
-    &.slot-icon:after {
+    &_slot:after {
       display: none;
+    }
+  }
+
+  &.vsm_collapsed {
+    & > .vsm--list {
+      width: calc(100% + 17px);
+      padding-right: 17px;
+    }
+  }
+
+  &.vsm_rtl {
+    right: 0;
+    left: inherit;
+    text-align: right;
+    & > .vsm--list {
+      direction: rtl;
+    }
+    &.vsm_collapsed > .vsm--list {
+      padding-right: 0px;
+      padding-left: 17px;
+      margin-left: -17px;
+    }
+    & .vsm--icon {
+      float: right;
+      margin-left: 10px;
+      margin-right: 0px;
+    }
+    & .vsm--arrow {
+      left: 10px;
+      right: inherit;
+    }
+    & .vsm--badge {
+      left: 10px;
+      right: inherit;
+    }
+  }
+
+  .expand-enter-active,
+  .expand-leave-active {
+    transition: height 0.35s ease;
+    overflow: hidden;
+  }
+  .expand-enter,
+  .expand-leave-to {
+    height: 0 !important;
+  }
+  .slide-animation-enter-active {
+    animation: slide-animation 0.2s;
+  }
+  .slide-animation-leave-active {
+    animation: slide-animation 0.2s reverse;
+  }
+  @keyframes slide-animation {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
     }
   }
 }
 
-@import './themes/default-theme.scss';
-@import './themes/white-theme.scss';
+@import './themes/default-theme';
+@import './themes/white-theme';
