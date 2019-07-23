@@ -47,7 +47,7 @@ export const itemMixin = {
     clickEvent (event) {
       this.emitItemClick(event, this.item)
 
-      if ((!this.item.href && (!this.item.child || this.mobileItem)) || this.item.disabled) {
+      if ((!this.item.href && !this.item.child) || this.item.disabled) {
         event.preventDefault()
         return
       }
@@ -57,18 +57,16 @@ export const itemMixin = {
         this.$parent.$emit('touchClickItem', clearCloseTimeout)
       }
 
-      let showOneChildEnabled = this.isFirstLevel && this.showOneChild && !this.showChild
-      if (!this.mobileItem && this.item.child) {
-        if (!this.item.href) {
-          event.preventDefault()
-        }
-        if (showOneChildEnabled) {
+      if (!this.item.child) {
+        if (this.showOneChild) this.emitActiveShow(null)
+      } else {
+        if (!this.item.href) event.preventDefault()
+        if (this.mobileItem) return
+        if (this.showOneChild) {
           this.activeShow === this._uid ? this.setActiveShow(false) : this.setActiveShow(true, this._uid)
         } else {
           this.itemShow = !this.itemShow
         }
-      } else if (!this.mobileItem && showOneChildEnabled) {
-        this.emitActiveShow(null)
       }
     },
     setActiveShow (itemShow, uid = null) {
@@ -96,13 +94,12 @@ export const itemMixin = {
       return this.level === 1
     },
     show () {
-      if (!this.item || !this.item.child) return false
-      if (this.showChild) return this.showChild
+      if (!this.item.child) return false
+      if (this.showChild || this.mobileItem) return true
       if (this.isFirstLevel && this.showOneChild) {
         return this._uid === this.activeShow
-      } else {
-        return this.mobileItem ? true : this.itemShow
       }
+      return this.itemShow
     },
     itemLinkClass () {
       return [

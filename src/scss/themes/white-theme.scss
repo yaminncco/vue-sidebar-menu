@@ -69,7 +69,7 @@ $item-active-color: $item-color;
   &.vsm_collapsed {
     .vsm--link.vsm--link_mobile-item {
       color: $mobile-item-color;
-      background-color: $mobile-item-bg;
+      background-color: transparent;
       & .vsm--icon {
         color: $mobile-icon-color;
         background-color: $mobile-icon-bg;
