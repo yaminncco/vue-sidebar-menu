@@ -53,8 +53,7 @@ export const itemMixin = {
       }
 
       if (!this.mobileItem && this.isCollapsed && this.isFirstLevel) {
-        let clearCloseTimeout = this.item.child
-        this.$parent.$emit('touchClickItem', clearCloseTimeout)
+        this.$parent.$emit('touchClickItem', this.item.child !== undefined)
       }
 
       if (!this.item.child) {

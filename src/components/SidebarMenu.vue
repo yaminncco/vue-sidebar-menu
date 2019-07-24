@@ -3,7 +3,7 @@
     class="v-sidebar-menu"
     :class="[!isCollapsed ? 'vsm_default' : 'vsm_collapsed', theme, rtl ? 'vsm_rtl' : '']"
     :style="{'width': sidebarWidth}"
-    @mouseleave="mouseLeave"
+    @mouseleave="onMouseLeave"
   >
     <slot name="header" />
     <div
@@ -97,7 +97,7 @@
     <button
       class="vsm--toggle-btn"
       :class="{'vsm--toggle-btn_slot' : $slots['collapse-icon']}"
-      @click="toggleCollapse"
+      @click="onToggleClick"
     >
       <slot name="collapse-icon" />
     </button>
@@ -156,7 +156,7 @@ export default {
       mobileItem: null,
       mobileItemPos: 0,
       mobileItemHeight: 0,
-      closeTimeout: null,
+      mobileItemTimeout: null,
       activeShow: null,
       sidebarHeight: 0
     }
@@ -175,34 +175,25 @@ export default {
     }
   },
   created () {
-    this.$on('mouseEnterItem', (val) => {
-      this.mobileItem = null
+    this.$on('mouseEnterItem', (mobileItemData) => {
+      this.unsetMobileItem()
       this.$nextTick(() => {
-        this.mobileItem = val.item
-        this.mobileItemPos = val.pos
-        this.mobileItemHeight = val.height
+        this.setMobileItem(mobileItemData)
       })
     })
 
-    this.$on('touchClickItem', (clearCloseTimeout) => {
-      if (clearCloseTimeout) {
-        clearTimeout(this.closeTimeout)
-        return
-      }
-      if (this.closeTimeout) clearTimeout(this.closeTimeout)
-      this.closeTimeout = setTimeout(() => {
-        this.mouseLeave()
-      }, 600)
+    this.$on('touchClickItem', (hasChild) => {
+      this.unsetMobileItem(true, hasChild)
     })
   },
   mounted () {
     this.initSidebarHeight()
   },
   methods: {
-    mouseLeave () {
-      this.mobileItem = null
+    onMouseLeave () {
+      this.unsetMobileItem()
     },
-    toggleCollapse () {
+    onToggleClick () {
       this.isCollapsed = !this.isCollapsed
       this.$nextTick(() => {
         this.initSidebarHeight()
@@ -217,6 +208,22 @@ export default {
     },
     initSidebarHeight () {
       this.sidebarHeight = this.$el.offsetHeight
+    },
+    setMobileItem (mobileItemData) {
+      this.mobileItem = mobileItemData.item
+      this.mobileItemPos = mobileItemData.pos
+      this.mobileItemHeight = mobileItemData.height
+    },
+    unsetMobileItem (touchClick, hasChild) {
+      if (!touchClick) {
+        this.mobileItem = null
+        return
+      }
+      clearTimeout(this.mobileItemTimeout)
+      if (hasChild) return
+      this.mobileItemTimeout = setTimeout(() => {
+        this.mobileItem = null
+      }, 600)
     }
   },
   provide () {
