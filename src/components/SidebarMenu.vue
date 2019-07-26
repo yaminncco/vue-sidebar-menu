@@ -9,41 +9,21 @@
     <div
       class="vsm--list"
     >
-      <template v-for="(item, index) in menu">
-        <template v-if="item.header">
-          <template v-if="(item.visibleOnCollapse || !isCollapsed) && item.component">
-            <component
-              :is="item.component"
-              :key="index"
-            />
-          </template>
-          <template v-else-if="item.visibleOnCollapse || !isCollapsed">
-            <div
-              :key="index"
-              class="vsm--header"
-              :class="item.class"
-              v-bind="item.attributes"
-            >
-              {{ item.title }}
-            </div>
-          </template>
-        </template>
-        <item
-          v-else
-          :key="index"
-          :item="item"
-          :is-collapsed="isCollapsed"
-          :active-show="activeShow"
-          :show-one-child="showOneChild"
-          :show-child="showChild"
-          :rtl="rtl"
-        >
-          <slot
-            slot="dropdown-icon"
-            name="dropdown-icon"
-          />
-        </item>
-      </template>
+      <item
+        v-for="(item, index) in menu"
+        :key="index"
+        :item="item"
+        :is-collapsed="isCollapsed"
+        :active-show="activeShow"
+        :show-one-child="showOneChild"
+        :show-child="showChild"
+        :rtl="rtl"
+      >
+        <slot
+          slot="dropdown-icon"
+          name="dropdown-icon"
+        />
+      </item>
     </div>
     <div
       v-if="isCollapsed"

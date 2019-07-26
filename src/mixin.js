@@ -110,6 +110,17 @@ export const itemMixin = {
         { 'vsm--link_disabled': this.item.disabled },
         this.item.class
       ]
+    },
+    isItemHidden () {
+      if (this.isCollapsed) {
+        if (this.item.hidden && this.item.hiddenOnCollapse === undefined) {
+          return true
+        } else {
+          return this.item.hiddenOnCollapse === true
+        }
+      } else {
+        return this.item.hidden === true
+      }
     }
   },
   watch: {

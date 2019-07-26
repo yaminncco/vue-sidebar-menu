@@ -1,5 +1,21 @@
 <template>
+  <div v-if="item.header && !isItemHidden">
+    <template v-if="item.component">
+      <component
+        :is="item.component"
+      />
+    </template>
+    <div
+      v-else
+      class="vsm--header"
+      :class="item.class"
+      v-bind="item.attributes"
+    >
+      {{ item.title }}
+    </div>
+  </div>
   <div
+    v-else-if="!isItemHidden"
     class="vsm--item"
     :class="[{'vsm--item_open' : show}]"
     @mouseenter="mouseEnter($event)"

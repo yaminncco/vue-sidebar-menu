@@ -54,7 +54,8 @@ export default {
       menu: [
         {
           header: true,
-          title: 'Getting Started'
+          title: 'Getting Started',
+          hiddenOnCollapse: true
         },
         {
           href: '/',
@@ -68,7 +69,8 @@ export default {
         },
         {
           header: true,
-          title: 'Usage'
+          title: 'Usage',
+          hiddenOnCollapse: true
         },
         {
           href: '/props',
@@ -87,12 +89,12 @@ export default {
         },
         {
           header: true,
-          component: separator,
-          visibleOnCollapse: true
+          component: separator
         },
         {
           header: true,
-          title: 'Example'
+          title: 'Example',
+          hiddenOnCollapse: true
         },
         {
           href: '/disabled',
