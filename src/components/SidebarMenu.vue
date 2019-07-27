@@ -64,6 +64,7 @@
             :items="mobileItem.child"
             :show-child="showChild"
             :rtl="rtl"
+            :is-collapsed="isCollapsed"
           >
             <slot
               slot="dropdown-icon"

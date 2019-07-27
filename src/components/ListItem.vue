@@ -7,6 +7,7 @@
       :level="level"
       :show-child="showChild"
       :rtl="rtl"
+      :is-collapsed="isCollapsed"
     >
       <slot
         slot="dropdown-icon"
@@ -34,6 +35,9 @@ export default {
     rtl: {
       type: Boolean,
       default: false
+    },
+    isCollapsed: {
+      type: Boolean
     }
   },
   beforeCreate () {

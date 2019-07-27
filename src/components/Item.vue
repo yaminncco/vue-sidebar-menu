@@ -45,7 +45,7 @@
             {{ item.icon.text }}
           </component>
         </template>
-        <template v-if="!isCollapsed || mobileItem">
+        <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || mobileItem">
           <component
             :is="item.badge.element ? item.badge.element : 'span'"
             v-if="item.badge"
@@ -92,7 +92,7 @@
             {{ item.icon.text }}
           </component>
         </template>
-        <template v-if="!isCollapsed || mobileItem">
+        <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || mobileItem">
           <component
             :is="item.badge.element ? item.badge.element : 'span'"
             v-if="item.badge"
@@ -113,7 +113,7 @@
       </a>
     </template>
     <template v-if="item.child">
-      <template v-if="!isCollapsed">
+      <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed">
         <transition
           name="expand"
           @enter="expandEnter"
@@ -129,6 +129,7 @@
               :level="level+1"
               :show-child="showChild"
               :rtl="rtl"
+              :is-collapsed="isCollapsed"
             >
               <slot
                 slot="dropdown-icon"
