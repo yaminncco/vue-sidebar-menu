@@ -1,7 +1,7 @@
 <template>
   <div
     class="v-sidebar-menu"
-    :class="[!isCollapsed ? 'vsm_default' : 'vsm_collapsed', theme, rtl ? 'vsm_rtl' : '']"
+    :class="[!isCollapsed ? 'vsm_default' : 'vsm_collapsed', theme ? `vsm_${theme}` : '', rtl ? 'vsm_rtl' : '']"
     :style="{'width': sidebarWidth}"
     @mouseleave="onMouseLeave"
   >

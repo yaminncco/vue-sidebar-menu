@@ -175,10 +175,10 @@ export default {
         },
         {
           name: 'White theme',
-          input: 'vsm_white-theme'
+          input: 'white-theme'
         }
       ],
-      selectedTheme: 'vsm_white-theme'
+      selectedTheme: 'white-theme'
     }
   },
   methods: {
