@@ -50,45 +50,21 @@ from v3.0.0 you will need to import the style file in your project.
                 menu: [
                     {
                         header: true,
-                        title: 'Main Navigation',
-                        // component: componentName
-                        // visibleOnCollapse: true
-                        // class: ''
-                        // attributes: {}
+                        title: 'Main Navigation'
                     },
                     {
                         href: '/',
                         title: 'Dashboard',
-                        icon: 'fa fa-user',
-                        /* 
-                        // custom icon
-                        icon: {
-                            element: 'span',
-                            class: 'fa fa-user',
-                            attributes: {}
-                            text: ''
-                        }
-                        */
-                        // disabled: true
-                        // class: ''
-                        // attributes: {}
-                        // alias: '/path'
-                        /*
-                        badge: {
-                            text: 'new',
-                            class: 'default-badge'
-                            // attributes: {}
-                            // element: 'span'
-                        }
-                        */
+                        icon: 'fa fa-user'
                     },
                     {
+                        href: '/charts',
                         title: 'Charts',
                         icon: 'fa fa-chart-area',
                         child: [
                             {
                                 href: '/charts/sublink',
-                                title: 'Sub Link',
+                                title: 'Sub Link'
                             }
                         ]
                     }
@@ -97,6 +73,53 @@ from v3.0.0 you will need to import the style file in your project.
         }
     }
 </script>
+```
+
+### Item Property
+
+```js
+// header item
+{
+    header: true,
+    title: 'Main Navigation'
+    // hidden: false
+    // hiddenOnCollapse: true
+    // class: ''
+    // attributes: {}
+    /* custom component
+    component: componentName
+    */
+}
+
+// item
+{
+    href: '/',
+    title: 'Dashboard',
+    icon: 'fa fa-user'
+    /* custom icon
+    icon: {
+        element: 'span',
+        class: 'fa fa-user',
+        // attributes: {}
+        // text: ''
+    }
+    */
+    /*
+    badge: {
+        text: 'new',
+        class: 'vsm--badge_default'
+        // attributes: {}
+        // element: 'span'
+    }
+    */
+    // child: []
+    // disabled: true
+    // class: ''
+    // attributes: {}
+    // alias: '/path'
+    // hidden: false
+    // hiddenOnCollapse: true
+}
 ```
 
 ### Vue-router Support
@@ -164,25 +187,27 @@ All styles customization can be done in normal CSS by using this classes
 
 ```css
 .v-sidebar-menu {}
-.v-sidebar-menu.vsm-default {}
-.v-sidebar-menu.vsm-collapsed {}
-.v-sidebar-menu .vsm-header {}
-.v-sidebar-menu .vsm-list {}
-.v-sidebar-menu .vsm-dropdown > .vsm-list {}
-.v-sidebar-menu .vsm-item {}
-.v-sidebar-menu .vsm-item.first-item {}
-.v-sidebar-menu .vsm-item.mobile-item {}
-.v-sidebar-menu .vsm-item.open-item {}
-.v-sidebar-menu .vsm-item.active-item {}
-.v-sidebar-menu .vsm-item.parent-active-item {}
-.v-sidebar-menu .vsm-link {}
-.v-sidebar-menu .vsm-title {}
-.v-sidebar-menu .vsm-icon {}
-.v-sidebar-menu .vsm-arrow {}
-.v-sidebar-menu .vsm-arrow.open-arrow {}
-.v-sidebar-menu .vsm-mobile-bg {}
-.v-sidebar-menu .vsm-badge {}
-.v-sidebar-menu .collapse-btn {}
+.v-sidebar-menu.vsm_default {}
+.v-sidebar-menu.vsm_collapsed {}
+.v-sidebar-menu.vsm_rtl {}
+.v-sidebar-menu .vsm--item {}
+.v-sidebar-menu .vsm--item.vsm--item_open {}
+.v-sidebar-menu .vsm--link {}
+.v-sidebar-menu .vsm--link.vsm--link_active {}
+.v-sidebar-menu .vsm--link.vsm--link_exact-active {}
+.v-sidebar-menu .vsm--link.vsm--link_mobile-item {}
+.v-sidebar-menu .vsm--link.vsm--link_level-n {}
+.v-sidebar-menu .vsm--link.vsm--link_disabled {}
+.v-sidebar-menu .vsm--title {}
+.v-sidebar-menu .vsm--icon {}
+.v-sidebar-menu .vsm--arrow {}
+.v-sidebar-menu .vsm--arrow.vsm--arrow_open {}
+.v-sidebar-menu .vsm--badge {}
+.v-sidebar-menu .vsm--header {}
+.v-sidebar-menu .vsm--list {}
+.v-sidebar-menu .vsm--dropdown>.vsm--list {}
+.v-sidebar-menu .vsm--mobile-bg {}
+.v-sidebar-menu .vsm--toggle-btn {}
 ```
 
 or you can override Sass variables and create your own theme
