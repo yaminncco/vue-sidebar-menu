@@ -2,7 +2,7 @@
   <div
     class="v-sidebar-menu"
     :class="[!isCollapsed ? 'vsm_default' : 'vsm_collapsed', theme ? `vsm_${theme}` : '', rtl ? 'vsm_rtl' : '']"
-    :style="{'width': sidebarWidth}"
+    :style="[relative ? {'position' : 'relative', 'height' : '100%'} : '', {'width': sidebarWidth}]"
     @mouseleave="onMouseLeave"
   >
     <slot name="header" />
@@ -76,6 +76,7 @@
     </div>
     <slot name="footer" />
     <button
+      v-if="!hideToggle"
       class="vsm--toggle-btn"
       :class="{'vsm--toggle-btn_slot' : $slots['collapse-icon']}"
       @click="onToggleClick"
@@ -127,6 +128,14 @@ export default {
       default: false
     },
     rtl: {
+      type: Boolean,
+      default: false
+    },
+    relative: {
+      type: Boolean,
+      default: false
+    },
+    hideToggle: {
       type: Boolean,
       default: false
     }
@@ -188,7 +197,7 @@ export default {
       this.$emit('item-click', event, item)
     },
     initSidebarHeight () {
-      this.sidebarHeight = this.$el.offsetHeight
+      this.sidebarHeight = this.relative ? this.$el.parentElement.offsetHeight : window.innerHeight
     },
     setMobileItem (mobileItemData) {
       this.mobileItem = mobileItemData.item
