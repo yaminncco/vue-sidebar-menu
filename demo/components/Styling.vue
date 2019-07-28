@@ -34,6 +34,8 @@
 &lt;sidebar-menu&gt;
     &lt;span slot="collapse-icon"&gt;collapse-icon&lt;/span&gt;
     &lt;span slot="dropdown-icon"&gt;dropdown-icon&lt;/span&gt;
+    &lt;span slot="collapse-icon"&gt;collapse-icon&lt;/span&gt;
+    &lt;span slot="dropdown-icon"&gt;dropdown-icon&lt;/span&gt;
 &lt;/sidebar-menu&gt;
 </pre>
   </div>

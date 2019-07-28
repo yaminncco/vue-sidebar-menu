@@ -206,7 +206,9 @@ html {
 
 body {
   font-family: 'Source Sans Pro', sans-serif;
+  font-size: 16px;
   background-color: #f2f4f7;
+  color: #262626;
 }
 
 #demo {
@@ -225,10 +227,12 @@ body {
 }
 
 pre {
-  color: #2a2a2e;
+  font-family: Consolas, monospace;
+  color: #000;
   background: #fff;
   border-radius: 2px;
-  padding: 10px;
+  font-size: 13px;
+  padding: 5px;
   overflow: auto;
 }
 </style>

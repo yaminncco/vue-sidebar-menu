@@ -36,7 +36,7 @@ export default {
 
 from v3.0.0 you will need to import the style file in your project.
 
-## Usage
+## Basic Usage
 
 ```html
 <template>
@@ -50,7 +50,8 @@ from v3.0.0 you will need to import the style file in your project.
                 menu: [
                     {
                         header: true,
-                        title: 'Main Navigation'
+                        title: 'Main Navigation',
+                        hiddenOnCollapse: true
                     },
                     {
                         href: '/',
@@ -78,48 +79,55 @@ from v3.0.0 you will need to import the style file in your project.
 ### Item Property
 
 ```js
-// header item
-{
-    header: true,
-    title: 'Main Navigation'
-    // hidden: false
-    // hiddenOnCollapse: true
-    // class: ''
-    // attributes: {}
-    /* custom component
-    component: componentName
-    */
-}
+menu [
+    // header item
+    {
+        header: true,
+        title: 'Main Navigation'
+        // hidden: false
+        // hiddenOnCollapse: true
+        // class: ''
+        // attributes: {}
 
-// item
-{
-    href: '/',
-    title: 'Dashboard',
-    icon: 'fa fa-user'
-    /* custom icon
-    icon: {
-        element: 'span',
-        class: 'fa fa-user',
-        // attributes: {}
-        // text: ''
+        /* or custom component
+        component: componentName
+        */
     }
-    */
-    /*
-    badge: {
-        text: 'new',
-        class: 'vsm--badge_default'
+
+    // item
+    {
+        href: '/',
+        title: 'Dashboard',
+
+        // icon class
+        icon: 'fa fa-user'
+        /* or custom icon
+        icon: {
+            element: 'span',
+            class: 'fa fa-user',
+            // attributes: {}
+            // text: ''
+        }
+        */
+
+        /*
+        badge: {
+            text: 'new',
+            class: 'vsm--badge_default'
+            // attributes: {}
+            // element: 'span'
+        }
+        */
+
+        // child: []
+        // disabled: true
+        // class: ''
         // attributes: {}
-        // element: 'span'
+        // alias: '/path'
+        // hidden: false
+        // hiddenOnCollapse: true
     }
-    */
-    // child: []
-    // disabled: true
-    // class: ''
-    // attributes: {}
-    // alias: '/path'
-    // hidden: false
-    // hiddenOnCollapse: true
-}
+]
 ```
 
 ### Vue-router Support
@@ -130,35 +138,62 @@ if you are using vue-router, the component will use `<router-link>` instead of h
 
 ```js
 props: {
+    // Sidebar menu
     menu: {
-        type: Array,
-        required: true
+      type: Array,
+      required: true
     },
+
+    // Collapse/uncollapse Sidebar
     collapsed: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false
     },
+
+    // Sidebar width
     width: {
-        type: String,
-        default: '350px'
+      type: String,
+      default: '350px'
     },
+
+    // Sdebar width on collapse
     widthCollapsed: {
-        type: String,
-        default: '50px'
+      type: String,
+      default: '50px'
     },
+
+    // Keep all child open
     showChild: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false
     },
-    theme: { // available themes: 'white-theme'
-        type: String,
-        default: ''
+
+    // Sidebar theme (available themes: 'white-theme')
+    theme: {
+      type: String,
+      default: ''
     },
+
+    // Keep only one child opened at a time (first level only)
     showOneChild: {
       type: Boolean,
       default: false
     },
+
+    // Sidebar right to left
     rtl: {
+      type: Boolean,
+      default: false
+    },
+
+    // Make sidebar relative to the parent (by default the sidebar is relative to the viewport)
+    relative: {
+      type: Boolean,
+      default: false
+    },
+
+    // Hide toggle btn
+    hideToggle: {
       type: Boolean,
       default: false
     }
