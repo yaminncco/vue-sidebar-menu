@@ -40,20 +40,6 @@
     <h3>Item Property</h3>
     <pre>...
 menu [
-    // header item
-    {
-        header: true,
-        title: 'Main Navigation'
-        // hidden: false
-        // hiddenOnCollapse: true
-        // class: ''
-        // attributes: {}
-
-        /* or custom component
-        component: componentName
-        */
-    }
-
     // item
     {
         href: '/',
@@ -84,6 +70,23 @@ menu [
         // class: ''
         // attributes: {}
         // alias: '/path'
+        // hidden: false
+        // hiddenOnCollapse: true
+    },
+
+    // header item
+    {
+        header: true,
+        title: 'Main Navigation'
+        // hidden: false
+        // hiddenOnCollapse: true
+        // class: ''
+        // attributes: {}
+    },
+
+    // component item
+    {
+        component: componentName
         // hidden: false
         // hiddenOnCollapse: true
     }

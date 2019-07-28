@@ -1,18 +1,15 @@
 <template>
-  <div v-if="item.header && !isItemHidden">
-    <template v-if="item.component">
-      <component
-        :is="item.component"
-      />
-    </template>
-    <div
-      v-else
-      class="vsm--header"
-      :class="item.class"
-      v-bind="item.attributes"
-    >
-      {{ item.title }}
-    </div>
+  <component
+    :is="item.component"
+    v-if="item.component && !isItemHidden"
+  />
+  <div
+    v-else-if="item.header && !isItemHidden"
+    class="vsm--header"
+    :class="item.class"
+    v-bind="item.attributes"
+  >
+    {{ item.title }}
   </div>
   <div
     v-else-if="!isItemHidden"

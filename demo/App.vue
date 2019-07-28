@@ -88,7 +88,6 @@ export default {
           icon: 'fa fa-palette'
         },
         {
-          header: true,
           component: separator
         },
         {
