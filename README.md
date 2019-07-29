@@ -34,8 +34,6 @@ export default {
 }
 ```
 
-from v3.0.0 you will need to import the style file in your project.
-
 ## Basic Usage
 
 ```html
@@ -76,7 +74,7 @@ from v3.0.0 you will need to import the style file in your project.
 </script>
 ```
 
-### Item Property
+### Item Properties
 
 ```js
 menu [
@@ -135,7 +133,7 @@ menu [
 
 ### Vue-router Support
 
-if you are using vue-router, the component will use `<router-link>` instead of hyperlink `<a>`
+if you are using vue-router, `<router-link>` will be used instead of hyperlink `<a>`
 
 ### Props
 
@@ -147,7 +145,7 @@ props: {
       required: true
     },
 
-    // Collapse/uncollapse Sidebar
+    // Sidebar Collapse state
     collapsed: {
       type: Boolean,
       default: false
@@ -159,7 +157,7 @@ props: {
       default: '350px'
     },
 
-    // Sdebar width on collapse
+    // Sidebar width on collapse
     widthCollapsed: {
       type: String,
       default: '50px'

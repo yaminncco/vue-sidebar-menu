@@ -37,7 +37,7 @@
     }
 &lt;/script&gt;
 </pre>
-    <h3>Item Property</h3>
+    <h3>Item Properties</h3>
     <pre>...
 menu [
     // item

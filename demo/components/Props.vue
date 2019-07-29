@@ -8,7 +8,7 @@
       required: true
     },
 
-    // Collapse/uncollapse Sidebar
+    // Sidebar Collapse state
     collapsed: {
       type: Boolean,
       default: false
@@ -20,7 +20,7 @@
       default: '350px'
     },
 
-    // Sdebar width on collapse
+    // Sidebar width on collapse
     widthCollapsed: {
       type: String,
       default: '50px'
