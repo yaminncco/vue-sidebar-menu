@@ -62,6 +62,12 @@
     & .vsm--list {
       background-color: $dropdown-bg;
     }
+    & .vsm--link {
+      color: $dropdown-color;
+    }
+    & .vsm--icon {
+      color: $dropdown-color;
+    }
   }
 
   & .vsm--link.vsm--link_level-1.vsm--link_exact-active {
