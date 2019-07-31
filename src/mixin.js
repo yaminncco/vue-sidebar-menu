@@ -11,9 +11,12 @@ export const itemMixin = {
     this.initShowState()
 
     if (!this.$router) {
-      window.addEventListener('hashchange', () => {
-        this.initActiveState()
-      })
+      window.addEventListener('hashchange', this.initActiveState)
+    }
+  },
+  destroyed () {
+    if (!this.$router) {
+      window.removeEventListener('hashchange', this.initActiveState)
     }
   },
   methods: {
@@ -53,7 +56,7 @@ export const itemMixin = {
       }
 
       if (!this.mobileItem && this.isCollapsed && this.isFirstLevel) {
-        this.$parent.$emit('touchClickItem', this.item.child !== undefined)
+        this.$emit('unset-mobile-item', true, this.item.child !== undefined)
       }
 
       if (!this.item.child) {
@@ -82,6 +85,11 @@ export const itemMixin = {
         if (this.showOneChild && !this.showChild && this.isFirstLevel && (this.active || this.childActive)) {
           this.emitActiveShow(this._uid)
         }
+      }
+    },
+    mouseEnterEvent (event) {
+      if (this.isCollapsed && this.isFirstLevel && !this.mobileItem && !this.item.disabled) {
+        this.$emit('set-mobile-item', { event, item: this.item })
       }
     }
   },

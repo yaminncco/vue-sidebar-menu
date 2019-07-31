@@ -15,7 +15,7 @@
     v-else-if="!isItemHidden"
     class="vsm--item"
     :class="[{'vsm--item_open' : show}]"
-    @mouseenter="mouseEnter($event)"
+    @mouseenter="mouseEnterEvent"
   >
     <template v-if="isRouterLink">
       <router-link
@@ -180,19 +180,6 @@ export default {
     rtl: {
       type: Boolean,
       default: false
-    }
-  },
-  methods: {
-    mouseEnter (event) {
-      if (this.isCollapsed && this.isFirstLevel && !this.mobileItem && !this.item.disabled) {
-        this.$parent.$emit('mouseEnterItem', {
-          item: this.item,
-          pos:
-              event.currentTarget.getBoundingClientRect().top -
-              this.$parent.$el.getBoundingClientRect().top,
-          height: this.$el.offsetHeight
-        })
-      }
     }
   }
 }

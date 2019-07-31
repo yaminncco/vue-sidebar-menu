@@ -18,6 +18,8 @@
         :show-one-child="showOneChild"
         :show-child="showChild"
         :rtl="rtl"
+        @set-mobile-item="setMobileItem"
+        @unset-mobile-item="unsetMobileItem"
       >
         <slot
           slot="dropdown-icon"
@@ -51,7 +53,7 @@
       </transition>
       <div
         class="vsm--dropdown"
-        :style="[{'position' : 'absolute'}, {'top' : `${mobileItemHeight}px`}, {'left' : rtl ? '0px': sidebarWidth}, {'right' : rtl ? sidebarWidth: '0px'}, {'max-height' : `calc(${sidebarHeight}px - ${mobileItemPos + mobileItemHeight}px)`}, {'overflow-y' : 'auto'}]"
+        :style="[{'position' : 'absolute'}, {'top' : `${mobileItemHeight}px`}, {'left' : rtl ? '0px': sidebarWidth}, {'right' : rtl ? sidebarWidth: '0px'}, {'max-height' : `calc(${parentHeight} - ${mobileItemPos + mobileItemHeight}px - ${parentOffset}px)`}, {'overflow-y' : 'auto'}]"
       >
         <transition
           name="expand"
@@ -148,7 +150,8 @@ export default {
       mobileItemHeight: 0,
       mobileItemTimeout: null,
       activeShow: null,
-      sidebarHeight: 0
+      parentHeight: '100vh',
+      parentOffset: 0
     }
   },
   computed: {
@@ -158,26 +161,9 @@ export default {
   },
   watch: {
     collapsed (val) {
+      if (this.isCollapsed === this.collapsed) return
       this.isCollapsed = val
-      this.$nextTick(() => {
-        this.initSidebarHeight()
-      })
     }
-  },
-  created () {
-    this.$on('mouseEnterItem', (mobileItemData) => {
-      this.unsetMobileItem()
-      this.$nextTick(() => {
-        this.setMobileItem(mobileItemData)
-      })
-    })
-
-    this.$on('touchClickItem', (hasChild) => {
-      this.unsetMobileItem(true, hasChild)
-    })
-  },
-  mounted () {
-    this.initSidebarHeight()
   },
   methods: {
     onMouseLeave () {
@@ -185,9 +171,6 @@ export default {
     },
     onToggleClick () {
       this.isCollapsed = !this.isCollapsed
-      this.$nextTick(() => {
-        this.initSidebarHeight()
-      })
       this.$emit('collapse', this.isCollapsed)
     },
     onActiveShow (uid) {
@@ -196,13 +179,25 @@ export default {
     onItemClick (event, item) {
       this.$emit('item-click', event, item)
     },
-    initSidebarHeight () {
-      this.sidebarHeight = this.relative ? this.$el.parentElement.offsetHeight : window.innerHeight
-    },
-    setMobileItem (mobileItemData) {
-      this.mobileItem = mobileItemData.item
-      this.mobileItemPos = mobileItemData.pos
-      this.mobileItemHeight = mobileItemData.height
+    setMobileItem ({ event, item }) {
+      let sidebarTop = this.$el.getBoundingClientRect().top
+      let pos = event.currentTarget.getBoundingClientRect().top - sidebarTop
+      let height = event.currentTarget.offsetHeight
+      let parent = this.$el.parentElement
+      let parentTop = parent.getBoundingClientRect().top
+      let parentHeight = parent.offsetHeight
+      this.unsetMobileItem()
+      this.$nextTick(() => {
+        if (this.relative) {
+          this.parentHeight = `${parentHeight}px`
+          this.parentOffset = sidebarTop - parentTop
+        } else {
+          this.parentOffset = sidebarTop
+        }
+        this.mobileItem = item
+        this.mobileItemPos = pos
+        this.mobileItemHeight = height
+      })
     },
     unsetMobileItem (touchClick, hasChild) {
       if (!touchClick) {
