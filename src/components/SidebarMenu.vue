@@ -80,10 +80,10 @@
     <button
       v-if="!hideToggle"
       class="vsm--toggle-btn"
-      :class="{'vsm--toggle-btn_slot' : $slots['collapse-icon']}"
+      :class="{'vsm--toggle-btn_slot' : $slots['toggle-icon']}"
       @click="onToggleClick"
     >
-      <slot name="collapse-icon" />
+      <slot name="toggle-icon" />
     </button>
   </div>
 </template>

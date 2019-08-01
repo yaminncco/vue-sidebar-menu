@@ -223,7 +223,7 @@ All styles customization can be done in normal CSS by using this classes
 
 ```css
 .v-sidebar-menu {}
-.v-sidebar-menu.vsm_default {}
+.v-sidebar-menu.vsm_expanded {}
 .v-sidebar-menu.vsm_collapsed {}
 .v-sidebar-menu.vsm_rtl {}
 .v-sidebar-menu .vsm--item {}
@@ -232,7 +232,7 @@ All styles customization can be done in normal CSS by using this classes
 .v-sidebar-menu .vsm--link.vsm--link_active {}
 .v-sidebar-menu .vsm--link.vsm--link_exact-active {}
 .v-sidebar-menu .vsm--link.vsm--link_mobile-item {}
-.v-sidebar-menu .vsm--link.vsm--link_level-n {}
+.v-sidebar-menu .vsm--link.vsm--link_level-[n] {}
 .v-sidebar-menu .vsm--link.vsm--link_disabled {}
 .v-sidebar-menu .vsm--title {}
 .v-sidebar-menu .vsm--icon {}
@@ -264,7 +264,7 @@ The component use `Font Awesome 5 Free` as default for the icons, but you can cu
 <sidebar-menu>
     <div slot="header">header</div>
     <div slot="footer">footer</div>
-    <span slot="collapse-icon">collapse-icon</span>
+    <span slot="toggle-icon">toggle-icon</span>
     <span slot="dropdown-icon">dropdown-icon</span>
 </sidebar-menu>
 ```
