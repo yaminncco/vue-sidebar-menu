@@ -2,7 +2,7 @@
   <div>
     <h2>Props</h2>
     <pre>props: {
-    // Sidebar menu
+    // Sidebar menu (required)
     menu: {
       type: Array,
       required: true
@@ -14,32 +14,26 @@
       default: false
     },
 
-    // Sidebar width
+    // Sidebar width (expanded)
     width: {
       type: String,
       default: '350px'
     },
 
-    // Sidebar width on collapse
+    // Sidebar width (collapsed)
     widthCollapsed: {
       type: String,
       default: '50px'
     },
 
-    // Keep all child open
-    showChild: {
+    // Keep only one child opened at a time (first level only)
+    showOneChild: {
       type: Boolean,
       default: false
     },
 
-    // Sidebar theme (available themes: 'white-theme')
-    theme: {
-      type: String,
-      default: ''
-    },
-
-    // Keep only one child opened at a time (first level only)
-    showOneChild: {
+    // Keep all child open
+    showChild: {
       type: Boolean,
       default: false
     },
@@ -56,10 +50,16 @@
       default: false
     },
 
-    // Hide toggle btn
+    // Hide toggle collapse btn
     hideToggle: {
       type: Boolean,
       default: false
+    },
+
+    // Sidebar theme (available themes: 'white-theme')
+    theme: {
+      type: String,
+      default: ''
     }
 }
 </pre>

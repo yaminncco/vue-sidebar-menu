@@ -139,7 +139,7 @@ if you are using vue-router, `<router-link>` will be used instead of hyperlink `
 
 ```js
 props: {
-    // Sidebar menu
+    // Sidebar menu (required)
     menu: {
       type: Array,
       required: true
@@ -151,32 +151,26 @@ props: {
       default: false
     },
 
-    // Sidebar width
+    // Sidebar width (expanded)
     width: {
       type: String,
       default: '350px'
     },
 
-    // Sidebar width on collapse
+    // Sidebar width (collapsed)
     widthCollapsed: {
       type: String,
       default: '50px'
     },
 
-    // Keep all child open
-    showChild: {
+    // Keep only one child opened at a time (first level only)
+    showOneChild: {
       type: Boolean,
       default: false
     },
 
-    // Sidebar theme (available themes: 'white-theme')
-    theme: {
-      type: String,
-      default: ''
-    },
-
-    // Keep only one child opened at a time (first level only)
-    showOneChild: {
+    // Keep all child open
+    showChild: {
       type: Boolean,
       default: false
     },
@@ -193,10 +187,16 @@ props: {
       default: false
     },
 
-    // Hide toggle btn
+    // Hide toggle collapse btn
     hideToggle: {
       type: Boolean,
       default: false
+    },
+
+    // Sidebar theme (available themes: 'white-theme')
+    theme: {
+      type: String,
+      default: ''
     }
 }
 ```
@@ -204,18 +204,18 @@ props: {
 ### Events
 
 ```html
-<sidebar-menu @collapse="onCollapse" @item-click="onItemClick" />
+<sidebar-menu @toggle-collapse="onToggleCollapse" @item-click="onItemClick" />
 ...
 methods: {
-    onCollapse(collapsed) {},
+    onToggleCollapse(collapsed) {},
     onItemClick(event, item) {}
 }
 ...
 ```
 
-__@collapse(collapsed)__ Trigger on btn-collapse click
+__@toggle-collapse(collapsed)__ Trigger on toggle btn click
 
-__@item-click(event, item)__ Trigger on item click
+__@item-click(event, item)__ Trigger on item link click
 
 ### Styles
 

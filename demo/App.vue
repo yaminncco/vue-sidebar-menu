@@ -35,7 +35,7 @@
         :collapsed="collapsed"
         :theme="selectedTheme"
         :show-one-child="true"
-        @collapse="onCollapse"
+        @toggle-collapse="onToggleCollapse"
         @item-click="onItemClick"
       />
     </div>
@@ -181,7 +181,7 @@ export default {
     }
   },
   methods: {
-    onCollapse (collapsed) {
+    onToggleCollapse (collapsed) {
       console.log(collapsed)
       this.collapsed = collapsed
     },
