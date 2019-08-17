@@ -94,6 +94,10 @@ menu [
     // item
     {
         href: '/',
+        /* or with vue-router you can use :to prop
+        href: { path: '/' },
+        */
+       
         title: 'Dashboard',
 
         // icon class
