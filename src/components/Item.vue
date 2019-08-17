@@ -20,7 +20,7 @@
     <template v-if="isRouterLink">
       <router-link
         :class="itemLinkClass"
-        :to="item.href"
+        :to="itemLinkHref"
         :disabled="item.disabled"
         :tabindex="item.disabled ? -1 : undefined"
         v-bind="item.attributes"
@@ -67,7 +67,7 @@
     <template v-else>
       <a
         :class="itemLinkClass"
-        :href="item.href ? item.href : '#'"
+        :href="itemLinkHref"
         :disabled="item.disabled"
         :tabindex="item.disabled ? -1 : undefined"
         v-bind="item.attributes"

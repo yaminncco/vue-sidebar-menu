@@ -21,9 +21,11 @@ export const itemMixin = {
   },
   methods: {
     isLinkActive (item) {
+      if (!item.href) return false
       return this.matchRoute(item.href) || this.isAliasActive(item)
     },
     isChildActive (child) {
+      if (!child) return false
       return child.some(item => {
         return this.isLinkActive(item) || (item.child ? this.isChildActive(item.child) : false)
       })
@@ -40,11 +42,12 @@ export const itemMixin = {
       }
       return false
     },
-    matchRoute (route) {
-      if (this.$route) {
-        return route === this.$route.fullPath
+    matchRoute (itemRoute) {
+      if (this.$router) {
+        const { route } = this.$router.resolve(itemRoute)
+        return route.fullPath === this.$route.fullPath
       } else {
-        return route === window.location.pathname + window.location.search + window.location.hash
+        return itemRoute === window.location.pathname + window.location.search + window.location.hash
       }
     },
     clickEvent (event) {
@@ -76,12 +79,12 @@ export const itemMixin = {
       this.itemShow = itemShow
     },
     initActiveState () {
-      this.active = this.item && this.item.href ? this.isLinkActive(this.item) : false
-      this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
+      this.active = this.isLinkActive(this.item)
+      this.childActive = this.isChildActive(this.item.child)
     },
     initShowState () {
       if (this.item && this.item.child) {
-        this.itemShow = this.isLinkActive(this.item) || this.isChildActive(this.item.child)
+        this.itemShow = this.active || this.childActive
         if (this.showOneChild && !this.showChild && this.isFirstLevel && (this.active || this.childActive)) {
           this.emitActiveShow(this._uid)
         }
@@ -95,7 +98,7 @@ export const itemMixin = {
   },
   computed: {
     isRouterLink () {
-      return this.$router && this.item && this.item.href !== undefined
+      return (this.$router && this.item && this.item.href !== undefined) === true
     },
     isFirstLevel () {
       return this.level === 1
@@ -129,6 +132,10 @@ export const itemMixin = {
       } else {
         return this.item.hidden === true
       }
+    },
+    itemLinkHref () {
+      if (!this.$router && (!this.item.href || typeof this.item.href !== 'string')) return '#'
+      return this.item.href ? this.item.href : '#'
     }
   },
   watch: {
