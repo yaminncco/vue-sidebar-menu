@@ -98,7 +98,12 @@ export const itemMixin = {
   },
   computed: {
     isRouterLink () {
-      return (this.$router && this.item && this.item.href !== undefined && this.$router.resolve({ path: this.item.href }).route.name) === true
+      let belongToVueRouter = ((this.$router && this.item && this.item.href !== undefined) === true)
+      // TODO Add Remote link "object" support
+      if (belongToVueRouter && typeof this.item.href === 'string') {
+        return this.$router.resolve(this.item.href).route.name !== null
+      }
+      return belongToVueRouter
     },
     isFirstLevel () {
       return this.level === 1

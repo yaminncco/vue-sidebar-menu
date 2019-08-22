@@ -110,7 +110,6 @@ export default {
           }
         },
         {
-          href: '/page',
           title: 'Dropdown Page',
           icon: 'fa fa-list-ul',
           child: [
@@ -164,6 +163,16 @@ export default {
               ]
             }
           ]
+        },
+        {
+          href: 'https://github.com/yaminncco/vue-sidebar-menu',
+          title: 'Git Hub Page',
+          icon: 'fa fa-link'
+        },
+        {
+          href: { path: 'https://www.npmjs.com/package/vue-sidebar-menu' },
+          title: 'NPM Download Page',
+          icon: 'fa fa-link'
         }
       ],
       collapsed: false,
