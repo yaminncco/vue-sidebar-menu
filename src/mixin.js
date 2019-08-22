@@ -100,8 +100,11 @@ export const itemMixin = {
     isRouterLink () {
       let belongToVueRouter = ((this.$router && this.item && this.item.href !== undefined) === true)
       // TODO Add Remote link "object" support
+
       if (belongToVueRouter && typeof this.item.href === 'string') {
         return this.$router.resolve(this.item.href).route.name !== null
+      } else if (belongToVueRouter && (typeof this.item.href !== 'object' || this.item.href === null)) {
+        belongToVueRouter = false
       }
       return belongToVueRouter
     },
