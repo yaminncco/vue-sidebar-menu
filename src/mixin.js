@@ -98,7 +98,7 @@ export const itemMixin = {
   },
   computed: {
     isRouterLink () {
-      return (this.$router && this.item && this.item.href !== undefined) === true
+      return (this.$router && this.item && this.item.href !== undefined && !this.item.external) === true
     },
     isFirstLevel () {
       return this.level === 1

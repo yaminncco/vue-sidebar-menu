@@ -43,8 +43,10 @@ menu [
     // item
     {
         href: '/',
-        /* or with vue-router you can use :to prop
-        href: { path: '/' },
+        /* with vue-router you can use :to prop
+        href: { path: '/' }
+        you can mark link as external
+        // external: true
         */
 
         title: 'Dashboard',
