@@ -166,7 +166,7 @@ export default {
       default: false
     },
     activeShow: {
-      type: Number,
+      type: Object,
       default: null
     },
     showChild: {

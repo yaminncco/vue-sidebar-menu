@@ -175,8 +175,8 @@ export default {
       this.isCollapsed = !this.isCollapsed
       this.$emit('toggle-collapse', this.isCollapsed)
     },
-    onActiveShow (uid) {
-      this.activeShow = uid
+    onActiveShow (item) {
+      this.activeShow = item
     },
     onItemClick (event, item) {
       this.$emit('item-click', event, item)

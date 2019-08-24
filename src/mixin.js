@@ -69,14 +69,14 @@ export const itemMixin = {
         if (!this.item.href) event.preventDefault()
         if (this.mobileItem) return
         if (this.showOneChild) {
-          this.activeShow === this._uid ? this.setActiveShow(false) : this.setActiveShow(true, this._uid)
+          this.activeShow === this.item ? this.setActiveShow(false) : this.setActiveShow(true, this.item)
         } else {
           this.itemShow = !this.itemShow
         }
       }
     },
-    setActiveShow (itemShow, uid = null) {
-      this.emitActiveShow(itemShow ? uid : null)
+    setActiveShow (itemShow, item = null) {
+      this.emitActiveShow(item)
       this.itemShow = itemShow
     },
     initActiveState () {
@@ -87,7 +87,7 @@ export const itemMixin = {
       if (this.item && this.item.child) {
         this.itemShow = this.active || this.childActive
         if (this.showOneChild && !this.showChild && this.isFirstLevel && (this.active || this.childActive)) {
-          this.emitActiveShow(this._uid)
+          this.emitActiveShow(this.item)
         }
       }
     },
@@ -108,7 +108,7 @@ export const itemMixin = {
       if (!this.item.child) return false
       if (this.showChild || this.mobileItem) return true
       if (this.isFirstLevel && this.showOneChild) {
-        return this._uid === this.activeShow
+        return this.item === this.activeShow
       }
       return this.itemShow
     },
