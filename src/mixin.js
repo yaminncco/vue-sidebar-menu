@@ -7,6 +7,7 @@ export const itemMixin = {
     }
   },
   created () {
+    if (this.item.header || this.item.component) return
     this.initActiveState()
     this.initShowState()
 
@@ -140,6 +141,7 @@ export const itemMixin = {
   },
   watch: {
     $route () {
+      if (this.item.header || this.item.component) return
       this.initActiveState()
     }
   },
