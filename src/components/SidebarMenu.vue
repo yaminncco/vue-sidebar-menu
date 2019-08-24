@@ -163,6 +163,7 @@ export default {
     collapsed (val) {
       if (this.isCollapsed === this.collapsed) return
       this.isCollapsed = val
+      this.unsetMobileItem()
     }
   },
   methods: {
@@ -170,6 +171,7 @@ export default {
       this.unsetMobileItem()
     },
     onToggleClick () {
+      this.unsetMobileItem()
       this.isCollapsed = !this.isCollapsed
       this.$emit('toggle-collapse', this.isCollapsed)
     },
