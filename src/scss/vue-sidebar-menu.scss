@@ -13,8 +13,9 @@
   flex-direction: column;
   z-index: 999;
   box-sizing: border-box;
-  transition: 0.3s width;
-
+  width: 100%;
+  transition: 0.3s max-width;
+  
   > .vsm--list {
     width: 100%;
     height: 100%;

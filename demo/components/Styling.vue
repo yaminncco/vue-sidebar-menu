@@ -22,6 +22,7 @@
 .v-sidebar-menu .vsm--header {}
 .v-sidebar-menu .vsm--list {}
 .v-sidebar-menu .vsm--dropdown>.vsm--list {}
+.v-sidebar-menu .vsm--mobile-item {}
 .v-sidebar-menu .vsm--mobile-bg {}
 .v-sidebar-menu .vsm--toggle-btn {}
 </pre>

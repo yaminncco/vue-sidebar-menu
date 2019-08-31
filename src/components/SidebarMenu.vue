@@ -2,7 +2,7 @@
   <div
     class="v-sidebar-menu"
     :class="[!isCollapsed ? 'vsm_expanded' : 'vsm_collapsed', theme ? `vsm_${theme}` : '', rtl ? 'vsm_rtl' : '']"
-    :style="[relative ? {'position' : 'relative', 'height' : '100%'} : '', {'width': sidebarWidth}]"
+    :style="[relative ? {'position' : 'relative', 'height' : '100%'} : '', {'max-width': sidebarWidth}]"
     @mouseleave="onMouseLeave"
   >
     <slot name="header" />
@@ -29,7 +29,8 @@
     </div>
     <div
       v-if="isCollapsed"
-      :style="[{'position' : 'absolute'}, {'top' : `${mobileItemPos}px`}, rtl ? {'right' : '0px'} : {'left' : '0px'}, {'z-index' : 30}, {'width' : width}]"
+      class="vsm--mobile-item"
+      :style="mobileItemStyle.item"
     >
       <item
         v-if="mobileItem"
@@ -53,7 +54,7 @@
       </transition>
       <div
         class="vsm--dropdown"
-        :style="[{'position' : 'absolute'}, {'top' : `${mobileItemHeight}px`}, {'left' : rtl ? '0px': sidebarWidth}, {'right' : rtl ? sidebarWidth: '0px'}, {'max-height' : `calc(${parentHeight} - ${mobileItemPos + mobileItemHeight}px - ${parentOffset}px)`}, {'overflow-y' : 'auto'}]"
+        :style="mobileItemStyle.dropdown"
       >
         <transition
           name="expand"
@@ -151,12 +152,34 @@ export default {
       mobileItemTimeout: null,
       activeShow: null,
       parentHeight: '100vh',
-      parentOffset: 0
+      parentWidth: '100vw',
+      parentOffsetTop: '0px',
+      parentOffsetLeft: '0px'
     }
   },
   computed: {
     sidebarWidth () {
       return this.isCollapsed ? this.widthCollapsed : this.width
+    },
+    mobileItemStyle () {
+      return {
+        item: [
+          { 'position': 'absolute' },
+          { 'top': `${this.mobileItemPos}px` },
+          this.rtl ? { 'right': '0px' } : { 'left': '0px' },
+          { 'z-index': 30 },
+          { 'width': `calc(${this.parentWidth} - ${this.parentOffsetLeft})` },
+          { 'max-width': this.width }
+        ],
+        dropdown: [
+          { 'position': 'absolute' },
+          { 'top': `${this.mobileItemHeight}px` },
+          { 'left': this.rtl ? '0px' : this.sidebarWidth },
+          { 'right': this.rtl ? this.sidebarWidth : '0px' },
+          { 'max-height': `calc(${this.parentHeight} - ${this.mobileItemPos + this.mobileItemHeight}px - ${this.parentOffsetTop})` },
+          { 'overflow-y': 'auto' }
+        ]
+      }
     }
   },
   watch: {
@@ -183,19 +206,24 @@ export default {
     },
     setMobileItem ({ event, item }) {
       let sidebarTop = this.$el.getBoundingClientRect().top
+      let sidebarLeft = this.$el.getBoundingClientRect().left
+      let sidebarRight = this.$el.getBoundingClientRect().right
       let pos = event.currentTarget.getBoundingClientRect().top - sidebarTop
       let height = event.currentTarget.offsetHeight
-      let parent = this.$el.parentElement
-      let parentTop = parent.getBoundingClientRect().top
-      let parentHeight = parent.offsetHeight
       this.unsetMobileItem()
+      if (this.relative) {
+        let parent = this.$el.parentElement
+        let parentTop = parent.getBoundingClientRect().top
+        let parentLeft = parent.getBoundingClientRect().left
+        this.parentHeight = `${parent.offsetHeight}px`
+        this.parentWidth = `${parent.offsetWidth}px`
+        this.parentOffsetTop = `${sidebarTop - parentTop}px`
+        this.rtl ? this.parentOffsetLeft = `${parent.offsetWidth - sidebarRight + parentLeft}px` : this.parentOffsetLeft = `${sidebarLeft - parentLeft}px`
+      } else {
+        this.parentOffsetTop = `${sidebarTop}px`
+        this.rtl ? this.parentOffsetLeft = `calc(${this.parentWidth} - ${sidebarRight}px)` : this.parentOffsetLeft = `${sidebarLeft}px`
+      }
       this.$nextTick(() => {
-        if (this.relative) {
-          this.parentHeight = `${parentHeight}px`
-          this.parentOffset = sidebarTop - parentTop
-        } else {
-          this.parentOffset = sidebarTop
-        }
         this.mobileItem = item
         this.mobileItemPos = pos
         this.mobileItemHeight = height
