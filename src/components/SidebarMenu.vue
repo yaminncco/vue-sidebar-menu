@@ -205,11 +205,16 @@ export default {
       this.$emit('item-click', event, item)
     },
     setMobileItem ({ event, item }) {
+      if (this.mobileItem === item) return
       let sidebarTop = this.$el.getBoundingClientRect().top
       let sidebarLeft = this.$el.getBoundingClientRect().left
       let sidebarRight = this.$el.getBoundingClientRect().right
-      let pos = event.currentTarget.getBoundingClientRect().top - sidebarTop
-      let height = event.currentTarget.offsetHeight
+      let styles = window.getComputedStyle(event.currentTarget)
+      let paddingTop = parseFloat(styles.paddingTop)
+      let paddingBottom = parseFloat(styles.paddingBottom)
+      let height = event.currentTarget.offsetHeight - (paddingTop + paddingBottom)
+      let pos = event.currentTarget.getBoundingClientRect().top - sidebarTop + paddingTop
+
       this.unsetMobileItem()
       if (this.relative) {
         let parent = this.$el.parentElement

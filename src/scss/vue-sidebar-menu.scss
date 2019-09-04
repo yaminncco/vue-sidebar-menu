@@ -198,6 +198,10 @@
       width: 100%;
     }
   }
+  .vsm--mobile-item>.vsm--item {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
 }
 
 @import './themes/default-theme';
