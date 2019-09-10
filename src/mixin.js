@@ -2,6 +2,7 @@ export const itemMixin = {
   data () {
     return {
       active: false,
+      exactActive: false,
       childActive: false,
       itemShow: false
     }
@@ -23,27 +24,39 @@ export const itemMixin = {
   methods: {
     isLinkActive (item) {
       if (!item.href) return false
-      return this.matchRoute(item.href) || this.isAliasActive(item)
+      return this.matchRoute(item.href)
+    },
+    isLinkExactActive (item) {
+      if (!item.href) return false
+      return this.matchExactRoute(item.href) || this.isAliasActive(item)
     },
     isChildActive (child) {
       if (!child) return false
       return child.some(item => {
-        return this.isLinkActive(item) || (item.child ? this.isChildActive(item.child) : false)
+        return this.isLinkExactActive(item) || (item.child ? this.isChildActive(item.child) : false)
       })
     },
     isAliasActive (item) {
       if (item.alias) {
         if (Array.isArray(item.alias)) {
           return item.alias.some(alias => {
-            return this.matchRoute(alias)
+            return this.matchExactRoute(alias)
           })
         } else {
-          return this.matchRoute(item.alias)
+          return this.matchExactRoute(item.alias)
         }
       }
       return false
     },
     matchRoute (itemRoute) {
+      if (this.$router) {
+        const { route } = this.$router.resolve(itemRoute)
+        return this.item.exactPath ? route.path === this.$route.path : this.matchExactRoute(itemRoute)
+      } else {
+        return this.item.exactPath ? itemRoute === window.location.pathname : this.matchExactRoute(itemRoute)
+      }
+    },
+    matchExactRoute (itemRoute) {
       if (this.$router) {
         const { route } = this.$router.resolve(itemRoute)
         return route.fullPath === this.$route.fullPath
@@ -81,6 +94,7 @@ export const itemMixin = {
     },
     initActiveState () {
       this.active = this.isLinkActive(this.item)
+      this.exactActive = this.isLinkExactActive(this.item)
       this.childActive = this.isChildActive(this.item.child)
     },
     initShowState () {
@@ -117,8 +131,8 @@ export const itemMixin = {
         'vsm--link',
         `vsm--link_level-${this.level}`,
         { 'vsm--link_mobile-item': this.mobileItem },
-        { 'vsm--link_exact-active': this.active },
-        { 'vsm--link_active': this.childActive },
+        { 'vsm--link_active': (this.active && !this.exactActive) || this.childActive },
+        { 'vsm--link_exact-active': this.exactActive },
         { 'vsm--link_disabled': this.item.disabled },
         this.item.class
       ]
