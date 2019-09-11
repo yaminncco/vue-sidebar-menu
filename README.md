@@ -121,11 +121,12 @@ menu [
             // element: 'span'
         }
         */
-
+        
         // child: []
         // disabled: true
         // class: ''
         // attributes: {}
+        // exactPath: true // match path only (ignore query and hash)
         // alias: '/path'
         // hidden: false
         // hiddenOnCollapse: true
