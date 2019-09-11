@@ -75,6 +75,7 @@ menu [
         // disabled: true
         // class: ''
         // attributes: {}
+        // exactPath: true // match path only (ignore query and hash)
         // alias: '/path'
         // hidden: false
         // hiddenOnCollapse: true
@@ -93,6 +94,7 @@ menu [
     // component item
     {
         component: componentName
+        // props: componentProps
         // hidden: false
         // hiddenOnCollapse: true
     }
