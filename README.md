@@ -145,6 +145,7 @@ menu [
     // component item
     {
         component: componentName
+        // props: componentProps
         // hidden: false
         // hiddenOnCollapse: true
     }

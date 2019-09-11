@@ -2,6 +2,7 @@
   <component
     :is="item.component"
     v-if="item.component && !isItemHidden"
+    v-bind="item.props"
   />
   <div
     v-else-if="item.header && !isItemHidden"
