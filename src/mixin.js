@@ -99,9 +99,12 @@ export const itemMixin = {
     },
     initShowState () {
       if (this.item && this.item.child) {
-        this.itemShow = this.active || this.childActive
-        if (this.showOneChild && !this.showChild && this.isFirstLevel && (this.active || this.childActive)) {
-          this.emitActiveShow(this.item)
+        if (this.active || this.childActive) {
+          if (this.showOneChild && !this.showChild && this.isFirstLevel) {
+            this.emitActiveShow(this.item)
+          } else {
+            this.itemShow = true
+          }
         }
       }
     },
@@ -157,6 +160,7 @@ export const itemMixin = {
     $route () {
       if (this.item.header || this.item.component) return
       this.initActiveState()
+      this.initShowState()
     }
   },
   inject: ['emitActiveShow', 'emitItemClick']
