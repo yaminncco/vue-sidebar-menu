@@ -122,8 +122,10 @@
             v-if="show"
             class="vsm--dropdown"
           >
-            <listItem
-              :items="item.child"
+            <sidebar-menu-item
+              v-for="(subItem, index) in item.child"
+              :key="index"
+              :item="subItem"
               :level="level+1"
               :show-child="showChild"
               :rtl="rtl"
@@ -133,7 +135,7 @@
                 slot="dropdown-icon"
                 name="dropdown-icon"
               />
-            </listItem>
+            </sidebar-menu-item>
           </div>
         </transition>
       </template>
@@ -142,13 +144,11 @@
 </template>
 
 <script>
-import ListItem from './ListItem.vue'
+
 import { itemMixin, animationMixin } from '../mixin'
 
 export default {
-  components: {
-    ListItem
-  },
+  name: 'sidebar-menu-item',
   mixins: [itemMixin, animationMixin],
   props: {
     item: {
