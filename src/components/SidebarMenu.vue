@@ -18,6 +18,7 @@
         :show-one-child="showOneChild"
         :show-child="showChild"
         :rtl="rtl"
+        :default-href="defaultHref"
         @set-mobile-item="setMobileItem"
         @unset-mobile-item="unsetMobileItem"
       >
@@ -39,6 +40,7 @@
         :is-collapsed="isCollapsed"
         :show-child="showChild"
         :rtl="rtl"
+        :default-href="defaultHref"
       >
         <slot
           slot="dropdown-icon"
@@ -69,6 +71,7 @@
               :show-child="showChild"
               :rtl="rtl"
               :is-collapsed="isCollapsed"
+              :default-href="defaultHref"
             >
               <slot
                 slot="dropdown-icon"
@@ -141,6 +144,10 @@ export default {
     hideToggle: {
       type: Boolean,
       default: false
+    },
+    defaultHref: {
+      type: String,
+      default: '#'
     }
   },
   data () {
