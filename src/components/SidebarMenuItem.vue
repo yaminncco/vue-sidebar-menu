@@ -66,7 +66,8 @@
       </router-link>
     </template>
     <template v-else>
-      <a
+      <component
+        :is="itemLinkHref ? 'a' : 'span'"
         :class="itemLinkClass"
         :href="itemLinkHref"
         :disabled="item.disabled"
@@ -108,7 +109,7 @@
             <slot name="dropdown-icon" />
           </div>
         </template>
-      </a>
+      </component>
     </template>
     <template v-if="item.child">
       <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed">
