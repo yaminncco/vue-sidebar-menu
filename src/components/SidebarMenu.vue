@@ -62,7 +62,10 @@
           @afterEnter="expandAfterEnter"
           @beforeLeave="expandBeforeLeave"
         >
-          <div class="vsm--list" v-if="mobileItem && mobileItem.child">
+          <div
+            v-if="mobileItem && mobileItem.child"
+            class="vsm--list"
+          >
             <sidebar-menu-item
               v-for="(item, index) in mobileItem.child"
               :key="index"

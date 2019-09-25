@@ -69,7 +69,7 @@
       <component
         :is="itemLinkHref ? 'a' : 'span'"
         :class="itemLinkClass"
-        :href="itemLinkHref"
+        :href="itemLinkHref ? itemLinkHref : undefined"
         :disabled="item.disabled"
         :tabindex="item.disabled ? -1 : undefined"
         v-bind="item.attributes"
@@ -99,7 +99,9 @@
             class="vsm--badge"
             :class="item.badge.class"
             v-bind="item.badge.attributes"
-          >{{ item.badge.text }}</component>
+          >
+            {{ item.badge.text }}
+          </component>
           <span class="vsm--title">{{ item.title }}</span>
           <div
             v-if="item.child"
@@ -123,7 +125,7 @@
             v-if="show"
             class="vsm--dropdown"
           >
-            <div class="vsm--list" v-if="item.child">
+            <div class="vsm--list">
               <sidebar-menu-item
                 v-for="(subItem, index) in item.child"
                 :key="index"
@@ -151,7 +153,7 @@
 import { itemMixin, animationMixin } from '../mixin'
 
 export default {
-  name: 'sidebar-menu-item',
+  name: 'SidebarMenuItem',
   mixins: [itemMixin, animationMixin],
   props: {
     item: {

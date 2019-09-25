@@ -41,6 +41,7 @@
     padding: $item-padding;
     line-height: $item-line-height;
     text-decoration: none;
+    user-select: none;
     z-index: 20;
     transition: 0.3s all;
     &_exact-active,
