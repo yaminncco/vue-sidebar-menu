@@ -181,6 +181,10 @@ export default {
     rtl: {
       type: Boolean,
       default: false
+    },
+    defaultHref: {
+      type: String,
+      default: '#'
     }
   }
 }
