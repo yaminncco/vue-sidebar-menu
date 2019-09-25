@@ -122,20 +122,23 @@
             v-if="show"
             class="vsm--dropdown"
           >
-            <sidebar-menu-item
-              v-for="(subItem, index) in item.child"
-              :key="index"
-              :item="subItem"
-              :level="level+1"
-              :show-child="showChild"
-              :rtl="rtl"
-              :is-collapsed="isCollapsed"
-            >
-              <slot
-                slot="dropdown-icon"
-                name="dropdown-icon"
-              />
-            </sidebar-menu-item>
+            <div class="vsm--list" v-if="item.child">
+              <sidebar-menu-item
+                v-for="(subItem, index) in item.child"
+                :key="index"
+                :item="subItem"
+                :level="level+1"
+                :show-child="showChild"
+                :rtl="rtl"
+                :is-collapsed="isCollapsed"
+                :default-href="defaultHref"
+              >
+                <slot
+                  slot="dropdown-icon"
+                  name="dropdown-icon"
+                />
+              </sidebar-menu-item>
+            </div>
           </div>
         </transition>
       </template>
