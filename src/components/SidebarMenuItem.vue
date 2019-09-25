@@ -132,7 +132,6 @@
                 :show-child="showChild"
                 :rtl="rtl"
                 :is-collapsed="isCollapsed"
-                :default-href="defaultHref"
               >
                 <slot
                   slot="dropdown-icon"
