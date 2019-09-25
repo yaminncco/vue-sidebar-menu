@@ -66,7 +66,10 @@
         >
           <div class="vsm--list" v-if="mobileItem && mobileItem.child">
             <sidebar-menu-item
-              :items="mobileItem.child"
+              v-for="(item, index) in mobileItem.child"
+              :key="index"
+              :item="item"
+              :level="2"
               :show-child="showChild"
               :rtl="rtl"
               :is-collapsed="isCollapsed"
