@@ -64,7 +64,7 @@
           @afterEnter="expandAfterEnter"
           @beforeLeave="expandBeforeLeave"
         >
-          <div class="vsm--list">
+          <div class="vsm--list" v-if="mobileItem && mobileItem.child">
             <sidebar-menu-item
               v-if="mobileItem && mobileItem.child"
               :items="mobileItem.child"
