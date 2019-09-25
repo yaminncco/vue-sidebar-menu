@@ -146,10 +146,6 @@ export default {
     hideToggle: {
       type: Boolean,
       default: false
-    },
-    defaultHref: {
-      type: String,
-      default: '#'
     }
   },
   data () {
