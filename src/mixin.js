@@ -152,8 +152,8 @@ export const itemMixin = {
       }
     },
     itemLinkHref () {
-      if (!this.$router && (!this.item.href || typeof this.item.href !== 'string')) return '#'
-      return this.item.href ? this.item.href : '#'
+      if (!this.$router && (!this.item.href || typeof this.item.href !== 'string')) return this.defaultHref
+      return this.item.href ? this.item.href : this.defaultHref
     }
   },
   watch: {
