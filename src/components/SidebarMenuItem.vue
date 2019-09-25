@@ -66,7 +66,8 @@
       </router-link>
     </template>
     <template v-else>
-      <a
+      <component
+        :is="itemLinkHref ? 'a' : 'span'"
         :class="itemLinkClass"
         :href="itemLinkHref"
         :disabled="item.disabled"
@@ -108,7 +109,7 @@
             <slot name="dropdown-icon" />
           </div>
         </template>
-      </a>
+      </component>
     </template>
     <template v-if="item.child">
       <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed">
@@ -122,18 +123,22 @@
             v-if="show"
             class="vsm--dropdown"
           >
-            <listItem
-              :items="item.child"
-              :level="level+1"
-              :show-child="showChild"
-              :rtl="rtl"
-              :is-collapsed="isCollapsed"
-            >
-              <slot
-                slot="dropdown-icon"
-                name="dropdown-icon"
-              />
-            </listItem>
+            <div class="vsm--list" v-if="item.child">
+              <sidebar-menu-item
+                v-for="(subItem, index) in item.child"
+                :key="index"
+                :item="subItem"
+                :level="level+1"
+                :show-child="showChild"
+                :rtl="rtl"
+                :is-collapsed="isCollapsed"
+              >
+                <slot
+                  slot="dropdown-icon"
+                  name="dropdown-icon"
+                />
+              </sidebar-menu-item>
+            </div>
           </div>
         </transition>
       </template>
@@ -142,13 +147,11 @@
 </template>
 
 <script>
-import ListItem from './ListItem.vue'
+
 import { itemMixin, animationMixin } from '../mixin'
 
 export default {
-  components: {
-    ListItem
-  },
+  name: 'sidebar-menu-item',
   mixins: [itemMixin, animationMixin],
   props: {
     item: {

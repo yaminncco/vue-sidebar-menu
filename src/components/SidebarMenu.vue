@@ -9,7 +9,7 @@
     <div
       class="vsm--list"
     >
-      <item
+      <sidebar-menu-item
         v-for="(item, index) in menu"
         :key="index"
         :item="item"
@@ -25,14 +25,14 @@
           slot="dropdown-icon"
           name="dropdown-icon"
         />
-      </item>
+      </sidebar-menu-item>
     </div>
     <div
       v-if="isCollapsed"
       class="vsm--mobile-item"
       :style="mobileItemStyle.item"
     >
-      <item
+      <sidebar-menu-item
         v-if="mobileItem"
         :item="mobileItem"
         :mobile-item="true"
@@ -44,7 +44,7 @@
           slot="dropdown-icon"
           name="dropdown-icon"
         />
-      </item>
+      </sidebar-menu-item>
       <transition name="slide-animation">
         <div
           v-if="mobileItem"
@@ -62,18 +62,22 @@
           @afterEnter="expandAfterEnter"
           @beforeLeave="expandBeforeLeave"
         >
-          <listItem
-            v-if="mobileItem && mobileItem.child"
-            :items="mobileItem.child"
-            :show-child="showChild"
-            :rtl="rtl"
-            :is-collapsed="isCollapsed"
-          >
-            <slot
-              slot="dropdown-icon"
-              name="dropdown-icon"
-            />
-          </listItem>
+          <div class="vsm--list" v-if="mobileItem && mobileItem.child">
+            <sidebar-menu-item
+              v-for="(item, index) in mobileItem.child"
+              :key="index"
+              :item="item"
+              :level="2"
+              :show-child="showChild"
+              :rtl="rtl"
+              :is-collapsed="isCollapsed"
+            >
+              <slot
+                slot="dropdown-icon"
+                name="dropdown-icon"
+              />
+            </sidebar-menu-item>
+          </div>
         </transition>
       </div>
     </div>
@@ -90,15 +94,13 @@
 </template>
 
 <script>
-import Item from './Item.vue'
-import ListItem from './ListItem.vue'
+import SidebarMenuItem from './SidebarMenuItem.vue'
 import { animationMixin } from '../mixin'
 
 export default {
   name: 'SidebarMenu',
   components: {
-    Item,
-    ListItem
+    SidebarMenuItem
   },
   mixins: [animationMixin],
   props: {
