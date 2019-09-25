@@ -33,7 +33,7 @@ export const itemMixin = {
     isChildActive (child) {
       if (!child) return false
       return child.some(item => {
-        return this.isLinkExactActive(item) || (item.child ? this.isChildActive(item.child) : false)
+        return (item.exactPath ? this.isLinkActive(item) : this.isLinkExactActive(item)) || (item.child ? this.isChildActive(item.child) : false)
       })
     },
     isAliasActive (item) {
