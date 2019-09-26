@@ -22,11 +22,9 @@ export const itemMixin = {
   },
   methods: {
     isLinkActive (item) {
-      if (!item.href) return false
       return this.matchRoute(item) || this.isChildActive(item.child) || this.isAliasActive(item)
     },
     isLinkExactActive (item) {
-      if (!item.href) return false
       return this.matchExactRoute(item.href)
     },
     isChildActive (child) {
@@ -48,6 +46,7 @@ export const itemMixin = {
       return false
     },
     matchRoute ({ href, exactPath }) {
+      if (!href) return false
       if (this.$router) {
         const { route } = this.$router.resolve(href)
         return exactPath ? route.path === this.$route.path : this.matchExactRoute(href)
@@ -56,6 +55,7 @@ export const itemMixin = {
       }
     },
     matchExactRoute (href) {
+      if (!href) return false
       if (this.$router) {
         const { route } = this.$router.resolve(href)
         return route.fullPath === this.$route.fullPath
