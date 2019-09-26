@@ -35,6 +35,14 @@
           />
           <component
             :is="item.icon.element ? item.icon.element : 'i'"
+            v-else-if="item.icon.html"
+            class="vsm--icon"
+            :class="item.icon.class"
+            v-bind="item.icon.attributes"
+            v-html="item.icon.html"
+          />
+          <component
+            :is="item.icon.element ? item.icon.element : 'i'"
             v-else
             class="vsm--icon"
             :class="item.icon.class"
