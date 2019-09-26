@@ -3,7 +3,6 @@ export const itemMixin = {
     return {
       active: false,
       exactActive: false,
-      childActive: false,
       itemShow: false
     }
   },
@@ -24,16 +23,16 @@ export const itemMixin = {
   methods: {
     isLinkActive (item) {
       if (!item.href) return false
-      return this.matchRoute(item.href)
+      return this.matchRoute(item) || this.isChildActive(item.child) || this.isAliasActive(item)
     },
     isLinkExactActive (item) {
       if (!item.href) return false
-      return this.matchExactRoute(item.href) || this.isAliasActive(item)
+      return this.matchExactRoute(item.href)
     },
     isChildActive (child) {
       if (!child) return false
       return child.some(item => {
-        return this.isLinkExactActive(item) || (item.child ? this.isChildActive(item.child) : false)
+        return this.isLinkActive(item)
       })
     },
     isAliasActive (item) {
@@ -48,20 +47,20 @@ export const itemMixin = {
       }
       return false
     },
-    matchRoute (itemRoute) {
+    matchRoute ({ href, exactPath }) {
       if (this.$router) {
-        const { route } = this.$router.resolve(itemRoute)
-        return this.item.exactPath ? route.path === this.$route.path : this.matchExactRoute(itemRoute)
+        const { route } = this.$router.resolve(href)
+        return exactPath ? route.path === this.$route.path : this.matchExactRoute(href)
       } else {
-        return this.item.exactPath ? itemRoute === window.location.pathname : this.matchExactRoute(itemRoute)
+        return exactPath ? href === window.location.pathname : this.matchExactRoute(href)
       }
     },
-    matchExactRoute (itemRoute) {
+    matchExactRoute (href) {
       if (this.$router) {
-        const { route } = this.$router.resolve(itemRoute)
+        const { route } = this.$router.resolve(href)
         return route.fullPath === this.$route.fullPath
       } else {
-        return itemRoute === window.location.pathname + window.location.search + window.location.hash
+        return href === window.location.pathname + window.location.search + window.location.hash
       }
     },
     clickEvent (event) {
@@ -95,16 +94,13 @@ export const itemMixin = {
     initActiveState () {
       this.active = this.isLinkActive(this.item)
       this.exactActive = this.isLinkExactActive(this.item)
-      this.childActive = this.isChildActive(this.item.child)
     },
     initShowState () {
-      if (this.item && this.item.child) {
-        if (this.active || this.childActive) {
-          if (this.showOneChild && !this.showChild && this.isFirstLevel) {
-            this.emitActiveShow(this.item)
-          } else {
-            this.itemShow = true
-          }
+      if (this.item.child && this.active) {
+        if (this.showOneChild && !this.showChild && this.isFirstLevel) {
+          this.emitActiveShow(this.item)
+        } else {
+          this.itemShow = true
         }
       }
     },
@@ -134,7 +130,7 @@ export const itemMixin = {
         'vsm--link',
         `vsm--link_level-${this.level}`,
         { 'vsm--link_mobile-item': this.mobileItem },
-        { 'vsm--link_active': (this.active && !this.exactActive) || this.childActive },
+        { 'vsm--link_active': this.active },
         { 'vsm--link_exact-active': this.exactActive },
         { 'vsm--link_disabled': this.item.disabled },
         this.item.class
