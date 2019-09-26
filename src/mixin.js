@@ -64,32 +64,24 @@ export const itemMixin = {
       }
     },
     clickEvent (event) {
-      this.emitItemClick(event, this.item)
-
-      if ((!this.item.href && !this.item.child) || this.item.disabled) {
+      if (this.item.disabled) {
         event.preventDefault()
         return
       }
-
+      this.emitItemClick(event, this.item)
       if (!this.mobileItem && this.isCollapsed && this.isFirstLevel) {
         this.$emit('unset-mobile-item', true, this.item.child !== undefined)
       }
-
       if (!this.item.child) {
         if (this.showOneChild) this.emitActiveShow(null)
       } else {
-        if (!this.item.href) event.preventDefault()
         if (this.mobileItem) return
         if (this.showOneChild) {
-          this.activeShow === this.item ? this.setActiveShow(false) : this.setActiveShow(true, this.item)
+          this.activeShow === this.item ? this.emitActiveShow(null) : this.emitActiveShow(this.item)
         } else {
           this.itemShow = !this.itemShow
         }
       }
-    },
-    setActiveShow (itemShow, item = null) {
-      this.emitActiveShow(item)
-      this.itemShow = itemShow
     },
     initActiveState () {
       this.active = this.isLinkActive(this.item)
