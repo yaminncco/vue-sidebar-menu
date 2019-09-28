@@ -72,13 +72,18 @@ export const itemMixin = {
       if (!this.mobileItem && this.isCollapsed && this.isFirstLevel) {
         this.$emit('unset-mobile-item', true, this.item.child !== undefined)
       }
-      if (!this.item.child) {
-        if (this.showOneChild) this.emitActiveShow(null)
-      } else {
-        if (this.mobileItem) return
-        if (this.showOneChild) {
-          this.activeShow === this.item ? this.emitActiveShow(null) : this.emitActiveShow(this.item)
+
+      if (this.showOneChild) {
+        if (!this.item.child) {
+          this.emitActiveShow(null)
         } else {
+          if (this.mobileItem) return
+          if (!this.item.href || this.active) {
+            this.activeShow === this.item ? this.emitActiveShow(null) : this.emitActiveShow(this.item)
+          }
+        }
+      } else {
+        if (this.item.child) {
           this.itemShow = !this.itemShow
         }
       }
@@ -89,7 +94,7 @@ export const itemMixin = {
     },
     initShowState () {
       if (this.item.child && this.active) {
-        if (this.showOneChild && !this.showChild && this.isFirstLevel) {
+        if (this.showOneChild) {
           this.emitActiveShow(this.item)
         } else {
           this.itemShow = true
