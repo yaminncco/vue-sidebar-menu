@@ -8,16 +8,15 @@ export const itemMixin = {
   },
   created () {
     if (this.item.header || this.item.component) return
-    this.initActiveState()
-    this.initShowState()
+    this.initState()
 
     if (!this.$router) {
-      window.addEventListener('hashchange', this.initActiveState)
+      window.addEventListener('hashchange', this.initState)
     }
   },
   destroyed () {
     if (!this.$router) {
-      window.removeEventListener('hashchange', this.initActiveState)
+      window.removeEventListener('hashchange', this.initState)
     }
   },
   methods: {
@@ -88,6 +87,10 @@ export const itemMixin = {
         }
       }
     },
+    initState () {
+      this.initActiveState()
+      this.initShowState()
+    },
     initActiveState () {
       this.active = this.isLinkActive(this.item)
       this.exactActive = this.isLinkExactActive(this.item)
@@ -152,8 +155,7 @@ export const itemMixin = {
   watch: {
     $route () {
       if (this.item.header || this.item.component) return
-      this.initActiveState()
-      this.initShowState()
+      this.initState()
     }
   },
   inject: ['emitActiveShow', 'emitItemClick']
