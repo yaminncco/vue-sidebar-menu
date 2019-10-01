@@ -154,10 +154,13 @@
         vertical-align: middle;
         writing-mode: vertical-lr;
       }
-      & .vsm--link_level-1 {
-        & .vsm--icon {
-          margin-right: 0px;
-        }
+    }
+    & .vsm--link.vsm--link_level-1 {
+      &.vsm--link_hover {
+        background-color: transparent !important;
+      }
+      & .vsm--icon {
+        margin-right: 0px;
       }
     }
   }

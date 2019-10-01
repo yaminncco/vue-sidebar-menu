@@ -17,6 +17,7 @@
     class="vsm--item"
     :class="[{'vsm--item_open' : show}]"
     @mouseenter="mouseEnterEvent"
+    @mouseleave="mouseLeaveEvent"
   >
     <template v-if="isRouterLink">
       <router-link
@@ -27,7 +28,7 @@
         v-bind="item.attributes"
         @click.native="clickEvent"
       >
-        <template v-if="item.icon">
+        <template v-if="item.icon && !isMobileItem">
           <i
             v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
             class="vsm--icon"
@@ -43,7 +44,7 @@
             {{ item.icon.text }}
           </component>
         </template>
-        <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || mobileItem">
+        <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
           <component
             :is="item.badge.element ? item.badge.element : 'span'"
             v-if="item.badge"
@@ -75,7 +76,7 @@
         v-bind="item.attributes"
         @click="clickEvent"
       >
-        <template v-if="item.icon">
+        <template v-if="item.icon && !isMobileItem">
           <i
             v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
             class="vsm--icon"
@@ -91,7 +92,7 @@
             {{ item.icon.text }}
           </component>
         </template>
-        <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || mobileItem">
+        <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
           <component
             :is="item.badge.element ? item.badge.element : 'span'"
             v-if="item.badge"
@@ -167,9 +168,13 @@ export default {
     isCollapsed: {
       type: Boolean
     },
-    mobileItem: {
+    isMobileItem: {
       type: Boolean,
       default: false
+    },
+    mobileItem: {
+      type: Object,
+      default: null
     },
     activeShow: {
       type: Object,

@@ -5,9 +5,9 @@ $icon-bg: #bbc5d6;
 $icon-active-bg: $item-color;
 $item-hover-color: $item-color;
 $item-hover-bg: darken( $base-bg, 5% );
+$item-active-color: $item-color;
 $dropdown-color: $item-color;
 $dropdown-bg: #e3e3e3;
-$item-active-color: $item-color;
 
 .v-sidebar-menu.vsm_white-theme {
   background-color: $base-bg;
@@ -30,7 +30,7 @@ $item-active-color: $item-color;
         background-color: $icon-bg;
       }
     }
-    &:hover {
+    &_hover {
       color: $item-hover-color;
       background-color: $item-hover-bg;
     }
@@ -67,6 +67,12 @@ $item-active-color: $item-color;
   }
 
   &.vsm_collapsed {
+    .vsm--link_hover.vsm--link_level-1 {
+      .vsm--icon {
+        color: $mobile-icon-color;
+        background-color: $mobile-icon-bg;
+      }
+    }
     .vsm--link.vsm--link_mobile-item {
       color: $mobile-item-color;
       background-color: transparent;

@@ -3,7 +3,8 @@ export const itemMixin = {
     return {
       active: false,
       exactActive: false,
-      itemShow: false
+      itemShow: false,
+      itemHover: false
     }
   },
   created () {
@@ -68,7 +69,7 @@ export const itemMixin = {
         return
       }
       this.emitItemClick(event, this.item)
-      if (!this.mobileItem && this.isCollapsed && this.isFirstLevel) {
+      if (!this.hover && this.isCollapsed && this.isFirstLevel) {
         this.$emit('unset-mobile-item', true, this.item.child !== undefined)
       }
 
@@ -76,7 +77,7 @@ export const itemMixin = {
         if (!this.item.child) {
           this.emitActiveShow(null)
         } else {
-          if (this.mobileItem) return
+          if (this.isMobileItem) return
           if (!this.item.href || this.active) {
             this.activeShow === this.item ? this.emitActiveShow(null) : this.emitActiveShow(this.item)
           }
@@ -105,9 +106,14 @@ export const itemMixin = {
       }
     },
     mouseEnterEvent (event) {
-      if (this.isCollapsed && this.isFirstLevel && !this.mobileItem && !this.item.disabled) {
+      this.itemHover = true
+      if (this.isMobileItem || this.hover) return
+      if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem && !this.item.disabled) {
         this.$emit('set-mobile-item', { event, item: this.item })
       }
+    },
+    mouseLeaveEvent (event) {
+      this.itemHover = false
     }
   },
   computed: {
@@ -119,7 +125,7 @@ export const itemMixin = {
     },
     show () {
       if (!this.item.child) return false
-      if (this.showChild || this.mobileItem) return true
+      if (this.showChild || this.isMobileItem) return true
       if (this.isFirstLevel && this.showOneChild) {
         return this.item === this.activeShow
       }
@@ -128,8 +134,9 @@ export const itemMixin = {
     itemLinkClass () {
       return [
         'vsm--link',
-        `vsm--link_level-${this.level}`,
-        { 'vsm--link_mobile-item': this.mobileItem },
+        !this.isMobileItem ? `vsm--link_level-${this.level}` : '',
+        { 'vsm--link_mobile-item': this.isMobileItem },
+        { 'vsm--link_hover': this.hover },
         { 'vsm--link_active': this.active },
         { 'vsm--link_exact-active': this.exactActive },
         { 'vsm--link_disabled': this.item.disabled },
@@ -150,6 +157,12 @@ export const itemMixin = {
     itemLinkHref () {
       if (!this.$router && (!this.item.href || typeof this.item.href !== 'string')) return ''
       return this.item.href ? this.item.href : ''
+    },
+    hover () {
+      if (this.isCollapsed && this.isFirstLevel) {
+        return this.item === this.mobileItem
+      }
+      return this.itemHover
     }
   },
   watch: {

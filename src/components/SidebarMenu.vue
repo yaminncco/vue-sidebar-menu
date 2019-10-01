@@ -18,6 +18,7 @@
         :show-one-child="showOneChild"
         :show-child="showChild"
         :rtl="rtl"
+        :mobile-item="mobileItem"
         @set-mobile-item="setMobileItem"
         @unset-mobile-item="unsetMobileItem"
       >
@@ -35,7 +36,7 @@
       <sidebar-menu-item
         v-if="mobileItem"
         :item="mobileItem"
-        :mobile-item="true"
+        :is-mobile-item="true"
         :is-collapsed="isCollapsed"
         :show-child="showChild"
         :rtl="rtl"
@@ -49,7 +50,7 @@
         <div
           v-if="mobileItem"
           class="vsm--mobile-bg"
-          :style="[{'position' : 'absolute'}, {'left' : '0px'}, {'right' : '0px'}, {'top' : '0px'}, {'height' : `${mobileItemHeight}px`}]"
+          :style="[{'position' : 'absolute'}, {'left' : '0px'}, {'right' : '0px'}, {'top' : '0px'}, {'height' : `${mobileItemHeight}px`},{ 'z-index' : -1}]"
         />
       </transition>
       <div
@@ -172,7 +173,8 @@ export default {
           { 'position': 'absolute' },
           { 'top': `${this.mobileItemPos}px` },
           this.rtl ? { 'right': '0px' } : { 'left': '0px' },
-          { 'z-index': 30 },
+          { 'padding-left': this.sidebarWidth },
+          { 'z-index': 0 },
           { 'width': `calc(${this.parentWidth} - ${this.parentOffsetLeft})` },
           { 'max-width': this.width }
         ],
