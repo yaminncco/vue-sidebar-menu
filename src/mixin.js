@@ -106,6 +106,7 @@ export const itemMixin = {
       }
     },
     mouseEnterEvent (event) {
+      event.stopPropagation()
       this.itemHover = true
       if (this.isMobileItem || this.hover) return
       if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem && !this.item.disabled) {
@@ -113,6 +114,7 @@ export const itemMixin = {
       }
     },
     mouseLeaveEvent (event) {
+      event.stopPropagation()
       this.itemHover = false
     }
   },

@@ -67,6 +67,13 @@
       display: block;
       clear: both;
     }
+    &_mobile-item {
+      background-color: transparent;
+      &.vsm--link_hover,
+      &:hover {
+        background-color: transparent !important;
+      }
+    }
   }
 
   .vsm--title {
@@ -156,7 +163,8 @@
       }
     }
     & .vsm--link.vsm--link_level-1 {
-      &.vsm--link_hover {
+      &.vsm--link_hover,
+      &:hover {
         background-color: transparent !important;
       }
       & .vsm--icon {

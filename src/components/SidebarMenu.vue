@@ -19,6 +19,7 @@
         :show-child="showChild"
         :rtl="rtl"
         :mobile-item="mobileItem"
+        :disable-hover="disableHover"
         @set-mobile-item="setMobileItem"
         @unset-mobile-item="unsetMobileItem"
       >
@@ -147,6 +148,10 @@ export default {
     hideToggle: {
       type: Boolean,
       default: false
+    },
+    disableHover: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -173,7 +178,7 @@ export default {
           { 'position': 'absolute' },
           { 'top': `${this.mobileItemPos}px` },
           this.rtl ? { 'right': '0px' } : { 'left': '0px' },
-          { 'padding-left': this.sidebarWidth },
+          this.rtl ? { 'padding-right': this.sidebarWidth } : { 'padding-left': this.sidebarWidth },
           { 'z-index': 0 },
           { 'width': `calc(${this.parentWidth} - ${this.parentOffsetLeft})` },
           { 'max-width': this.width }

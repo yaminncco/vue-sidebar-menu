@@ -16,8 +16,8 @@
     v-else-if="!isItemHidden"
     class="vsm--item"
     :class="[{'vsm--item_open' : show}]"
-    @mouseenter="mouseEnterEvent"
-    @mouseleave="mouseLeaveEvent"
+    v-on="disableHover && isCollapsed ? { click: mouseEnterEvent } : { mouseover: mouseEnterEvent }"
+    @mouseout="mouseLeaveEvent"
   >
     <template v-if="isRouterLink">
       <router-link
@@ -27,7 +27,7 @@
         :tabindex="item.disabled ? -1 : undefined"
         v-bind="item.attributes"
         @click.native="clickEvent"
-      >
+      > 
         <template v-if="item.icon && !isMobileItem">
           <i
             v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
@@ -189,6 +189,10 @@ export default {
       default: false
     },
     rtl: {
+      type: Boolean,
+      default: false
+    },
+    disableHover: {
       type: Boolean,
       default: false
     }

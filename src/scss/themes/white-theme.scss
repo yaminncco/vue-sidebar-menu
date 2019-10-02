@@ -30,11 +30,30 @@ $dropdown-bg: #e3e3e3;
         background-color: $icon-bg;
       }
     }
-    &_hover {
+    &_hover,
+    &:hover {
       color: $item-hover-color;
       background-color: $item-hover-bg;
     }
+    &_mobile-item {
+      color: $mobile-item-color;
+      &.vsm--link_hover,
+      &:hover {
+        color: $mobile-item-color;
+      }
+    }
   }
+
+  &.vsm_collapsed {
+    .vsm--link.vsm--link_level-1.vsm--link_hover {
+      color: $mobile-item-color;
+      .vsm--icon {
+        color: $mobile-icon-color;
+        background-color: $mobile-icon-bg;
+      }
+    }
+  }
+
   .vsm--icon {
     color: $icon-color;
   }
@@ -49,6 +68,10 @@ $dropdown-bg: #e3e3e3;
     & .vsm--icon {
       color: $dropdown-color;
     }
+  }
+
+  .vsm--mobile-bg {
+    background-color: $mobile-item-bg;
   }
 
   &.vsm_expanded {
@@ -67,28 +90,19 @@ $dropdown-bg: #e3e3e3;
   }
 
   &.vsm_collapsed {
-    .vsm--link_hover.vsm--link_level-1 {
+    .vsm--link.vsm--link_level-1.vsm--link_hover {
       .vsm--icon {
         color: $mobile-icon-color;
         background-color: $mobile-icon-bg;
       }
     }
-    .vsm--link.vsm--link_mobile-item {
-      color: $mobile-item-color;
-      background-color: transparent;
-      & .vsm--icon {
-        color: $mobile-icon-color;
-        background-color: $mobile-icon-bg;
-      }
-    }
-    .vsm--mobile-bg {
-      background-color: $mobile-item-bg;
-    }
   }
 
-  &.vsm_rtl .vsm--link.vsm--link_level-1.vsm--link_active,
-  &.vsm_rtl .vsm--link.vsm--link_level-1.vsm--link_exact-active {
-    box-shadow: -3px 0px 0px 0px $primary-color inset;
+  &.vsm_rtl {
+    .vsm--link.vsm--link_level-1.vsm--link_active,
+    .vsm--link.vsm--link_level-1.vsm--link_exact-active {
+      box-shadow: -3px 0px 0px 0px $primary-color inset;
+    }
   }
 
   .vsm--header {

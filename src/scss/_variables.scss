@@ -22,8 +22,8 @@ $icon-open-bg: $primary-color !default;
 
 $mobile-item-color: $item-color !default;
 $mobile-item-bg: $primary-color !default;
-$mobile-icon-color: $item-color !default;
-$mobile-icon-bg: $primary-color !default;
+$mobile-icon-color: $mobile-item-color !default;
+$mobile-icon-bg: $mobile-item-bg !default;
 
 $dropdown-bg: lighten( $base-bg, 5% ) !default;
 $dropdown-color: $item-color !default;

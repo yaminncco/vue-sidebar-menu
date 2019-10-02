@@ -9,7 +9,8 @@
     &_level-1 {
       &.vsm--link_exact-active,
       &.vsm--link_active {
-        .vsm--icon {
+        box-shadow: 3px 0px 0px 0px $primary-color inset;
+        & .vsm--icon {
           color: $icon-active-color;
           background-color: $icon-active-bg;
         }
@@ -18,50 +19,32 @@
         background-color: $icon-bg;
       }
     }
-    &_hover {
+    &_hover,
+    &:hover {
       color: $item-hover-color;
       background-color: $item-hover-bg;
     }
-  }
-  .vsm--icon {
-    color: $icon-color;
-  }
-
-  &.vsm_expanded {
-    .vsm--item {
-      &_open {
-        .vsm--link {
-          &_level-1 {
-            color: $item-open-color;
-            background-color: $item-open-bg;
-            & .vsm--icon {
-              color: $icon-open-color;
-              background-color: $icon-open-bg;
-            }
-          }
-        }
+    &_mobile-item {
+      color: $mobile-item-color;
+      &.vsm--link_hover,
+      &:hover {
+        color: $mobile-item-color;
       }
     }
   }
 
   &.vsm_collapsed {
-    .vsm--link_hover.vsm--link_level-1 {
+    .vsm--link.vsm--link_level-1.vsm--link_hover {
+      color: $mobile-item-color;
       .vsm--icon {
         color: $mobile-icon-color;
         background-color: $mobile-icon-bg;
       }
     }
-    .vsm--link.vsm--link_mobile-item {
-      color: $mobile-item-color;
-      background-color: transparent;
-      & .vsm--icon {
-        color: $mobile-icon-color;
-        background-color: $mobile-icon-bg;
-      }
-    }
-    .vsm--mobile-bg {
-      background-color: $mobile-item-bg;
-    }
+  }
+
+  .vsm--icon {
+    color: $icon-color;
   }
 
   .vsm--dropdown {
@@ -76,11 +59,39 @@
     }
   }
 
-  & .vsm--link.vsm--link_level-1.vsm--link_exact-active {
-    box-shadow: 3px 0px 0px 0px $primary-color inset;
+  .vsm--mobile-bg {
+    background-color: $mobile-item-bg;
   }
-  &.vsm_rtl .vsm--link.vsm--link_level-1.vsm--link_exact-active {
-    box-shadow: -3px 0px 0px 0px $primary-color inset;
+
+  &.vsm_expanded {
+    .vsm--item.vsm--item_open {
+      .vsm--link {
+        &_level-1 {
+          color: $item-open-color;
+          background-color: $item-open-bg;
+          & .vsm--icon {
+            color: $icon-open-color;
+            background-color: $icon-open-bg;
+          }
+        }
+      }
+    }
+  }
+
+  &.vsm_collapsed {
+    .vsm--link.vsm--link_level-1.vsm--link_hover {
+      .vsm--icon {
+        color: $mobile-icon-color;
+        background-color: $mobile-icon-bg;
+      }
+    }
+  }
+
+  &.vsm_rtl {
+    .vsm--link.vsm--link_level-1.vsm--link_active,
+    .vsm--link.vsm--link_level-1.vsm--link_exact-active {
+      box-shadow: -3px 0px 0px 0px $primary-color inset;
+    }
   }
 
   .vsm--header {
