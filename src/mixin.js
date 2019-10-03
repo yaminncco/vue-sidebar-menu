@@ -69,11 +69,13 @@ export const itemMixin = {
         return
       }
       this.emitItemClick(event, this.item)
-      if (!this.hover && this.isCollapsed && this.isFirstLevel) {
+      if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem) {
+        if (this.hover) return
         this.$emit('unset-mobile-item', true, this.item.child !== undefined)
       }
 
       if (this.showOneChild) {
+        if (this.showChild) return
         if (!this.item.child) {
           this.emitActiveShow(null)
         } else {
@@ -99,6 +101,7 @@ export const itemMixin = {
     initShowState () {
       if (this.item.child && this.active) {
         if (this.showOneChild) {
+          if (this.showChild) return
           this.emitActiveShow(this.item)
         } else {
           this.itemShow = true

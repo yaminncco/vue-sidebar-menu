@@ -27,7 +27,7 @@
         :tabindex="item.disabled ? -1 : undefined"
         v-bind="item.attributes"
         @click.native="clickEvent"
-      > 
+      >
         <template v-if="item.icon && !isMobileItem">
           <i
             v-if="typeof item.icon === 'string' || (item.icon instanceof String)"

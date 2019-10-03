@@ -8,6 +8,7 @@
     <slot name="header" />
     <div
       class="vsm--list"
+      :style="scrollable && isCollapsed ? [{'width': 'calc(100% + 17px)'}, rtl ? {'margin-left': '-17px'} : {}] : ''"
     >
       <sidebar-menu-item
         v-for="(item, index) in menu"
@@ -165,7 +166,8 @@ export default {
       parentHeight: '100vh',
       parentWidth: '100vw',
       parentOffsetTop: '0px',
-      parentOffsetLeft: '0px'
+      parentOffsetLeft: '0px',
+      scrollable: false
     }
   },
   computed: {
@@ -201,6 +203,9 @@ export default {
       this.unsetMobileItem()
     }
   },
+  mounted () {
+    this.initScrollable()
+  },
   methods: {
     onMouseLeave () {
       this.unsetMobileItem()
@@ -208,6 +213,9 @@ export default {
     onToggleClick () {
       this.unsetMobileItem()
       this.isCollapsed = !this.isCollapsed
+      this.$nextTick(() => {
+        this.initScrollable()
+      })
       this.$emit('toggle-collapse', this.isCollapsed)
     },
     onActiveShow (item) {
@@ -251,11 +259,15 @@ export default {
         this.mobileItem = null
         return
       }
-      clearTimeout(this.mobileItemTimeout)
+      if (this.mobileItemTimeout) clearTimeout(this.mobileItemTimeout)
       if (hasChild) return
       this.mobileItemTimeout = setTimeout(() => {
         this.mobileItem = null
       }, 600)
+    },
+    initScrollable () {
+      const vsmList = this.$el.querySelector('.vsm--list')
+      this.scrollable = vsmList.clientHeight < vsmList.scrollHeight
     }
   },
   provide () {

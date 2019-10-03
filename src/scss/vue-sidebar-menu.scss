@@ -85,7 +85,6 @@
     float: left;
     line-height: $item-line-height;
     margin-right: 10px;
-    writing-mode: horizontal-tb;
   }
 
   .vsm--arrow {
@@ -153,16 +152,7 @@
   }
 
   &.vsm_collapsed {
-    & > .vsm--list {
-      width: calc(100% + 17px);
-      padding-right: 17px;
-      & > .vsm--item {
-        display: inline-block;
-        vertical-align: middle;
-        writing-mode: vertical-lr;
-      }
-    }
-    & .vsm--link.vsm--link_level-1 {
+    & .vsm--link_level-1 {
       &.vsm--link_hover,
       &:hover {
         background-color: transparent !important;
@@ -181,12 +171,6 @@
       direction: rtl;
     }
     &.vsm_collapsed > .vsm--list {
-      padding-right: 0px;
-      padding-left: 17px;
-      margin-left: -17px;
-      & > .vsm--item {
-        writing-mode: vertical-rl;
-      }
       & .vsm--link_level-1 {
         & .vsm--icon {
           margin-left: 0px;

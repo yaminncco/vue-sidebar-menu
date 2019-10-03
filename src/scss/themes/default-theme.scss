@@ -34,8 +34,8 @@
   }
 
   &.vsm_collapsed {
-    .vsm--link.vsm--link_level-1.vsm--link_hover {
-      color: $mobile-item-color;
+    .vsm--link_level-1.vsm--link_hover,
+    .vsm--link_level-1:hover {
       .vsm--icon {
         color: $mobile-icon-color;
         background-color: $mobile-icon-bg;
@@ -64,7 +64,7 @@
   }
 
   &.vsm_expanded {
-    .vsm--item.vsm--item_open {
+    .vsm--item_open {
       .vsm--link {
         &_level-1 {
           color: $item-open-color;
@@ -78,18 +78,9 @@
     }
   }
 
-  &.vsm_collapsed {
-    .vsm--link.vsm--link_level-1.vsm--link_hover {
-      .vsm--icon {
-        color: $mobile-icon-color;
-        background-color: $mobile-icon-bg;
-      }
-    }
-  }
-
   &.vsm_rtl {
-    .vsm--link.vsm--link_level-1.vsm--link_active,
-    .vsm--link.vsm--link_level-1.vsm--link_exact-active {
+    .vsm--link_level-1.vsm--link_active,
+    .vsm--link_level-1.vsm--link_exact-active {
       box-shadow: -3px 0px 0px 0px $primary-color inset;
     }
   }
@@ -97,7 +88,7 @@
   .vsm--header {
     color: rgba($item-color, 0.7);
   }
-  .vsm--badge.vsm--badge_default {
+  .vsm--badge_default {
     color: $item-color;
     background-color: darken( $base-bg, 5% );
   }
