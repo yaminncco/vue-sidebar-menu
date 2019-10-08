@@ -74,19 +74,21 @@ export const itemMixin = {
         this.$emit('unset-mobile-item', true, this.item.child !== undefined)
       }
 
+      if (this.showChild) return
       if (this.showOneChild) {
-        if (this.showChild) return
-        if (!this.item.child) {
+        if (!this.item.child && this.activeShow) {
           this.emitActiveShow(null)
         } else {
           if (this.isMobileItem) return
-          if (!this.item.href || this.active) {
+          if (!this.item.href || this.exactActive) {
             this.activeShow === this.item ? this.emitActiveShow(null) : this.emitActiveShow(this.item)
           }
         }
       } else {
         if (this.item.child) {
-          this.itemShow = !this.itemShow
+          if (!this.item.href || this.exactActive) {
+            this.itemShow = !this.itemShow
+          }
         }
       }
     },
@@ -99,9 +101,9 @@ export const itemMixin = {
       this.exactActive = this.isLinkExactActive(this.item)
     },
     initShowState () {
-      if (this.item.child && this.active) {
+      if (this.item.child && this.active && !this.show) {
+        if (this.showChild) return
         if (this.showOneChild) {
-          if (this.showChild) return
           this.emitActiveShow(this.item)
         } else {
           this.itemShow = true
@@ -172,8 +174,10 @@ export const itemMixin = {
   },
   watch: {
     $route () {
-      if (this.item.header || this.item.component) return
-      this.initState()
+      setTimeout(() => {
+        if (this.item.header || this.item.component) return
+        this.initState()
+      }, 1)
     }
   },
   inject: ['emitActiveShow', 'emitItemClick']
