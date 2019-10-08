@@ -60,6 +60,12 @@
     theme: {
       type: String,
       default: ''
+    },
+
+    // Disable hover on collapse mode
+    disableHover: {
+      type: Boolean,
+      default: false
     }
 }
 </pre>
