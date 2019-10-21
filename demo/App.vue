@@ -205,7 +205,7 @@ html {
 
 body {
   font-family: 'Source Sans Pro', sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   background-color: #f2f4f7;
   color: #262626;
 }
@@ -222,7 +222,7 @@ body {
 }
 
 .container {
-  max-width: 600px;
+  max-width: 900px;
 }
 
 pre {
@@ -230,8 +230,8 @@ pre {
   color: #000;
   background: #fff;
   border-radius: 2px;
-  font-size: 13px;
-  padding: 5px;
+  padding: 15px;
+  line-height: 1.5;
   overflow: auto;
 }
 </style>
