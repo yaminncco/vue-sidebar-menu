@@ -1,3 +1,5 @@
+import pathToRegexp from 'path-to-regexp'
+
 export const itemMixin = {
   data () {
     return {
@@ -35,12 +37,13 @@ export const itemMixin = {
     },
     isAliasActive (item) {
       if (item.alias) {
+        const current = this.$router ? this.$route.fullPath : window.location.pathname + window.location.search + window.location.hash
         if (Array.isArray(item.alias)) {
           return item.alias.some(alias => {
-            return this.matchExactRoute(alias)
+            return pathToRegexp(alias).test(current)
           })
         } else {
-          return this.matchExactRoute(item.alias)
+          return pathToRegexp(item.alias).test(current)
         }
       }
       return false
