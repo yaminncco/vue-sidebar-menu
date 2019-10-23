@@ -19,12 +19,10 @@
     v-on="disableHover && isCollapsed ? { click: mouseEnterEvent } : { mouseover: mouseEnterEvent }"
     @mouseout="mouseLeaveEvent"
   >
-    <template v-if="isRouterLink">
+    <template v-if="isRouterLink && !item.disabled">
       <router-link
         :class="itemLinkClass"
         :to="itemLinkHref"
-        :disabled="item.disabled"
-        :tabindex="item.disabled ? -1 : undefined"
         v-bind="item.attributes"
         @click.native="clickEvent"
       >
@@ -68,13 +66,14 @@
     </template>
     <template v-else>
       <component
-        :is="itemLinkHref ? 'a' : 'span'"
+        :is="itemLinkHref && !item.disabled ? 'a' : 'span'"
         :class="itemLinkClass"
-        :href="itemLinkHref ? itemLinkHref : undefined"
-        :disabled="item.disabled"
-        :tabindex="item.disabled ? -1 : undefined"
+        :href="itemLinkHref && !item.disabled ? itemLinkHref : undefined"
+        :tabindex="item.disabled ? -1 : 0"
+        role="link"
         v-bind="item.attributes"
         @click="clickEvent"
+        @keydown.enter="clickEvent"
       >
         <template v-if="item.icon && !isMobileItem">
           <i

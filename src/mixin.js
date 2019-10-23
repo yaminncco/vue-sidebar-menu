@@ -67,10 +67,14 @@ export const itemMixin = {
       }
     },
     clickEvent (event) {
-      if (this.item.disabled) {
-        event.preventDefault()
-        return
+      if (this.item.disabled) return
+
+      if (!this.mobileItem || this.mobileItem !== this.item) {
+        if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem && !this.item.disabled) {
+          this.$emit('set-mobile-item', { item: this.item, itemEl: event.currentTarget.offsetParent })
+        }
       }
+
       this.emitItemClick(event, this.item)
       if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem) {
         if (this.hover) return
@@ -115,10 +119,11 @@ export const itemMixin = {
     },
     mouseEnterEvent (event) {
       event.stopPropagation()
+      if (this.item.disabled) return
       this.itemHover = true
       if (this.isMobileItem || this.hover) return
       if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem && !this.item.disabled) {
-        this.$emit('set-mobile-item', { event, item: this.item })
+        this.$emit('set-mobile-item', { item: this.item, itemEl: event.currentTarget })
       }
     },
     mouseLeaveEvent (event) {
