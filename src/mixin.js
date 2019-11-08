@@ -186,9 +186,12 @@ export const itemMixin = {
         if (this.item.header || this.item.component) return
         this.initState()
       }, 1)
+    },
+    item (newItem, item) {
+      this.emitItemUpdate(newItem, item)
     }
   },
-  inject: ['emitActiveShow', 'emitItemClick']
+  inject: ['emitActiveShow', 'emitItemClick', 'emitItemUpdate']
 }
 
 export const animationMixin = {

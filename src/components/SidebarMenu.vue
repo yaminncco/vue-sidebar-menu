@@ -268,12 +268,21 @@ export default {
     initScrollable () {
       const vsmList = this.$el.querySelector('.vsm--list')
       this.scrollable = vsmList.clientHeight < vsmList.scrollHeight
+    },
+    onItemUpdate (newItem, item) {
+      if (item === this.mobileItem) {
+        this.mobileItem = newItem
+      }
+      if (item === this.activeShow) {
+        this.activeShow = newItem
+      }
     }
   },
   provide () {
     return {
       emitActiveShow: this.onActiveShow,
-      emitItemClick: this.onItemClick
+      emitItemClick: this.onItemClick,
+      emitItemUpdate: this.onItemUpdate
     }
   }
 }
