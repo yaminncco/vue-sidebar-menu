@@ -201,21 +201,32 @@ export default {
       if (this.isCollapsed === this.collapsed) return
       this.isCollapsed = val
       this.unsetMobileItem()
+      if (this.isCollapsed) {
+        this.$nextTick(() => {
+          this.initScrollable()
+          this.initParentOffsets()
+        })
+      }
     }
   },
   mounted () {
+    if (!this.isCollapsed) return
     this.initScrollable()
+    this.initParentOffsets()
   },
   methods: {
     onMouseLeave () {
       this.unsetMobileItem()
     },
     onToggleClick () {
-      this.unsetMobileItem()
       this.isCollapsed = !this.isCollapsed
-      this.$nextTick(() => {
-        this.initScrollable()
-      })
+      this.unsetMobileItem()
+      if (this.isCollapsed) {
+        this.$nextTick(() => {
+          this.initScrollable()
+          this.initParentOffsets()
+        })
+      }
       this.$emit('toggle-collapse', this.isCollapsed)
     },
     onActiveShow (item) {
@@ -227,8 +238,6 @@ export default {
     setMobileItem ({ item, itemEl }) {
       if (this.mobileItem === item) return
       let sidebarTop = this.$el.getBoundingClientRect().top
-      let sidebarLeft = this.$el.getBoundingClientRect().left
-      let sidebarRight = this.$el.getBoundingClientRect().right
       let styles = window.getComputedStyle(itemEl)
       let paddingTop = parseFloat(styles.paddingTop)
       let paddingBottom = parseFloat(styles.paddingBottom)
@@ -236,18 +245,6 @@ export default {
       let pos = itemEl.getBoundingClientRect().top - sidebarTop + paddingTop
 
       this.unsetMobileItem()
-      if (this.relative) {
-        let parent = this.$el.parentElement
-        let parentTop = parent.getBoundingClientRect().top
-        let parentLeft = parent.getBoundingClientRect().left
-        this.parentHeight = `${parent.offsetHeight}px`
-        this.parentWidth = `${parent.offsetWidth}px`
-        this.parentOffsetTop = `${sidebarTop - parentTop}px`
-        this.rtl ? this.parentOffsetLeft = `${parent.offsetWidth - sidebarRight + parentLeft}px` : this.parentOffsetLeft = `${sidebarLeft - parentLeft}px`
-      } else {
-        this.parentOffsetTop = `${sidebarTop}px`
-        this.rtl ? this.parentOffsetLeft = `calc(${this.parentWidth} - ${sidebarRight}px)` : this.parentOffsetLeft = `${sidebarLeft}px`
-      }
       this.$nextTick(() => {
         this.mobileItem = item
         this.mobileItemPos = pos
@@ -268,6 +265,23 @@ export default {
     initScrollable () {
       const vsmList = this.$el.querySelector('.vsm--list')
       this.scrollable = vsmList.clientHeight < vsmList.scrollHeight
+    },
+    initParentOffsets () {
+      let sidebarTop = this.$el.getBoundingClientRect().top
+      let sidebarLeft = this.$el.getBoundingClientRect().left
+      let sidebarRight = this.$el.getBoundingClientRect().right
+      if (this.relative) {
+        let parent = this.$el.parentElement
+        let parentTop = parent.getBoundingClientRect().top
+        let parentLeft = parent.getBoundingClientRect().left
+        this.parentHeight = `${parent.offsetHeight}px`
+        this.parentWidth = `${parent.offsetWidth}px`
+        this.parentOffsetTop = `${sidebarTop - parentTop}px`
+        this.rtl ? this.parentOffsetLeft = `${parent.offsetWidth - sidebarRight + parentLeft}px` : this.parentOffsetLeft = `${sidebarLeft - parentLeft}px`
+      } else {
+        this.parentOffsetTop = `${sidebarTop}px`
+        this.rtl ? this.parentOffsetLeft = `calc(${this.parentWidth} - ${sidebarRight}px)` : this.parentOffsetLeft = `${sidebarLeft}px`
+      }
     },
     onItemUpdate (newItem, item) {
       if (item === this.mobileItem) {
