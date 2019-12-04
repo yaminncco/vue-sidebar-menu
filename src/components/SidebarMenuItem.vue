@@ -26,42 +26,44 @@
         v-bind="item.attributes"
         @click.native="clickEvent"
       >
-        <template v-if="item.icon && !isMobileItem">
-          <i
-            v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
-            class="vsm--icon"
-            :class="item.icon"
-          />
-          <component
-            :is="item.icon.element ? item.icon.element : 'i'"
-            v-else
-            class="vsm--icon"
-            :class="item.icon.class"
-            v-bind="item.icon.attributes"
-          >
-            {{ item.icon.text }}
-          </component>
-        </template>
-        <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
-          <component
-            :is="item.badge.element ? item.badge.element : 'span'"
-            v-if="item.badge"
-            :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
-            class="vsm--badge"
-            :class="item.badge.class"
-            v-bind="item.badge.attributes"
-          >
-            {{ item.badge.text }}
-          </component>
-          <span class="vsm--title">{{ item.title }}</span>
-          <div
-            v-if="item.child"
-            class="vsm--arrow"
-            :class="[{'vsm--arrow_open' : show}, {'vsm--arrow_slot' : $slots['dropdown-icon']}]"
-          >
-            <slot name="dropdown-icon" />
-          </div>
-        </template>
+        <div>
+          <template v-if="item.icon && !isMobileItem">
+            <i
+              v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
+              class="vsm--icon"
+              :class="item.icon"
+            />
+            <component
+              :is="item.icon.element ? item.icon.element : 'i'"
+              v-else
+              class="vsm--icon"
+              :class="item.icon.class"
+              v-bind="item.icon.attributes"
+            >
+              {{ item.icon.text }}
+            </component>
+          </template>
+          <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
+            <component
+              :is="item.badge.element ? item.badge.element : 'span'"
+              v-if="item.badge"
+              :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
+              class="vsm--badge"
+              :class="item.badge.class"
+              v-bind="item.badge.attributes"
+            >
+              {{ item.badge.text }}
+            </component>
+            <span class="vsm--title">{{ item.title }}</span>
+            <div
+              v-if="item.child"
+              class="vsm--arrow"
+              :class="[{'vsm--arrow_open' : show}, {'vsm--arrow_slot' : $slots['dropdown-icon']}]"
+            >
+              <slot name="dropdown-icon" />
+            </div>
+          </template>
+        </div>
       </router-link>
     </template>
     <template v-else>
