@@ -181,6 +181,7 @@ export default {
           { 'top': `${this.mobileItemPos}px` },
           this.rtl ? { 'right': '0px' } : { 'left': '0px' },
           this.rtl ? { 'padding-right': this.sidebarWidth } : { 'padding-left': this.sidebarWidth },
+          this.rtl && { 'direction': 'rtl' },
           { 'z-index': 0 },
           { 'width': `calc(${this.parentWidth} - ${this.parentOffsetLeft})` },
           { 'max-width': this.width }
