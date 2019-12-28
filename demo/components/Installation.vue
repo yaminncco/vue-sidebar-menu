@@ -7,6 +7,7 @@
     <pre>import Vue from 'vue'
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
+Vue.use(VueSidebarMenu)
 </pre>
     <p>Or import the component locally.</p>
     <pre>import { SidebarMenu } from 'vue-sidebar-menu'
