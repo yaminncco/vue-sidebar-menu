@@ -26,7 +26,6 @@
       :class="itemLinkClass"
       v-bind="item.attributes"
       @click.native="clickEvent"
-      @keydown.enter.native="clickEvent"
     >
       <sidebar-menu-icon
         v-if="item.icon && !isMobileItem"
