@@ -19,100 +19,35 @@
     v-on="disableHover && isCollapsed ? { click: mouseEnterEvent } : { mouseover: mouseEnterEvent }"
     @mouseout="mouseLeaveEvent"
   >
-    <template v-if="isRouterLink && !item.disabled">
-      <router-link
-        :class="itemLinkClass"
-        :to="itemLinkHref"
-        v-bind="item.attributes"
-        @click.native="clickEvent"
-      >
-        <template v-if="item.icon && !isMobileItem">
-          <i
-            v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
-            class="vsm--icon"
-            :class="item.icon"
-          />
-          <component
-            :is="item.icon.element ? item.icon.element : 'i'"
-            v-else
-            class="vsm--icon"
-            :class="item.icon.class"
-            v-bind="item.icon.attributes"
-          >
-            {{ item.icon.text }}
-          </component>
-        </template>
-        <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
-          <component
-            :is="item.badge.element ? item.badge.element : 'span'"
-            v-if="item.badge"
-            :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
-            class="vsm--badge"
-            :class="item.badge.class"
-            v-bind="item.badge.attributes"
-          >
-            {{ item.badge.text }}
-          </component>
-          <span class="vsm--title">{{ item.title }}</span>
-          <div
-            v-if="item.child"
-            class="vsm--arrow"
-            :class="[{'vsm--arrow_open' : show}, {'vsm--arrow_slot' : $slots['dropdown-icon']}]"
-          >
-            <slot name="dropdown-icon" />
-          </div>
-        </template>
-      </router-link>
-    </template>
-    <template v-else>
-      <component
-        :is="itemLinkHref && !item.disabled ? 'a' : 'span'"
-        :class="itemLinkClass"
-        :href="itemLinkHref && !item.disabled ? itemLinkHref : undefined"
-        :tabindex="item.disabled ? -1 : 0"
-        role="link"
-        v-bind="item.attributes"
-        @click="clickEvent"
-        @keydown.enter="clickEvent"
-      >
-        <template v-if="item.icon && !isMobileItem">
-          <i
-            v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
-            class="vsm--icon"
-            :class="item.icon"
-          />
-          <component
-            :is="item.icon.element ? item.icon.element : 'i'"
-            v-else
-            class="vsm--icon"
-            :class="item.icon.class"
-            v-bind="item.icon.attributes"
-          >
-            {{ item.icon.text }}
-          </component>
-        </template>
-        <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
-          <component
-            :is="item.badge.element ? item.badge.element : 'span'"
-            v-if="item.badge"
-            :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
-            class="vsm--badge"
-            :class="item.badge.class"
-            v-bind="item.badge.attributes"
-          >
-            {{ item.badge.text }}
-          </component>
-          <span class="vsm--title">{{ item.title }}</span>
-          <div
-            v-if="item.child"
-            class="vsm--arrow"
-            :class="[{'vsm--arrow_open' : show}, {'vsm--arrow_slot' : $slots['dropdown-icon']}]"
-          >
-            <slot name="dropdown-icon" />
-          </div>
-        </template>
-      </component>
-    </template>
+    <sidebar-menu-link
+      :tag="item.disabled || !itemLinkHref ? 'span' : (isRouterLink ? 'router-link' : 'a')"
+      :href="itemLinkHref"
+      :disabled="item.disabled"
+      :class="itemLinkClass"
+      v-bind="item.attributes"
+      @click.native="clickEvent"
+      @keydown.enter.native="clickEvent"
+    >
+      <sidebar-menu-icon
+        v-if="item.icon && !isMobileItem"
+        :icon="item.icon"
+      />
+      <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
+        <sidebar-menu-badge
+          v-if="item.badge"
+          :badge="item.badge"
+          :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
+        />
+        <span class="vsm--title">{{ item.title }}</span>
+        <div
+          v-if="item.child"
+          class="vsm--arrow"
+          :class="[{'vsm--arrow_open' : show}, {'vsm--arrow_slot' : $slots['dropdown-icon']}]"
+        >
+          <slot name="dropdown-icon" />
+        </div>
+      </template>
+    </sidebar-menu-link>
     <template v-if="item.child">
       <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed">
         <transition
@@ -149,11 +84,18 @@
 </template>
 
 <script>
-
 import { itemMixin, animationMixin } from '../mixin'
+import SidebarMenuLink from './SidebarMenuLink.vue'
+import SidebarMenuIcon from './SidebarMenuIcon.vue'
+import SidebarMenuBadge from './SidebarMenuBadge.vue'
 
 export default {
   name: 'SidebarMenuItem',
+  components: {
+    SidebarMenuLink,
+    SidebarMenuIcon,
+    SidebarMenuBadge
+  },
   mixins: [itemMixin, animationMixin],
   props: {
     item: {

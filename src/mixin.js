@@ -83,7 +83,7 @@ export const itemMixin = {
 
       if (this.showChild) return
       if (this.showOneChild) {
-        if (!this.item.child && this.activeShow) {
+        if (!this.item.child) {
           this.emitActiveShow(null)
         } else {
           if (this.isMobileItem) return
