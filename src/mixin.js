@@ -108,12 +108,19 @@ export const itemMixin = {
       this.exactActive = this.isLinkExactActive(this.item)
     },
     initShowState () {
-      if (this.item.child && this.active && !this.show) {
-        if (this.showChild) return
+      if (this.item.child && !this.showChild) {
         if (this.showOneChild) {
-          this.emitActiveShow(this.item)
+          if (this.active) {
+            this.emitActiveShow(this.item)
+          } else {
+            if (this.item === this.activeShow) {
+              this.emitActiveShow(null)
+            }
+          }
         } else {
-          this.itemShow = true
+          if (this.active) {
+            this.itemShow = true
+          }
         }
       }
     },
@@ -141,10 +148,7 @@ export const itemMixin = {
     show () {
       if (!this.item.child) return false
       if (this.showChild || this.isMobileItem) return true
-      if (this.isFirstLevel && this.showOneChild) {
-        return this.item === this.activeShow
-      }
-      return this.itemShow
+      return this.showOneChild ? this.item === this.activeShow : this.itemShow
     },
     itemLinkClass () {
       return [
