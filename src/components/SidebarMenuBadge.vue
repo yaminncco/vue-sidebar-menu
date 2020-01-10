@@ -4,8 +4,9 @@
     class="vsm--badge"
     :class="badge.class"
     v-bind="badge.attributes"
-    v-text="badge.text"
-  />
+  >
+    {{ badge.text }}
+  </component>
 </template>
 
 <script>

@@ -4,8 +4,9 @@
     class="vsm--icon"
     :class="typeof icon === 'string' || (icon instanceof String) ? icon : icon.class"
     v-bind="icon.attributes"
-    v-text="icon.text"
-  />
+  >
+    {{ icon.text }}
+  </component>
 </template>
 
 <script>
