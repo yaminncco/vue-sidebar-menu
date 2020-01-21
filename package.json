@@ -5,6 +5,7 @@
   "author": "yaminncco <yaminncco@gmail.com>",
   "license": "MIT",
   "main": "dist/vue-sidebar-menu.js",
+  "types": "./types/index.d.ts",
   "files": [
     "dist",
     "src"
