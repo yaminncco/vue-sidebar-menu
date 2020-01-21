@@ -27,7 +27,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --hot --open --config webpack.config.dev.js",
     "build:demo": "cross-env NODE_ENV=production webpack --progress --hide-modules --config webpack.config.dev.js",
     "build:lib": "cross-env NODE_ENV=production webpack --progress --hide-modules --config webpack.config.prod.js",
-    "lint": "eslint --ext .js,.vue ."
+    "lint": "eslint --ext .js,.vue,.ts ."
   },
   "dependencies": {
     "path-to-regexp": "^1.7.0",
