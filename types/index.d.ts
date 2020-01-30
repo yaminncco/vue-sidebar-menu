@@ -126,5 +126,6 @@ declare module "vue-sidebar-menu" {
     disableHover?: boolean;
   }
   export { SidebarMenu };
-  export default SidebarMenu;
+  const VueSidebarMenu: PluginObject<any>;
+  export default VueSidebarMenu;
 }
