@@ -1,5 +1,5 @@
 declare module "vue-sidebar-menu" {
-  import Vue from "vue";
+  import Vue, { PluginObject } from "vue";
 
   interface ItemIcon {
     element: string
