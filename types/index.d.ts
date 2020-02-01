@@ -1,0 +1,131 @@
+declare module "vue-sidebar-menu" {
+  import Vue, { PluginObject } from "vue";
+
+  interface ItemIcon {
+    element: string
+    class: string
+    attributes?: any
+    text?: any
+  }
+
+  interface SidebarItem {
+    href: string | object;
+
+    title: string;
+
+    icon: string | ItemIcon;
+
+    badge?: string | object;
+
+    child?: Array<SidebarItem>;
+
+    disabled?: boolean;
+
+    class?: string;
+
+    attributes?: object;
+
+    exactPath?: boolean;
+
+    alias?: string | Array<object>;
+
+    hidden?: boolean;
+
+    hiddenOnCollapse?: boolean;
+  }
+
+  interface SidebarHeaderItem {
+    header: boolean;
+
+    title: string;
+
+    hidden?: boolean;
+
+    hiddenOnCollapse?: boolean;
+
+    class?: string;
+
+    attributes?: object;
+  }
+
+  interface SidebarComponentItem {
+    component: string;
+
+    props?: object;
+
+    hidden?: boolean;
+
+    hiddenOnCollapse?: boolean;
+  }
+
+  class SidebarMenu extends Vue {
+    /**
+     * List of Items in the menu
+     * Follow https://github.com/yaminncco/vue-sidebar-menu#item-properties
+     */
+    menu: Array<SidebarItem | SidebarComponentItem | SidebarHeaderItem>;
+
+    /**
+     * Sidebar Collapse state.
+     * by default false
+     */
+    collapsed?: boolean;
+
+    /**
+     * Sidebar width (expanded).
+     * by default 350px
+     */
+    width?: string;
+
+    /**
+     * Sidebar width (collapsed).
+     *  by default 50px
+     */
+    widthCollapsed?: string;
+
+    /**
+     * Keep only one child opened at a time (first level only).
+     * by default false
+     */
+    showOneChild?: boolean;
+
+    /**
+     * Keep all child open.
+     * by default false
+     */
+    showChild?: boolean;
+
+    /**
+     * Position sidebar right to left.
+     * by default false
+     */
+    rtl?: boolean;
+
+    /**
+     * Make sidebar relative to the parent (by default the sidebar is relative to the viewport).
+     * by default false
+     */
+    relative?: boolean;
+
+    /**
+     * Hide toggle collapse button.
+     * by default false.
+     */
+    hideToggle?: boolean;
+
+    /**
+     * Sidebar theme (available themes: 'white-theme').
+     *
+     */
+    theme?: string;
+
+    /**
+     * Disable hover on collapse mode.
+     * by default false.
+     */
+    disableHover?: boolean;
+  }
+  export { SidebarMenu };
+  const VueSidebarMenu: PluginObject<any>;
+  export default VueSidebarMenu;
+}
