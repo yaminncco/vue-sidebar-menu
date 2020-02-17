@@ -32,6 +32,7 @@
     position: relative;
     display: block;
     width: 100%;
+    white-space: nowrap;
   }
 
   .vsm--link {
@@ -63,11 +64,6 @@
         border-radius: 3px;
       }
     }
-    &:after {
-      content: '';
-      display: block;
-      clear: both;
-    }
     &_mobile-item {
       background-color: transparent;
       &.vsm--link_hover,
@@ -75,16 +71,14 @@
         background-color: transparent !important;
       }
     }
-  }
 
-  .vsm--title {
-    display: block;
-    white-space: nowrap;
+    & > * {
+      vertical-align: middle;
+    }
   }
 
   .vsm--icon {
-    float: left;
-    line-height: $item-line-height;
+    display: inline-block;
     margin-right: 10px;
   }
 
@@ -158,9 +152,6 @@
       &:hover {
         background-color: transparent !important;
       }
-      & .vsm--icon {
-        margin-right: 0px;
-      }
     }
   }
 
@@ -171,15 +162,7 @@
     & > .vsm--list {
       direction: rtl;
     }
-    &.vsm_collapsed > .vsm--list {
-      & .vsm--link_level-1 {
-        & .vsm--icon {
-          margin-left: 0px;
-        }
-      }
-    }
     & .vsm--icon {
-      float: right;
       margin-left: 10px;
       margin-right: 0px;
     }
