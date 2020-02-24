@@ -17,8 +17,7 @@
   text-align: left;
   transition: 0.3s max-width ease;
   
-  > .vsm--list {
-    width: 100%;
+  .vsm--scroll-wrapper {
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -159,9 +158,8 @@
     right: 0;
     left: inherit;
     text-align: right;
-    & > .vsm--list {
-      direction: rtl;
-    }
+    direction: rtl;
+
     & .vsm--icon {
       margin-left: 10px;
       margin-right: 0px;

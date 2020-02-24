@@ -7,84 +7,89 @@
   >
     <slot name="header" />
     <div
-      class="vsm--list"
-      :style="scrollable && isCollapsed ? [{'width': 'calc(100% + 17px)'}, rtl ? {'margin-left': '-17px'} : {}] : ''"
+      class="vsm--scroll-wrapper"
+      :style="isCollapsed && [rtl ? {'margin-left': '-17px'} : {'margin-right': '-17px'}]"
     >
-      <sidebar-menu-item
-        v-for="(item, index) in menu"
-        :key="index"
-        :item="item"
-        :is-collapsed="isCollapsed"
-        :active-show="activeShow"
-        :show-one-child="showOneChild"
-        :show-child="showChild"
-        :rtl="rtl"
-        :mobile-item="mobileItem"
-        :disable-hover="disableHover"
-        @set-mobile-item="setMobileItem"
-        @unset-mobile-item="unsetMobileItem"
-      >
-        <slot
-          slot="dropdown-icon"
-          name="dropdown-icon"
-        />
-      </sidebar-menu-item>
-    </div>
-    <div
-      v-if="isCollapsed"
-      class="vsm--mobile-item"
-      :style="mobileItemStyle.item"
-    >
-      <sidebar-menu-item
-        v-if="mobileItem"
-        :item="mobileItem"
-        :is-mobile-item="true"
-        :is-collapsed="isCollapsed"
-        :show-child="showChild"
-        :rtl="rtl"
-      >
-        <slot
-          slot="dropdown-icon"
-          name="dropdown-icon"
-        />
-      </sidebar-menu-item>
-      <transition name="slide-animation">
-        <div
-          v-if="mobileItem"
-          class="vsm--mobile-bg"
-          :style="[{'position' : 'absolute'}, {'left' : '0px'}, {'right' : '0px'}, {'top' : '0px'}, {'height' : `${mobileItemHeight}px`},{ 'z-index' : -1}]"
-        />
-      </transition>
       <div
-        class="vsm--dropdown"
-        :style="mobileItemStyle.dropdown"
+        class="vsm--list"
+        :style="{'width': sidebarWidth}"
       >
-        <transition
-          name="expand"
-          @enter="expandEnter"
-          @afterEnter="expandAfterEnter"
-          @beforeLeave="expandBeforeLeave"
+        <sidebar-menu-item
+          v-for="(item, index) in menu"
+          :key="index"
+          :item="item"
+          :is-collapsed="isCollapsed"
+          :active-show="activeShow"
+          :show-one-child="showOneChild"
+          :show-child="showChild"
+          :rtl="rtl"
+          :mobile-item="mobileItem"
+          :disable-hover="disableHover"
+          @set-mobile-item="setMobileItem"
+          @unset-mobile-item="unsetMobileItem"
         >
+          <slot
+            slot="dropdown-icon"
+            name="dropdown-icon"
+          />
+        </sidebar-menu-item>
+      </div>
+      <div
+        v-if="isCollapsed"
+        class="vsm--mobile-item"
+        :style="mobileItemStyle.item"
+      >
+        <sidebar-menu-item
+          v-if="mobileItem"
+          :item="mobileItem"
+          :is-mobile-item="true"
+          :is-collapsed="isCollapsed"
+          :show-child="showChild"
+          :rtl="rtl"
+        >
+          <slot
+            slot="dropdown-icon"
+            name="dropdown-icon"
+          />
+        </sidebar-menu-item>
+        <transition name="slide-animation">
           <div
-            v-if="mobileItem && mobileItem.child"
-            class="vsm--list"
-          >
-            <sidebar-menu-item
-              v-for="(item, index) in mobileItem.child"
-              :key="index"
-              :item="item"
-              :level="2"
-              :show-child="showChild"
-              :rtl="rtl"
-              :is-collapsed="isCollapsed"
-            >
-              <slot
-                slot="dropdown-icon"
-                name="dropdown-icon"
-              />
-            </sidebar-menu-item>
-          </div>
+            v-if="mobileItem"
+            class="vsm--mobile-bg"
+            :style="[{'position' : 'absolute'}, {'left' : '0px'}, {'right' : '0px'}, {'top' : '0px'}, {'height' : `${mobileItemHeight}px`},{ 'z-index' : -1}]"
+          />
         </transition>
+        <div
+          class="vsm--dropdown"
+          :style="mobileItemStyle.dropdown"
+        >
+          <transition
+            name="expand"
+            @enter="expandEnter"
+            @afterEnter="expandAfterEnter"
+            @beforeLeave="expandBeforeLeave"
+          >
+            <div
+              v-if="mobileItem && mobileItem.child"
+              class="vsm--list"
+            >
+              <sidebar-menu-item
+                v-for="(item, index) in mobileItem.child"
+                :key="index"
+                :item="item"
+                :level="2"
+                :show-child="showChild"
+                :rtl="rtl"
+                :is-collapsed="isCollapsed"
+              >
+                <slot
+                  slot="dropdown-icon"
+                  name="dropdown-icon"
+                />
+              </sidebar-menu-item>
+            </div>
+          </transition>
+        </div>
       </div>
     </div>
     <slot name="footer" />
@@ -166,8 +171,7 @@ export default {
       parentHeight: '100vh',
       parentWidth: '100vw',
       parentOffsetTop: '0px',
-      parentOffsetLeft: '0px',
-      scrollable: false
+      parentOffsetLeft: '0px'
     }
   },
   computed: {
@@ -204,7 +208,6 @@ export default {
       this.unsetMobileItem()
       if (this.isCollapsed) {
         this.$nextTick(() => {
-          this.initScrollable()
           this.initParentOffsets()
         })
       }
@@ -212,7 +215,6 @@ export default {
   },
   mounted () {
     if (!this.isCollapsed) return
-    this.initScrollable()
     this.initParentOffsets()
   },
   methods: {
@@ -224,7 +226,6 @@ export default {
       this.unsetMobileItem()
       if (this.isCollapsed) {
         this.$nextTick(() => {
-          this.initScrollable()
           this.initParentOffsets()
         })
       }
@@ -262,10 +263,6 @@ export default {
       this.mobileItemTimeout = setTimeout(() => {
         this.mobileItem = null
       }, 600)
-    },
-    initScrollable () {
-      const vsmList = this.$el.querySelector('.vsm--list')
-      this.scrollable = vsmList.clientHeight < vsmList.scrollHeight
     },
     initParentOffsets () {
       let sidebarTop = this.$el.getBoundingClientRect().top
