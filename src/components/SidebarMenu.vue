@@ -12,7 +12,7 @@
     >
       <div
         class="vsm--list"
-        :style="{'width': sidebarWidth}"
+        :style="isCollapsed && {'width': widthCollapsed}"
       >
         <sidebar-menu-item
           v-for="(item, index) in menu"
