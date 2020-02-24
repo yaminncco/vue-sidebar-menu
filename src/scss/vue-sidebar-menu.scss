@@ -15,7 +15,7 @@
   box-sizing: border-box;
   width: 100%;
   text-align: left;
-  transition: 0.3s max-width;
+  transition: 0.3s max-width ease;
   
   > .vsm--list {
     width: 100%;
@@ -46,7 +46,7 @@
     text-decoration: none;
     user-select: none;
     z-index: 20;
-    transition: 0.3s all;
+    transition: 0.3s all ease;
     &_exact-active,
     &_active {
       font-weight: 600;
@@ -91,7 +91,7 @@
     right: 10px;
     top: 50%;
     transform: translateY(-50%);
-    transition: 0.3s transform;
+    transition: 0.3s transform ease;
     &:after {
       content: '\f105';
       font-family: 'Font Awesome 5 Free';
@@ -178,7 +178,7 @@
 
   .expand-enter-active,
   .expand-leave-active {
-    transition: height 0.35s ease;
+    transition: height 0.3s ease;
     overflow: hidden;
   }
   .expand-enter,
@@ -186,7 +186,7 @@
     height: 0 !important;
   }
   .slide-animation-enter-active {
-    animation: slide-animation 0.2s;
+    animation: slide-animation 0.3s;
   }
   .slide-animation-leave-active {
     animation: slide-animation 0.2s reverse;
