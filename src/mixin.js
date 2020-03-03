@@ -112,9 +112,11 @@ export const itemMixin = {
         if (this.showOneChild) {
           if (this.active) {
             this.emitActiveShow(this.item)
+            this.itemShow = true
           } else {
             if (this.item === this.activeShow) {
               this.emitActiveShow(null)
+              this.itemShow = false
             }
           }
         } else {
@@ -148,7 +150,7 @@ export const itemMixin = {
     show () {
       if (!this.item.child) return false
       if (this.showChild || this.isMobileItem) return true
-      return this.showOneChild ? this.item === this.activeShow : this.itemShow
+      return this.itemShow
     },
     itemLinkClass () {
       return [
@@ -193,6 +195,9 @@ export const itemMixin = {
     },
     item (newItem, item) {
       this.emitItemUpdate(newItem, item)
+    },
+    activeShow () {
+      this.itemShow = this.item === this.activeShow
     }
   },
   inject: ['emitActiveShow', 'emitItemClick', 'emitItemUpdate']
