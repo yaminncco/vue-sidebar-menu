@@ -69,33 +69,24 @@ export const itemMixin = {
     clickEvent (event) {
       if (this.item.disabled) return
 
+      this.emitItemClick(event, this.item)
+
       if (!this.mobileItem || this.mobileItem !== this.item) {
         if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem && !this.item.disabled) {
           this.$emit('set-mobile-item', { item: this.item, itemEl: event.currentTarget.offsetParent })
         }
       }
-
-      this.emitItemClick(event, this.item)
       if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem) {
         if (this.hover) return
         this.$emit('unset-mobile-item', true, this.item.child !== undefined)
       }
 
-      if (this.showChild) return
-      if (this.showOneChild) {
-        if (!this.item.child) {
-          this.emitActiveShow(null)
+      if (this.showChild || this.isMobileItem) return
+      if (this.item.child && (!this.item.href || this.exactActive)) {
+        if (this.showOneChild) {
+          this.activeShow === this.item ? this.emitActiveShow(null) : this.emitActiveShow(this.item)
         } else {
-          if (this.isMobileItem) return
-          if (!this.item.href || this.exactActive) {
-            this.activeShow === this.item ? this.emitActiveShow(null) : this.emitActiveShow(this.item)
-          }
-        }
-      } else {
-        if (this.item.child) {
-          if (!this.item.href || this.exactActive) {
-            this.itemShow = !this.itemShow
-          }
+          this.itemShow = !this.itemShow
         }
       }
     },
