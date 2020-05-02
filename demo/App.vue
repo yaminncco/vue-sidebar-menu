@@ -212,6 +212,7 @@ body {
 
 #demo {
   padding-left: 350px;
+  transition: 0.3s ease;
 }
 #demo.collapsed {
   padding-left: 50px;
