@@ -1,7 +1,7 @@
 <template>
   <div
     id="demo"
-    :class="[{'collapsed' : collapsed}]"
+    :class="[{'collapsed' : collapsed}, {'onmobile' : isOnMobile}]"
   >
     <div class="demo">
       <div class="container">
@@ -37,6 +37,11 @@
         :show-one-child="true"
         @toggle-collapse="onToggleCollapse"
         @item-click="onItemClick"
+      />
+      <div
+        v-if="isOnMobile && !collapsed"
+        class="sidebar-overlay"
+        @click="collapsed = true"
       />
     </div>
   </div>
@@ -177,8 +182,13 @@ export default {
           input: 'white-theme'
         }
       ],
-      selectedTheme: 'white-theme'
+      selectedTheme: 'white-theme',
+      isOnMobile: false
     }
+  },
+  mounted () {
+    this.onResize()
+    window.addEventListener('resize', this.onResize)
   },
   methods: {
     onToggleCollapse (collapsed) {
@@ -189,6 +199,15 @@ export default {
       console.log('onItemClick')
       // console.log(event)
       // console.log(item)
+    },
+    onResize () {
+      if (window.innerWidth <= 767) {
+        this.isOnMobile = true
+        this.collapsed = true
+      } else {
+        this.isOnMobile = false
+        this.collapsed = false
+      }
     }
   }
 }
@@ -216,6 +235,20 @@ body {
 }
 #demo.collapsed {
   padding-left: 50px;
+}
+#demo.onmobile {
+  padding-left: 50px;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #000;
+  opacity: 0.5;
+  z-index: 900;
 }
 
 .demo {
