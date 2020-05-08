@@ -22,6 +22,9 @@ module.exports = {
       }
     ]
   },
+  output: {
+    globalObject: 'this'
+  },
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js'
