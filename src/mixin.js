@@ -12,9 +12,10 @@ export const itemMixin = {
   created () {
     if (this.item.header || this.item.component) return
     this.initState()
-
+  },
+  mounted() {
     if (!this.$router) {
-      window.addEventListener('hashchange', this.initState)
+        window.addEventListener('hashchange', this.initState)
     }
   },
   destroyed () {
