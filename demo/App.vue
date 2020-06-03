@@ -195,10 +195,11 @@ export default {
       console.log(collapsed)
       this.collapsed = collapsed
     },
-    onItemClick (event, item) {
+    onItemClick (event, item, node) {
       console.log('onItemClick')
       // console.log(event)
       // console.log(item)
+      // console.log(node)
     },
     onResize () {
       if (window.innerWidth <= 767) {

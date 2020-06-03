@@ -234,8 +234,8 @@ export default {
     onActiveShow (item) {
       this.activeShow = item
     },
-    onItemClick (event, item) {
-      this.$emit('item-click', event, item)
+    onItemClick (event, item, node) {
+      this.$emit('item-click', event, item, node)
     },
     setMobileItem ({ item, itemEl }) {
       if (this.mobileItem === item) return

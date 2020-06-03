@@ -13,9 +13,9 @@ export const itemMixin = {
     if (this.item.header || this.item.component) return
     this.initState()
   },
-  mounted() {
+  mounted () {
     if (!this.$router) {
-        window.addEventListener('hashchange', this.initState)
+      window.addEventListener('hashchange', this.initState)
     }
   },
   destroyed () {
@@ -70,7 +70,7 @@ export const itemMixin = {
     clickEvent (event) {
       if (this.item.disabled) return
 
-      this.emitItemClick(event, this.item)
+      this.emitItemClick(event, this.item, this)
 
       if (!this.mobileItem || this.mobileItem !== this.item) {
         if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem && !this.item.disabled) {
