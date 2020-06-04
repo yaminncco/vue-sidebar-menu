@@ -4,6 +4,14 @@
     v-if="item.component && !isItemHidden"
     v-bind="item.props"
   />
+  <a v-else-if="item.header && !isItemHidden && itemLinkHref !== ''"
+    :href="itemLinkHref"
+    class="vsm--header"
+    :class="item.class"
+    v-bind="item.attributes"
+  >
+    {{ item.title }}
+  </a>
   <div
     v-else-if="item.header && !isItemHidden"
     class="vsm--header"
