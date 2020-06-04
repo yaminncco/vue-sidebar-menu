@@ -6,11 +6,11 @@
 ...
 methods: {
     onToggleCollapse(collapsed) {},
-    onItemClick(event, item) {}
+    onItemClick(event, item, node) {}
 }
 ...
 </pre>
     <p><b>@toggle-collapse(collapsed)</b> Trigger on toggle btn click</p>
-    <p><b>@item-click(event, item)</b> Trigger on item link click</p>
+    <p><b>@item-click(event, item, node)</b> Trigger on item link click</p>
   </div>
 </template>

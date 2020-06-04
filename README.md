@@ -235,14 +235,14 @@ props: {
 ...
 methods: {
     onToggleCollapse(collapsed) {},
-    onItemClick(event, item) {}
+    onItemClick(event, item, node) {}
 }
 ...
 ```
 
 __@toggle-collapse(collapsed)__ Trigger on toggle btn click
 
-__@item-click(event, item)__ Trigger on item link click
+__@item-click(event, item, node)__ Trigger on item link click
 
 ### Styles
 
