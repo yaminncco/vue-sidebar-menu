@@ -3,30 +3,30 @@ $base-bg: #2a2a2e !default;
 
 $item-color: #fff !default;
 
-$item-active-color: $item-color !default;
+$item-active-color: null !default;
 
-$item-open-color: $item-color !default;
+$item-open-color: #fff !default;
 $item-open-bg: $primary-color !default;
 
-$item-hover-color: $item-color !default;
-$item-hover-bg: rgba(darken( $base-bg, 5% ), 0.5) !default;
+$item-hover-color: null !default;
+$item-hover-bg: rgba(darken($base-bg, 5%), 0.5) !default;
 
-$icon-color: $item-color !default;
+$icon-color: null !default;
 $icon-bg: darken( $base-bg, 5% ) !default;
 
-$icon-active-color: $item-color !default;
-$icon-active-bg: $icon-bg !default;
+$icon-active-color: null !default;
+$icon-active-bg: null !default;
 
-$icon-open-color: $item-color !default;
+$icon-open-color: null !default;
 $icon-open-bg: $primary-color !default;
 
-$mobile-item-color: $item-color !default;
+$mobile-item-color: $item-open-color !default;
 $mobile-item-bg: $primary-color !default;
 $mobile-icon-color: $mobile-item-color !default;
 $mobile-icon-bg: $mobile-item-bg !default;
 
 $dropdown-bg: lighten( $base-bg, 5% ) !default;
-$dropdown-color: $item-color !default;
+$dropdown-color: null !default;
 
 $item-font-size: 16px !default;
 $item-line-height: 30px !default;

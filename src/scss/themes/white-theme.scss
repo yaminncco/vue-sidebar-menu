@@ -1,12 +1,9 @@
 $base-bg: #fff;
 $item-color: #262626;
-$icon-color: $item-color;
 $icon-bg: #bbc5d6;
+$icon-active-color: #fff;
 $icon-active-bg: $item-color;
-$item-hover-color: $item-color;
-$item-hover-bg: darken( $base-bg, 5% );
-$item-active-color: $item-color;
-$dropdown-color: $item-color;
+$item-hover-bg: rgba(darken($base-bg, 5%), 0.5);
 $dropdown-bg: #e3e3e3;
 
 .v-sidebar-menu.vsm_white-theme {
