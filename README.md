@@ -274,17 +274,16 @@ All styles customization can be done in normal CSS by using this classes
 .v-sidebar-menu .vsm--toggle-btn {}
 ```
 
-or you can override Sass variables and create your own theme
+or you can override Sass variables (complete list of all variables can be found in `src/scss/_variables.scss`) and create your own theme
 
-```css
-/*app.scss*/
+```scss
 @import "custom-var.scss";
 @import "vue-sidebar-menu/src/scss/vue-sidebar-menu.scss";
 ```
 
-### Customize Icons
+### Customize Toggle & Dropdown Icons
 
-The component use `Font Awesome 5 Free` as default for the icons, but you can customize them using slots
+The component use `Font Awesome 5 Free` as default, but you can either customize them using slots or by overriding css style
 
 ## Slots
 

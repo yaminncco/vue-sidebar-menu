@@ -26,13 +26,12 @@
 .v-sidebar-menu .vsm--mobile-bg {}
 .v-sidebar-menu .vsm--toggle-btn {}
 </pre>
-    <p>or you can override Sass variables and create your own theme</p>
-    <pre>/*app.scss*/
-@import "custom-var.scss";
+    <p>or you can override Sass variables (complete list of all variables can be found in `src/scss/_variables.scss`) and create your own theme</p>
+    <pre>@import "custom-var.scss";
 @import "vue-sidebar-menu/src/scss/vue-sidebar-menu.scss";
 </pre>
-    <h3>Customize Icons</h3>
-    <p>The component use 'Font Awesome 5 Free' as default for the icons, but you can customize them using slots</p>
+    <h3>Customize Toggle & Dropdown Icons</h3>
+    <p>The component use 'Font Awesome 5 Free' as default, but you can either customize them using slots or by overriding css style</p>
     <h2>Slots</h2>
     <pre>
 &lt;sidebar-menu&gt;
