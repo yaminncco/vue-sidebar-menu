@@ -168,14 +168,18 @@ export const itemMixin = {
       }
     },
     itemLinkHref () {
-      if (!this.$router && (!this.item.href || typeof this.item.href !== 'string')) return ''
-      return this.item.href ? this.item.href : ''
+      if (!this.item.href || this.item.disabled) return null
+      return this.item.href
     },
     hover () {
       if (this.isCollapsed && this.isFirstLevel) {
         return this.item === this.mobileItem
       }
       return this.itemHover
+    },
+    itemLinkTag () {
+      if (!this.itemLinkHref) return 'span'
+      return this.isRouterLink ? 'router-link' : 'a'
     }
   },
   watch: {

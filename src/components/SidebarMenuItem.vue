@@ -20,11 +20,11 @@
     @mouseout="mouseLeaveEvent"
   >
     <sidebar-menu-link
-      :tag="item.disabled || !itemLinkHref ? 'span' : (isRouterLink ? 'router-link' : 'a')"
+      :tag="itemLinkTag"
       :href="itemLinkHref"
       :disabled="item.disabled"
       :class="itemLinkClass"
-      v-bind="item.attributes"
+      :attributes="item.attributes"
       @click.native="clickEvent"
     >
       <sidebar-menu-icon

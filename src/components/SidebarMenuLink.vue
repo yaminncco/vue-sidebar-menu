@@ -1,8 +1,7 @@
 <template>
   <component
     :is="tag"
-    :to="tag === 'router-link' && href"
-    v-bind="tag !== 'router-link' && { href: href && !disabled ? href : undefined }"
+    v-bind="[tag === 'router-link' ? { to: href } : { href }, attributes]"
     :tabindex="disabled ? -1 : 0"
     role="link"
     @keydown.enter="$parent.clickEvent($event)"
@@ -17,7 +16,7 @@ export default {
   props: {
     tag: {
       type: String,
-      default: 'a'
+      default: ''
     },
     href: {
       type: [String, Object],
@@ -26,6 +25,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    attributes: {
+      type: Object,
+      default: null
     }
   }
 }
