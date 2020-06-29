@@ -171,7 +171,12 @@
         right: inherit;
       }
     }
-  
+
+    &.vsm_relative {
+      position: relative;
+      height: 100%;
+    }
+
     .expand-enter-active,
     .expand-leave-active {
       transition: height 0.3s ease;

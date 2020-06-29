@@ -1,8 +1,8 @@
 <template>
   <div
     class="v-sidebar-menu"
-    :class="[!isCollapsed ? 'vsm_expanded' : 'vsm_collapsed', theme ? `vsm_${theme}` : '', rtl ? 'vsm_rtl' : '']"
-    :style="[relative ? {'position' : 'relative', 'height' : '100%'} : '', {'max-width': sidebarWidth}]"
+    :class="sidebarClass"
+    :style="[{'max-width': sidebarWidth}]"
     @mouseleave="onMouseLeave"
   >
     <slot name="header" />
@@ -56,7 +56,7 @@
           <div
             v-if="mobileItem"
             class="vsm--mobile-bg"
-            :style="[{'position' : 'absolute'}, {'left' : '0px'}, {'right' : '0px'}, {'top' : '0px'}, {'height' : `${mobileItemHeight}px`},{ 'z-index' : -1}]"
+            :style="mobileItemStyle.background"
           />
         </transition>
         <div
@@ -178,6 +178,14 @@ export default {
     sidebarWidth () {
       return this.isCollapsed ? this.widthCollapsed : this.width
     },
+    sidebarClass () {
+      return [
+        !this.isCollapsed ? 'vsm_expanded' : 'vsm_collapsed',
+        this.theme ? `vsm_${this.theme}` : '',
+        this.rtl ? 'vsm_rtl' : '',
+        this.relative ? 'vsm_relative' : ''
+      ]
+    },
     mobileItemStyle () {
       return {
         item: [
@@ -197,6 +205,14 @@ export default {
           { 'right': this.rtl ? this.sidebarWidth : '0px' },
           { 'max-height': `calc(${this.parentHeight} - ${this.mobileItemPos + this.mobileItemHeight}px - ${this.parentOffsetTop})` },
           { 'overflow-y': 'auto' }
+        ],
+        background: [
+          { 'position': 'absolute' },
+          { 'top': '0px' },
+          { 'left': '0px' },
+          { 'right': '0px' },
+          { 'height': `${this.mobileItemHeight}px` },
+          { 'z-index': -1 }
         ]
       }
     }
