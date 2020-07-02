@@ -29,7 +29,7 @@ export interface SidebarItem {
 
   badge?: ItemBadge;
 
-  child?: Array<SidebarItem>;
+  child?: Array<SidebarItem | SidebarComponentItem | SidebarHeaderItem>;
 
   disabled?: boolean;
 
