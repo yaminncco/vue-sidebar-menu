@@ -72,14 +72,12 @@ export const itemMixin = {
 
       this.emitItemClick(event, this.item, this)
 
-      if (!this.mobileItem || this.mobileItem !== this.item) {
-        if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem && !this.item.disabled) {
+      if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem) {
+        if (!this.mobileItem || this.mobileItem !== this.item) {
           this.$emit('set-mobile-item', { item: this.item, itemEl: event.currentTarget.offsetParent })
         }
-      }
-      if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem) {
-        if (this.hover) return
-        this.$emit('unset-mobile-item', true, this.item.child !== undefined)
+        if (this.hover || this.item.child) return
+        this.$emit('unset-mobile-item', true)
       }
 
       if (this.showChild || this.isMobileItem) return
@@ -122,8 +120,8 @@ export const itemMixin = {
       event.stopPropagation()
       if (this.item.disabled) return
       this.itemHover = true
-      if (this.isMobileItem || this.hover) return
-      if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem && !this.item.disabled) {
+      if (this.hover) return
+      if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem) {
         this.$emit('set-mobile-item', { item: this.item, itemEl: event.currentTarget })
       }
     },

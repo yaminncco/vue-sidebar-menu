@@ -269,13 +269,12 @@ export default {
         this.mobileItemHeight = height
       })
     },
-    unsetMobileItem (touchClick, hasChild) {
-      if (!touchClick) {
+    unsetMobileItem (delay) {
+      if (!delay) {
         this.mobileItem = null
         return
       }
       if (this.mobileItemTimeout) clearTimeout(this.mobileItemTimeout)
-      if (hasChild) return
       this.mobileItemTimeout = setTimeout(() => {
         this.mobileItem = null
       }, 600)
