@@ -43,6 +43,7 @@
           v-if="mobileItem"
           :item="mobileItem"
           :is-mobile-item="true"
+          :mobile-item-style="mobileItemStyle"
           :is-collapsed="isCollapsed"
           :show-child="showChild"
           :rtl="rtl"
@@ -59,37 +60,6 @@
             :style="mobileItemStyle.background"
           />
         </transition>
-        <div
-          class="vsm--dropdown"
-          :style="mobileItemStyle.dropdown"
-        >
-          <transition
-            name="expand"
-            @enter="expandEnter"
-            @afterEnter="expandAfterEnter"
-            @beforeLeave="expandBeforeLeave"
-          >
-            <div
-              v-if="mobileItem && mobileItem.child"
-              class="vsm--list"
-            >
-              <sidebar-menu-item
-                v-for="(item, index) in mobileItem.child"
-                :key="index"
-                :item="item"
-                :level="2"
-                :show-child="showChild"
-                :rtl="rtl"
-                :is-collapsed="isCollapsed"
-              >
-                <slot
-                  slot="dropdown-icon"
-                  name="dropdown-icon"
-                />
-              </sidebar-menu-item>
-            </div>
-          </transition>
-        </div>
       </div>
     </div>
     <slot name="footer" />
@@ -201,8 +171,7 @@ export default {
         dropdown: [
           { 'position': 'absolute' },
           { 'top': `${this.mobileItemHeight}px` },
-          { 'left': this.rtl ? '0px' : this.sidebarWidth },
-          { 'right': this.rtl ? this.sidebarWidth : '0px' },
+          { 'width': '100%'},
           { 'max-height': `calc(${this.parentHeight} - ${this.mobileItemPos + this.mobileItemHeight}px - ${this.parentOffsetTop})` },
           { 'overflow-y': 'auto' }
         ],
@@ -256,16 +225,20 @@ export default {
     setMobileItem ({ item, itemEl }) {
       if (this.mobileItem === item) return
       let sidebarTop = this.$el.getBoundingClientRect().top
+      let itemTop = itemEl.getBoundingClientRect().top
+      let itemLinkEl = itemEl.children[0]
+
       let styles = window.getComputedStyle(itemEl)
       let paddingTop = parseFloat(styles.paddingTop)
-      let paddingBottom = parseFloat(styles.paddingBottom)
-      let height = itemEl.offsetHeight - (paddingTop + paddingBottom)
-      let pos = itemEl.getBoundingClientRect().top - sidebarTop + paddingTop
+      let marginTop = parseFloat(styles.marginTop)
+      
+      let height = itemLinkEl.offsetHeight
+      let positionTop = itemTop - sidebarTop + paddingTop + marginTop
 
       this.unsetMobileItem()
       this.$nextTick(() => {
         this.mobileItem = item
-        this.mobileItemPos = pos
+        this.mobileItemPos = positionTop
         this.mobileItemHeight = height
       })
     },

@@ -48,8 +48,9 @@
       </template>
     </sidebar-menu-link>
     <template v-if="item.child">
-      <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed">
+      <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
         <transition
+          :appear="isMobileItem"
           name="expand"
           @enter="expandEnter"
           @afterEnter="expandAfterEnter"
@@ -58,6 +59,8 @@
           <div
             v-if="show"
             class="vsm--dropdown"
+            :class="isMobileItem && 'vsm--dropdown_mobile-item'"
+            :style="isMobileItem && mobileItemStyle.dropdown"
           >
             <div class="vsm--list">
               <sidebar-menu-item
@@ -135,6 +138,10 @@ export default {
     disableHover: {
       type: Boolean,
       default: false
+    },
+    mobileItemStyle: {
+      type: Object,
+      default: null
     }
   }
 }
