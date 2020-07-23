@@ -171,7 +171,7 @@ export default {
         dropdown: [
           { 'position': 'absolute' },
           { 'top': `${this.mobileItemHeight}px` },
-          { 'width': '100%'},
+          { 'width': '100%' },
           { 'max-height': `calc(${this.parentHeight} - ${this.mobileItemPos + this.mobileItemHeight}px - ${this.parentOffsetTop})` },
           { 'overflow-y': 'auto' }
         ],
@@ -232,7 +232,7 @@ export default {
       let styles = window.getComputedStyle(itemEl)
       let paddingTop = parseFloat(styles.paddingTop)
       let marginTop = parseFloat(styles.marginTop)
-      
+
       let height = itemLinkEl.offsetHeight
       let positionTop = itemTop - sidebarTop + paddingTop + marginTop
 
