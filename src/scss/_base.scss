@@ -186,20 +186,18 @@
     .expand-leave-to {
       height: 0 !important;
     }
+
     .slide-animation-enter-active {
-      animation: slide-animation 0.3s;
+      transition: width 0.3s ease;
     }
     .slide-animation-leave-active {
-      animation: slide-animation 0.2s reverse;
+      transition: width 0.3s ease;
     }
-    @keyframes slide-animation {
-      0% {
-        width: 0%;
-      }
-      100% {
-        width: 100%;
-      }
+    .slide-animation-enter,
+    .slide-animation-leave-to {
+      width: 0 !important;
     }
+
     .vsm--mobile-item>.vsm--item {
       padding: 0 !important;
       margin: 0 !important;

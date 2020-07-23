@@ -180,6 +180,7 @@ export default {
           { 'top': '0px' },
           { 'left': '0px' },
           { 'right': '0px' },
+          { 'width': '100%' },
           { 'height': `${this.mobileItemHeight}px` },
           { 'z-index': -1 }
         ]
@@ -243,11 +244,11 @@ export default {
       })
     },
     unsetMobileItem (delay) {
+      if (this.mobileItemTimeout) clearTimeout(this.mobileItemTimeout)
       if (!delay) {
         this.mobileItem = null
         return
       }
-      if (this.mobileItemTimeout) clearTimeout(this.mobileItemTimeout)
       this.mobileItemTimeout = setTimeout(() => {
         this.mobileItem = null
       }, 600)

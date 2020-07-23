@@ -206,7 +206,7 @@ export const animationMixin = {
       el.style.height = 'auto'
     },
     expandBeforeLeave (el) {
-      if (this.isCollapsed && (this.isFirstLevel || this.level === undefined)) {
+      if (this.isCollapsed && this.isFirstLevel) {
         el.style.display = 'none'
         return
       }
