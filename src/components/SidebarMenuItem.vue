@@ -31,8 +31,12 @@
         v-if="item.icon && !isMobileItem"
         :icon="item.icon"
       />
+      <transition name="fade-animation" :appear="isMobileItem">
+        <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
+          <span class="vsm--title">{{ item.title }}</span>
+        </template>
+      </transition>
       <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
-        <span class="vsm--title">{{ item.title }}</span>
         <sidebar-menu-badge
           v-if="item.badge"
           :badge="item.badge"

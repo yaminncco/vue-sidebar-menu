@@ -184,6 +184,18 @@
       width: 0 !important;
     }
 
+    .fade-animation-enter-active {
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .fade-animation-leave-active {
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .fade-animation-enter,
+    .fade-animation-leave-to {
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }
+
     .vsm--mobile-item>.vsm--item {
       padding: 0 !important;
       margin: 0 !important;
