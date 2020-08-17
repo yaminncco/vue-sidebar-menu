@@ -32,12 +32,11 @@
         :icon="item.icon"
       />
       <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
+        <span class="vsm--title">{{ item.title }}</span>
         <sidebar-menu-badge
           v-if="item.badge"
           :badge="item.badge"
-          :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
         />
-        <span class="vsm--title">{{ item.title }}</span>
         <div
           v-if="item.child"
           class="vsm--arrow"
