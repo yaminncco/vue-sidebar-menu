@@ -4,6 +4,7 @@ $base-bg: #2a2a2e !default;
 $item-color: #fff !default;
 
 $item-active-color: null !default;
+$item-active-bg: null !default;
 
 $item-open-color: #fff !default;
 $item-open-bg: $primary-color !default;
@@ -18,9 +19,9 @@ $icon-active-color: null !default;
 $icon-active-bg: null !default;
 
 $icon-open-color: null !default;
-$icon-open-bg: $primary-color !default;
+$icon-open-bg: $item-open-bg !default;
 
-$mobile-item-color: $item-open-color !default;
+$mobile-item-color: #fff !default;
 $mobile-item-bg: $primary-color !default;
 $mobile-icon-color: $mobile-item-color !default;
 $mobile-icon-bg: $mobile-item-bg !default;

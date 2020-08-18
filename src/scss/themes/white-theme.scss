@@ -13,6 +13,7 @@ $dropdown-bg: #e3e3e3;
     &_exact-active,
     &_active {
       color: $item-active-color;
+      background-color: $item-active-bg;
     }
     &_level-1 {
       &.vsm--link_exact-active,
