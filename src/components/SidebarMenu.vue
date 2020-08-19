@@ -62,6 +62,33 @@
         </transition>
       </div>
     </div>
+
+    <div
+      v-if="footerMenu.length > 0"
+      class="vsm--list"
+      :style="isCollapsed && {'width': widthCollapsed}"
+    >
+      <sidebar-menu-item
+        v-for="(item, index) in footerMenu"
+        :key="index"
+        :item="item"
+        :is-collapsed="isCollapsed"
+        :active-show="activeShow"
+        :show-one-child="showOneChild"
+        :show-child="showChild"
+        :rtl="rtl"
+        :mobile-item="mobileItem"
+        :disable-hover="disableHover"
+        @set-mobile-item="setMobileItem"
+        @unset-mobile-item="unsetMobileItem"
+      >
+        <slot
+          slot="dropdown-icon"
+          name="dropdown-icon"
+        />
+      </sidebar-menu-item>
+    </div>
+
     <slot name="footer" />
     <button
       v-if="!hideToggle"
@@ -88,6 +115,10 @@ export default {
     menu: {
       type: Array,
       required: true
+    },
+    footerMenu: {
+      type: Array,
+      default: () => []
     },
     collapsed: {
       type: Boolean,
