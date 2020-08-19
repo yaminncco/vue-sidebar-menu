@@ -6,18 +6,18 @@ A Vue.js Sidebar Menu Component
 
 [vue-sidebar-menu-demo](https://yaminncco.github.io/vue-sidebar-menu/)
 
-## New in 4.0.0 
+## New in 4.0.0
 
-Refactoring CSS, SASS variables and added new classes to make customizations much easier  
-Removed `itemClick` event (use `item-click` instead)  
-rename `collapse` event into `toggle-collapse`  
-rename `collapse-icon` slot into `toggle-icon`  
-Component item no longer need header property  
-Header Item and component item can be used inside child item  
-Add new property `hidden` & `hiddenOnCollapse` 
-Removed `visibleOnCollapse` property (use `hiddenOnCollapse` instead)  
-Added new prop `relative`: make sidebar relative to the parent (by default the sidebar is relative to the viewport)  
-Added new prop `hideToggle`: hide toggle collapse btn  
+Refactoring CSS, SASS variables and added new classes to make customizations much easier
+Removed `itemClick` event (use `item-click` instead)
+rename `collapse` event into `toggle-collapse`
+rename `collapse-icon` slot into `toggle-icon`
+Component item no longer need header property
+Header Item and component item can be used inside child item
+Add new property `hidden` & `hiddenOnCollapse`
+Removed `visibleOnCollapse` property (use `hiddenOnCollapse` instead)
+Added new prop `relative`: make sidebar relative to the parent (by default the sidebar is relative to the viewport)
+Added new prop `hideToggle`: hide toggle collapse btn
 
 ## Installation
 
@@ -99,7 +99,7 @@ menu [
         you can mark link as external
         // external: true
         */
-       
+
         title: 'Dashboard',
 
         // icon class
@@ -121,7 +121,7 @@ menu [
             // element: 'span'
         }
         */
-        
+
         // child: []
         // disabled: true
         // class: ''
@@ -164,6 +164,11 @@ props: {
     menu: {
       type: Array,
       required: true
+    },
+
+    footerMenu: {
+      type: Array,
+      default: () => []
     },
 
     // Sidebar Collapse state
