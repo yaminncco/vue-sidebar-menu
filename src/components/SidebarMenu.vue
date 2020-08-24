@@ -138,10 +138,10 @@ export default {
       mobileItemHeight: 0,
       mobileItemTimeout: null,
       activeShow: null,
-      parentHeight: '100vh',
-      parentWidth: '100vw',
-      parentOffsetTop: '0px',
-      parentOffsetLeft: '0px'
+      parentHeight: 0,
+      parentWidth: 0,
+      parentOffsetTop: 0,
+      parentOffsetLeft: 0
     }
   },
   computed: {
@@ -165,14 +165,14 @@ export default {
           this.rtl ? { 'padding-right': this.sidebarWidth } : { 'padding-left': this.sidebarWidth },
           this.rtl && { 'direction': 'rtl' },
           { 'z-index': 0 },
-          { 'width': `calc(${this.parentWidth} - ${this.parentOffsetLeft})` },
+          { 'width': `${this.parentWidth - this.parentOffsetLeft}px` },
           { 'max-width': this.width }
         ],
         dropdown: [
           { 'position': 'absolute' },
           { 'top': `${this.mobileItemHeight}px` },
           { 'width': '100%' },
-          { 'max-height': `calc(${this.parentHeight} - ${this.mobileItemPos + this.mobileItemHeight}px - ${this.parentOffsetTop})` },
+          { 'max-height': `${this.parentHeight - (this.mobileItemPos + this.mobileItemHeight) - this.parentOffsetTop}px` },
           { 'overflow-y': 'auto' }
         ],
         background: [
@@ -192,16 +192,7 @@ export default {
       if (this.isCollapsed === this.collapsed) return
       this.isCollapsed = val
       this.unsetMobileItem()
-      if (this.isCollapsed) {
-        this.$nextTick(() => {
-          this.initParentOffsets()
-        })
-      }
     }
-  },
-  mounted () {
-    if (!this.isCollapsed) return
-    this.initParentOffsets()
   },
   methods: {
     onMouseLeave () {
@@ -210,11 +201,6 @@ export default {
     onToggleClick () {
       this.isCollapsed = !this.isCollapsed
       this.unsetMobileItem()
-      if (this.isCollapsed) {
-        this.$nextTick(() => {
-          this.initParentOffsets()
-        })
-      }
       this.$emit('toggle-collapse', this.isCollapsed)
     },
     onActiveShow (item) {
@@ -238,6 +224,7 @@ export default {
 
       this.unsetMobileItem()
       this.$nextTick(() => {
+        this.initParentOffsets()
         this.mobileItem = item
         this.mobileItemPos = positionTop
         this.mobileItemHeight = height
@@ -254,20 +241,17 @@ export default {
       }, 600)
     },
     initParentOffsets () {
-      let sidebarTop = this.$el.getBoundingClientRect().top
-      let sidebarLeft = this.$el.getBoundingClientRect().left
-      let sidebarRight = this.$el.getBoundingClientRect().right
+      let { top: sidebarTop, left: sidebarLeft, right: sidebarRight } = this.$el.getBoundingClientRect()
+      let parent = this.relative ? this.$el.parentElement : document.documentElement
+      this.parentHeight = parent.clientHeight
+      this.parentWidth = parent.clientWidth
       if (this.relative) {
-        let parent = this.$el.parentElement
-        let parentTop = parent.getBoundingClientRect().top
-        let parentLeft = parent.getBoundingClientRect().left
-        this.parentHeight = `${parent.offsetHeight}px`
-        this.parentWidth = `${parent.offsetWidth}px`
-        this.parentOffsetTop = `${sidebarTop - parentTop}px`
-        this.rtl ? this.parentOffsetLeft = `${parent.offsetWidth - sidebarRight + parentLeft}px` : this.parentOffsetLeft = `${sidebarLeft - parentLeft}px`
+        let { top: parentTop, left: parentLeft } = parent.getBoundingClientRect()
+        this.parentOffsetTop = sidebarTop - (parentTop + parent.clientTop)
+        this.parentOffsetLeft = this.rtl ? this.parentWidth - sidebarRight + (parentLeft + parent.clientLeft) : sidebarLeft - (parentLeft + parent.clientLeft)
       } else {
-        this.parentOffsetTop = `${sidebarTop}px`
-        this.rtl ? this.parentOffsetLeft = `calc(${this.parentWidth} - ${sidebarRight}px)` : this.parentOffsetLeft = `${sidebarLeft}px`
+        this.parentOffsetTop = sidebarTop
+        this.parentOffsetLeft = this.rtl ? this.parentWidth - sidebarRight : sidebarLeft
       }
     },
     onItemUpdate (newItem, item) {

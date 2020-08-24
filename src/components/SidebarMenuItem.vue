@@ -31,7 +31,10 @@
         v-if="item.icon && !isMobileItem"
         :icon="item.icon"
       />
-      <transition name="fade-animation" :appear="isMobileItem">
+      <transition
+        name="fade-animation"
+        :appear="isMobileItem"
+      >
         <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
           <span class="vsm--title">{{ item.title }}</span>
         </template>
