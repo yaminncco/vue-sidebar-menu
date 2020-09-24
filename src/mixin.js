@@ -80,13 +80,9 @@ export const itemMixin = {
         this.$emit('unset-mobile-item', true)
       }
 
-      if (this.showChild || this.isMobileItem) return
-      if (this.item.child && (!this.item.href || this.exactActive)) {
-        if (this.showOneChild) {
-          this.activeShow === this.item ? this.emitActiveShow(null) : this.emitActiveShow(this.item)
-        } else {
-          this.itemShow = !this.itemShow
-        }
+      if (!this.item.child || this.showChild || this.isMobileItem) return
+      if (!this.item.href || this.exactActive) {
+        this.show = !this.show
       }
     },
     initState () {
@@ -98,22 +94,11 @@ export const itemMixin = {
       this.exactActive = this.isLinkExactActive(this.item)
     },
     initShowState () {
-      if (this.item.child && !this.showChild) {
-        if (this.showOneChild) {
-          if (this.active) {
-            this.emitActiveShow(this.item)
-            this.itemShow = true
-          } else {
-            if (this.item === this.activeShow) {
-              this.emitActiveShow(null)
-              this.itemShow = false
-            }
-          }
-        } else {
-          if (this.active) {
-            this.itemShow = true
-          }
-        }
+      if (!this.item.child || this.showChild) return
+      if ((this.showOneChild && this.active && !this.show) || (this.active && !this.show)) {
+        this.show = true
+      } else if (this.showOneChild && !this.active && this.show) {
+        this.show = false
       }
     },
     mouseEnterEvent (event) {
@@ -137,10 +122,18 @@ export const itemMixin = {
     isFirstLevel () {
       return this.level === 1
     },
-    show () {
-      if (!this.item.child) return false
-      if (this.showChild || this.isMobileItem) return true
-      return this.itemShow
+    show: {
+      get () {
+        if (!this.item.child) return false
+        if (this.showChild || this.isMobileItem) return true
+        return this.itemShow
+      },
+      set (show) {
+        if (this.showOneChild) {
+          show ? this.emitActiveShow(this.item) : this.emitActiveShow(null)
+        }
+        this.itemShow = show
+      }
     },
     itemLinkClass () {
       return [
