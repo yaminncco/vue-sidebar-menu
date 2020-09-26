@@ -76,11 +76,11 @@ export const itemMixin = {
         if (!this.mobileItem || this.mobileItem !== this.item) {
           this.$emit('set-mobile-item', { item: this.item, itemEl: event.currentTarget.offsetParent })
         }
-        if (this.hover || this.item.child) return
+        if (this.hover || this.itemHasChild) return
         this.$emit('unset-mobile-item', true)
       }
 
-      if (!this.item.child || this.showChild || this.isMobileItem) return
+      if (!this.itemHasChild || this.showChild || this.isMobileItem) return
       if (!this.item.href || this.exactActive) {
         this.show = !this.show
       }
@@ -94,7 +94,7 @@ export const itemMixin = {
       this.exactActive = this.isLinkExactActive(this.item)
     },
     initShowState () {
-      if (!this.item.child || this.showChild) return
+      if (!this.itemHasChild || this.showChild) return
       if ((this.showOneChild && this.active && !this.show) || (this.active && !this.show)) {
         this.show = true
       } else if (this.showOneChild && !this.active && this.show) {
@@ -124,7 +124,7 @@ export const itemMixin = {
     },
     show: {
       get () {
-        if (!this.item.child) return false
+        if (!this.itemHasChild) return false
         if (this.showChild || this.isMobileItem) return true
         return this.itemShow
       },
@@ -171,6 +171,9 @@ export const itemMixin = {
     itemLinkTag () {
       if (!this.itemLinkHref) return 'span'
       return this.isRouterLink ? 'router-link' : 'a'
+    },
+    itemHasChild () {
+      return !!(this.item.child && this.item.child.length > 0)
     }
   },
   watch: {

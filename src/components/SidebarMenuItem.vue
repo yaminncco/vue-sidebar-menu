@@ -45,7 +45,7 @@
           :badge="item.badge"
         />
         <div
-          v-if="item.child"
+          v-if="itemHasChild"
           class="vsm--arrow"
           :class="[{'vsm--arrow_open' : show}, {'vsm--arrow_slot' : $slots['dropdown-icon']}]"
         >
@@ -53,7 +53,7 @@
         </div>
       </template>
     </sidebar-menu-link>
-    <template v-if="item.child">
+    <template v-if="itemHasChild">
       <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
         <transition
           :appear="isMobileItem"
