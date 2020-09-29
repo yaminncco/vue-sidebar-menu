@@ -164,7 +164,7 @@
       transition: height 0.3s ease;
       overflow: hidden;
     }
-    .expand-enter,
+    .expand-enter-from,
     .expand-leave-to {
       height: 0 !important;
     }
@@ -175,7 +175,7 @@
     .slide-animation-leave-active {
       transition: width 0.3s ease;
     }
-    .slide-animation-enter,
+    .slide-animation-enter-from,
     .slide-animation-leave-to {
       width: 0 !important;
     }
@@ -186,7 +186,7 @@
     .fade-animation-leave-active {
       transition: opacity 0.3s ease, visibility 0.3s ease;
     }
-    .fade-animation-enter,
+    .fade-animation-enter-from,
     .fade-animation-leave-to {
       opacity: 0 !important;
       visibility: hidden !important;
