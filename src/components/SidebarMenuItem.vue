@@ -206,12 +206,14 @@ export default {
     }
   },
   watch: {
+    /*
     $route () {
       setTimeout(() => {
         if (this.item.header || this.item.component) return
         this.initState()
       }, 1)
     },
+    */
     item (newItem, item) {
       this.emitItemUpdate(newItem, item)
     },
@@ -219,16 +221,18 @@ export default {
       this.itemShow = this.item === this.activeShow
     }
   },
+  /*
   created () {
     if (this.item.header || this.item.component) return
     this.initState()
   },
+  */
   mounted () {
     if (!this.$router) {
       window.addEventListener('hashchange', this.initState)
     }
   },
-  destroyed () {
+  unmounted () {
     if (!this.$router) {
       window.removeEventListener('hashchange', this.initState)
     }

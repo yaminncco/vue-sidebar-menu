@@ -1,9 +1,9 @@
 <template>
   <component
     :is="tag"
-    v-bind="[isRouterLink ? { to: href } : { href: href }, attributes]"
     :tabindex="item.disabled && -1"
     :target="target"
+    v-bind="tag === 'router-link' ? { to: href, ...attributes } : { href , ...attributes }"
   >
     <slot />
   </component>
