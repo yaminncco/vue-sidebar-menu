@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import { markRaw } from 'vue'
+
 const separator = {
   template: `<hr style="border-color: rgba(0, 0, 0, 0.1); margin: 20px;">`
 }
@@ -93,7 +95,7 @@ export default {
           icon: 'fa fa-palette'
         },
         {
-          component: separator
+          component: markRaw(separator)
         },
         {
           header: true,

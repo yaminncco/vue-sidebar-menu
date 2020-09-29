@@ -36,6 +36,10 @@ const router = createRouter({
       path: '/styling',
       name: 'Styling',
       component: Styling
+    },
+    {
+      path: '/:pathMatch(.*)',
+      component: Installation
     }
   ]
 })

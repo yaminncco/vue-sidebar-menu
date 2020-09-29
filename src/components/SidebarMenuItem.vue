@@ -357,6 +357,14 @@ export default {
       el.style.height = el.scrollHeight + 'px'
     }
   },
-  inject: ['emitActiveShow', 'emitItemClick', 'emitItemUpdate']
+  inject: ['emitActiveShow', 'emitItemClick', 'emitItemUpdate'],
+  emits: {
+    'set-mobile-item' ({ item, itemEl }) {
+      return !!(item && itemEl)
+    },
+    'unset-mobile-item' (delay) {
+      return !!(typeof delay === 'boolean')
+    }
+  }
 }
 </script>

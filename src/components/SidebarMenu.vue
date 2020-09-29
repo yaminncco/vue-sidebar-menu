@@ -265,6 +265,14 @@ export default {
       emitItemClick: this.onItemClick,
       emitItemUpdate: this.onItemUpdate
     }
+  },
+  emits: {
+    'item-click' (event, item, node) {
+      return !!(event && item && node)
+    },
+    'toggle-collapse' (collapsed) {
+      return !!(typeof collapsed === 'boolean')
+    }
   }
 }
 </script>
