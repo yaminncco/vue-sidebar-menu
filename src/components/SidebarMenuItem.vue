@@ -16,8 +16,8 @@
     v-else-if="!isItemHidden"
     class="vsm--item"
     :class="[{'vsm--item_open' : show}]"
-    v-on="disableHover && isCollapsed ? { click: mouseEnterEvent } : { mouseover: mouseEnterEvent }"
-    @mouseout="mouseLeaveEvent"
+    v-on="disableHover && isCollapsed ? { click: mouseOverEvent } : { mouseover: mouseOverEvent }"
+    @mouseout="mouseOutEvent"
   >
     <sidebar-menu-link
       :item="item"
@@ -285,17 +285,32 @@ export default {
 
       this.emitItemClick(event, this.item, this)
 
-      if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem) {
-        if (!this.mobileItem || this.mobileItem !== this.item) {
-          this.$emit('set-mobile-item', { item: this.item, itemEl: event.currentTarget.offsetParent })
-        }
-        if (this.hover || this.itemHasChild) return
-        this.$emit('unset-mobile-item', true)
-      }
+      this.emitMobileItem(event, event.currentTarget.offsetParent)
 
       if (!this.itemHasChild || this.showChild || this.isMobileItem) return
       if (!this.item.href || this.exactActive) {
         this.show = !this.show
+      }
+    },
+    emitMobileItem (event, itemEl) {
+      if (!this.hover) {
+        if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem) {
+          if (this.mobileItem) {
+            this.$emit('unset-mobile-item', true)
+          }
+          this.$nextTick(() => {
+            if (this.mobileItem !== this.item) {
+              this.$emit('set-mobile-item', { item: this.item, itemEl })
+            }
+          })
+          if (event.type === 'click' && !this.itemHasChild) {
+            setTimeout(() => {
+              if (this.mobileItem) {
+                this.$emit('unset-mobile-item', false)
+              }
+            }, 0)
+          }
+        }
       }
     },
     initState () {
@@ -314,16 +329,13 @@ export default {
         this.show = false
       }
     },
-    mouseEnterEvent (event) {
+    mouseOverEvent (event) {
       event.stopPropagation()
       if (this.item.disabled) return
       this.itemHover = true
-      if (this.hover) return
-      if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem) {
-        this.$emit('set-mobile-item', { item: this.item, itemEl: event.currentTarget })
-      }
+      this.emitMobileItem(event, event.currentTarget)
     },
-    mouseLeaveEvent (event) {
+    mouseOutEvent (event) {
       event.stopPropagation()
       this.itemHover = false
     },
