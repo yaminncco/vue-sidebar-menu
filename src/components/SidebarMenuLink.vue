@@ -1,10 +1,9 @@
 <template>
   <component
     :is="tag"
-    v-bind="[tag === 'router-link' ? { to: href } : { href }, attributes]"
-    :tabindex="disabled ? -1 : 0"
-    role="link"
-    @keydown.enter="$parent.clickEvent($event)"
+    v-bind="[isRouterLink ? { to: href } : { href: href }, attributes]"
+    :tabindex="item.disabled && -1"
+    :target="target"
   >
     <slot />
   </component>
@@ -14,21 +13,29 @@
 export default {
   name: 'SidebarMenuLink',
   props: {
-    tag: {
-      type: String,
-      default: ''
-    },
-    href: {
-      type: [String, Object],
-      default: ''
-    },
-    disabled: {
-      type: Boolean,
-      default: false
+    item: {
+      type: Object,
+      required: true
     },
     attributes: {
       type: Object,
       default: null
+    }
+  },
+  computed: {
+    isRouterLink () {
+      return !!this.$router && this.item.href && !this.item.external
+    },
+    tag () {
+      return this.isRouterLink ? 'router-link' : 'a'
+    },
+    href () {
+      if (!this.item.href) return '#'
+      return this.item.href
+    },
+    target () {
+      if (this.item.external) return '_blank'
+      return '_self'
     }
   }
 }

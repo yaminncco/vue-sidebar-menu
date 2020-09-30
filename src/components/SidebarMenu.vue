@@ -76,14 +76,12 @@
 
 <script>
 import SidebarMenuItem from './SidebarMenuItem.vue'
-import { animationMixin } from '../mixin'
 
 export default {
   name: 'SidebarMenu',
   components: {
     SidebarMenuItem
   },
-  mixins: [animationMixin],
   props: {
     menu: {
       type: Array,
