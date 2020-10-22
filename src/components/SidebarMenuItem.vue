@@ -206,14 +206,13 @@ export default {
     }
   },
   watch: {
-    /*
-    $route () {
-      setTimeout(() => {
+    $route: {
+      handler () {
         if (this.item.header || this.item.component) return
         this.initState()
-      }, 1)
+      },
+      immediate: true
     },
-    */
     item (newItem, item) {
       this.emitItemUpdate(newItem, item)
     },
@@ -221,12 +220,12 @@ export default {
       this.itemShow = this.item === this.activeShow
     }
   },
-  /*
   created () {
-    if (this.item.header || this.item.component) return
-    this.initState()
+    if (!this.$router) {
+      if (this.item.header || this.item.component) return
+      this.initState()
+    }
   },
-  */
   mounted () {
     if (!this.$router) {
       window.addEventListener('hashchange', this.initState)
@@ -266,8 +265,8 @@ export default {
     matchRoute ({ href, exactPath }) {
       if (!href) return false
       if (this.$router) {
-        const { route } = this.$router.resolve(href)
-        return exactPath ? route.path === this.$route.path : this.matchExactRoute(href)
+        const { path } = this.$router.resolve(href)
+        return exactPath ? path === this.$route.path : this.matchExactRoute(href)
       } else {
         return exactPath ? href === window.location.pathname : this.matchExactRoute(href)
       }
@@ -275,8 +274,8 @@ export default {
     matchExactRoute (href) {
       if (!href) return false
       if (this.$router) {
-        const { route } = this.$router.resolve(href)
-        return route.fullPath === this.$route.fullPath
+        const { fullPath } = this.$router.resolve(href)
+        return fullPath === this.$route.fullPath
       } else {
         return href === window.location.pathname + window.location.search + window.location.hash
       }
