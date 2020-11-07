@@ -34,7 +34,6 @@
     "lint": "eslint --ext .js,.vue ."
   },
   "dependencies": {
-    "path-to-regexp": "^1.7.0",
     "vue": "^3.0.0"
   },
   "postcss": {

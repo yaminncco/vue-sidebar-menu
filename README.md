@@ -126,8 +126,6 @@ menu [
         // disabled: true
         // class: ''
         // attributes: {}
-        // exactPath: true // match path only (ignore query and hash)
-        // alias: '/path' // or array of paths (for advanced matching patterns see: https://github.com/pillarjs/path-to-regexp/tree/v1.7.0#parameters)
         // hidden: false
         // hiddenOnCollapse: true
     },

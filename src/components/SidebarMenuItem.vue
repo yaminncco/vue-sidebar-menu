@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import pathToRegexp from 'path-to-regexp'
+import useItem from '../useItem'
 import SidebarMenuLink from './SidebarMenuLink.vue'
 import SidebarMenuIcon from './SidebarMenuIcon.vue'
 import SidebarMenuBadge from './SidebarMenuBadge.vue'
@@ -147,10 +147,17 @@ export default {
       default: null
     }
   },
+  setup (props) {
+    const { active, exactActive, currentLocation } = useItem(props.item)
+
+    return {
+      active,
+      exactActive,
+      currentLocation
+    }
+  },
   data () {
     return {
-      active: false,
-      exactActive: false,
       itemShow: false,
       itemHover: false
     }
@@ -179,7 +186,6 @@ export default {
         { 'vsm--link_mobile-item': this.isMobileItem },
         { 'vsm--link_hover': this.hover },
         { 'vsm--link_active': this.active },
-        { 'vsm--link_exact-active': this.exactActive },
         { 'vsm--link_disabled': this.item.disabled },
         this.item.class
       ]
@@ -209,7 +215,7 @@ export default {
     $route: {
       handler () {
         if (this.item.header || this.item.component) return
-        this.initState()
+        this.onRouteChange()
       },
       immediate: true
     },
@@ -223,63 +229,22 @@ export default {
   created () {
     if (!this.$router) {
       if (this.item.header || this.item.component) return
-      this.initState()
+      this.onRouteChange()
     }
   },
   mounted () {
+    if (this.item.header || this.item.component) return
     if (!this.$router) {
-      window.addEventListener('hashchange', this.initState)
+      window.addEventListener('hashchange', this.onRouteChange)
     }
   },
   unmounted () {
+    if (this.item.header || this.item.component) return
     if (!this.$router) {
-      window.removeEventListener('hashchange', this.initState)
+      window.removeEventListener('hashchange', this.onRouteChange)
     }
   },
   methods: {
-    isLinkActive (item) {
-      return this.matchRoute(item) || this.isChildActive(item.child) || this.isAliasActive(item)
-    },
-    isLinkExactActive (item) {
-      return this.matchExactRoute(item.href)
-    },
-    isChildActive (child) {
-      if (!child) return false
-      return child.some(item => {
-        return this.isLinkActive(item)
-      })
-    },
-    isAliasActive (item) {
-      if (item.alias) {
-        const current = this.$router ? this.$route.fullPath : window.location.pathname + window.location.search + window.location.hash
-        if (Array.isArray(item.alias)) {
-          return item.alias.some(alias => {
-            return pathToRegexp(alias).test(current)
-          })
-        } else {
-          return pathToRegexp(item.alias).test(current)
-        }
-      }
-      return false
-    },
-    matchRoute ({ href, exactPath }) {
-      if (!href) return false
-      if (this.$router) {
-        const { path } = this.$router.resolve(href)
-        return exactPath ? path === this.$route.path : this.matchExactRoute(href)
-      } else {
-        return exactPath ? href === window.location.pathname : this.matchExactRoute(href)
-      }
-    },
-    matchExactRoute (href) {
-      if (!href) return false
-      if (this.$router) {
-        const { fullPath } = this.$router.resolve(href)
-        return fullPath === this.$route.fullPath
-      } else {
-        return href === window.location.pathname + window.location.search + window.location.hash
-      }
-    },
     clickEvent (event) {
       if (this.item.disabled) return
       if (!this.item.href) {
@@ -291,9 +256,8 @@ export default {
       this.emitMobileItem(event, event.currentTarget.offsetParent)
 
       if (!this.itemHasChild || this.showChild || this.isMobileItem) return
-      if (!this.item.href || this.exactActive) {
-        this.show = !this.show
-      }
+      if (this.item.href && !this.exactActive) return
+      this.show = !this.show
     },
     emitMobileItem (event, itemEl) {
       if (!this.hover) {
@@ -316,20 +280,11 @@ export default {
         }
       }
     },
-    initState () {
-      this.initActiveState()
-      this.initShowState()
-    },
-    initActiveState () {
-      this.active = this.isLinkActive(this.item)
-      this.exactActive = this.isLinkExactActive(this.item)
-    },
-    initShowState () {
-      if (!this.itemHasChild || this.showChild) return
-      if ((this.showOneChild && this.active && !this.show) || (this.active && !this.show)) {
+    onRouteChange () {
+      this.currentLocation = window.location.pathname + window.location.search + window.location.hash
+      if (this.showChild || this.isMobileItem) return
+      if (this.active) {
         this.show = true
-      } else if (this.showOneChild && !this.active && this.show) {
-        this.show = false
       }
     },
     mouseOverEvent (event) {
