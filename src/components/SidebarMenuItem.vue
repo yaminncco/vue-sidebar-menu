@@ -22,8 +22,7 @@
     <sidebar-menu-link
       :item="item"
       :class="itemLinkClass"
-      :attributes="item.attributes"
-      @click.native="clickEvent"
+      @click="clickEvent"
     >
       <sidebar-menu-icon
         v-if="item.icon && !isMobileItem"
