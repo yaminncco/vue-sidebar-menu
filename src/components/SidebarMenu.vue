@@ -1,8 +1,9 @@
 <template>
   <div
+    ref="sidebarMenuRef"
     class="v-sidebar-menu"
     :class="sidebarClass"
-    :style="[{'max-width': sidebarWidth}]"
+    :style="{'max-width': sidebarWidth}"
     @mouseleave="onMouseLeave"
   >
     <slot name="header" />
@@ -18,15 +19,6 @@
           v-for="(item, index) in menu"
           :key="index"
           :item="item"
-          :is-collapsed="isCollapsed"
-          :active-show="activeShow"
-          :show-one-child="showOneChild"
-          :show-child="showChild"
-          :rtl="rtl"
-          :mobile-item="mobileItem"
-          :disable-hover="disableHover"
-          @set-mobile-item="setMobileItem"
-          @unset-mobile-item="unsetMobileItem"
         >
           <slot
             slot="dropdown-icon"
@@ -37,16 +29,12 @@
       <div
         v-if="isCollapsed"
         class="vsm--mobile-item"
-        :style="mobileItemStyle.item"
+        :style="mobileItemStyle"
       >
         <sidebar-menu-item
           v-if="mobileItem"
           :item="mobileItem"
           :is-mobile-item="true"
-          :mobile-item-style="mobileItemStyle"
-          :is-collapsed="isCollapsed"
-          :show-child="showChild"
-          :rtl="rtl"
         >
           <slot
             slot="dropdown-icon"
@@ -57,7 +45,7 @@
           <div
             v-if="mobileItem"
             class="vsm--mobile-bg"
-            :style="mobileItemStyle.background"
+            :style="mobileItemBackgroundStyle"
           />
         </transition>
       </div>
@@ -75,6 +63,9 @@
 </template>
 
 <script>
+import { provide, watch } from 'vue'
+import useMenu from '../use/useMenu'
+
 import SidebarMenuItem from './SidebarMenuItem.vue'
 
 export default {
@@ -128,142 +119,40 @@ export default {
       default: false
     }
   },
-  data () {
+  setup (props, context) {
+    provide('vsm-props', props)
+
+    const {
+      sidebarMenuRef,
+      isCollapsed,
+      sidebarWidth,
+      sidebarClass,
+      onMouseLeave,
+      onToggleClick,
+      onItemClick,
+      mobileItem,
+      mobileItemStyle,
+      mobileItemBackgroundStyle
+    } = useMenu(context)
+
+    provide('emitItemClick', onItemClick)
+
+    watch(() => props.collapsed, (currentCollapsed) => {
+      mobileItem.value = null
+      isCollapsed.value = currentCollapsed
+    })
+
     return {
-      isCollapsed: this.collapsed,
-      mobileItem: null,
-      mobileItemPos: 0,
-      mobileItemHeight: 0,
-      mobileItemTimeout: null,
-      activeShow: null,
-      parentHeight: 0,
-      parentWidth: 0,
-      parentOffsetTop: 0,
-      parentOffsetLeft: 0
-    }
-  },
-  computed: {
-    sidebarWidth () {
-      return this.isCollapsed ? this.widthCollapsed : this.width
-    },
-    sidebarClass () {
-      return [
-        !this.isCollapsed ? 'vsm_expanded' : 'vsm_collapsed',
-        this.theme ? `vsm_${this.theme}` : '',
-        this.rtl ? 'vsm_rtl' : '',
-        this.relative ? 'vsm_relative' : ''
-      ]
-    },
-    mobileItemStyle () {
-      return {
-        item: [
-          { 'position': 'absolute' },
-          { 'top': `${this.mobileItemPos}px` },
-          this.rtl ? { 'right': '0px' } : { 'left': '0px' },
-          this.rtl ? { 'padding-right': this.sidebarWidth } : { 'padding-left': this.sidebarWidth },
-          this.rtl && { 'direction': 'rtl' },
-          { 'z-index': 0 },
-          { 'width': `${this.parentWidth - this.parentOffsetLeft}px` },
-          { 'max-width': this.width }
-        ],
-        dropdown: [
-          { 'position': 'absolute' },
-          { 'top': `${this.mobileItemHeight}px` },
-          { 'width': '100%' },
-          { 'max-height': `${this.parentHeight - (this.mobileItemPos + this.mobileItemHeight) - this.parentOffsetTop}px` },
-          { 'overflow-y': 'auto' }
-        ],
-        background: [
-          { 'position': 'absolute' },
-          { 'top': '0px' },
-          { 'left': '0px' },
-          { 'right': '0px' },
-          { 'width': '100%' },
-          { 'height': `${this.mobileItemHeight}px` },
-          { 'z-index': -1 }
-        ]
-      }
-    }
-  },
-  watch: {
-    collapsed (val) {
-      if (this.isCollapsed === this.collapsed) return
-      this.isCollapsed = val
-      this.mobileItem = null
-    }
-  },
-  methods: {
-    onMouseLeave () {
-      this.mobileItem = null
-    },
-    onToggleClick () {
-      this.isCollapsed = !this.isCollapsed
-      this.mobileItem = null
-      this.$emit('toggle-collapse', this.isCollapsed)
-    },
-    onActiveShow (item) {
-      this.activeShow = item
-    },
-    onItemClick (event, item, node) {
-      this.$emit('item-click', event, item, node)
-    },
-    setMobileItem ({ item, itemEl }) {
-      if (this.mobileItem === item) return
-      let sidebarTop = this.$el.getBoundingClientRect().top
-      let itemTop = itemEl.getBoundingClientRect().top
-      let itemLinkEl = itemEl.children[0]
-
-      let styles = window.getComputedStyle(itemEl)
-      let paddingTop = parseFloat(styles.paddingTop)
-      let marginTop = parseFloat(styles.marginTop)
-
-      let height = itemLinkEl.offsetHeight
-      let positionTop = itemTop - sidebarTop + paddingTop + marginTop
-
-      this.initParentOffsets()
-      this.mobileItem = item
-      this.mobileItemPos = positionTop
-      this.mobileItemHeight = height
-    },
-    unsetMobileItem (immediate) {
-      if (!this.mobileItem) return
-      if (this.mobileItemTimeout) clearTimeout(this.mobileItemTimeout)
-      if (immediate) {
-        this.mobileItem = null
-        return
-      }
-      this.mobileItemTimeout = setTimeout(() => {
-        this.mobileItem = null
-      }, 600)
-    },
-    initParentOffsets () {
-      let { top: sidebarTop, left: sidebarLeft, right: sidebarRight } = this.$el.getBoundingClientRect()
-      let parent = this.relative ? this.$el.parentElement : document.documentElement
-      this.parentHeight = parent.clientHeight
-      this.parentWidth = parent.clientWidth
-      if (this.relative) {
-        let { top: parentTop, left: parentLeft } = parent.getBoundingClientRect()
-        this.parentOffsetTop = sidebarTop - (parentTop + parent.clientTop)
-        this.parentOffsetLeft = this.rtl ? this.parentWidth - sidebarRight + (parentLeft + parent.clientLeft) : sidebarLeft - (parentLeft + parent.clientLeft)
-      } else {
-        this.parentOffsetTop = sidebarTop
-        this.parentOffsetLeft = this.rtl ? this.parentWidth - sidebarRight : sidebarLeft
-      }
-    },
-    onItemUpdate (newItem, item) {
-      if (item === this.mobileItem) {
-        this.mobileItem = newItem
-      }
-      if (item === this.activeShow) {
-        this.activeShow = newItem
-      }
-    }
-  },
-  provide () {
-    return {
-      emitActiveShow: this.onActiveShow,
-      emitItemClick: this.onItemClick,
-      emitItemUpdate: this.onItemUpdate
+      sidebarMenuRef,
+      isCollapsed,
+      sidebarWidth,
+      sidebarClass,
+      onMouseLeave,
+      onToggleClick,
+      onItemClick,
+      mobileItem,
+      mobileItemStyle,
+      mobileItemBackgroundStyle
     }
   },
   emits: {
