@@ -10,13 +10,11 @@ $dropdown-bg: #e3e3e3;
   background-color: $base-bg;
   .vsm--link {
     color: $item-color;
-    &_exact-active,
     &_active {
       color: $item-active-color;
       background-color: $item-active-bg;
     }
     &_level-1 {
-      &.vsm--link_exact-active,
       &.vsm--link_active {
         box-shadow: 3px 0px 0px 0px $primary-color inset;
         & .vsm--icon {
@@ -85,8 +83,7 @@ $dropdown-bg: #e3e3e3;
   }
 
   &.vsm_rtl {
-    .vsm--link_level-1.vsm--link_active,
-    .vsm--link_level-1.vsm--link_exact-active {
+    .vsm--link_level-1.vsm--link_active {
       box-shadow: -3px 0px 0px 0px $primary-color inset;
     }
   }
