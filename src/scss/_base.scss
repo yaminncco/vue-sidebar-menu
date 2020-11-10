@@ -62,14 +62,11 @@
           border-radius: 3px;
         }
       }
-      &_mobile-item {
-        background-color: transparent !important;
-      }
     }
   
     .vsm--icon {
       display: inline-block;
-      margin-right: 10px;
+      margin-right: 15px;
     }
   
     .vsm--title {
@@ -97,7 +94,7 @@
     .vsm--header {
       font-size: 14px;
       font-weight: 600;
-      padding: 10px;
+      padding: 10px 15px;
       white-space: nowrap;
       text-transform: uppercase;
     }
@@ -148,7 +145,7 @@
       direction: rtl;
   
       & .vsm--icon {
-        margin-left: 10px;
+        margin-left: 15px;
         margin-right: 0px;
       }
     }
@@ -197,5 +194,7 @@
     }
     .vsm--mobile-item>.vsm--item>.vsm--link {
       margin: 0 !important;
+      background-color: transparent !important;
+      line-height: $icon-height !important;
     }
   }

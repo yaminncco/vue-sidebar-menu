@@ -84,11 +84,11 @@ export default {
     },
     width: {
       type: String,
-      default: '350px'
+      default: '290px'
     },
     widthCollapsed: {
       type: String,
-      default: '50px'
+      default: '65px'
     },
     showChild: {
       type: Boolean,

@@ -233,14 +233,14 @@ body {
 }
 
 #demo {
-  padding-left: 350px;
+  padding-left: 290px;
   transition: 0.3s ease;
 }
 #demo.collapsed {
-  padding-left: 50px;
+  padding-left: 65px;
 }
 #demo.onmobile {
-  padding-left: 50px;
+  padding-left: 65px;
 }
 
 .sidebar-overlay {
