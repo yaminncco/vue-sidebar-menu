@@ -1,4 +1,4 @@
-import { getCurrentInstance, computed, ref, inject, nextTick } from 'vue'
+import { getCurrentInstance, computed, ref, inject } from 'vue'
 import useMenu from './useMenu'
 import useRouterLink from './useRouterLink'
 
@@ -70,7 +70,9 @@ export default function useItem (props) {
     if (props.item.disabled) return
     event.stopPropagation()
     itemHover.value = true
-    emitMobileItem(event, event.currentTarget)
+    if (!sidebarProps.disableHover) {
+      emitMobileItem(event, event.currentTarget)
+    }
   }
 
   const onMouseOut = (event) => {
@@ -80,23 +82,20 @@ export default function useItem (props) {
 
   const emitMobileItem = (event, itemEl) => {
     if (hover.value) return
-    if (isCollapsed.value && isFirstLevel.value && !props.isMobileItem) {
+    if (!isCollapsed.value || !isFirstLevel.value || props.isMobileItem) return
+    if (event.type === 'mouseover' || sidebarProps.disableHover) {
       if (mobileItem.value) {
         unsetMobileItem(true)
       }
-      nextTick(() => {
-        if (mobileItem.value !== props.item) {
-          setMobileItem({ item: props.item, itemEl })
-        }
-        if (mobileItem.value) {
-          if (event.type === 'click' && !hasChild.value) {
-            setTimeout(() => {
-              unsetMobileItem(false)
-            }, 0)
-          }
-        }
-      })
     }
+    setTimeout(() => {
+      if (mobileItem.value !== props.item) {
+        setMobileItem({ item: props.item, itemEl })
+      }
+      if (event.type === 'click' && !hasChild.value) {
+        unsetMobileItem(false)
+      }
+    }, 0)
   }
 
   const onExpandEnter = (el) => {

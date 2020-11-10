@@ -16,7 +16,7 @@
     v-else-if="!isHidden"
     class="vsm--item"
     :class="{'vsm--item_open' : show}"
-    v-on="disableHover && isCollapsed ? { click: onMouseOver } : { mouseover: onMouseOver }"
+    @mouseover="onMouseOver"
     @mouseout="onMouseOut"
   >
     <sidebar-menu-link
