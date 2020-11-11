@@ -78,9 +78,9 @@
       height: 30px;
       font-size: 14px;
       text-align: center;
-      transition: 0.3s transform ease;
       &_default {
         display: inline-block;
+        transition: 0.3s transform ease;
         &:after {
           content: '\f105';
           font-family: 'Font Awesome 5 Free';
@@ -89,7 +89,9 @@
         }
       }
       &_open {
-        transform: rotate(90deg);
+        .vsm--arrow_default {
+          transform: rotate(90deg);
+        }
       }
     }
   

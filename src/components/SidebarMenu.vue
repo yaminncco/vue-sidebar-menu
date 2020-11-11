@@ -20,8 +20,8 @@
           :key="index"
           :item="item"
         >
-          <template v-slot:dropdown-icon>
-            <slot name="dropdown-icon">
+          <template v-slot:dropdown-icon="{ isOpen }">
+            <slot name="dropdown-icon" v-bind="{ isOpen }">
               <span class="vsm--arrow_default"></span>
             </slot>
           </template>
@@ -37,8 +37,8 @@
           :item="mobileItem"
           :is-mobile-item="true"
         >
-          <template v-slot:dropdown-icon>
-            <slot name="dropdown-icon">
+          <template v-slot:dropdown-icon="{ isOpen }">
+            <slot name="dropdown-icon" v-bind="{ isOpen }">
               <span class="vsm--arrow_default"></span>
             </slot>
           </template>

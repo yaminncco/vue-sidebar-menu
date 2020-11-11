@@ -46,7 +46,7 @@
           class="vsm--arrow"
           :class="{'vsm--arrow_open' : show}"
         >
-          <slot name="dropdown-icon" />
+          <slot name="dropdown-icon" v-bind="{ isOpen: show }" />
         </div>
       </template>
     </sidebar-menu-link>
@@ -72,8 +72,8 @@
                 :item="subItem"
                 :level="level+1"
               >
-                <template v-slot:dropdown-icon>
-                  <slot name="dropdown-icon" />
+                <template v-slot:dropdown-icon="{ isOpen }">
+                  <slot name="dropdown-icon" v-bind="{ isOpen }"/>
                 </template>
               </sidebar-menu-item>
             </div>
