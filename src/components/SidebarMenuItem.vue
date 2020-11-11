@@ -44,7 +44,7 @@
         <div
           v-if="hasChild"
           class="vsm--arrow"
-          :class="[{'vsm--arrow_open' : show}, {'vsm--arrow_slot' : $slots['dropdown-icon']}]"
+          :class="{'vsm--arrow_open' : show}"
         >
           <slot name="dropdown-icon" />
         </div>
@@ -72,10 +72,9 @@
                 :item="subItem"
                 :level="level+1"
               >
-                <slot
-                  slot="dropdown-icon"
-                  name="dropdown-icon"
-                />
+                <template v-slot:dropdown-icon>
+                  <slot name="dropdown-icon" />
+                </template>
               </sidebar-menu-item>
             </div>
           </div>

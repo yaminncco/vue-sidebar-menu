@@ -20,10 +20,11 @@
           :key="index"
           :item="item"
         >
-          <slot
-            slot="dropdown-icon"
-            name="dropdown-icon"
-          />
+          <template v-slot:dropdown-icon>
+            <slot name="dropdown-icon">
+              <span class="vsm--arrow_default"></span>
+            </slot>
+          </template>
         </sidebar-menu-item>
       </div>
       <div
@@ -36,10 +37,11 @@
           :item="mobileItem"
           :is-mobile-item="true"
         >
-          <slot
-            slot="dropdown-icon"
-            name="dropdown-icon"
-          />
+          <template v-slot:dropdown-icon>
+            <slot name="dropdown-icon">
+              <span class="vsm--arrow_default"></span>
+            </slot>
+          </template>
         </sidebar-menu-item>
         <transition name="slide-animation">
           <div
@@ -54,10 +56,11 @@
     <button
       v-if="!hideToggle"
       class="vsm--toggle-btn"
-      :class="{'vsm--toggle-btn_slot' : $slots['toggle-icon']}"
       @click="onToggleClick"
     >
-      <slot name="toggle-icon" />
+      <slot name="toggle-icon">
+        <span class="vsm--toggle-btn_default"></span>
+      </slot>
     </button>
   </div>
 </template>

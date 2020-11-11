@@ -75,19 +75,21 @@
   
     .vsm--arrow {
       width: 30px;
+      height: 30px;
+      font-size: 14px;
       text-align: center;
-      font-style: normal;
-      font-weight: 900;
       transition: 0.3s transform ease;
-      &:after {
-        content: '\f105';
-        font-family: 'Font Awesome 5 Free';
+      &_default {
+        display: inline-block;
+        &:after {
+          content: '\f105';
+          font-family: 'Font Awesome 5 Free';
+          font-style: normal;
+          font-weight: 900;
+        }
       }
       &_open {
         transform: rotate(90deg);
-      }
-      &_slot:after {
-        display: none;
       }
     }
   
@@ -113,19 +115,20 @@
   
     .vsm--toggle-btn {
       display: block;
+      width: 100%;
+      height: 65px;
+      font-size: 18px;
       text-align: center;
-      font-style: normal;
-      font-weight: 900;
-      height: 50px;
       cursor: pointer;
       border: none;
-      width: 100%;
-      &:after {
-        content: '\f337';
-        font-family: 'Font Awesome 5 Free';
-      }
-      &_slot:after {
-        display: none;
+      &_default {
+        display: inline-block;
+        &:after {
+          content: '\f100';
+          font-family: 'Font Awesome 5 Free';
+          font-style: normal;
+          font-weight: 900;
+        }
       }
     }
   
@@ -135,6 +138,9 @@
         &:hover {
           background-color: transparent !important;
         }
+      }
+      .vsm--toggle-btn_default {
+        transform: rotate(180deg);
       }
     }
   
