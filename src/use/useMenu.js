@@ -1,4 +1,4 @@
-import { ref, reactive, computed, inject } from 'vue'
+import { ref, reactive, computed } from 'vue'
 
 const isCollapsed = ref(false)
 const sidebarMenuRef = ref(null)
@@ -15,8 +15,7 @@ const parentRect = reactive({
 })
 const mobileItemTimeout = ref(null)
 
-export default function useMenu (context) {
-  const props = inject('vsm-props')
+export default function useMenu (props, context) {
   isCollapsed.value = props.collapsed
 
   const sidebarWidth = computed(() => {
@@ -130,7 +129,6 @@ export default function useMenu (context) {
   }
 
   return {
-    props,
     sidebarMenuRef,
     isCollapsed,
     sidebarWidth,

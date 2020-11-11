@@ -133,7 +133,7 @@ export default {
       mobileItem,
       mobileItemStyle,
       mobileItemBackgroundStyle
-    } = useMenu(context)
+    } = useMenu(props, context)
 
     provide('emitItemClick', onItemClick)
 

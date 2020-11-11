@@ -10,8 +10,9 @@ export default function useItem (props) {
   const { activeRecordIndex, isSameRouteLocationParams } = useRouterLink(router)
   const currentLocation = ref('')
 
+  const sidebarProps = inject('vsm-props')
   const emitItemClick = inject('emitItemClick')
-  const { props: sidebarProps, isCollapsed, mobileItem, setMobileItem, unsetMobileItem } = useMenu()
+  const { isCollapsed, mobileItem, setMobileItem, unsetMobileItem } = useMenu(sidebarProps)
 
   const itemShow = ref(false)
   const itemHover = ref(false)

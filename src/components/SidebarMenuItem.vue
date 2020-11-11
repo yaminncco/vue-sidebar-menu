@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { toRefs, watchEffect, onMounted, onUnmounted, getCurrentInstance } from 'vue'
+import { toRefs, watchEffect, onMounted, onUnmounted, getCurrentInstance, inject } from 'vue'
 import useMenu from '../use/useMenu'
 import useItem from '../use/useItem'
 
@@ -116,7 +116,8 @@ export default {
     }
   },
   setup (props) {
-    const { props: sidebarProps, isCollapsed, mobileItemDropdownStyle } = useMenu()
+    const sidebarProps = inject('vsm-props')
+    const { isCollapsed, mobileItemDropdownStyle } = useMenu(sidebarProps)
     const { disableHover } = toRefs(sidebarProps)
     const {
       active,
