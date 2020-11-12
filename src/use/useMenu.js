@@ -67,11 +67,11 @@ export default function useMenu (props, context) {
   })
 
   const onMouseLeave = () => {
-    mobileItem.value = null
+    unsetMobileItem(false, 300)
   }
 
   const onToggleClick = () => {
-    mobileItem.value = null
+    unsetMobileItem()
     isCollapsed.value = !isCollapsed.value
     context.emit('toggle-collapse', isCollapsed.value)
   }
@@ -100,7 +100,7 @@ export default function useMenu (props, context) {
     mobileItemRect.height = height
   }
 
-  const unsetMobileItem = (immediate) => {
+  const unsetMobileItem = (immediate = true, delay = 600) => {
     if (!mobileItem.value) return
     if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value)
     if (immediate) {
@@ -109,7 +109,7 @@ export default function useMenu (props, context) {
     }
     mobileItemTimeout.value = setTimeout(() => {
       mobileItem.value = null
-    }, 600)
+    }, delay)
   }
 
   const updateParentRect = () => {
@@ -141,6 +141,7 @@ export default function useMenu (props, context) {
     mobileItemDropdownStyle,
     mobileItemBackgroundStyle,
     setMobileItem,
-    unsetMobileItem
+    unsetMobileItem,
+    mobileItemTimeout
   }
 }
