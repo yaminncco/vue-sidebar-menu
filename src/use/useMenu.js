@@ -73,7 +73,7 @@ export default function useMenu (props, context) {
   const onToggleClick = () => {
     unsetMobileItem()
     isCollapsed.value = !isCollapsed.value
-    context.emit('toggle-collapse', isCollapsed.value)
+    context.emit('update:collapsed', isCollapsed.value)
   }
 
   const onItemClick = (event, item, node) => {

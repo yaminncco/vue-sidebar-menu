@@ -32,10 +32,10 @@
       </div>
       <sidebar-menu
         :menu="menu"
-        :collapsed="collapsed"
+        v-model:collapsed="collapsed"
         :theme="selectedTheme"
         :show-one-child="true"
-        @toggle-collapse="onToggleCollapse"
+        @update:collapsed="onToggleCollapse"
         @item-click="onItemClick"
       />
       <div
@@ -194,8 +194,7 @@ export default {
   },
   methods: {
     onToggleCollapse (collapsed) {
-      console.log(collapsed)
-      this.collapsed = collapsed
+      console.log('onToggleCollapse')
     },
     onItemClick (event, item, node) {
       console.log('onItemClick')

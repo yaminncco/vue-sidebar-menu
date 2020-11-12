@@ -135,13 +135,14 @@ export default {
       onItemClick,
       mobileItem,
       mobileItemStyle,
-      mobileItemBackgroundStyle
+      mobileItemBackgroundStyle,
+      unsetMobileItem
     } = useMenu(props, context)
 
     provide('emitItemClick', onItemClick)
 
     watch(() => props.collapsed, (currentCollapsed) => {
-      mobileItem.value = null
+      unsetMobileItem()
       isCollapsed.value = currentCollapsed
     })
 
@@ -162,7 +163,7 @@ export default {
     'item-click' (event, item, node) {
       return !!(event && item && node)
     },
-    'toggle-collapse' (collapsed) {
+    'update:collapsed' (collapsed) {
       return !!(typeof collapsed === 'boolean')
     }
   }
