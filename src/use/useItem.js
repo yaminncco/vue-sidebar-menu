@@ -1,13 +1,12 @@
 import { getCurrentInstance, computed, ref, inject } from 'vue'
 import useMenu from './useMenu'
-import useRouterLink from './useRouterLink'
+import { activeRecordIndex, isSameRouteLocationParams } from './useRouterLink'
 
 const activeShow = ref(null)
 
 export default function useItem (props) {
   const node = getCurrentInstance().ctx
-  const router = getCurrentInstance().ctx.$router
-  const { activeRecordIndex, isSameRouteLocationParams } = useRouterLink(router)
+  const router = getCurrentInstance().appContext.config.globalProperties.$router
   const currentLocation = ref('')
 
   const sidebarProps = inject('vsm-props')
@@ -29,9 +28,10 @@ export default function useItem (props) {
     if (!item.href || item.external) return false
     if (router) {
       const route = router.resolve(item.href)
-      return activeRecordIndex(route) > -1 &&
-        activeRecordIndex(route) === router.currentRoute.value.matched.length - 1 &&
-        isSameRouteLocationParams(router.currentRoute.value.params, route.params)
+      const currentRoute = router.currentRoute.value
+      return activeRecordIndex(route, currentRoute) > -1 &&
+        activeRecordIndex(route, currentRoute) === currentRoute.matched.length - 1 &&
+        isSameRouteLocationParams(currentRoute.params, route.params)
     } else {
       return item.href === currentLocation.value
     }

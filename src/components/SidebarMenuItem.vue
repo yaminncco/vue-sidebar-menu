@@ -135,8 +135,7 @@ export default {
       onExpandAfterEnter,
       onExpandBeforeLeave
     } = useItem(props)
-
-    const router = getCurrentInstance().ctx.$router
+    const router = getCurrentInstance().appContext.config.globalProperties.$router
 
     watchEffect(() => {
       onRouteChange()
