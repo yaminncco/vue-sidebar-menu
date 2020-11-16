@@ -1,4 +1,4 @@
-# vue-sidebar-menu
+# vue-sidebar-menu (for Vue 3)
 
 A Vue.js Sidebar Menu Component
 
@@ -6,18 +6,19 @@ A Vue.js Sidebar Menu Component
 
 [vue-sidebar-menu-demo](https://yaminncco.github.io/vue-sidebar-menu/)
 
-## New in 4.0.0 
+## Changelog
 
-Refactoring CSS, SASS variables and added new classes to make customizations much easier  
-Removed `itemClick` event (use `item-click` instead)  
-rename `collapse` event into `toggle-collapse`  
-rename `collapse-icon` slot into `toggle-icon`  
-Component item no longer need header property  
-Header Item and component item can be used inside child item  
-Add new property `hidden` & `hiddenOnCollapse` 
-Removed `visibleOnCollapse` property (use `hiddenOnCollapse` instead)  
-Added new prop `relative`: make sidebar relative to the parent (by default the sidebar is relative to the viewport)  
-Added new prop `hideToggle`: hide toggle collapse btn  
+- router-link now is the default link component (without vue-router use `linkComponentName` prop)
+- updated the active behavior to match vue-router and removed exact-active class
+- removed `alias`, `exactPath` property
+- added new prop `linkComponentName` for a customized link
+- changed `width` prop default value from '350px' to '290px'
+- changed `widthCollapsed` prop default value  from '50px' to '65px'
+- `collapsed` prop can be sync using v-model
+- removed `toggle-collapse` event (listen to `update:collapsed` instead)
+- `dropdown-icon` slot no longer rotate when open
+- add `isOpen` slot prop for the dropdwon-icon
+- changed the default `toggle-btn-icon` icon
 
 ## Installation
 
@@ -29,10 +30,14 @@ Install the plugin globally.
 
 ```js
 //main.js
-import Vue from 'vue'
+import { createApp } from 'vue'
+import App from "./App.vue"
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
-Vue.use(VueSidebarMenu)
+
+const app = createApp(App)
+app.use(VueSidebarMenu)
+app.mount("#app")
 ```
 
 Or import the component locally.
@@ -55,35 +60,35 @@ export default {
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                menu: [
-                    {
-                        header: true,
-                        title: 'Main Navigation',
-                        hiddenOnCollapse: true
-                    },
-                    {
-                        href: '/',
-                        title: 'Dashboard',
-                        icon: 'fa fa-user'
-                    },
-                    {
-                        href: '/charts',
-                        title: 'Charts',
-                        icon: 'fa fa-chart-area',
-                        child: [
-                            {
-                                href: '/charts/sublink',
-                                title: 'Sub Link'
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
+  export default {
+    data() {
+      return {
+        menu: [
+          {
+            header: true,
+            title: 'Main Navigation',
+            hiddenOnCollapse: true
+          },
+          {
+            href: '/',
+            title: 'Dashboard',
+            icon: 'fa fa-user'
+          },
+          {
+            href: '/charts',
+            title: 'Charts',
+            icon: 'fa fa-chart-area',
+            child: [
+              {
+                href: '/charts/sublink',
+                title: 'Sub Link'
+              }
+            ]
+          }
+        ]
+      }
     }
+  }
 </script>
 ```
 
@@ -91,154 +96,156 @@ export default {
 
 ```js
 menu [
-    // item
-    {
-        href: '/',
-        /* with vue-router you can use :to prop
-        href: { path: '/' }
-        you can mark link as external
-        // external: true
-        */
-       
-        title: 'Dashboard',
+  // item
+  {
+    href: '/',
+    /* with vue-router you can use :to prop
+    href: { path: '/' }
+    you can mark link as external
+    // external: true
+    */
+      
+    title: 'Dashboard',
 
-        // icon class
-        icon: 'fa fa-user'
-        /* or custom icon
-        icon: {
-            element: 'span',
-            class: 'fa fa-user',
-            // attributes: {}
-            // text: ''
-        }
-        */
-
-        /*
-        badge: {
-            text: 'new',
-            class: 'vsm--badge_default'
-            // attributes: {}
-            // element: 'span'
-        }
-        */
-        
-        // child: []
-        // disabled: true
-        // class: ''
+    // icon class
+    icon: 'fa fa-user'
+    /* or custom icon
+    icon: {
+        element: 'span',
+        class: 'fa fa-user',
         // attributes: {}
-        // hidden: false
-        // hiddenOnCollapse: true
-    },
-
-    // header item
-    {
-        header: true,
-        title: 'Main Navigation'
-        // hidden: false
-        // hiddenOnCollapse: true
-        // class: ''
-        // attributes: {}
-    },
-
-    // component item
-    {
-        component: componentName
-        // props: componentProps
-        // hidden: false
-        // hiddenOnCollapse: true
+        // text: ''
     }
+    */
+
+    /*
+    badge: {
+        text: 'new',
+        class: 'vsm--badge_default'
+        // attributes: {}
+        // element: 'span'
+    }
+    */
+      
+    // child: []
+    // disabled: true
+    // class: ''
+    // attributes: {}
+    // hidden: false
+    // hiddenOnCollapse: true
+  },
+
+  // header item
+  {
+    header: true,
+    title: 'Main Navigation'
+    // hidden: false
+    // hiddenOnCollapse: true
+    // class: ''
+    // attributes: {}
+  },
+
+  // component item
+  {
+    component: componentName
+    // props: componentProps
+    // hidden: false
+    // hiddenOnCollapse: true
+  }
 ]
 ```
-
-### Vue-router Support
-
-if you are using vue-router, `<router-link>` will be used instead of hyperlink `<a>`
 
 ### Props
 
 ```js
 props: {
-    // Sidebar menu (required)
-    menu: {
-      type: Array,
-      required: true
-    },
+  // Sidebar menu (required)
+  menu: {
+    type: Array,
+    required: true
+  },
 
-    // Sidebar Collapse state
-    collapsed: {
-      type: Boolean,
-      default: false
-    },
+  // Sidebar Collapse state
+  collapsed: {
+    type: Boolean,
+    default: false
+  },
 
-    // Sidebar width (expanded)
-    width: {
-      type: String,
-      default: '350px'
-    },
+  // Sidebar width (expanded)
+  width: {
+    type: String,
+    default: '290px'
+  },
 
-    // Sidebar width (collapsed)
-    widthCollapsed: {
-      type: String,
-      default: '50px'
-    },
+  // Sidebar width (collapsed)
+  widthCollapsed: {
+    type: String,
+    default: '65px'
+  },
 
-    // Keep only one child opened at a time (first level only)
-    showOneChild: {
-      type: Boolean,
-      default: false
-    },
+  // Keep only one child opened at a time (first level only)
+  showOneChild: {
+    type: Boolean,
+    default: false
+  },
 
-    // Keep all child open
-    showChild: {
-      type: Boolean,
-      default: false
-    },
+  // Keep all child open
+  showChild: {
+    type: Boolean,
+    default: false
+  },
 
-    // Sidebar right to left
-    rtl: {
-      type: Boolean,
-      default: false
-    },
+  // Sidebar right to left
+  rtl: {
+    type: Boolean,
+    default: false
+  },
 
-    // Make sidebar relative to the parent (by default the sidebar is relative to the viewport)
-    relative: {
-      type: Boolean,
-      default: false
-    },
+  // Make sidebar relative to the parent (by default the sidebar is relative to the viewport)
+  relative: {
+    type: Boolean,
+    default: false
+  },
 
-    // Hide toggle collapse btn
-    hideToggle: {
-      type: Boolean,
-      default: false
-    },
+  // Hide toggle collapse btn
+  hideToggle: {
+    type: Boolean,
+    default: false
+  },
 
-    // Sidebar theme (available themes: 'white-theme')
-    theme: {
-      type: String,
-      default: ''
-    },
+  // Sidebar theme (available themes: 'white-theme')
+  theme: {
+    type: String,
+    default: ''
+  },
 
-    // Disable hover on collapse mode
-    disableHover: {
-      type: Boolean,
-      default: false
-    }
+  // Disable hover on collapse mode
+  disableHover: {
+    type: Boolean,
+    default: false
+  },
+
+  // Sidebar link component name
+  linkComponentName: {
+    type: String,
+    default: 'SidebarMenuLink'
+  }
 }
 ```
 
 ### Events
 
 ```html
-<sidebar-menu @toggle-collapse="onToggleCollapse" @item-click="onItemClick" />
+<sidebar-menu @update:collapsed="onToggleCollapse" @item-click="onItemClick" />
 ...
 methods: {
-    onToggleCollapse(collapsed) {},
-    onItemClick(event, item, node) {}
+  onToggleCollapse(collapsed) {},
+  onItemClick(event, item, node) {}
 }
 ...
 ```
 
-__@toggle-collapse(collapsed)__ Trigger on toggle btn click
+__@update:collapsed(collapsed)__ Trigger on toggle btn click
 
 __@item-click(event, item, node)__ Trigger on item link click
 
@@ -255,13 +262,13 @@ All styles customization can be done in normal CSS by using this classes
 .v-sidebar-menu .vsm--item.vsm--item_open {}
 .v-sidebar-menu .vsm--link {}
 .v-sidebar-menu .vsm--link.vsm--link_active {}
-.v-sidebar-menu .vsm--link.vsm--link_exact-active {}
 .v-sidebar-menu .vsm--link.vsm--link_mobile-item {}
 .v-sidebar-menu .vsm--link.vsm--link_level-[n] {}
 .v-sidebar-menu .vsm--link.vsm--link_disabled {}
 .v-sidebar-menu .vsm--title {}
 .v-sidebar-menu .vsm--icon {}
 .v-sidebar-menu .vsm--arrow {}
+.v-sidebar-menu .vsm--arrow_default {}
 .v-sidebar-menu .vsm--arrow.vsm--arrow_open {}
 .v-sidebar-menu .vsm--badge {}
 .v-sidebar-menu .vsm--header {}
@@ -270,6 +277,7 @@ All styles customization can be done in normal CSS by using this classes
 .v-sidebar-menu .vsm--mobile-item {}
 .v-sidebar-menu .vsm--mobile-bg {}
 .v-sidebar-menu .vsm--toggle-btn {}
+.v-sidebar-menu .vsm--toggle-btn_default {}
 ```
 
 or you can override Sass variables (complete list of all variables can be found in `src/scss/_variables.scss`) and create your own theme
@@ -281,16 +289,19 @@ or you can override Sass variables (complete list of all variables can be found 
 
 ### Customize Toggle & Dropdown Icons
 
-The component use `Font Awesome 5 Free` as default, but you can either customize them using slots or by overriding css style
+The component use `Font Awesome 5 Free` as the default icons, but you can either customize them using slots or by overriding css style
 
 ## Slots
 
 ```html
 <sidebar-menu>
-    <div slot="header">header</div>
-    <div slot="footer">footer</div>
-    <span slot="toggle-icon">toggle-icon</span>
-    <span slot="dropdown-icon">dropdown-icon</span>
+  <template v-slot:header>header</template>
+  <template v-slot:footer>footer</template>
+  <template v-slot:toggle-icon>toggle-icon</template>
+  <template v-slot:dropdown-icon="{ isOpen }">
+    <span v-if="!isOpen">+</span>
+    <span v-else>-</span>
+  </template>
 </sidebar-menu>
 ```
 
