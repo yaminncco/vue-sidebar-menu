@@ -8,6 +8,9 @@ import { terser } from 'rollup-plugin-terser'
 import pkg from './package.json'
 
 const plugins = [
+  vue({
+    css: false
+  }),
   resolve(),
   commonjs(),
   babel({
@@ -16,9 +19,6 @@ const plugins = [
     presets: [
       '@babel/preset-env'
     ]
-  }),
-  vue({
-    css: false
   }),
   postcss({
     extract: path.resolve('dist/vue-sidebar-menu.css'),
