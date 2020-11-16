@@ -120,6 +120,10 @@ export default {
     disableHover: {
       type: Boolean,
       default: false
+    },
+    linkComponentName: {
+      type: String,
+      default: 'SidebarMenuLink'
     }
   },
   setup (props, context) {

@@ -7,9 +7,13 @@
   </a>
   <router-link
     v-else
+    custom
     v-bind="{ ...attrs }"
+    v-slot="{ href, isExactActive }"
   >
-    <slot />
+    <a :href="href" :aria-current="isExactActive ? 'page' : null">
+      <slot />
+    </a>
   </router-link>
 </template>
 
@@ -39,7 +43,7 @@ export default {
       return attrs
     },
     isHyperLink () {
-      return !this.item.href || this.item.external
+      return !!(!this.item.href || this.item.external)
     }
   }
 }

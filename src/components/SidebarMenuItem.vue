@@ -19,7 +19,8 @@
     @mouseover="onMouseOver"
     @mouseout="onMouseOut"
   >
-    <sidebar-menu-link
+    <component
+      :is="linkComponentName"
       :item="item"
       :class="linkClass"
       @click="onLinkClick"
@@ -49,7 +50,7 @@
           <slot name="dropdown-icon" v-bind="{ isOpen: show }" />
         </div>
       </template>
-    </sidebar-menu-link>
+    </component>
     <template v-if="hasChild">
       <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
         <transition
@@ -117,7 +118,7 @@ export default {
   setup (props) {
     const sidebarProps = inject('vsm-props')
     const { isCollapsed, mobileItemDropdownStyle } = useMenu(sidebarProps)
-    const { disableHover } = toRefs(sidebarProps)
+    const { disableHover, linkComponentName } = toRefs(sidebarProps)
     const {
       active,
       exactActive,
@@ -156,6 +157,7 @@ export default {
     return {
       isCollapsed,
       disableHover,
+      linkComponentName,
       active,
       exactActive,
       mobileItemDropdownStyle,
