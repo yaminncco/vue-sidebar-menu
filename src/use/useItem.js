@@ -162,7 +162,7 @@ export default function useItem (props) {
     return [
       'vsm--link',
       !props.isMobileItem ? `vsm--link_level-${props.level}` : '',
-      { 'vsm--link_mobile-item': props.isMobileItem },
+      { 'vsm--link_mobile': props.isMobileItem },
       { 'vsm--link_hover': hover.value },
       { 'vsm--link_active': active.value },
       { 'vsm--link_disabled': props.item.disabled },

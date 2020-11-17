@@ -22,15 +22,12 @@
       color: $item-hover-color;
       background-color: $item-hover-bg;
     }
-    &_mobile-item {
+    &_mobile {
       color: $mobile-item-color;
-      &.vsm--link_hover {
-        color: $mobile-item-color;
-      }
     }
   }
 
-  &.vsm_collapsed {
+  &.vsm_collapsed {  
     .vsm--link_level-1.vsm--link_hover {
       .vsm--icon {
         color: $mobile-icon-color;

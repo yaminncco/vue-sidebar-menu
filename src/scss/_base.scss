@@ -30,6 +30,10 @@
       display: block;
       width: 100%;
       white-space: nowrap;
+      &_mobile {
+        padding: 0 !important;
+        margin: 0 !important;
+      }
     }
   
     .vsm--link {
@@ -61,6 +65,11 @@
           text-align: center;
           border-radius: 3px;
         }
+      }
+      &_mobile {
+        margin: 0 !important;
+        background-color: transparent !important;
+        line-height: $icon-height !important;
       }
     }
   
@@ -199,15 +208,5 @@
     .fade-animation-leave-to {
       opacity: 0 !important;
       visibility: hidden !important;
-    }
-
-    .vsm--mobile-item>.vsm--item {
-      padding: 0 !important;
-      margin: 0 !important;
-    }
-    .vsm--mobile-item>.vsm--item>.vsm--link {
-      margin: 0 !important;
-      background-color: transparent !important;
-      line-height: $icon-height !important;
     }
   }

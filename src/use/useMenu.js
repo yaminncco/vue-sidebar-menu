@@ -83,20 +83,13 @@ export default function useMenu (props, context) {
   const setMobileItem = ({ item, itemEl }) => {
     if (mobileItem.value === item) return
     const sidebarEl = sidebarMenuRef.value
-    let sidebarTop = sidebarEl.getBoundingClientRect().top
-    let itemTop = itemEl.getBoundingClientRect().top
-    let itemLinkEl = itemEl.children[0]
-
-    let styles = window.getComputedStyle(itemEl)
-    let paddingTop = parseFloat(styles.paddingTop)
-    let marginTop = parseFloat(styles.marginTop)
-
-    let height = itemLinkEl.offsetHeight
-    let positionTop = itemTop - sidebarTop + paddingTop + marginTop
-
+    const sidebarTop = sidebarEl.getBoundingClientRect().top
+    const itemLinkEl = itemEl.children[0]
+    const { top, height } = itemLinkEl.getBoundingClientRect()
+    
     updateParentRect()
     mobileItem.value = item
-    mobileItemRect.top = positionTop
+    mobileItemRect.top = top - sidebarTop
     mobileItemRect.height = height
   }
 

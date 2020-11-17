@@ -15,7 +15,7 @@
   <div
     v-else-if="!isHidden"
     class="vsm--item"
-    :class="{'vsm--item_open' : show}"
+    :class="{'vsm--item_open' : show, 'vsm--item_mobile' : isMobileItem}"
     @mouseover="onMouseOver"
     @mouseout="onMouseOut"
   >
@@ -63,7 +63,7 @@
           <div
             v-if="show"
             class="vsm--dropdown"
-            :class="isMobileItem && 'vsm--dropdown_mobile-item'"
+            :class="isMobileItem && 'vsm--dropdown_mobile'"
             :style="isMobileItem && mobileItemDropdownStyle"
           >
             <div class="vsm--list">
