@@ -1,17 +1,18 @@
 <template>
   <a
     v-if="isHyperLink"
-    v-bind="{ ...attrs }"
+    v-bind="attrs"
+    :href="item.href ? item.href : '#'"
   >
     <slot />
   </a>
   <router-link
     v-else
     custom
-    v-bind="{ ...attrs }"
+    :to="item.href"
     v-slot="{ href, isExactActive }"
   >
-    <a :href="href" :aria-current="isExactActive ? 'page' : null">
+    <a v-bind="attrs" :href="href" :aria-current="isExactActive ? 'page' : null">
       <slot />
     </a>
   </router-link>
@@ -31,16 +32,12 @@ export default {
       const target = this.item.external ? '_blank' : '_self'
       const tabindex = this.item.disabled ? -1 : null
 
-      const attrs = {
+      return {
         target,
         tabindex,
-        ...this.item.attributes
+        ...this.item.attributes,
+        ...this.$attrs
       }
-
-      const href = this.item.href ? this.item.href : '#'
-      !this.isHyperLink ? attrs.to = href : attrs.href = href
-
-      return attrs
     },
     isHyperLink () {
       return !!(!this.item.href || this.item.external)
