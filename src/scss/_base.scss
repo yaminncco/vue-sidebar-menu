@@ -156,6 +156,11 @@
         margin-left: 15px;
         margin-right: 0px;
       }
+
+      .vsm--arrow,
+      .vsm--toggle-btn {
+        transform: scaleX(-1);
+      }
     }
 
     &.vsm_relative {
