@@ -5,7 +5,6 @@ import { activeRecordIndex, isSameRouteLocationParams } from './useRouterLink'
 const activeShow = ref(null)
 
 export default function useItem (props) {
-  const node = getCurrentInstance().ctx
   const router = getCurrentInstance().appContext.config.globalProperties.$router
   const currentLocation = ref('')
 
@@ -58,13 +57,15 @@ export default function useItem (props) {
       event.preventDefault()
     }
 
-    emitItemClick(event, props.item, node)
-
     emitMobileItem(event, event.currentTarget.offsetParent)
-
-    if (!hasChild.value || sidebarProps.showChild || props.isMobileItem) return
-    if (props.item.href && !exactActive.value) return
-    show.value = !show.value
+  
+    if (hasChild.value || !sidebarProps.showChild || !props.isMobileItem) {
+      if (!props.item.href || exactActive.value) {
+        show.value = !show.value
+      }
+    }
+    
+    emitItemClick(event, props.item)
   }
 
   const onMouseOver = (event) => {

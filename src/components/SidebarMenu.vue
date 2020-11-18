@@ -164,8 +164,8 @@ export default {
     }
   },
   emits: {
-    'item-click' (event, item, node) {
-      return !!(event && item && node)
+    'item-click' (event, item) {
+      return !!(event && item)
     },
     'update:collapsed' (collapsed) {
       return !!(typeof collapsed === 'boolean')

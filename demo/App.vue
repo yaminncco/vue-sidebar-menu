@@ -196,11 +196,10 @@ export default {
     onToggleCollapse (collapsed) {
       console.log('onToggleCollapse')
     },
-    onItemClick (event, item, node) {
+    onItemClick (event, item) {
       console.log('onItemClick')
       // console.log(event)
       // console.log(item)
-      // console.log(node)
     },
     onResize () {
       if (window.innerWidth <= 767) {
