@@ -41,9 +41,7 @@
   }
 
   .vsm--dropdown {
-    & .vsm--list {
-      background-color: $dropdown-bg;
-    }
+    background-color: $dropdown-bg;
     & .vsm--link {
       color: $dropdown-color;
     }

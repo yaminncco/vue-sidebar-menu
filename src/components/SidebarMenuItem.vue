@@ -62,11 +62,11 @@
         >
           <div
             v-if="show"
-            class="vsm--dropdown"
-            :class="isMobileItem && 'vsm--dropdown_mobile'"
+            class="vsm--child"
+            :class="isMobileItem && 'vsm--child_mobile'"
             :style="isMobileItem && mobileItemDropdownStyle"
           >
-            <div class="vsm--list">
+            <div class="vsm--dropdown">
               <sidebar-menu-item
                 v-for="(subItem, index) in item.child"
                 :key="index"

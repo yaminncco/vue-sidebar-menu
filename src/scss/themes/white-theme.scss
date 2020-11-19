@@ -49,9 +49,7 @@ $dropdown-bg: #e3e3e3;
   }
 
   .vsm--dropdown {
-    & .vsm--list {
-      background-color: $dropdown-bg;
-    }
+    background-color: $dropdown-bg;
     & .vsm--link {
       color: $dropdown-color;
     }

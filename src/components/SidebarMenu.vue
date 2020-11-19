@@ -12,7 +12,7 @@
       :style="isCollapsed && [rtl ? {'margin-left': '-17px'} : {'margin-right': '-17px'}]"
     >
       <div
-        class="vsm--list"
+        class="vsm--menu"
         :style="isCollapsed && {'width': widthCollapsed}"
       >
         <sidebar-menu-item
@@ -29,7 +29,6 @@
       </div>
       <div
         v-if="isCollapsed"
-        class="vsm--mobile-item"
         :style="mobileItemStyle"
       >
         <sidebar-menu-item
