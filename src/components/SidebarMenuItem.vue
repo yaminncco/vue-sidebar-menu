@@ -14,8 +14,7 @@
   </div>
   <div
     v-else-if="!isHidden"
-    class="vsm--item"
-    :class="{'vsm--item_open' : show, 'vsm--item_mobile' : isMobileItem}"
+    :class="itemClass"
     @mouseover="onMouseOver"
     @mouseout="onMouseOut"
   >
@@ -128,6 +127,7 @@ export default {
       isHidden,
       hasChild,
       linkClass,
+      itemClass,
       onRouteChange,
       onLinkClick,
       onMouseOver,
@@ -167,6 +167,7 @@ export default {
       isHidden,
       hasChild,
       linkClass,
+      itemClass,
       onRouteChange,
       onLinkClick,
       onMouseOver,

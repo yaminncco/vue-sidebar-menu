@@ -35,11 +35,26 @@ $dropdown-bg: #e3e3e3;
     }
   }
 
-  &.vsm_collapsed {  
-    .vsm--link_level-1.vsm--link_hover {
-      .vsm--icon {
-        color: $mobile-icon-color;
-        background-color: $mobile-icon-bg;
+  &.vsm_expanded {
+    .vsm--link_level-1 {
+      &.vsm--link_open {
+        color: $item-open-color;
+        background-color: $item-open-bg;
+        & .vsm--icon {
+          color: $icon-open-color;
+          background-color: $icon-open-bg;
+        }
+      }
+    }
+  }
+
+  &.vsm_collapsed {
+    .vsm--link_level-1 {
+      &.vsm--link_hover {
+        .vsm--icon {
+          color: $mobile-icon-color;
+          background-color: $mobile-icon-bg;
+        }
       }
     }
   }
@@ -60,21 +75,6 @@ $dropdown-bg: #e3e3e3;
 
   .vsm--mobile-bg {
     background-color: $mobile-item-bg;
-  }
-
-  &.vsm_expanded {
-    .vsm--item_open {
-      .vsm--link {
-        &_level-1 {
-          color: $item-open-color;
-          background-color: $item-open-bg;
-          & .vsm--icon {
-            color: $icon-open-color;
-            background-color: $icon-open-bg;
-          }
-        }
-      }
-    }
   }
 
   &.vsm_rtl {

@@ -167,7 +167,15 @@ export default function useItem (props) {
       { 'vsm--link_hover': hover.value },
       { 'vsm--link_active': active.value },
       { 'vsm--link_disabled': props.item.disabled },
+      { 'vsm--link_open': show.value },
       props.item.class
+    ]
+  })
+
+  const itemClass = computed(() => {
+    return [
+      'vsm--item',
+      { 'vsm--item_mobile': props.isMobileItem },
     ]
   })
 
@@ -181,6 +189,7 @@ export default function useItem (props) {
     isHidden,
     hasChild,
     linkClass,
+    itemClass,
     onRouteChange,
     onLinkClick,
     onMouseOver,
