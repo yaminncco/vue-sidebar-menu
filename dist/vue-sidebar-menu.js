@@ -100,16 +100,15 @@
       if (mobileItem.value === item) return;
       var sidebarEl = sidebarMenuRef.value;
       var sidebarTop = sidebarEl.getBoundingClientRect().top;
-      var itemTop = itemEl.getBoundingClientRect().top;
       var itemLinkEl = itemEl.children[0];
-      var styles = window.getComputedStyle(itemEl);
-      var paddingTop = parseFloat(styles.paddingTop);
-      var marginTop = parseFloat(styles.marginTop);
-      var height = itemLinkEl.offsetHeight;
-      var positionTop = itemTop - sidebarTop + paddingTop + marginTop;
+
+      var _itemLinkEl$getBoundi = itemLinkEl.getBoundingClientRect(),
+          top = _itemLinkEl$getBoundi.top,
+          height = _itemLinkEl$getBoundi.height;
+
       updateParentRect();
       mobileItem.value = item;
-      mobileItemRect.top = positionTop;
+      mobileItemRect.top = top - sidebarTop;
       mobileItemRect.height = height;
     };
 
@@ -215,7 +214,6 @@
 
   var activeShow = vue.ref(null);
   function useItem(props) {
-    var node = vue.getCurrentInstance().ctx;
     var router = vue.getCurrentInstance().appContext.config.globalProperties.$router;
     var currentLocation = vue.ref('');
     var sidebarProps = vue.inject('vsm-props');
@@ -272,11 +270,15 @@
         event.preventDefault();
       }
 
-      emitItemClick(event, props.item, node);
       emitMobileItem(event, event.currentTarget.offsetParent);
-      if (!hasChild.value || sidebarProps.showChild || props.isMobileItem) return;
-      if (props.item.href && !exactActive.value) return;
-      show.value = !show.value;
+
+      if (hasChild.value || !sidebarProps.showChild || !props.isMobileItem) {
+        if (!props.item.href || exactActive.value) {
+          show.value = !show.value;
+        }
+      }
+
+      emitItemClick(event, props.item);
     };
 
     var onMouseOver = function onMouseOver(event) {
@@ -376,14 +378,21 @@
     });
     var linkClass = vue.computed(function () {
       return ['vsm--link', !props.isMobileItem ? "vsm--link_level-".concat(props.level) : '', {
-        'vsm--link_mobile-item': props.isMobileItem
+        'vsm--link_mobile': props.isMobileItem
       }, {
         'vsm--link_hover': hover.value
       }, {
         'vsm--link_active': active.value
       }, {
         'vsm--link_disabled': props.item.disabled
+      }, {
+        'vsm--link_open': show.value
       }, props.item.class];
+    });
+    var itemClass = vue.computed(function () {
+      return ['vsm--item', {
+        'vsm--item_mobile': props.isMobileItem
+      }];
     });
     return {
       active: active,
@@ -395,6 +404,7 @@
       isHidden: isHidden,
       hasChild: hasChild,
       linkClass: linkClass,
+      itemClass: itemClass,
       onRouteChange: onRouteChange,
       onLinkClick: onLinkClick,
       onMouseOver: onMouseOver,
@@ -466,15 +476,10 @@
       attrs: function attrs() {
         var target = this.item.external ? '_blank' : '_self';
         var tabindex = this.item.disabled ? -1 : null;
-
-        var attrs = _objectSpread2({
+        return _objectSpread2(_objectSpread2({
           target: target,
           tabindex: tabindex
-        }, this.item.attributes);
-
-        var href = this.item.href ? this.item.href : '#';
-        !this.isHyperLink ? attrs.to = href : attrs.href = href;
-        return attrs;
+        }, this.item.attributes), this.$attrs);
       },
       isHyperLink: function isHyperLink() {
         return !!(!this.item.href || this.item.external);
@@ -487,26 +492,29 @@
 
     return $options.isHyperLink ? (vue.openBlock(), vue.createBlock("a", vue.mergeProps({
       key: 0
-    }, _objectSpread2({}, $options.attrs)), [vue.renderSlot(_ctx.$slots, "default")], 16
+    }, $options.attrs, {
+      href: $props.item.href ? $props.item.href : '#'
+    }), [vue.renderSlot(_ctx.$slots, "default")], 16
     /* FULL_PROPS */
-    )) : (vue.openBlock(), vue.createBlock(_component_router_link, vue.mergeProps({
+    , ["href"])) : (vue.openBlock(), vue.createBlock(_component_router_link, {
       key: 1,
-      custom: ""
-    }, _objectSpread2({}, $options.attrs)), {
+      custom: "",
+      to: $props.item.href
+    }, {
       default: vue.withCtx(function (_ref) {
         var href = _ref.href,
             isExactActive = _ref.isExactActive;
-        return [vue.createVNode("a", {
+        return [vue.createVNode("a", vue.mergeProps($options.attrs, {
           href: href,
           "aria-current": isExactActive ? 'page' : null
-        }, [vue.renderSlot(_ctx.$slots, "default")], 8
-        /* PROPS */
+        }), [vue.renderSlot(_ctx.$slots, "default")], 16
+        /* FULL_PROPS */
         , ["href", "aria-current"])];
       }),
       _: 3
-    }, 16
-    /* FULL_PROPS */
-    ));
+    }, 8
+    /* PROPS */
+    , ["to"]));
   }
 
   script.render = render;
@@ -609,6 +617,7 @@
           isHidden = _useItem.isHidden,
           hasChild = _useItem.hasChild,
           linkClass = _useItem.linkClass,
+          itemClass = _useItem.itemClass,
           onRouteChange = _useItem.onRouteChange,
           onLinkClick = _useItem.onLinkClick,
           onMouseOver = _useItem.onMouseOver,
@@ -644,6 +653,7 @@
         isHidden: isHidden,
         hasChild: hasChild,
         linkClass: linkClass,
+        itemClass: itemClass,
         onRouteChange: onRouteChange,
         onLinkClick: onLinkClick,
         onMouseOver: onMouseOver,
@@ -660,7 +670,7 @@
     class: "vsm--title"
   };
   var _hoisted_2 = {
-    class: "vsm--list"
+    class: "vsm--dropdown"
   };
   function render$3(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_sidebar_menu_icon = vue.resolveComponent("sidebar-menu-icon");
@@ -680,9 +690,7 @@
     /* TEXT, FULL_PROPS */
     )) : !$setup.isHidden ? (vue.openBlock(), vue.createBlock("div", {
       key: 2,
-      class: ["vsm--item", {
-        'vsm--item_open': $setup.show
-      }],
+      class: $setup.itemClass,
       onMouseover: _cache[1] || (_cache[1] = function () {
         return $setup.onMouseOver.apply($setup, arguments);
       }),
@@ -748,7 +756,7 @@
       default: vue.withCtx(function () {
         return [$setup.show ? (vue.openBlock(), vue.createBlock("div", {
           key: 0,
-          class: ["vsm--dropdown", $props.isMobileItem && 'vsm--dropdown_mobile-item'],
+          class: ["vsm--child", $props.isMobileItem && 'vsm--child_mobile'],
           style: $props.isMobileItem && $setup.mobileItemDropdownStyle
         }, [vue.createVNode("div", _hoisted_2, [(vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.item.child, function (subItem, index) {
           return vue.openBlock(), vue.createBlock(_component_sidebar_menu_item, {
@@ -877,8 +885,8 @@
       };
     },
     emits: {
-      'item-click': function itemClick(event, item, node) {
-        return !!(event && item && node);
+      'item-click': function itemClick(event, item) {
+        return !!(event && item);
       },
       'update:collapsed': function updateCollapsed(collapsed) {
         return !!(typeof collapsed === 'boolean');
@@ -924,7 +932,7 @@
         'margin-right': '-17px'
       }]
     }, [vue.createVNode("div", {
-      class: "vsm--list",
+      class: "vsm--menu",
       style: $setup.isCollapsed && {
         'width': $props.widthCollapsed
       }
@@ -951,7 +959,6 @@
     /* STYLE */
     ), $setup.isCollapsed ? (vue.openBlock(), vue.createBlock("div", {
       key: 0,
-      class: "vsm--mobile-item",
       style: $setup.mobileItemStyle
     }, [$setup.mobileItem ? (vue.openBlock(), vue.createBlock(_component_sidebar_menu_item, {
       key: 0,

@@ -96,16 +96,15 @@ function useMenu(props, context) {
     if (mobileItem.value === item) return;
     var sidebarEl = sidebarMenuRef.value;
     var sidebarTop = sidebarEl.getBoundingClientRect().top;
-    var itemTop = itemEl.getBoundingClientRect().top;
     var itemLinkEl = itemEl.children[0];
-    var styles = window.getComputedStyle(itemEl);
-    var paddingTop = parseFloat(styles.paddingTop);
-    var marginTop = parseFloat(styles.marginTop);
-    var height = itemLinkEl.offsetHeight;
-    var positionTop = itemTop - sidebarTop + paddingTop + marginTop;
+
+    var _itemLinkEl$getBoundi = itemLinkEl.getBoundingClientRect(),
+        top = _itemLinkEl$getBoundi.top,
+        height = _itemLinkEl$getBoundi.height;
+
     updateParentRect();
     mobileItem.value = item;
-    mobileItemRect.top = positionTop;
+    mobileItemRect.top = top - sidebarTop;
     mobileItemRect.height = height;
   };
 
@@ -211,7 +210,6 @@ function isEquivalentArray(a, b) {
 
 var activeShow = ref(null);
 function useItem(props) {
-  var node = getCurrentInstance().ctx;
   var router = getCurrentInstance().appContext.config.globalProperties.$router;
   var currentLocation = ref('');
   var sidebarProps = inject('vsm-props');
@@ -268,11 +266,15 @@ function useItem(props) {
       event.preventDefault();
     }
 
-    emitItemClick(event, props.item, node);
     emitMobileItem(event, event.currentTarget.offsetParent);
-    if (!hasChild.value || sidebarProps.showChild || props.isMobileItem) return;
-    if (props.item.href && !exactActive.value) return;
-    show.value = !show.value;
+
+    if (hasChild.value || !sidebarProps.showChild || !props.isMobileItem) {
+      if (!props.item.href || exactActive.value) {
+        show.value = !show.value;
+      }
+    }
+
+    emitItemClick(event, props.item);
   };
 
   var onMouseOver = function onMouseOver(event) {
@@ -372,14 +374,21 @@ function useItem(props) {
   });
   var linkClass = computed(function () {
     return ['vsm--link', !props.isMobileItem ? "vsm--link_level-".concat(props.level) : '', {
-      'vsm--link_mobile-item': props.isMobileItem
+      'vsm--link_mobile': props.isMobileItem
     }, {
       'vsm--link_hover': hover.value
     }, {
       'vsm--link_active': active.value
     }, {
       'vsm--link_disabled': props.item.disabled
+    }, {
+      'vsm--link_open': show.value
     }, props.item.class];
+  });
+  var itemClass = computed(function () {
+    return ['vsm--item', {
+      'vsm--item_mobile': props.isMobileItem
+    }];
   });
   return {
     active: active,
@@ -391,6 +400,7 @@ function useItem(props) {
     isHidden: isHidden,
     hasChild: hasChild,
     linkClass: linkClass,
+    itemClass: itemClass,
     onRouteChange: onRouteChange,
     onLinkClick: onLinkClick,
     onMouseOver: onMouseOver,
@@ -462,15 +472,10 @@ var script = {
     attrs: function attrs() {
       var target = this.item.external ? '_blank' : '_self';
       var tabindex = this.item.disabled ? -1 : null;
-
-      var attrs = _objectSpread2({
+      return _objectSpread2(_objectSpread2({
         target: target,
         tabindex: tabindex
-      }, this.item.attributes);
-
-      var href = this.item.href ? this.item.href : '#';
-      !this.isHyperLink ? attrs.to = href : attrs.href = href;
-      return attrs;
+      }, this.item.attributes), this.$attrs);
     },
     isHyperLink: function isHyperLink() {
       return !!(!this.item.href || this.item.external);
@@ -483,26 +488,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return $options.isHyperLink ? (openBlock(), createBlock("a", mergeProps({
     key: 0
-  }, _objectSpread2({}, $options.attrs)), [renderSlot(_ctx.$slots, "default")], 16
+  }, $options.attrs, {
+    href: $props.item.href ? $props.item.href : '#'
+  }), [renderSlot(_ctx.$slots, "default")], 16
   /* FULL_PROPS */
-  )) : (openBlock(), createBlock(_component_router_link, mergeProps({
+  , ["href"])) : (openBlock(), createBlock(_component_router_link, {
     key: 1,
-    custom: ""
-  }, _objectSpread2({}, $options.attrs)), {
+    custom: "",
+    to: $props.item.href
+  }, {
     default: withCtx(function (_ref) {
       var href = _ref.href,
           isExactActive = _ref.isExactActive;
-      return [createVNode("a", {
+      return [createVNode("a", mergeProps($options.attrs, {
         href: href,
         "aria-current": isExactActive ? 'page' : null
-      }, [renderSlot(_ctx.$slots, "default")], 8
-      /* PROPS */
+      }), [renderSlot(_ctx.$slots, "default")], 16
+      /* FULL_PROPS */
       , ["href", "aria-current"])];
     }),
     _: 3
-  }, 16
-  /* FULL_PROPS */
-  ));
+  }, 8
+  /* PROPS */
+  , ["to"]));
 }
 
 script.render = render;
@@ -605,6 +613,7 @@ var script$3 = {
         isHidden = _useItem.isHidden,
         hasChild = _useItem.hasChild,
         linkClass = _useItem.linkClass,
+        itemClass = _useItem.itemClass,
         onRouteChange = _useItem.onRouteChange,
         onLinkClick = _useItem.onLinkClick,
         onMouseOver = _useItem.onMouseOver,
@@ -640,6 +649,7 @@ var script$3 = {
       isHidden: isHidden,
       hasChild: hasChild,
       linkClass: linkClass,
+      itemClass: itemClass,
       onRouteChange: onRouteChange,
       onLinkClick: onLinkClick,
       onMouseOver: onMouseOver,
@@ -656,7 +666,7 @@ var _hoisted_1 = {
   class: "vsm--title"
 };
 var _hoisted_2 = {
-  class: "vsm--list"
+  class: "vsm--dropdown"
 };
 function render$3(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_sidebar_menu_icon = resolveComponent("sidebar-menu-icon");
@@ -676,9 +686,7 @@ function render$3(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT, FULL_PROPS */
   )) : !$setup.isHidden ? (openBlock(), createBlock("div", {
     key: 2,
-    class: ["vsm--item", {
-      'vsm--item_open': $setup.show
-    }],
+    class: $setup.itemClass,
     onMouseover: _cache[1] || (_cache[1] = function () {
       return $setup.onMouseOver.apply($setup, arguments);
     }),
@@ -744,7 +752,7 @@ function render$3(_ctx, _cache, $props, $setup, $data, $options) {
     default: withCtx(function () {
       return [$setup.show ? (openBlock(), createBlock("div", {
         key: 0,
-        class: ["vsm--dropdown", $props.isMobileItem && 'vsm--dropdown_mobile-item'],
+        class: ["vsm--child", $props.isMobileItem && 'vsm--child_mobile'],
         style: $props.isMobileItem && $setup.mobileItemDropdownStyle
       }, [createVNode("div", _hoisted_2, [(openBlock(true), createBlock(Fragment, null, renderList($props.item.child, function (subItem, index) {
         return openBlock(), createBlock(_component_sidebar_menu_item, {
@@ -873,8 +881,8 @@ var script$4 = {
     };
   },
   emits: {
-    'item-click': function itemClick(event, item, node) {
-      return !!(event && item && node);
+    'item-click': function itemClick(event, item) {
+      return !!(event && item);
     },
     'update:collapsed': function updateCollapsed(collapsed) {
       return !!(typeof collapsed === 'boolean');
@@ -920,7 +928,7 @@ function render$4(_ctx, _cache, $props, $setup, $data, $options) {
       'margin-right': '-17px'
     }]
   }, [createVNode("div", {
-    class: "vsm--list",
+    class: "vsm--menu",
     style: $setup.isCollapsed && {
       'width': $props.widthCollapsed
     }
@@ -947,7 +955,6 @@ function render$4(_ctx, _cache, $props, $setup, $data, $options) {
   /* STYLE */
   ), $setup.isCollapsed ? (openBlock(), createBlock("div", {
     key: 0,
-    class: "vsm--mobile-item",
     style: $setup.mobileItemStyle
   }, [$setup.mobileItem ? (openBlock(), createBlock(_component_sidebar_menu_item, {
     key: 0,
