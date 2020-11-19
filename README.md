@@ -1,6 +1,6 @@
 # vue-sidebar-menu (for Vue 3)
 
-A Vue.js Sidebar Menu Component
+A Vue.js sidebar menu component with vue-router compatibility
 
 ## Demo
 
@@ -16,9 +16,12 @@ A Vue.js Sidebar Menu Component
 - changed `widthCollapsed` prop default value  from '50px' to '65px'
 - `collapsed` prop can be sync using v-model
 - removed `toggle-collapse` event (listen to `update:collapsed` instead)
+- removed the node parameter from `item-click` event
 - `dropdown-icon` slot no longer rotate when open
-- add `isOpen` slot prop for the dropdwon-icon
+- add new `isOpen` slot prop for the dropdwon-icon
 - changed the default `toggle-btn-icon` icon
+- dropdown css selector is now `vsm--dropdown` instead of `vsm--dropdown>.vsm--list`
+- the open modifier class apply to link instead of item
 
 ## Installation
 
