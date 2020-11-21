@@ -6,6 +6,8 @@ A Vue.js sidebar menu component with vue-router compatibility
 
 [vue-sidebar-menu-demo](https://yaminncco.github.io/vue-sidebar-menu/)
 
+### This documentation is for Vue 3, for Vue 2.x see [here](https://github.com/yaminncco/vue-sidebar-menu/tree/master)
+
 ## Changelog
 
 - router-link now is the default link component (without vue-router use `linkComponentName` prop)
@@ -26,7 +28,7 @@ A Vue.js sidebar menu component with vue-router compatibility
 ## Installation
 
 ```
-npm i vue-sidebar-menu --save
+npm i vue-sidebar-menu@alpha --save
 ```
 
 Install the plugin globally.
