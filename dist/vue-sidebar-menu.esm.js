@@ -15,7 +15,6 @@ var parentRect = reactive({
 });
 var mobileItemTimeout = ref(null);
 function useMenu(props, context) {
-  isCollapsed.value = props.collapsed;
   var sidebarWidth = computed(function () {
     return isCollapsed.value ? props.widthCollapsed : props.width;
   });
@@ -861,6 +860,7 @@ var script$4 = {
         unsetMobileItem = _useMenu.unsetMobileItem;
 
     provide('emitItemClick', onItemClick);
+    isCollapsed.value = props.collapsed;
     watch(function () {
       return props.collapsed;
     }, function (currentCollapsed) {

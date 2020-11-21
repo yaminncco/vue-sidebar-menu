@@ -19,7 +19,6 @@
   });
   var mobileItemTimeout = vue.ref(null);
   function useMenu(props, context) {
-    isCollapsed.value = props.collapsed;
     var sidebarWidth = vue.computed(function () {
       return isCollapsed.value ? props.widthCollapsed : props.width;
     });
@@ -865,6 +864,7 @@
           unsetMobileItem = _useMenu.unsetMobileItem;
 
       vue.provide('emitItemClick', onItemClick);
+      isCollapsed.value = props.collapsed;
       vue.watch(function () {
         return props.collapsed;
       }, function (currentCollapsed) {
