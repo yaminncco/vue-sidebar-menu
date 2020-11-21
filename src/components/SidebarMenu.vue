@@ -144,6 +144,8 @@ export default {
 
     provide('emitItemClick', onItemClick)
 
+    isCollapsed.value = props.collapsed
+    
     watch(() => props.collapsed, (currentCollapsed) => {
       unsetMobileItem()
       isCollapsed.value = currentCollapsed

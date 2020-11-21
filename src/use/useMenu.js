@@ -16,8 +16,6 @@ const parentRect = reactive({
 const mobileItemTimeout = ref(null)
 
 export default function useMenu (props, context) {
-  isCollapsed.value = props.collapsed
-
   const sidebarWidth = computed(() => {
     return isCollapsed.value ? props.widthCollapsed : props.width
   })
