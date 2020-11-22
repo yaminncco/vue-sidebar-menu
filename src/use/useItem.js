@@ -52,9 +52,9 @@ export default function useItem (props) {
   }
 
   const onLinkClick = (event) => {
-    if (props.item.disabled) return
-    if (!props.item.href) {
+    if (!props.item.href || props.item.disabled) {
       event.preventDefault()
+      if (props.item.disabled) return
     }
 
     emitMobileItem(event, event.currentTarget.offsetParent)
