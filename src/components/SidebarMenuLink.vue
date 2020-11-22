@@ -10,9 +10,9 @@
     v-else
     custom
     :to="item.href"
-    v-slot="{ href, isExactActive }"
+    v-slot="{ href, isExactActive, navigate }"
   >
-    <a v-bind="attrs" :href="href" :aria-current="isExactActive ? 'page' : null">
+    <a v-bind="attrs" :href="href" @click="navigate" :aria-current="isExactActive ? 'page' : null">
       <slot />
     </a>
   </router-link>
@@ -20,6 +20,7 @@
 
 <script>
 export default {
+  inheritAttrs: false,
   name: 'SidebarMenuLink',
   props: {
     item: {
