@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { toRefs, watchEffect, onMounted, onUnmounted, getCurrentInstance, inject } from 'vue'
+import { toRefs, watch, onUnmounted, getCurrentInstance, inject } from 'vue'
 import useMenu from '../use/useMenu'
 import useItem from '../use/useItem'
 
@@ -136,23 +136,21 @@ export default {
       onExpandAfterEnter,
       onExpandBeforeLeave
     } = useItem(props)
+    
     const router = getCurrentInstance().appContext.config.globalProperties.$router
 
-    watchEffect(() => {
+    watch(() => router.currentRoute.value, () => {
       onRouteChange()
+    }, {
+      immediate: true
     })
 
-    onMounted(() => {
-      if (!router) {
-        window.addEventListener('hashchange', onRouteChange)
-      }
-    })
-
-    onUnmounted(() => {
-      if (!router) {
+    if (!router) {
+      window.addEventListener('hashchange', onRouteChange)
+      onUnmounted(() => {
         window.removeEventListener('hashchange', onRouteChange)
-      }
-    })
+      })
+    }
 
     return {
       isCollapsed,
