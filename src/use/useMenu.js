@@ -68,6 +68,12 @@ export default function useMenu (props, context) {
     unsetMobileItem(false, 300)
   }
 
+  const onMouseEnter = () => {
+    if (isCollapsed.value) {
+      if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value)
+    }
+  }
+
   const onToggleClick = () => {
     unsetMobileItem()
     isCollapsed.value = !isCollapsed.value
@@ -91,7 +97,7 @@ export default function useMenu (props, context) {
     mobileItemRect.height = height
   }
 
-  const unsetMobileItem = (immediate = true, delay = 600) => {
+  const unsetMobileItem = (immediate = true, delay = 800) => {
     if (!mobileItem.value) return
     if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value)
     if (immediate) {
@@ -125,6 +131,7 @@ export default function useMenu (props, context) {
     sidebarWidth,
     sidebarClass,
     onMouseLeave,
+    onMouseEnter,
     onToggleClick,
     onItemClick,
     mobileItem,

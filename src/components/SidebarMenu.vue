@@ -4,6 +4,7 @@
     class="v-sidebar-menu"
     :class="sidebarClass"
     :style="{'max-width': sidebarWidth}"
+    @mouseenter="onMouseEnter"
     @mouseleave="onMouseLeave"
   >
     <slot name="header" />
@@ -134,6 +135,7 @@ export default {
       sidebarWidth,
       sidebarClass,
       onMouseLeave,
+      onMouseEnter,
       onToggleClick,
       onItemClick,
       mobileItem,
@@ -157,6 +159,7 @@ export default {
       sidebarWidth,
       sidebarClass,
       onMouseLeave,
+      onMouseEnter,
       onToggleClick,
       onItemClick,
       mobileItem,

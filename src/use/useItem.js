@@ -10,7 +10,7 @@ export default function useItem (props) {
 
   const sidebarProps = inject('vsm-props')
   const emitItemClick = inject('emitItemClick')
-  const { isCollapsed, mobileItem, setMobileItem, unsetMobileItem, mobileItemTimeout } = useMenu(sidebarProps)
+  const { isCollapsed, mobileItem, setMobileItem, unsetMobileItem } = useMenu(sidebarProps)
 
   const itemShow = ref(false)
   const itemHover = ref(false)
@@ -72,7 +72,6 @@ export default function useItem (props) {
     if (props.item.disabled) return
     event.stopPropagation()
     itemHover.value = true
-    if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value)
     if (!sidebarProps.disableHover) {
       emitMobileItem(event, event.currentTarget)
     }
@@ -86,11 +85,7 @@ export default function useItem (props) {
   const emitMobileItem = (event, itemEl) => {
     if (hover.value) return
     if (!isCollapsed.value || !isFirstLevel.value || props.isMobileItem) return
-    if (event.type === 'mouseover' || sidebarProps.disableHover) {
-      if (mobileItem.value) {
-        unsetMobileItem()
-      }
-    }
+    unsetMobileItem()
     setTimeout(() => {
       if (mobileItem.value !== props.item) {
         setMobileItem({ item: props.item, itemEl })
