@@ -16,7 +16,7 @@
     v-else-if="!isItemHidden"
     class="vsm--item"
     :class="[{'vsm--item_open' : show}]"
-    v-on="disableHover && isCollapsed ? { click: mouseOverEvent } : { mouseover: mouseOverEvent }"
+    @mouseover="mouseOverEvent"
     @mouseout="mouseOutEvent"
   >
     <sidebar-menu-link
@@ -293,25 +293,17 @@ export default {
       }
     },
     emitMobileItem (event, itemEl) {
-      if (!this.hover) {
-        if (this.isCollapsed && this.isFirstLevel && !this.isMobileItem) {
-          if (this.mobileItem) {
-            this.$emit('unset-mobile-item', true)
-          }
-          this.$nextTick(() => {
-            if (this.mobileItem !== this.item) {
-              this.$emit('set-mobile-item', { item: this.item, itemEl })
-            }
-          })
-          if (event.type === 'click' && !this.itemHasChild) {
-            setTimeout(() => {
-              if (this.mobileItem) {
-                this.$emit('unset-mobile-item', false)
-              }
-            }, 0)
-          }
+      if (this.hover) return
+      if (!this.isCollapsed || !this.isFirstLevel || this.isMobileItem) return
+      this.$emit('unset-mobile-item', true)
+      setTimeout(() => {
+        if (this.mobileItem !== this.item) {
+          this.$emit('set-mobile-item', { item: this.item, itemEl })
         }
-      }
+        if (event.type === 'click' && !this.itemHasChild) {
+          this.$emit('unset-mobile-item', false)
+        }
+      }, 0)
     },
     initState () {
       this.initActiveState()
@@ -330,10 +322,12 @@ export default {
       }
     },
     mouseOverEvent (event) {
-      event.stopPropagation()
       if (this.item.disabled) return
+      event.stopPropagation()
       this.itemHover = true
-      this.emitMobileItem(event, event.currentTarget)
+      if (!this.disableHover) {
+        this.emitMobileItem(event, event.currentTarget)
+      }
     },
     mouseOutEvent (event) {
       event.stopPropagation()

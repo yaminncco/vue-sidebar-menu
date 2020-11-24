@@ -4,6 +4,7 @@
     :class="sidebarClass"
     :style="[{'max-width': sidebarWidth}]"
     @mouseleave="onMouseLeave"
+    @mouseenter="onMouseEnter"
   >
     <slot name="header" />
     <div
@@ -47,6 +48,7 @@
           :is-collapsed="isCollapsed"
           :show-child="showChild"
           :rtl="rtl"
+          :disable-hover="disableHover"
         >
           <slot
             slot="dropdown-icon"
@@ -194,7 +196,12 @@ export default {
   },
   methods: {
     onMouseLeave () {
-      this.mobileItem = null
+      this.unsetMobileItem(false, 300)
+    },
+    onMouseEnter () {
+      if (this.isCollapsed) {
+        if (this.mobileItemTimeout) clearTimeout(this.mobileItemTimeout)
+      }
     },
     onToggleClick () {
       this.isCollapsed = !this.isCollapsed
@@ -209,23 +216,17 @@ export default {
     },
     setMobileItem ({ item, itemEl }) {
       if (this.mobileItem === item) return
-      let sidebarTop = this.$el.getBoundingClientRect().top
-      let itemTop = itemEl.getBoundingClientRect().top
-      let itemLinkEl = itemEl.children[0]
+      const sidebarTop = this.$el.getBoundingClientRect().top
+      const itemLinkEl = itemEl.children[0]
+      const { top, height } = itemLinkEl.getBoundingClientRect()
 
-      let styles = window.getComputedStyle(itemEl)
-      let paddingTop = parseFloat(styles.paddingTop)
-      let marginTop = parseFloat(styles.marginTop)
-
-      let height = itemLinkEl.offsetHeight
-      let positionTop = itemTop - sidebarTop + paddingTop + marginTop
-
+      let positionTop = top - sidebarTop
       this.initParentOffsets()
       this.mobileItem = item
       this.mobileItemPos = positionTop
       this.mobileItemHeight = height
     },
-    unsetMobileItem (immediate) {
+    unsetMobileItem (immediate, delay = 800) {
       if (!this.mobileItem) return
       if (this.mobileItemTimeout) clearTimeout(this.mobileItemTimeout)
       if (immediate) {
@@ -234,7 +235,7 @@ export default {
       }
       this.mobileItemTimeout = setTimeout(() => {
         this.mobileItem = null
-      }, 600)
+      }, delay)
     },
     initParentOffsets () {
       let { top: sidebarTop, left: sidebarLeft, right: sidebarRight } = this.$el.getBoundingClientRect()

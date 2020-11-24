@@ -63,9 +63,6 @@
           border-radius: 3px;
         }
       }
-      &_mobile-item {
-        background-color: transparent !important;
-      }
     }
   
     .vsm--icon {
@@ -198,5 +195,7 @@
     }
     .vsm--mobile-item>.vsm--item>.vsm--link {
       margin: 0 !important;
+      background-color: transparent !important;
+      line-height: $icon-height !important;
     }
   }
