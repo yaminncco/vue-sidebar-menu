@@ -6,18 +6,7 @@ A Vue.js Sidebar Menu Component
 
 [vue-sidebar-menu-demo](https://yaminncco.github.io/vue-sidebar-menu/)
 
-## New in 4.0.0 
-
-Refactoring CSS, SASS variables and added new classes to make customizations much easier  
-Removed `itemClick` event (use `item-click` instead)  
-rename `collapse` event into `toggle-collapse`  
-rename `collapse-icon` slot into `toggle-icon`  
-Component item no longer need header property  
-Header Item and component item can be used inside child item  
-Add new property `hidden` & `hiddenOnCollapse` 
-Removed `visibleOnCollapse` property (use `hiddenOnCollapse` instead)  
-Added new prop `relative`: make sidebar relative to the parent (by default the sidebar is relative to the viewport)  
-Added new prop `hideToggle`: hide toggle collapse btn  
+### This documentation is for Vue 2, for Vue 3 you can try the prerelease see [here](https://github.com/yaminncco/vue-sidebar-menu/tree/next)
 
 ## Installation
 
