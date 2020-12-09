@@ -139,13 +139,13 @@ export default {
     
     const router = getCurrentInstance().appContext.config.globalProperties.$router
 
-    watch(() => router.currentRoute.value, () => {
-      onRouteChange()
-    }, {
-      immediate: true
-    })
-
-    if (!router) {
+    if (router) {
+      watch(() => router.currentRoute.value, () => {
+        onRouteChange()
+      }, {
+        immediate: true
+      })
+    } else {
       window.addEventListener('hashchange', onRouteChange)
       onUnmounted(() => {
         window.removeEventListener('hashchange', onRouteChange)
