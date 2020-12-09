@@ -22,6 +22,7 @@
       :is="linkComponentName"
       :item="item"
       :class="linkClass"
+      v-bind="linkAttrs"
       @click="onLinkClick"
     >
       <sidebar-menu-icon
@@ -127,6 +128,7 @@ export default {
       isHidden,
       hasChild,
       linkClass,
+      linkAttrs,
       itemClass,
       onRouteChange,
       onLinkClick,
@@ -165,6 +167,7 @@ export default {
       isHidden,
       hasChild,
       linkClass,
+      linkAttrs,
       itemClass,
       onRouteChange,
       onLinkClick,

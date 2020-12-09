@@ -167,6 +167,21 @@ export default function useItem (props) {
     ]
   })
 
+  const linkAttrs = computed(() => {
+    const href = props.item.href ? props.item.href : '#'
+    const target = props.item.external ? '_blank' : '_self'
+    const tabindex = props.item.disabled ? -1 : null
+    const ariaCurrent = exactActive.value ? 'page' : null
+
+    return {
+      href,
+      target,
+      tabindex,
+      'aria-current': ariaCurrent,
+      ...props.item.attributes
+    }
+  })
+
   const itemClass = computed(() => {
     return [
       'vsm--item',
@@ -184,6 +199,7 @@ export default function useItem (props) {
     isHidden,
     hasChild,
     linkClass,
+    linkAttrs,
     itemClass,
     onRouteChange,
     onLinkClick,
