@@ -138,6 +138,7 @@ export default {
       onMouseEnter,
       onToggleClick,
       onItemClick,
+      onRouteChange,
       mobileItem,
       mobileItemStyle,
       mobileItemBackgroundStyle,
@@ -145,6 +146,7 @@ export default {
     } = useMenu(props, context)
 
     provide('emitItemClick', onItemClick)
+    provide('onRouteChange', onRouteChange)
 
     isCollapsed.value = props.collapsed
     
@@ -162,6 +164,7 @@ export default {
       onMouseEnter,
       onToggleClick,
       onItemClick,
+      onRouteChange,
       mobileItem,
       mobileItemStyle,
       mobileItemBackgroundStyle

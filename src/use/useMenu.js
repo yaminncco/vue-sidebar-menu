@@ -14,6 +14,7 @@ const parentRect = reactive({
   left: 0
 })
 const mobileItemTimeout = ref(null)
+const currentRoute = ref(window.location.pathname + window.location.search + window.location.hash)
 
 export default function useMenu (props, context) {
   const sidebarWidth = computed(() => {
@@ -80,8 +81,12 @@ export default function useMenu (props, context) {
     context.emit('update:collapsed', isCollapsed.value)
   }
 
-  const onItemClick = (event, item, node) => {
-    context.emit('item-click', event, item, node)
+  const onItemClick = (event, item) => {
+    context.emit('item-click', event, item)
+  }
+
+  const onRouteChange = () => {
+    currentRoute.value = window.location.pathname + window.location.search + window.location.hash
   }
 
   const setMobileItem = ({ item, itemEl }) => {
@@ -130,10 +135,12 @@ export default function useMenu (props, context) {
     isCollapsed,
     sidebarWidth,
     sidebarClass,
+    currentRoute,
     onMouseLeave,
     onMouseEnter,
     onToggleClick,
     onItemClick,
+    onRouteChange,
     mobileItem,
     mobileItemStyle,
     mobileItemDropdownStyle,

@@ -117,7 +117,7 @@ export default {
   },
   setup (props) {
     const sidebarProps = inject('vsm-props')
-    const { isCollapsed, mobileItemDropdownStyle } = useMenu(sidebarProps)
+    const { isCollapsed, mobileItemDropdownStyle, currentRoute } = useMenu(sidebarProps)
     const { disableHover, linkComponentName } = toRefs(sidebarProps)
     const {
       active,
@@ -148,6 +148,11 @@ export default {
         immediate: true
       })
     } else {
+      watch(() => currentRoute.value, () => {
+        onRouteChange()
+      }, {
+        immediate: true
+      })
       window.addEventListener('hashchange', onRouteChange)
       onUnmounted(() => {
         window.removeEventListener('hashchange', onRouteChange)

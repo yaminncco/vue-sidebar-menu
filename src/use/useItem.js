@@ -6,11 +6,9 @@ const activeShow = ref(null)
 
 export default function useItem (props) {
   const router = getCurrentInstance().appContext.config.globalProperties.$router
-  const currentLocation = ref('')
-
   const sidebarProps = inject('vsm-props')
   const emitItemClick = inject('emitItemClick')
-  const { isCollapsed, mobileItem, setMobileItem, unsetMobileItem } = useMenu(sidebarProps)
+  const { isCollapsed, mobileItem, setMobileItem, unsetMobileItem, currentRoute } = useMenu(sidebarProps)
 
   const itemShow = ref(false)
   const itemHover = ref(false)
@@ -27,12 +25,12 @@ export default function useItem (props) {
     if (!item.href || item.external) return false
     if (router) {
       const route = router.resolve(item.href)
-      const currentRoute = router.currentRoute.value
-      return activeRecordIndex(route, currentRoute) > -1 &&
-        activeRecordIndex(route, currentRoute) === currentRoute.matched.length - 1 &&
-        isSameRouteLocationParams(currentRoute.params, route.params)
+      const routerCurrentRoute = router.currentRoute.value
+      return activeRecordIndex(route, routerCurrentRoute) > -1 &&
+        activeRecordIndex(route, routerCurrentRoute) === routerCurrentRoute.matched.length - 1 &&
+        isSameRouteLocationParams(routerCurrentRoute.params, route.params)
     } else {
-      return item.href === currentLocation.value
+      return item.href === currentRoute.value
     }
   }
 
@@ -44,7 +42,6 @@ export default function useItem (props) {
   }
 
   const onRouteChange = () => {
-    currentLocation.value = window.location.pathname + window.location.search + window.location.hash
     if (sidebarProps.showChild || props.isMobileItem) return
     if (active.value) {
       show.value = true
