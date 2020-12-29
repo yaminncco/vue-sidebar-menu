@@ -14,6 +14,7 @@ var parentRect = reactive({
   left: 0
 });
 var mobileItemTimeout = ref(null);
+var currentRoute = ref(window.location.pathname + window.location.search + window.location.hash);
 function useMenu(props, context) {
   var sidebarWidth = computed(function () {
     return isCollapsed.value ? props.widthCollapsed : props.width;
@@ -91,8 +92,12 @@ function useMenu(props, context) {
     context.emit('update:collapsed', isCollapsed.value);
   };
 
-  var onItemClick = function onItemClick(event, item, node) {
-    context.emit('item-click', event, item, node);
+  var onItemClick = function onItemClick(event, item) {
+    context.emit('item-click', event, item);
+  };
+
+  var onRouteChange = function onRouteChange() {
+    currentRoute.value = window.location.pathname + window.location.search + window.location.hash;
   };
 
   var setMobileItem = function setMobileItem(_ref) {
@@ -159,10 +164,12 @@ function useMenu(props, context) {
     isCollapsed: isCollapsed,
     sidebarWidth: sidebarWidth,
     sidebarClass: sidebarClass,
+    currentRoute: currentRoute,
     onMouseLeave: onMouseLeave,
     onMouseEnter: onMouseEnter,
     onToggleClick: onToggleClick,
     onItemClick: onItemClick,
+    onRouteChange: onRouteChange,
     mobileItem: mobileItem,
     mobileItemStyle: mobileItemStyle,
     mobileItemDropdownStyle: mobileItemDropdownStyle,
@@ -266,7 +273,6 @@ function isEquivalentArray(a, b) {
 var activeShow = ref(null);
 function useItem(props) {
   var router = getCurrentInstance().appContext.config.globalProperties.$router;
-  var currentLocation = ref('');
   var sidebarProps = inject('vsm-props');
   var emitItemClick = inject('emitItemClick');
 
@@ -274,7 +280,8 @@ function useItem(props) {
       isCollapsed = _useMenu.isCollapsed,
       mobileItem = _useMenu.mobileItem,
       setMobileItem = _useMenu.setMobileItem,
-      unsetMobileItem = _useMenu.unsetMobileItem;
+      unsetMobileItem = _useMenu.unsetMobileItem,
+      currentRoute = _useMenu.currentRoute;
 
   var itemShow = ref(false);
   var itemHover = ref(false);
@@ -290,10 +297,10 @@ function useItem(props) {
 
     if (router) {
       var route = router.resolve(item.href);
-      var currentRoute = router.currentRoute.value;
-      return activeRecordIndex(route, currentRoute) > -1 && activeRecordIndex(route, currentRoute) === currentRoute.matched.length - 1 && isSameRouteLocationParams(currentRoute.params, route.params);
+      var routerCurrentRoute = router.currentRoute.value;
+      return activeRecordIndex(route, routerCurrentRoute) > -1 && activeRecordIndex(route, routerCurrentRoute) === routerCurrentRoute.matched.length - 1 && isSameRouteLocationParams(routerCurrentRoute.params, route.params);
     } else {
-      return item.href === currentLocation.value;
+      return item.href === currentRoute.value;
     }
   };
 
@@ -305,7 +312,6 @@ function useItem(props) {
   };
 
   var onRouteChange = function onRouteChange() {
-    currentLocation.value = window.location.pathname + window.location.search + window.location.hash;
     if (sidebarProps.showChild || props.isMobileItem) return;
 
     if (active.value) {
@@ -599,7 +605,8 @@ var script$3 = {
 
     var _useMenu = useMenu(sidebarProps),
         isCollapsed = _useMenu.isCollapsed,
-        mobileItemDropdownStyle = _useMenu.mobileItemDropdownStyle;
+        mobileItemDropdownStyle = _useMenu.mobileItemDropdownStyle,
+        currentRoute = _useMenu.currentRoute;
 
     var _toRefs = toRefs(sidebarProps),
         disableHover = _toRefs.disableHover,
@@ -635,6 +642,13 @@ var script$3 = {
         immediate: true
       });
     } else {
+      watch(function () {
+        return currentRoute.value;
+      }, function () {
+        onRouteChange();
+      }, {
+        immediate: true
+      });
       window.addEventListener('hashchange', onRouteChange);
       onUnmounted(function () {
         window.removeEventListener('hashchange', onRouteChange);
@@ -863,12 +877,14 @@ var script$4 = {
         onMouseEnter = _useMenu.onMouseEnter,
         onToggleClick = _useMenu.onToggleClick,
         onItemClick = _useMenu.onItemClick,
+        onRouteChange = _useMenu.onRouteChange,
         mobileItem = _useMenu.mobileItem,
         mobileItemStyle = _useMenu.mobileItemStyle,
         mobileItemBackgroundStyle = _useMenu.mobileItemBackgroundStyle,
         unsetMobileItem = _useMenu.unsetMobileItem;
 
     provide('emitItemClick', onItemClick);
+    provide('onRouteChange', onRouteChange);
     isCollapsed.value = props.collapsed;
     watch(function () {
       return props.collapsed;
@@ -885,6 +901,7 @@ var script$4 = {
       onMouseEnter: onMouseEnter,
       onToggleClick: onToggleClick,
       onItemClick: onItemClick,
+      onRouteChange: onRouteChange,
       mobileItem: mobileItem,
       mobileItemStyle: mobileItemStyle,
       mobileItemBackgroundStyle: mobileItemBackgroundStyle

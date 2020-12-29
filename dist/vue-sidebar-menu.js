@@ -18,6 +18,7 @@
     left: 0
   });
   var mobileItemTimeout = vue.ref(null);
+  var currentRoute = vue.ref(window.location.pathname + window.location.search + window.location.hash);
   function useMenu(props, context) {
     var sidebarWidth = vue.computed(function () {
       return isCollapsed.value ? props.widthCollapsed : props.width;
@@ -95,8 +96,12 @@
       context.emit('update:collapsed', isCollapsed.value);
     };
 
-    var onItemClick = function onItemClick(event, item, node) {
-      context.emit('item-click', event, item, node);
+    var onItemClick = function onItemClick(event, item) {
+      context.emit('item-click', event, item);
+    };
+
+    var onRouteChange = function onRouteChange() {
+      currentRoute.value = window.location.pathname + window.location.search + window.location.hash;
     };
 
     var setMobileItem = function setMobileItem(_ref) {
@@ -163,10 +168,12 @@
       isCollapsed: isCollapsed,
       sidebarWidth: sidebarWidth,
       sidebarClass: sidebarClass,
+      currentRoute: currentRoute,
       onMouseLeave: onMouseLeave,
       onMouseEnter: onMouseEnter,
       onToggleClick: onToggleClick,
       onItemClick: onItemClick,
+      onRouteChange: onRouteChange,
       mobileItem: mobileItem,
       mobileItemStyle: mobileItemStyle,
       mobileItemDropdownStyle: mobileItemDropdownStyle,
@@ -270,7 +277,6 @@
   var activeShow = vue.ref(null);
   function useItem(props) {
     var router = vue.getCurrentInstance().appContext.config.globalProperties.$router;
-    var currentLocation = vue.ref('');
     var sidebarProps = vue.inject('vsm-props');
     var emitItemClick = vue.inject('emitItemClick');
 
@@ -278,7 +284,8 @@
         isCollapsed = _useMenu.isCollapsed,
         mobileItem = _useMenu.mobileItem,
         setMobileItem = _useMenu.setMobileItem,
-        unsetMobileItem = _useMenu.unsetMobileItem;
+        unsetMobileItem = _useMenu.unsetMobileItem,
+        currentRoute = _useMenu.currentRoute;
 
     var itemShow = vue.ref(false);
     var itemHover = vue.ref(false);
@@ -294,10 +301,10 @@
 
       if (router) {
         var route = router.resolve(item.href);
-        var currentRoute = router.currentRoute.value;
-        return activeRecordIndex(route, currentRoute) > -1 && activeRecordIndex(route, currentRoute) === currentRoute.matched.length - 1 && isSameRouteLocationParams(currentRoute.params, route.params);
+        var routerCurrentRoute = router.currentRoute.value;
+        return activeRecordIndex(route, routerCurrentRoute) > -1 && activeRecordIndex(route, routerCurrentRoute) === routerCurrentRoute.matched.length - 1 && isSameRouteLocationParams(routerCurrentRoute.params, route.params);
       } else {
-        return item.href === currentLocation.value;
+        return item.href === currentRoute.value;
       }
     };
 
@@ -309,7 +316,6 @@
     };
 
     var onRouteChange = function onRouteChange() {
-      currentLocation.value = window.location.pathname + window.location.search + window.location.hash;
       if (sidebarProps.showChild || props.isMobileItem) return;
 
       if (active.value) {
@@ -603,7 +609,8 @@
 
       var _useMenu = useMenu(sidebarProps),
           isCollapsed = _useMenu.isCollapsed,
-          mobileItemDropdownStyle = _useMenu.mobileItemDropdownStyle;
+          mobileItemDropdownStyle = _useMenu.mobileItemDropdownStyle,
+          currentRoute = _useMenu.currentRoute;
 
       var _toRefs = vue.toRefs(sidebarProps),
           disableHover = _toRefs.disableHover,
@@ -639,6 +646,13 @@
           immediate: true
         });
       } else {
+        vue.watch(function () {
+          return currentRoute.value;
+        }, function () {
+          onRouteChange();
+        }, {
+          immediate: true
+        });
         window.addEventListener('hashchange', onRouteChange);
         vue.onUnmounted(function () {
           window.removeEventListener('hashchange', onRouteChange);
@@ -867,12 +881,14 @@
           onMouseEnter = _useMenu.onMouseEnter,
           onToggleClick = _useMenu.onToggleClick,
           onItemClick = _useMenu.onItemClick,
+          onRouteChange = _useMenu.onRouteChange,
           mobileItem = _useMenu.mobileItem,
           mobileItemStyle = _useMenu.mobileItemStyle,
           mobileItemBackgroundStyle = _useMenu.mobileItemBackgroundStyle,
           unsetMobileItem = _useMenu.unsetMobileItem;
 
       vue.provide('emitItemClick', onItemClick);
+      vue.provide('onRouteChange', onRouteChange);
       isCollapsed.value = props.collapsed;
       vue.watch(function () {
         return props.collapsed;
@@ -889,6 +905,7 @@
         onMouseEnter: onMouseEnter,
         onToggleClick: onToggleClick,
         onItemClick: onItemClick,
+        onRouteChange: onRouteChange,
         mobileItem: mobileItem,
         mobileItemStyle: mobileItemStyle,
         mobileItemBackgroundStyle: mobileItemBackgroundStyle
