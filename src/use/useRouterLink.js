@@ -2,18 +2,18 @@
 // See: https://github.com/vuejs/vue-router-next/blob/master/src/RouterLink.ts
 
 export function activeRecordIndex (route, currentRoute) {
-  let { matched } = route
-  let { length } = matched
+  const { matched } = route
+  const { length } = matched
   const routeMatched = matched[length - 1]
 
-  let currentMatched = currentRoute.matched
+  const currentMatched = currentRoute.matched
   if (!routeMatched || !currentMatched.length) return -1
-  let index = currentMatched.findIndex(
+  const index = currentMatched.findIndex(
     isSameRouteRecord.bind(null, routeMatched)
   )
   if (index > -1) return index
 
-  let parentRecordPath = getOriginalPath(
+  const parentRecordPath = getOriginalPath(
     matched[length - 2]
   )
   return (
@@ -21,15 +21,15 @@ export function activeRecordIndex (route, currentRoute) {
     getOriginalPath(routeMatched) === parentRecordPath &&
     currentMatched[currentMatched.length - 1].path !== parentRecordPath
       ? currentMatched.findIndex(
-        isSameRouteRecord.bind(null, matched[length - 2])
-      )
+          isSameRouteRecord.bind(null, matched[length - 2])
+        )
       : index
   )
 }
 
 export function isSameRouteLocationParams (a, b) {
   if (Object.keys(a).length !== Object.keys(b).length) return false
-  for (let key in a) {
+  for (const key in a) {
     if (!isSameRouteLocationParamsValue(a[key], b[key])) return false
   }
   return true

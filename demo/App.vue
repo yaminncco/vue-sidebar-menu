@@ -31,8 +31,8 @@
         <router-view />
       </div>
       <sidebar-menu
-        :menu="menu"
         v-model:collapsed="collapsed"
+        :menu="menu"
         :theme="selectedTheme"
         :show-one-child="true"
         @update:collapsed="onToggleCollapse"
@@ -51,7 +51,7 @@
 import { markRaw } from 'vue'
 
 const separator = {
-  template: `<hr style="border-color: rgba(0, 0, 0, 0.1); margin: 20px;">`
+  template: '<hr style="border-color: rgba(0, 0, 0, 0.1); margin: 20px;">'
 }
 
 export default {

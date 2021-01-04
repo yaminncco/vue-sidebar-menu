@@ -21,9 +21,12 @@
           :key="index"
           :item="item"
         >
-          <template v-slot:dropdown-icon="{ isOpen }">
-            <slot name="dropdown-icon" v-bind="{ isOpen }">
-              <span class="vsm--arrow_default"></span>
+          <template #dropdown-icon="{ isOpen }">
+            <slot
+              name="dropdown-icon"
+              v-bind="{ isOpen }"
+            >
+              <span class="vsm--arrow_default" />
             </slot>
           </template>
         </sidebar-menu-item>
@@ -37,9 +40,12 @@
           :item="mobileItem"
           :is-mobile-item="true"
         >
-          <template v-slot:dropdown-icon="{ isOpen }">
-            <slot name="dropdown-icon" v-bind="{ isOpen }">
-              <span class="vsm--arrow_default"></span>
+          <template #dropdown-icon="{ isOpen }">
+            <slot
+              name="dropdown-icon"
+              v-bind="{ isOpen }"
+            >
+              <span class="vsm--arrow_default" />
             </slot>
           </template>
         </sidebar-menu-item>
@@ -59,14 +65,14 @@
       @click="onToggleClick"
     >
       <slot name="toggle-icon">
-        <span class="vsm--toggle-btn_default"></span>
+        <span class="vsm--toggle-btn_default" />
       </slot>
     </button>
   </div>
 </template>
 
 <script>
-import { provide, watch } from 'vue'
+import { provide, watch, toRefs } from 'vue'
 import useMenu from '../use/useMenu'
 
 import SidebarMenuItem from './SidebarMenuItem.vue'
@@ -126,6 +132,14 @@ export default {
       default: 'SidebarMenuLink'
     }
   },
+  emits: {
+    'item-click' (event, item) {
+      return !!(event && item)
+    },
+    'update:collapsed' (collapsed) {
+      return !!(typeof collapsed === 'boolean')
+    }
+  },
   setup (props, context) {
     provide('vsm-props', props)
 
@@ -148,8 +162,9 @@ export default {
     provide('emitItemClick', onItemClick)
     provide('onRouteChange', onRouteChange)
 
-    isCollapsed.value = props.collapsed
-    
+    const { collapsed } = toRefs(props)
+    isCollapsed.value = collapsed.value
+
     watch(() => props.collapsed, (currentCollapsed) => {
       unsetMobileItem()
       isCollapsed.value = currentCollapsed
@@ -168,14 +183,6 @@ export default {
       mobileItem,
       mobileItemStyle,
       mobileItemBackgroundStyle
-    }
-  },
-  emits: {
-    'item-click' (event, item) {
-      return !!(event && item)
-    },
-    'update:collapsed' (collapsed) {
-      return !!(typeof collapsed === 'boolean')
     }
   }
 }

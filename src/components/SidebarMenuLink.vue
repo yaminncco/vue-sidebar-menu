@@ -7,11 +7,15 @@
   </a>
   <router-link
     v-else
+    v-slot="{ href, navigate }"
     custom
     :to="item.href"
-    v-slot="{ href, navigate }"
   >
-    <a v-bind="$attrs" :href="href" @click="navigate">
+    <a
+      v-bind="$attrs"
+      :href="href"
+      @click="navigate"
+    >
       <slot />
     </a>
   </router-link>
@@ -19,8 +23,8 @@
 
 <script>
 export default {
-  inheritAttrs: false,
   name: 'SidebarMenuLink',
+  inheritAttrs: false,
   props: {
     item: {
       type: Object,

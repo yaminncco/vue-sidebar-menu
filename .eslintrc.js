@@ -1,20 +1,12 @@
 module.exports = {
-  'env': {
-    'browser': true,
-    'es6': true
+  env: {
+    node: true
   },
-  'extends': ['standard', 'plugin:vue/recommended'],
-  'globals': {
-    'Atomics': 'readonly',
-    'SharedArrayBuffer': 'readonly'
-  },
-  'parserOptions': {
-    'ecmaVersion': 2018,
-    'sourceType': 'module'
-  },
-  'plugins': [
-    'vue'
+  extends: [
+    'standard',
+    'eslint:recommended',
+    'plugin:vue/vue3-recommended'
   ],
-  'rules': {
+  rules: {
   }
 }

@@ -55,13 +55,13 @@ export default function useItem (props) {
     }
 
     emitMobileItem(event, event.currentTarget.offsetParent)
-  
+
     if (hasChild.value || !sidebarProps.showChild || !props.isMobileItem) {
       if (!props.item.href || exactActive.value) {
         show.value = !show.value
       }
     }
-    
+
     emitItemClick(event, props.item)
   }
 
@@ -182,7 +182,7 @@ export default function useItem (props) {
   const itemClass = computed(() => {
     return [
       'vsm--item',
-      { 'vsm--item_mobile': props.isMobileItem },
+      { 'vsm--item_mobile': props.isMobileItem }
     ]
   })
 

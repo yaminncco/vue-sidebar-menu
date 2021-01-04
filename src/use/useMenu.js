@@ -32,22 +32,22 @@ export default function useMenu (props, context) {
 
   const mobileItemStyle = computed(() => {
     return [
-      { 'position': 'absolute' },
-      { 'top': `${mobileItemRect.top}px` },
-      props.rtl ? { 'right': '0px' } : { 'left': '0px' },
+      { position: 'absolute' },
+      { top: `${mobileItemRect.top}px` },
+      props.rtl ? { right: '0px' } : { left: '0px' },
       props.rtl ? { 'padding-right': sidebarWidth.value } : { 'padding-left': sidebarWidth.value },
-      props.rtl && { 'direction': 'rtl' },
+      props.rtl && { direction: 'rtl' },
       { 'z-index': 0 },
-      { 'width': `${parentRect.width - parentRect.left}px` },
+      { width: `${parentRect.width - parentRect.left}px` },
       { 'max-width': props.width }
     ]
   })
 
   const mobileItemDropdownStyle = computed(() => {
     return [
-      { 'position': 'absolute' },
-      { 'top': `${mobileItemRect.height}px` },
-      { 'width': '100%' },
+      { position: 'absolute' },
+      { top: `${mobileItemRect.height}px` },
+      { width: '100%' },
       { 'max-height': `${parentRect.height - (mobileItemRect.top + mobileItemRect.height) - parentRect.top}px` },
       { 'overflow-y': 'auto' }
     ]
@@ -55,12 +55,12 @@ export default function useMenu (props, context) {
 
   const mobileItemBackgroundStyle = computed(() => {
     return [
-      { 'position': 'absolute' },
-      { 'top': '0px' },
-      { 'left': '0px' },
-      { 'right': '0px' },
-      { 'width': '100%' },
-      { 'height': `${mobileItemRect.height}px` },
+      { position: 'absolute' },
+      { top: '0px' },
+      { left: '0px' },
+      { right: '0px' },
+      { width: '100%' },
+      { height: `${mobileItemRect.height}px` },
       { 'z-index': -1 }
     ]
   })
@@ -95,7 +95,7 @@ export default function useMenu (props, context) {
     const sidebarTop = sidebarEl.getBoundingClientRect().top
     const itemLinkEl = itemEl.children[0]
     const { top, height } = itemLinkEl.getBoundingClientRect()
-    
+
     updateParentRect()
     mobileItem.value = item
     mobileItemRect.top = top - sidebarTop
@@ -116,12 +116,12 @@ export default function useMenu (props, context) {
 
   const updateParentRect = () => {
     const sidebarEl = sidebarMenuRef.value
-    let { top: sidebarTop, left: sidebarLeft, right: sidebarRight } = sidebarEl.getBoundingClientRect()
-    let parent = props.relative ? sidebarEl.parentElement : document.documentElement
+    const { top: sidebarTop, left: sidebarLeft, right: sidebarRight } = sidebarEl.getBoundingClientRect()
+    const parent = props.relative ? sidebarEl.parentElement : document.documentElement
     parentRect.height = parent.clientHeight
     parentRect.width = parent.clientWidth
     if (props.relative) {
-      let { top: parentTop, left: parentLeft } = parent.getBoundingClientRect()
+      const { top: parentTop, left: parentLeft } = parent.getBoundingClientRect()
       parentRect.top = sidebarTop - (parentTop + parent.clientTop)
       parentRect.left = props.rtl ? parentRect.width - sidebarRight + (parentLeft + parent.clientLeft) : sidebarLeft - (parentLeft + parent.clientLeft)
     } else {
