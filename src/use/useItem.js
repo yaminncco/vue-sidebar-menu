@@ -8,6 +8,7 @@ export default function useItem (props) {
   const router = getCurrentInstance().appContext.config.globalProperties.$router
   const sidebarProps = inject('vsm-props')
   const emitItemClick = inject('emitItemClick')
+  const emitScrollUpdate = inject('emitScrollUpdate')
   const { isCollapsed, mobileItem, setMobileItem, unsetMobileItem, currentRoute } = useMenu(sidebarProps)
 
   const itemShow = ref(false)
@@ -99,6 +100,9 @@ export default function useItem (props) {
 
   const onExpandAfterEnter = (el) => {
     el.style.height = 'auto'
+    if (!isCollapsed.value) {
+      emitScrollUpdate()
+    }
   }
 
   const onExpandBeforeLeave = (el) => {
@@ -107,6 +111,12 @@ export default function useItem (props) {
       return
     }
     el.style.height = el.scrollHeight + 'px'
+  }
+
+  const onExpandAfterLeave = () => {
+    if (!isCollapsed.value) {
+      emitScrollUpdate()
+    }
   }
 
   const show = computed({
@@ -204,6 +214,7 @@ export default function useItem (props) {
     onMouseOut,
     onExpandEnter,
     onExpandAfterEnter,
-    onExpandBeforeLeave
+    onExpandBeforeLeave,
+    onExpandAfterLeave
   }
 }

@@ -14,13 +14,54 @@
     width: 100%;
     text-align: left;
     transition: 0.3s max-width ease;
-    
+
     .vsm--scroll-wrapper {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
       height: 100%;
-      overflow-y: auto;
+    }
+
+    .vsm--scroll {
+      overflow-y: scroll;
       overflow-x: hidden;
+      height: 100%;
+      margin-right: -17px;
+
+      &:hover,
+      &:focus,
+      &:active {
+        .vsm--scroll-bar {
+          opacity: 1;
+        }
+      }
     }
     
+    .vsm--scroll-bar {
+      position: absolute;
+      top: 2px;
+      bottom: 2px;
+      right: 2px;
+      width: 6px;
+      border-radius: 4px;
+      z-index: 999;
+      opacity: 0;
+      transition: 0.3s opacity ease;
+    }
+
+    .vsm--scroll-thumb {
+      display: block;
+      background-color: #aaa;
+      border-radius: 4px;
+      cursor: pointer;
+      user-select: none;
+      opacity: 0.5;
+      transition: 0.3s opacity ease;
+      &:hover {
+        opacity: 1;
+      }
+    }
+
     .vsm--dropdown {
       padding: 5px;
     }
@@ -213,6 +254,16 @@
 
       .vsm--toggle-btn_default {
         transform: scaleX(-1);
+      }
+
+      .vsm--scroll {
+        margin-right: inherit;
+        margin-left: -17px;
+      }
+
+      .vsm--scroll-bar {
+        right: inherit;
+        left: 2px;
       }
     }
 

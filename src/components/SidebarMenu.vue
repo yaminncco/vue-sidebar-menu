@@ -8,10 +8,7 @@
     @mouseleave="onMouseLeave"
   >
     <slot name="header" />
-    <div
-      class="vsm--scroll-wrapper"
-      :style="isCollapsed && [rtl ? {'margin-left': '-17px'} : {'margin-right': '-17px'}]"
-    >
+    <sidebar-menu-scroll>
       <div
         class="vsm--menu"
         :style="isCollapsed && {'width': widthCollapsed}"
@@ -31,32 +28,32 @@
           </template>
         </sidebar-menu-item>
       </div>
-      <div
-        v-if="isCollapsed"
-        :style="mobileItemStyle"
+    </sidebar-menu-scroll>
+    <div
+      v-if="isCollapsed"
+      :style="mobileItemStyle"
+    >
+      <sidebar-menu-item
+        v-if="mobileItem"
+        :item="mobileItem"
+        :is-mobile-item="true"
       >
-        <sidebar-menu-item
+        <template #dropdown-icon="{ isOpen }">
+          <slot
+            name="dropdown-icon"
+            v-bind="{ isOpen }"
+          >
+            <span class="vsm--arrow_default" />
+          </slot>
+        </template>
+      </sidebar-menu-item>
+      <transition name="slide-animation">
+        <div
           v-if="mobileItem"
-          :item="mobileItem"
-          :is-mobile-item="true"
-        >
-          <template #dropdown-icon="{ isOpen }">
-            <slot
-              name="dropdown-icon"
-              v-bind="{ isOpen }"
-            >
-              <span class="vsm--arrow_default" />
-            </slot>
-          </template>
-        </sidebar-menu-item>
-        <transition name="slide-animation">
-          <div
-            v-if="mobileItem"
-            class="vsm--mobile-bg"
-            :style="mobileItemBackgroundStyle"
-          />
-        </transition>
-      </div>
+          class="vsm--mobile-bg"
+          :style="mobileItemBackgroundStyle"
+        />
+      </transition>
     </div>
     <slot name="footer" />
     <button
@@ -76,11 +73,13 @@ import { provide, watch, toRefs } from 'vue'
 import useMenu from '../use/useMenu'
 
 import SidebarMenuItem from './SidebarMenuItem.vue'
+import SidebarMenuScroll from './SidebarMenuScroll.vue'
 
 export default {
   name: 'SidebarMenu',
   components: {
-    SidebarMenuItem
+    SidebarMenuItem,
+    SidebarMenuScroll
   },
   props: {
     menu: {
@@ -160,6 +159,7 @@ export default {
     } = useMenu(props, context)
 
     provide('emitItemClick', onItemClick)
+    provide('emitScrollUpdate')
     provide('onRouteChange', onRouteChange)
 
     const { collapsed } = toRefs(props)

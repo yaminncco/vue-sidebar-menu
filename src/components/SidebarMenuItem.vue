@@ -62,6 +62,7 @@
           @enter="onExpandEnter"
           @afterEnter="onExpandAfterEnter"
           @beforeLeave="onExpandBeforeLeave"
+          @afterLeave="onExpandAfterLeave"
         >
           <div
             v-if="show"
@@ -142,7 +143,8 @@ export default {
       onMouseOut,
       onExpandEnter,
       onExpandAfterEnter,
-      onExpandBeforeLeave
+      onExpandBeforeLeave,
+      onExpandAfterLeave
     } = useItem(props)
 
     const router = getCurrentInstance().appContext.config.globalProperties.$router
@@ -186,7 +188,8 @@ export default {
       onMouseOut,
       onExpandEnter,
       onExpandAfterEnter,
-      onExpandBeforeLeave
+      onExpandBeforeLeave,
+      onExpandAfterLeave
     }
   }
 }
