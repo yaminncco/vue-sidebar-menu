@@ -11,7 +11,7 @@
     <sidebar-menu-scroll>
       <div
         class="vsm--menu"
-        :style="isCollapsed && {'width': widthCollapsed}"
+        :style="{'width': sidebarWidth}"
       >
         <sidebar-menu-item
           v-for="(item, index) in menu"

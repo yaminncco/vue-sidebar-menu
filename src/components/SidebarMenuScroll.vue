@@ -5,19 +5,19 @@
       class="vsm--scroll"
       @scroll="onScroll"
     >
-      <div
-        ref="scrollBarRef"
-        class="vsm--scroll-bar"
-        @mousedown="onClick"
-      >
-        <div
-          ref="scrollThumbRef"
-          class="vsm--scroll-thumb"
-          :style="thumbStyle"
-          @mousedown="onMouseDown"
-        />
-      </div>
       <slot />
+    </div>
+    <div
+      ref="scrollBarRef"
+      class="vsm--scroll-bar"
+      @mousedown="onClick"
+    >
+      <div
+        ref="scrollThumbRef"
+        class="vsm--scroll-thumb"
+        :style="thumbStyle"
+        @mousedown="onMouseDown"
+      />
     </div>
   </div>
 </template>

@@ -20,14 +20,6 @@
       overflow: hidden;
       width: 100%;
       height: 100%;
-    }
-
-    .vsm--scroll {
-      overflow-y: scroll;
-      overflow-x: hidden;
-      height: 100%;
-      margin-right: -17px;
-
       &:hover,
       &:focus,
       &:active {
@@ -35,6 +27,15 @@
           opacity: 1;
         }
       }
+    }
+
+    .vsm--scroll {
+      overflow-y: scroll;
+      overflow-x: hidden;
+      height: 100%;
+      position: absolute;
+      left: 0px;
+      right: -50px;
     }
     
     .vsm--scroll-bar {
@@ -257,8 +258,8 @@
       }
 
       .vsm--scroll {
-        margin-right: inherit;
-        margin-left: -17px;
+        left: -50px;
+        right: 0px;
       }
 
       .vsm--scroll-bar {
