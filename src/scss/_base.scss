@@ -229,6 +229,10 @@
       &.vsm_rtl .vsm--toggle-btn_default {
         transform: scaleX(1);
       }
+
+      .vsm--scroll-wrapper {
+        width: calc(100% + 8px);
+      }
     }
   
     &.vsm_rtl {
