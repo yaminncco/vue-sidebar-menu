@@ -19,7 +19,7 @@
     @mouseout="onMouseOut"
   >
     <component
-      :is="linkComponentName"
+      :is="linkComponentName ? linkComponentName : 'SidebarMenuLink'"
       :item="item"
       :class="linkClass"
       v-bind="linkAttrs"

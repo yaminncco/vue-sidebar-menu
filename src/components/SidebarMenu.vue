@@ -129,7 +129,7 @@ export default {
     },
     linkComponentName: {
       type: String,
-      default: 'SidebarMenuLink'
+      default: undefined
     }
   },
   emits: {
