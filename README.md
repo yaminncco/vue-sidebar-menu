@@ -21,7 +21,7 @@ A Vue.js sidebar menu component with vue-router compatibility
 - removed the node parameter from `item-click` event
 - `dropdown-icon` slot no longer rotate when open
 - add new `isOpen` slot prop for the dropdwon-icon
-- changed the default `toggle-btn-icon` icon
+- changed the default arrow and toggle icon (no longer use Font Awesome 5 Free)
 - dropdown css selector is now `vsm--dropdown` instead of `vsm--dropdown>.vsm--list`
 - the open modifier class apply to link instead of item
 
@@ -160,7 +160,7 @@ menu [
 ]
 ```
 
-### Props
+## Props
 
 ```js
 props: {
@@ -230,15 +230,15 @@ props: {
     default: false
   },
 
-  // Sidebar link component name
+  // The name of the costum link component (must be registered globally and define item as a prop)
   linkComponentName: {
     type: String,
-    default: 'SidebarMenuLink'
+    default: undefined
   }
 }
 ```
 
-### Events
+## Events
 
 ```html
 <sidebar-menu @update:collapsed="onToggleCollapse" @item-click="onItemClick" />
@@ -254,7 +254,7 @@ __@update:collapsed(collapsed)__ Trigger on toggle btn click
 
 __@item-click(event, item)__ Trigger on item link click
 
-### Styles
+## Styles
 
 All styles customization can be done in normal CSS by using this classes
 
@@ -274,14 +274,12 @@ All styles customization can be done in normal CSS by using this classes
 .v-sidebar-menu .vsm--icon {}
 .v-sidebar-menu .vsm--arrow {}
 .v-sidebar-menu .vsm--arrow_open {}
-.v-sidebar-menu .vsm--arrow_default {}
 .v-sidebar-menu .vsm--badge {}
 .v-sidebar-menu .vsm--badge_default {}
 .v-sidebar-menu .vsm--header {}
 .v-sidebar-menu .vsm--dropdown {}
 .v-sidebar-menu .vsm--mobile-bg {}
 .v-sidebar-menu .vsm--toggle-btn {}
-.v-sidebar-menu .vsm--toggle-btn_default {}
 ```
 
 or you can override Sass variables (complete list of all variables can be found in `src/scss/_variables.scss`) and create your own theme
@@ -290,10 +288,6 @@ or you can override Sass variables (complete list of all variables can be found 
 @import "custom-var.scss";
 @import "vue-sidebar-menu/src/scss/vue-sidebar-menu.scss";
 ```
-
-### Customize Toggle & Dropdown Icons
-
-The component use `Font Awesome 5 Free` as the default icons, but you can either customize them using slots or by overriding css style
 
 ## Slots
 
