@@ -24,34 +24,34 @@ function useMenu(props, context) {
   });
   var mobileItemStyle = computed(function () {
     return [{
-      'position': 'absolute'
+      position: 'absolute'
     }, {
-      'top': "".concat(mobileItemRect.top, "px")
+      top: "".concat(mobileItemRect.top, "px")
     }, props.rtl ? {
-      'right': '0px'
+      right: '0px'
     } : {
-      'left': '0px'
+      left: '0px'
     }, props.rtl ? {
       'padding-right': sidebarWidth.value
     } : {
       'padding-left': sidebarWidth.value
     }, props.rtl && {
-      'direction': 'rtl'
+      direction: 'rtl'
     }, {
       'z-index': 0
     }, {
-      'width': "".concat(parentRect.width - parentRect.left, "px")
+      width: "".concat(parentRect.width - parentRect.left, "px")
     }, {
       'max-width': props.width
     }];
   });
   var mobileItemDropdownStyle = computed(function () {
     return [{
-      'position': 'absolute'
+      position: 'absolute'
     }, {
-      'top': "".concat(mobileItemRect.height, "px")
+      top: "".concat(mobileItemRect.height, "px")
     }, {
-      'width': '100%'
+      width: '100%'
     }, {
       'max-height': "".concat(parentRect.height - (mobileItemRect.top + mobileItemRect.height) - parentRect.top, "px")
     }, {
@@ -60,17 +60,17 @@ function useMenu(props, context) {
   });
   var mobileItemBackgroundStyle = computed(function () {
     return [{
-      'position': 'absolute'
+      position: 'absolute'
     }, {
-      'top': '0px'
+      top: '0px'
     }, {
-      'left': '0px'
+      left: '0px'
     }, {
-      'right': '0px'
+      right: '0px'
     }, {
-      'width': '100%'
+      width: '100%'
     }, {
-      'height': "".concat(mobileItemRect.height, "px")
+      height: "".concat(mobileItemRect.height, "px")
     }, {
       'z-index': -1
     }];
@@ -477,8 +477,8 @@ function useItem(props) {
 }
 
 var script = {
-  inheritAttrs: false,
   name: 'SidebarMenuLink',
+  inheritAttrs: false,
   props: {
     item: {
       type: Object,
@@ -713,7 +713,7 @@ function render$3(_ctx, _cache, $props, $setup, $data, $options) {
     onMouseout: _cache[2] || (_cache[2] = function () {
       return $setup.onMouseOut.apply($setup, arguments);
     })
-  }, [(openBlock(), createBlock(resolveDynamicComponent($setup.linkComponentName), mergeProps({
+  }, [(openBlock(), createBlock(resolveDynamicComponent($setup.linkComponentName ? $setup.linkComponentName : 'SidebarMenuLink'), mergeProps({
     item: $props.item,
     class: $setup.linkClass
   }, $setup.linkAttrs, {
@@ -862,7 +862,15 @@ var script$4 = {
     },
     linkComponentName: {
       type: String,
-      default: 'SidebarMenuLink'
+      default: undefined
+    }
+  },
+  emits: {
+    'item-click': function itemClick(event, item) {
+      return !!(event && item);
+    },
+    'update:collapsed': function updateCollapsed(collapsed) {
+      return !!(typeof collapsed === 'boolean');
     }
   },
   setup: function setup(props, context) {
@@ -885,7 +893,11 @@ var script$4 = {
 
     provide('emitItemClick', onItemClick);
     provide('onRouteChange', onRouteChange);
-    isCollapsed.value = props.collapsed;
+
+    var _toRefs = toRefs(props),
+        collapsed = _toRefs.collapsed;
+
+    isCollapsed.value = collapsed.value;
     watch(function () {
       return props.collapsed;
     }, function (currentCollapsed) {
@@ -906,14 +918,6 @@ var script$4 = {
       mobileItemStyle: mobileItemStyle,
       mobileItemBackgroundStyle: mobileItemBackgroundStyle
     };
-  },
-  emits: {
-    'item-click': function itemClick(event, item) {
-      return !!(event && item);
-    },
-    'update:collapsed': function updateCollapsed(collapsed) {
-      return !!(typeof collapsed === 'boolean');
-    }
   }
 };
 
@@ -1037,7 +1041,7 @@ script$4.__file = "src/components/SidebarMenu.vue";
 
 var index = {
   install: function install(Vue) {
-    Vue.component('sidebar-menu', script$4);
+    Vue.component('SidebarMenu', script$4);
   }
 };
 
