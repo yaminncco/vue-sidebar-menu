@@ -230,7 +230,7 @@ props: {
     default: false
   },
 
-  // The name of the costum link component (must be registered globally and define item as a prop)
+  // The name of the custom link component (must be registered globally and define item as a prop)
   linkComponentName: {
     type: String,
     default: undefined

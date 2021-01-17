@@ -68,10 +68,10 @@
     default: false
   }
 
-  // Sidebar link component name
+  // The name of the custom link component (must be registered globally and define item as a prop)
   linkComponentName: {
     type: String,
-    default: 'SidebarMenuLink'
+    default: undefined
   }
 }
 </pre>

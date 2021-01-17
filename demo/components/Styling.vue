@@ -17,21 +17,17 @@
 .v-sidebar-menu .vsm--icon {}
 .v-sidebar-menu .vsm--arrow {}
 .v-sidebar-menu .vsm--arrow_open {}
-.v-sidebar-menu .vsm--arrow_default {}
 .v-sidebar-menu .vsm--badge {}
 .v-sidebar-menu .vsm--badge_default {}
 .v-sidebar-menu .vsm--header {}
 .v-sidebar-menu .vsm--dropdown {}
 .v-sidebar-menu .vsm--mobile-bg {}
 .v-sidebar-menu .vsm--toggle-btn {}
-.v-sidebar-menu .vsm--toggle-btn_default {}
 </pre>
     <p>or you can override Sass variables (complete list of all variables can be found in `src/scss/_variables.scss`) and create your own theme</p>
     <pre>@import "custom-var.scss";
 @import "vue-sidebar-menu/src/scss/vue-sidebar-menu.scss";
 </pre>
-    <h3>Customize Toggle & Dropdown Icons</h3>
-    <p>The component use `Font Awesome 5 Free` as the default icons, but you can either customize them using slots or by overriding css style</p>
     <h2>Slots</h2>
     <pre>
 &lt;sidebar-menu&gt;
