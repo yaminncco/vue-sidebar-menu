@@ -87,14 +87,25 @@
       height: 30px;
       font-size: 14px;
       text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       &_default {
-        display: inline-block;
-        transition: 0.3s transform ease;
-        &:after {
-          content: '\f105';
-          font-family: 'Font Awesome 5 Free';
-          font-style: normal;
-          font-weight: 900;
+        position: relative;
+        width: 12px;
+        height: 12px;
+        transition: transform 0.3s ease;
+        &:before {
+          content: "";
+          width: 6px;
+          height: 6px;
+          border-left: 2px solid;
+          border-bottom: 2px solid;
+          transform: rotate(-135deg);
+          display: inline-block;
+          position: absolute;
+          top: 2px;
+          left: 0;
         }
       }
       &_open {
@@ -125,20 +136,39 @@
     }
   
     .vsm--toggle-btn {
-      display: block;
       width: 100%;
       height: 65px;
       font-size: 18px;
       text-align: center;
       cursor: pointer;
       border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       &_default {
-        display: inline-block;
+        position: relative;
+        width: 12px;
+        height: 12px;
+        &:before {
+          content: '';
+          display: inline-block;
+          height: 12px;
+          border-left: 2px solid;
+          position: absolute;
+          left: 0px;
+          top: 0px;
+        }
         &:after {
-          content: '\f100';
-          font-family: 'Font Awesome 5 Free';
-          font-style: normal;
-          font-weight: 900;
+          content: '';
+          display: inline-block;
+          width: 6px;
+          height: 6px;
+          border-left: 2px solid;
+          border-bottom: 2px solid;
+          position: absolute;
+          left: 4px;
+          top: 2px;
+          transform: rotate(45deg);
         }
       }
     }
@@ -151,7 +181,7 @@
         }
       }
       .vsm--toggle-btn_default {
-        transform: rotate(180deg);
+        transform: scaleX(-1);
       }
     }
   
