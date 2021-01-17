@@ -180,8 +180,12 @@
           background-color: transparent !important;
         }
       }
+      
       .vsm--toggle-btn_default {
         transform: scaleX(-1);
+      }
+      &.vsm_rtl .vsm--toggle-btn_default {
+        transform: scaleX(1);
       }
     }
   
@@ -191,13 +195,23 @@
       text-align: right;
       direction: rtl;
   
-      & .vsm--icon {
+      .vsm--icon {
         margin-left: 15px;
         margin-right: 0px;
       }
 
-      .vsm--arrow,
-      .vsm--toggle-btn {
+      .vsm--arrow {
+        &_default {
+          transform: scaleX(-1);
+        }
+        &_open {
+          .vsm--arrow_default {
+            transform: rotate(-90deg) scaleX(-1);
+          }
+        }
+      }
+
+      .vsm--toggle-btn_default {
         transform: scaleX(-1);
       }
     }
