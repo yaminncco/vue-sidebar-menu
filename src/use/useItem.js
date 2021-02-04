@@ -8,7 +8,7 @@ export default function useItem (props) {
   const router = getCurrentInstance().appContext.config.globalProperties.$router
   const sidebarProps = inject('vsm-props')
   const emitItemClick = inject('emitItemClick')
-  const { isCollapsed, mobileItem, setMobileItem, unsetMobileItem, currentRoute } = useMenu(sidebarProps)
+  const { isCollapsed, currentRoute, mobileItem, setMobileItem, unsetMobileItem, mobileItemTimeout } = useMenu(sidebarProps)
 
   const itemShow = ref(false)
   const itemHover = ref(false)
@@ -42,7 +42,7 @@ export default function useItem (props) {
   }
 
   const onRouteChange = () => {
-    if (sidebarProps.showChild || props.isMobileItem) return
+    if (sidebarProps.showChild) return
     if (active.value) {
       show.value = true
     }
@@ -54,9 +54,10 @@ export default function useItem (props) {
       if (props.item.disabled) return
     }
 
-    emitMobileItem(event, event.currentTarget.offsetParent)
+    emitMobileItem(event, event.currentTarget.parentElement)
 
-    if (hasChild.value || !sidebarProps.showChild || !props.isMobileItem) {
+    if (hasChild.value || !sidebarProps.showChild) {
+      if (isCollapsed.value && isFirstLevel.value) return
       if (!props.item.href || exactActive.value) {
         show.value = !show.value
       }
@@ -69,9 +70,6 @@ export default function useItem (props) {
     if (props.item.disabled) return
     event.stopPropagation()
     itemHover.value = true
-    if (!sidebarProps.disableHover) {
-      emitMobileItem(event, event.currentTarget)
-    }
   }
 
   const onMouseOut = (event) => {
@@ -79,18 +77,29 @@ export default function useItem (props) {
     itemHover.value = false
   }
 
+  const onMouseEnter = (event) => {
+    if (props.item.disabled || sidebarProps.disableHover) return
+    if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value)
+    emitMobileItem(event, event.currentTarget)
+  }
+
+  const onMouseLeave = () => {
+    unsetMobileItem(false, 300)
+  }
+
   const emitMobileItem = (event, itemEl) => {
     if (hover.value) return
-    if (!isCollapsed.value || !isFirstLevel.value || props.isMobileItem) return
-    unsetMobileItem()
-    setTimeout(() => {
-      if (mobileItem.value !== props.item) {
-        setMobileItem({ item: props.item, itemEl })
-      }
-      if (event.type === 'click' && !hasChild.value) {
-        unsetMobileItem(false)
-      }
-    }, 0)
+    if (isCollapsed.value && isFirstLevel.value) {
+      setTimeout(() => {
+        if (mobileItem.value !== props.item) {
+          setMobileItem({ item: props.item, itemEl })
+          show.value = true
+        }
+        if (event.type === 'click' && !hasChild.value) {
+          unsetMobileItem(false)
+        }
+      }, 0)
+    }
   }
 
   const onExpandEnter = (el) => {
@@ -112,7 +121,8 @@ export default function useItem (props) {
   const show = computed({
     get: () => {
       if (!hasChild.value) return false
-      if (sidebarProps.showChild || props.isMobileItem) return true
+      if (sidebarProps.showChild) return true
+      if (isCollapsed.value && isFirstLevel.value) return hover.value
       return sidebarProps.showOneChild && isFirstLevel.value ? props.item === activeShow.value : itemShow.value
     },
     set: show => {
@@ -124,11 +134,7 @@ export default function useItem (props) {
   })
 
   const hover = computed(() => {
-    if (isCollapsed.value && isFirstLevel.value) {
-      return props.item === mobileItem.value
-    } else {
-      return itemHover.value
-    }
+    return (isCollapsed.value && isFirstLevel.value) ? props.item === mobileItem.value : itemHover.value
   })
 
   const isFirstLevel = computed(() => {
@@ -154,8 +160,8 @@ export default function useItem (props) {
   const linkClass = computed(() => {
     return [
       'vsm--link',
-      !props.isMobileItem ? `vsm--link_level-${props.level}` : '',
-      { 'vsm--link_mobile': props.isMobileItem },
+      `vsm--link_level-${props.level}`,
+      { 'vsm--link_mobile': isMobileItem.value },
       { 'vsm--link_hover': hover.value },
       { 'vsm--link_active': active.value },
       { 'vsm--link_disabled': props.item.disabled },
@@ -182,8 +188,12 @@ export default function useItem (props) {
   const itemClass = computed(() => {
     return [
       'vsm--item',
-      { 'vsm--item_mobile': props.isMobileItem }
+      { 'vsm--item_mobile': isMobileItem.value }
     ]
+  })
+
+  const isMobileItem = computed(() => {
+    return isCollapsed.value && isFirstLevel.value && hover.value
   })
 
   return {
@@ -198,10 +208,13 @@ export default function useItem (props) {
     linkClass,
     linkAttrs,
     itemClass,
+    isMobileItem,
     onRouteChange,
     onLinkClick,
     onMouseOver,
     onMouseOut,
+    onMouseEnter,
+    onMouseLeave,
     onExpandEnter,
     onExpandAfterEnter,
     onExpandBeforeLeave

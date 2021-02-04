@@ -17,6 +17,7 @@
     :class="itemClass"
     @mouseover="onMouseOver"
     @mouseout="onMouseOut"
+    v-on="(isCollapsed && isFirstLevel) ? { mouseenter: onMouseEnter, mouseleave: onMouseLeave} : {}"
   >
     <component
       :is="linkComponentName ? linkComponentName : 'SidebarMenuLink'"
@@ -25,68 +26,78 @@
       v-bind="linkAttrs"
       @click="onLinkClick"
     >
+      <template v-if="isCollapsed && isFirstLevel">
+        <transition name="slide-animation">
+          <div
+            v-if="hover"
+            class="vsm--mobile-bg"
+            :style="mobileItemBackgroundStyle"
+          />
+        </transition>
+      </template>
       <sidebar-menu-icon
-        v-if="item.icon && !isMobileItem"
+        v-if="item.icon"
         :icon="item.icon"
       />
       <transition
         name="fade-animation"
-        :appear="isMobileItem"
       >
-        <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
-          <span class="vsm--title">{{ item.title }}</span>
-        </template>
-      </transition>
-      <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
-        <sidebar-menu-badge
-          v-if="item.badge"
-          :badge="item.badge"
-        />
         <div
-          v-if="hasChild"
-          class="vsm--arrow"
-          :class="{'vsm--arrow_open' : show}"
+          v-if="!(isCollapsed && isFirstLevel) || isMobileItem"
+          class="vsm--title"
+          :style="isMobileItem && mobileItemStyle"
         >
-          <slot
-            name="dropdown-icon"
-            v-bind="{ isOpen: show }"
-          />
-        </div>
-      </template>
-    </component>
-    <template v-if="hasChild">
-      <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
-        <transition
-          :appear="isMobileItem"
-          name="expand"
-          @enter="onExpandEnter"
-          @afterEnter="onExpandAfterEnter"
-          @beforeLeave="onExpandBeforeLeave"
-        >
-          <div
-            v-if="show"
-            class="vsm--child"
-            :class="isMobileItem && 'vsm--child_mobile'"
-            :style="isMobileItem && mobileItemDropdownStyle"
-          >
-            <div class="vsm--dropdown">
-              <sidebar-menu-item
-                v-for="(subItem, index) in item.child"
-                :key="index"
-                :item="subItem"
-                :level="level+1"
-              >
-                <template #dropdown-icon="{ isOpen }">
-                  <slot
-                    name="dropdown-icon"
-                    v-bind="{ isOpen }"
-                  />
-                </template>
-              </sidebar-menu-item>
+          <span>{{ item.title }}</span>
+          <div>
+            <sidebar-menu-badge
+              v-if="item.badge"
+              :badge="item.badge"
+            />
+            <div
+              v-if="hasChild"
+              class="vsm--arrow"
+              :class="{'vsm--arrow_open' : show}"
+            >
+              <slot
+                name="dropdown-icon"
+                v-bind="{ isOpen: show }"
+              />
             </div>
           </div>
-        </transition>
-      </template>
+        </div>
+      </transition>
+    </component>
+    <template v-if="hasChild">
+      <transition
+        :appear="isMobileItem"
+        name="expand"
+        @enter="onExpandEnter"
+        @afterEnter="onExpandAfterEnter"
+        @beforeLeave="onExpandBeforeLeave"
+      >
+        <div
+          v-if="show"
+          class="vsm--child"
+          :class="isMobileItem && 'vsm--mobile-child'"
+          :style="isMobileItem && mobileItemDropdownStyle"
+        >
+          <div class="vsm--dropdown">
+            <sidebar-menu-item
+              v-for="(subItem, index) in item.child"
+              :key="index"
+              :item="subItem"
+              :level="level+1"
+            >
+              <template #dropdown-icon="{ isOpen }">
+                <slot
+                  name="dropdown-icon"
+                  v-bind="{ isOpen }"
+                />
+              </template>
+            </sidebar-menu-item>
+          </div>
+        </div>
+      </transition>
     </template>
   </div>
 </template>
@@ -115,15 +126,11 @@ export default {
     level: {
       type: Number,
       default: 1
-    },
-    isMobileItem: {
-      type: Boolean,
-      default: false
     }
   },
   setup (props) {
     const sidebarProps = inject('vsm-props')
-    const { isCollapsed, mobileItemDropdownStyle, currentRoute } = useMenu(sidebarProps)
+    const { isCollapsed, currentRoute, mobileItemStyle, mobileItemDropdownStyle, mobileItemBackgroundStyle } = useMenu(sidebarProps)
     const { disableHover, linkComponentName } = toRefs(sidebarProps)
     const {
       active,
@@ -136,10 +143,13 @@ export default {
       linkClass,
       linkAttrs,
       itemClass,
+      isMobileItem,
       onRouteChange,
       onLinkClick,
       onMouseOver,
       onMouseOut,
+      onMouseEnter,
+      onMouseLeave,
       onExpandEnter,
       onExpandAfterEnter,
       onExpandBeforeLeave
@@ -171,7 +181,10 @@ export default {
       linkComponentName,
       active,
       exactActive,
+      isMobileItem,
+      mobileItemStyle,
       mobileItemDropdownStyle,
+      mobileItemBackgroundStyle,
       show,
       hover,
       isFirstLevel,
@@ -184,6 +197,8 @@ export default {
       onLinkClick,
       onMouseOver,
       onMouseOut,
+      onMouseEnter,
+      onMouseLeave,
       onExpandEnter,
       onExpandAfterEnter,
       onExpandBeforeLeave

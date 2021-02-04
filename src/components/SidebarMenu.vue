@@ -4,8 +4,6 @@
     class="v-sidebar-menu"
     :class="sidebarClass"
     :style="{'max-width': sidebarWidth}"
-    @mouseenter="onMouseEnter"
-    @mouseleave="onMouseLeave"
   >
     <slot name="header" />
     <div
@@ -14,7 +12,7 @@
     >
       <div
         class="vsm--menu"
-        :style="isCollapsed && {'width': widthCollapsed}"
+        :style="isCollapsed && {'width': widthCollapsed, 'position': 'static !important' }"
       >
         <sidebar-menu-item
           v-for="(item, index) in menu"
@@ -30,32 +28,6 @@
             </slot>
           </template>
         </sidebar-menu-item>
-      </div>
-      <div
-        v-if="isCollapsed"
-        :style="mobileItemStyle"
-      >
-        <sidebar-menu-item
-          v-if="mobileItem"
-          :item="mobileItem"
-          :is-mobile-item="true"
-        >
-          <template #dropdown-icon="{ isOpen }">
-            <slot
-              name="dropdown-icon"
-              v-bind="{ isOpen }"
-            >
-              <span class="vsm--arrow_default" />
-            </slot>
-          </template>
-        </sidebar-menu-item>
-        <transition name="slide-animation">
-          <div
-            v-if="mobileItem"
-            class="vsm--mobile-bg"
-            :style="mobileItemBackgroundStyle"
-          />
-        </transition>
       </div>
     </div>
     <slot name="footer" />
@@ -148,14 +120,9 @@ export default {
       isCollapsed,
       sidebarWidth,
       sidebarClass,
-      onMouseLeave,
-      onMouseEnter,
       onToggleClick,
       onItemClick,
       onRouteChange,
-      mobileItem,
-      mobileItemStyle,
-      mobileItemBackgroundStyle,
       unsetMobileItem
     } = useMenu(props, context)
 
@@ -175,14 +142,9 @@ export default {
       isCollapsed,
       sidebarWidth,
       sidebarClass,
-      onMouseLeave,
-      onMouseEnter,
       onToggleClick,
       onItemClick,
-      onRouteChange,
-      mobileItem,
-      mobileItemStyle,
-      mobileItemBackgroundStyle
+      onRouteChange
     }
   }
 }
