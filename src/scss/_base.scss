@@ -116,8 +116,10 @@
     .vsm--title {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       flex: 1;
+      & > span:first-child {
+        flex-grow: 1;
+      }
     }
   
     .vsm--arrow {

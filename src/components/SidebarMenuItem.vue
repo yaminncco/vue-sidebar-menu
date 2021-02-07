@@ -48,21 +48,19 @@
           :style="isMobileItem && mobileItemStyle"
         >
           <span>{{ item.title }}</span>
-          <div>
-            <sidebar-menu-badge
-              v-if="item.badge"
-              :badge="item.badge"
+          <sidebar-menu-badge
+            v-if="item.badge"
+            :badge="item.badge"
+          />
+          <div
+            v-if="hasChild"
+            class="vsm--arrow"
+            :class="{'vsm--arrow_open' : show}"
+          >
+            <slot
+              name="dropdown-icon"
+              v-bind="{ isOpen: show }"
             />
-            <div
-              v-if="hasChild"
-              class="vsm--arrow"
-              :class="{'vsm--arrow_open' : show}"
-            >
-              <slot
-                name="dropdown-icon"
-                v-bind="{ isOpen: show }"
-              />
-            </div>
           </div>
         </div>
       </transition>
