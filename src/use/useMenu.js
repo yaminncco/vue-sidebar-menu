@@ -5,13 +5,10 @@ const sidebarMenuRef = ref(null)
 const mobileItem = ref(null)
 const mobileItemRect = reactive({
   top: 0,
-  height: 0
-})
-const parentRect = reactive({
-  width: 0,
   height: 0,
-  top: 0,
-  left: 0
+  padding: '',
+  maxHeight: 0,
+  maxWidth: 0
 })
 const mobileItemTimeout = ref(null)
 const currentRoute = ref(window.location.pathname + window.location.search + window.location.hash)
@@ -30,50 +27,39 @@ export default function useMenu (props, context) {
     ]
   })
 
+  const mobileItemDropdownStyle = computed(() => {
+    return [
+      { position: 'absolute' },
+      { top: `${mobileItemRect.top + mobileItemRect.height}px` },
+      !props.rtl ? { left: props.widthCollapsed } : { right: props.widthCollapsed },
+      { width: `${mobileItemRect.maxWidth}px` },
+      { 'max-height': `${mobileItemRect.maxHeight}px` },
+      { 'overflow-y': 'auto' }
+    ]
+  })
+
   const mobileItemStyle = computed(() => {
     return [
       { position: 'absolute' },
       { top: `${mobileItemRect.top}px` },
-      props.rtl ? { right: '0px' } : { left: '0px' },
-      props.rtl ? { 'padding-right': sidebarWidth.value } : { 'padding-left': sidebarWidth.value },
-      props.rtl && { direction: 'rtl' },
-      { 'z-index': 0 },
-      { width: `${parentRect.width - parentRect.left}px` },
-      { 'max-width': props.width }
-    ]
-  })
-
-  const mobileItemDropdownStyle = computed(() => {
-    return [
-      { position: 'absolute' },
-      { top: `${mobileItemRect.height}px` },
-      { width: '100%' },
-      { 'max-height': `${parentRect.height - (mobileItemRect.top + mobileItemRect.height) - parentRect.top}px` },
-      { 'overflow-y': 'auto' }
+      !props.rtl ? { left: props.widthCollapsed } : { right: props.widthCollapsed },
+      { width: `${mobileItemRect.maxWidth}px` },
+      { height: `${mobileItemRect.height}px` },
+      { 'padding-right': `${mobileItemRect.padding}` },
+      { 'padding-left': `${mobileItemRect.padding}` }
     ]
   })
 
   const mobileItemBackgroundStyle = computed(() => {
     return [
       { position: 'absolute' },
-      { top: '0px' },
-      { left: '0px' },
-      { right: '0px' },
-      { width: '100%' },
+      { top: `${mobileItemRect.top}px` },
+      !props.rtl ? { left: '0px' } : { right: '0px' },
+      { width: `${mobileItemRect.maxWidth + parseInt(props.widthCollapsed)}px` },
       { height: `${mobileItemRect.height}px` },
-      { 'z-index': -1 }
+      { 'z-index': '-1' }
     ]
   })
-
-  const onMouseLeave = () => {
-    unsetMobileItem(false, 300)
-  }
-
-  const onMouseEnter = () => {
-    if (isCollapsed.value) {
-      if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value)
-    }
-  }
 
   const onToggleClick = () => {
     unsetMobileItem()
@@ -90,16 +76,33 @@ export default function useMenu (props, context) {
   }
 
   const setMobileItem = ({ item, itemEl }) => {
-    if (mobileItem.value === item) return
-    const sidebarEl = sidebarMenuRef.value
-    const sidebarTop = sidebarEl.getBoundingClientRect().top
+    if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value)
     const itemLinkEl = itemEl.children[0]
-    const { top, height } = itemLinkEl.getBoundingClientRect()
-
-    updateParentRect()
+    const { top, bottom, height } = itemLinkEl.getBoundingClientRect()
+    const { left: sidebarLeft, right: sidebarRight } = sidebarMenuRef.value.getBoundingClientRect()
+    const offsetTop = itemLinkEl.offsetParent.getBoundingClientRect().top
+    let parentHeight
+    let parentWidth
+    let parentTop = 0
+    let width = 0
+    const maxWidth = parseInt(props.width) - parseInt(props.widthCollapsed)
+    if (props.relative) {
+      const parent = sidebarMenuRef.value.parentElement
+      parentHeight = parent.clientHeight
+      parentWidth = parent.clientWidth
+      parentTop = parent.getBoundingClientRect().top
+      width = props.rtl ? parentWidth - (parent.getBoundingClientRect().right - sidebarLeft) : parent.getBoundingClientRect().right - sidebarRight
+    } else {
+      parentHeight = window.innerHeight
+      parentWidth = window.innerWidth
+      width = props.rtl ? parentWidth - (parentWidth - sidebarLeft) : parentWidth - sidebarRight
+    }
     mobileItem.value = item
-    mobileItemRect.top = top - sidebarTop
+    mobileItemRect.top = top - offsetTop
     mobileItemRect.height = height
+    mobileItemRect.padding = window.getComputedStyle(itemLinkEl).paddingRight
+    mobileItemRect.maxWidth = width <= maxWidth ? width : maxWidth
+    mobileItemRect.maxHeight = parentHeight - (bottom - parentTop)
   }
 
   const unsetMobileItem = (immediate = true, delay = 800) => {
@@ -114,30 +117,12 @@ export default function useMenu (props, context) {
     }, delay)
   }
 
-  const updateParentRect = () => {
-    const sidebarEl = sidebarMenuRef.value
-    const { top: sidebarTop, left: sidebarLeft, right: sidebarRight } = sidebarEl.getBoundingClientRect()
-    const parent = props.relative ? sidebarEl.parentElement : document.documentElement
-    parentRect.height = parent.clientHeight
-    parentRect.width = parent.clientWidth
-    if (props.relative) {
-      const { top: parentTop, left: parentLeft } = parent.getBoundingClientRect()
-      parentRect.top = sidebarTop - (parentTop + parent.clientTop)
-      parentRect.left = props.rtl ? parentRect.width - sidebarRight + (parentLeft + parent.clientLeft) : sidebarLeft - (parentLeft + parent.clientLeft)
-    } else {
-      parentRect.top = sidebarTop
-      parentRect.left = props.rtl ? parentRect.width - sidebarRight : sidebarLeft
-    }
-  }
-
   return {
     sidebarMenuRef,
     isCollapsed,
     sidebarWidth,
     sidebarClass,
     currentRoute,
-    onMouseLeave,
-    onMouseEnter,
     onToggleClick,
     onItemClick,
     onRouteChange,

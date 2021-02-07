@@ -1,23 +1,25 @@
 <template>
   <div class="vsm--scroll-wrapper">
-    <div
-      ref="scrollRef"
-      class="vsm--scroll"
-      @scroll="onScroll"
-    >
-      <slot />
-    </div>
-    <div
-      ref="scrollBarRef"
-      class="vsm--scroll-bar"
-      @mousedown="onClick"
-    >
+    <div class="vsm--scroll-overflow">
       <div
-        ref="scrollThumbRef"
-        class="vsm--scroll-thumb"
-        :style="thumbStyle"
-        @mousedown="onMouseDown"
-      />
+        ref="scrollRef"
+        class="vsm--scroll"
+        @scroll="onScroll"
+      >
+        <slot />
+      </div>
+      <div
+        ref="scrollBarRef"
+        class="vsm--scroll-bar"
+        @mousedown="onClick"
+      >
+        <div
+          ref="scrollThumbRef"
+          class="vsm--scroll-thumb"
+          :style="thumbStyle"
+          @mousedown="onMouseDown"
+        />
+      </div>
     </div>
   </div>
 </template>
