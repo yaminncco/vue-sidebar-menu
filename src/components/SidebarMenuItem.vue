@@ -13,7 +13,7 @@
     :class="item.class"
     v-bind="item.attributes"
   >
-    {{ item.title }}
+    {{ item.header }}
   </li>
   <li
     v-else-if="!isHidden"

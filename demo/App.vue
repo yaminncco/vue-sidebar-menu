@@ -60,8 +60,7 @@ export default {
     return {
       menu: [
         {
-          header: true,
-          title: 'Getting Started',
+          header: 'Getting Started',
           hiddenOnCollapse: true
         },
         {
@@ -75,8 +74,7 @@ export default {
           icon: 'fa fa-code'
         },
         {
-          header: true,
-          title: 'Usage',
+          header: 'Usage',
           hiddenOnCollapse: true
         },
         {
@@ -98,8 +96,7 @@ export default {
           component: markRaw(separator)
         },
         {
-          header: true,
-          title: 'Example',
+          header: 'Example',
           hiddenOnCollapse: true
         },
         {
