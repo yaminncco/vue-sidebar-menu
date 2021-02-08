@@ -1,9 +1,9 @@
-import Vue, { PluginObject } from "vue";
+import { App } from 'vue';
 
 export interface ItemIcon {
-  element: string;
+  element?: string;
 
-  class: string;
+  class?: string;
 
   attributes?: object;
 
@@ -11,7 +11,7 @@ export interface ItemIcon {
 }
 
 export interface ItemBadge {
-  text: string;
+  text?: string;
 
   element?: string;
 
@@ -37,19 +37,13 @@ export interface SidebarItem {
 
   attributes?: object;
 
-  exactPath?: boolean;
-
-  alias?: string | Array<string>;
-
   hidden?: boolean;
 
   hiddenOnCollapse?: boolean;
 }
 
 export interface SidebarHeaderItem {
-  header: boolean;
-
-  title: string;
+  header: string;
 
   hidden?: boolean;
 
@@ -70,7 +64,7 @@ export interface SidebarComponentItem {
   hiddenOnCollapse?: boolean;
 }
 
-export class SidebarMenu extends Vue {
+export class SidebarMenu {
   /**
    * List of Items in the menu
    * Follow https://github.com/yaminncco/vue-sidebar-menu#item-properties
@@ -85,13 +79,13 @@ export class SidebarMenu extends Vue {
 
   /**
    * Sidebar width (expanded).
-   * by default 350px
+   * by default 290px
    */
   width?: string;
 
   /**
    * Sidebar width (collapsed).
-   *  by default 50px
+   *  by default 65px
    */
   widthCollapsed?: string;
 
@@ -136,7 +130,15 @@ export class SidebarMenu extends Vue {
    * by default false.
    */
   disableHover?: boolean;
+
+  /**
+   * The name of the custom link component (must be registered globally and define item as a prop)
+   *
+   */
+  linkComponentName?: {
+    type: String,
+    default: undefined
+  }
 }
 
-declare const VueSidebarMenu: PluginObject<any>;
-export default VueSidebarMenu;
+export default function install (app: App): void
