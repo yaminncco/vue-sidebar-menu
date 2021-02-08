@@ -85,7 +85,11 @@ export default function useItem (props) {
   }
 
   const onMouseLeave = () => {
-    unsetMobileItem(false, 300)
+    let delay
+    if (!sidebarProps.disableHover) {
+      delay = 300
+    }
+    unsetMobileItem(false, delay)
   }
 
   const emitMobileItem = (event, itemEl) => {

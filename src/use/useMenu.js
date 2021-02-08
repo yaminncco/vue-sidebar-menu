@@ -46,7 +46,8 @@ export default function useMenu (props, context) {
       { width: `${mobileItemRect.maxWidth}px` },
       { height: `${mobileItemRect.height}px` },
       { 'padding-right': `${mobileItemRect.padding}` },
-      { 'padding-left': `${mobileItemRect.padding}` }
+      { 'padding-left': `${mobileItemRect.padding}` },
+      { 'z-index': '20' }
     ]
   })
 
@@ -57,7 +58,7 @@ export default function useMenu (props, context) {
       !props.rtl ? { left: '0px' } : { right: '0px' },
       { width: `${mobileItemRect.maxWidth + parseInt(props.widthCollapsed)}px` },
       { height: `${mobileItemRect.height}px` },
-      { 'z-index': '-1' }
+      { 'z-index': '10' }
     ]
   })
 

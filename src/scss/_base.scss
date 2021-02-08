@@ -49,7 +49,7 @@
       right: 2px;
       width: 6px;
       border-radius: 4px;
-      z-index: 999;
+      z-index: 5;
       opacity: 0;
       transition: 0.3s opacity ease;
     }
@@ -118,6 +118,7 @@
     .vsm--icon {
       display: inline-block;
       margin-right: 15px;
+      z-index: 20;
     }
   
     .vsm--title {
