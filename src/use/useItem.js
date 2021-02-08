@@ -185,12 +185,16 @@ export default function useItem (props) {
     const target = props.item.external ? '_blank' : '_self'
     const tabindex = props.item.disabled ? -1 : null
     const ariaCurrent = exactActive.value ? 'page' : null
+    const ariaHaspopup = hasChild.value ? true : null
+    const ariaExpanded = show.value ? true : null
 
     return {
       href,
       target,
       tabindex,
       'aria-current': ariaCurrent,
+      'aria-haspopup': ariaHaspopup,
+      'aria-expanded': ariaExpanded,
       ...props.item.attributes
     }
   })

@@ -7,7 +7,7 @@
   >
     <slot name="header" />
     <sidebar-menu-scroll>
-      <div
+      <ul
         class="vsm--menu"
         :style="{'width': sidebarWidth, 'position': 'static !important'}"
       >
@@ -25,7 +25,7 @@
             </slot>
           </template>
         </sidebar-menu-item>
-      </div>
+      </ul>
     </sidebar-menu-scroll>
     <slot name="footer" />
     <button

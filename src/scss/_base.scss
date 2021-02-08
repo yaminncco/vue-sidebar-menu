@@ -67,6 +67,13 @@
       }
     }
 
+    .vsm--menu,
+    .vsm--dropdown {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
     .vsm--dropdown {
       padding: 5px;
     }
@@ -119,6 +126,16 @@
       flex: 1;
       & > span:first-child {
         flex-grow: 1;
+      }
+      &_hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0,0,0,0);
+        border: 0;
       }
     }
   
@@ -289,17 +306,5 @@
     .slide-animation-enter-from,
     .slide-animation-leave-to {
       width: 0 !important;
-    }
-
-    .fade-animation-enter-active {
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-    .fade-animation-leave-active {
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-    .fade-animation-enter-from,
-    .fade-animation-leave-to {
-      opacity: 0 !important;
-      visibility: hidden !important;
     }
   }

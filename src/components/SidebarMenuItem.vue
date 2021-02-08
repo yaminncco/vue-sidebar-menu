@@ -1,18 +1,21 @@
 <template>
-  <component
-    :is="item.component"
+  <li
     v-if="item.component && !isHidden"
-    v-bind="item.props"
-  />
-  <div
+  >
+    <component
+      :is="item.component"
+      v-bind="item.props"
+    />
+  </li>
+  <li
     v-else-if="item.header && !isHidden"
     class="vsm--header"
     :class="item.class"
     v-bind="item.attributes"
   >
     {{ item.title }}
-  </div>
-  <div
+  </li>
+  <li
     v-else-if="!isHidden"
     :class="itemClass"
     @mouseover="onMouseOver"
@@ -39,31 +42,27 @@
         v-if="item.icon"
         :icon="item.icon"
       />
-      <transition
-        name="fade-animation"
+      <div
+        class="vsm--title"
+        :class="(isCollapsed && isFirstLevel) && !isMobileItem && 'vsm--title_hidden'"
+        :style="isMobileItem && mobileItemStyle"
       >
+        <span>{{ item.title }}</span>
+        <sidebar-menu-badge
+          v-if="item.badge"
+          :badge="item.badge"
+        />
         <div
-          v-if="!(isCollapsed && isFirstLevel) || isMobileItem"
-          class="vsm--title"
-          :style="isMobileItem && mobileItemStyle"
+          v-if="hasChild"
+          class="vsm--arrow"
+          :class="{'vsm--arrow_open' : show}"
         >
-          <span>{{ item.title }}</span>
-          <sidebar-menu-badge
-            v-if="item.badge"
-            :badge="item.badge"
+          <slot
+            name="dropdown-icon"
+            v-bind="{ isOpen: show }"
           />
-          <div
-            v-if="hasChild"
-            class="vsm--arrow"
-            :class="{'vsm--arrow_open' : show}"
-          >
-            <slot
-              name="dropdown-icon"
-              v-bind="{ isOpen: show }"
-            />
-          </div>
         </div>
-      </transition>
+      </div>
     </component>
     <template v-if="hasChild">
       <transition
@@ -77,10 +76,10 @@
         <div
           v-if="show"
           class="vsm--child"
-          :class="isMobileItem && 'vsm--mobile-child'"
+          :class="isMobileItem && 'vsm--child_mobile'"
           :style="isMobileItem && mobileItemDropdownStyle"
         >
-          <div class="vsm--dropdown">
+          <ul class="vsm--dropdown">
             <sidebar-menu-item
               v-for="(subItem, index) in item.child"
               :key="index"
@@ -94,11 +93,11 @@
                 />
               </template>
             </sidebar-menu-item>
-          </div>
+          </ul>
         </div>
       </transition>
     </template>
-  </div>
+  </li>
 </template>
 
 <script>
