@@ -14,6 +14,8 @@ A Vue.js sidebar menu component with vue-router compatibility
 - updated the active behavior to match vue-router and removed exact-active class
 - removed `alias`, `exactPath` property
 - added new prop `linkComponentName` for a customized link
+- added a custom scrollbar
+- renamed title proprty for the header item to header
 - changed `width` prop default value from '350px' to '290px'
 - changed `widthCollapsed` prop default value  from '50px' to '65px'
 - `collapsed` prop can be sync using v-model
@@ -70,8 +72,7 @@ export default {
       return {
         menu: [
           {
-            header: true,
-            title: 'Main Navigation',
+            header: 'Main Navigation',
             hiddenOnCollapse: true
           },
           {
@@ -142,8 +143,7 @@ menu [
 
   // header item
   {
-    header: true,
-    title: 'Main Navigation'
+    header: 'Main Navigation'
     // hidden: false
     // hiddenOnCollapse: true
     // class: ''
