@@ -1,4 +1,4 @@
-import { computed, ref, reactive, getCurrentInstance, inject, resolveComponent, openBlock, createBlock, mergeProps, renderSlot, withCtx, createVNode, resolveDynamicComponent, createTextVNode, toDisplayString, toRefs, watch, onUnmounted, toHandlers, Transition, createCommentVNode, Fragment, renderList, provide, onMounted, nextTick } from 'vue';
+import { computed, ref, reactive, getCurrentInstance, inject, resolveComponent, openBlock, createBlock, mergeProps, renderSlot, withCtx, createVNode, resolveDynamicComponent, createTextVNode, toDisplayString, toRefs, watch, toHandlers, Transition, createCommentVNode, Fragment, renderList, provide, onMounted, onUnmounted, nextTick } from 'vue';
 
 var isCollapsed = ref(false);
 var sidebarMenuRef = ref(null);
@@ -299,14 +299,6 @@ function useItem(props) {
     });
   };
 
-  var onRouteChange = function onRouteChange() {
-    if (sidebarProps.showChild) return;
-
-    if (active.value) {
-      show.value = true;
-    }
-  };
-
   var onLinkClick = function onLinkClick(event) {
     if (!props.item.href || props.item.disabled) {
       event.preventDefault();
@@ -318,7 +310,7 @@ function useItem(props) {
     if (hasChild.value || !sidebarProps.showChild) {
       if (isCollapsed.value && isFirstLevel.value) return;
 
-      if (!props.item.href || exactActive.value) {
+      if (!props.item.href || active.value) {
         show.value = !show.value;
       }
     }
@@ -403,8 +395,8 @@ function useItem(props) {
   var show = computed({
     get: function get() {
       if (!hasChild.value) return false;
-      if (sidebarProps.showChild) return true;
       if (isCollapsed.value && isFirstLevel.value) return hover.value;
+      if (sidebarProps.showChild) return true;
       return sidebarProps.showOneChild && isFirstLevel.value ? props.item === activeShow.value : itemShow.value;
     },
     set: function set(show) {
@@ -485,7 +477,6 @@ function useItem(props) {
     linkAttrs: linkAttrs,
     itemClass: itemClass,
     isMobileItem: isMobileItem,
-    onRouteChange: onRouteChange,
     onLinkClick: onLinkClick,
     onMouseOver: onMouseOver,
     onMouseOut: onMouseOut,
@@ -524,7 +515,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (openBlock(), createBlock(_component_router_link, {
     key: 1,
     custom: "",
-    to: $props.item.href
+    to: _ctx.$attrs.href
   }, {
     default: withCtx(function (_ref) {
       var href = _ref.href,
@@ -624,13 +615,11 @@ var script$3 = {
 
     var _useMenu = useMenu(sidebarProps),
         isCollapsed = _useMenu.isCollapsed,
-        currentRoute = _useMenu.currentRoute,
         mobileItemStyle = _useMenu.mobileItemStyle,
         mobileItemDropdownStyle = _useMenu.mobileItemDropdownStyle,
         mobileItemBackgroundStyle = _useMenu.mobileItemBackgroundStyle;
 
     var _toRefs = toRefs(sidebarProps),
-        disableHover = _toRefs.disableHover,
         linkComponentName = _toRefs.linkComponentName;
 
     var _useItem = useItem(props),
@@ -645,7 +634,6 @@ var script$3 = {
         linkAttrs = _useItem.linkAttrs,
         itemClass = _useItem.itemClass,
         isMobileItem = _useItem.isMobileItem,
-        onRouteChange = _useItem.onRouteChange,
         onLinkClick = _useItem.onLinkClick,
         onMouseOver = _useItem.onMouseOver,
         onMouseOut = _useItem.onMouseOut,
@@ -656,33 +644,17 @@ var script$3 = {
         onExpandBeforeLeave = _useItem.onExpandBeforeLeave,
         onExpandAfterLeave = _useItem.onExpandAfterLeave;
 
-    var router = getCurrentInstance().appContext.config.globalProperties.$router;
-
-    if (router) {
-      watch(function () {
-        return router.currentRoute.value;
-      }, function () {
-        onRouteChange();
-      }, {
-        immediate: true
-      });
-    } else {
-      watch(function () {
-        return currentRoute.value;
-      }, function () {
-        onRouteChange();
-      }, {
-        immediate: true
-      });
-      window.addEventListener('hashchange', onRouteChange);
-      onUnmounted(function () {
-        window.removeEventListener('hashchange', onRouteChange);
-      });
-    }
-
+    watch(function () {
+      return active.value;
+    }, function () {
+      if (active.value) {
+        show.value = true;
+      }
+    }, {
+      immediate: true
+    });
     return {
       isCollapsed: isCollapsed,
-      disableHover: disableHover,
       linkComponentName: linkComponentName,
       active: active,
       exactActive: exactActive,
@@ -698,7 +670,6 @@ var script$3 = {
       linkClass: linkClass,
       linkAttrs: linkAttrs,
       itemClass: itemClass,
-      onRouteChange: onRouteChange,
       onLinkClick: onLinkClick,
       onMouseOver: onMouseOver,
       onMouseOut: onMouseOut,
@@ -1069,6 +1040,17 @@ var script$5 = {
       unsetMobileItem();
       isCollapsed.value = currentCollapsed;
     });
+    var router = getCurrentInstance().appContext.config.globalProperties.$router;
+
+    if (!router) {
+      onMounted(function () {
+        window.addEventListener('hashchange', onRouteChange);
+      });
+      onUnmounted(function () {
+        window.removeEventListener('hashchange', onRouteChange);
+      });
+    }
+
     return {
       sidebarMenuRef: sidebarMenuRef,
       isCollapsed: isCollapsed,

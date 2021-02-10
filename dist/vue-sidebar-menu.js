@@ -303,14 +303,6 @@
       });
     };
 
-    var onRouteChange = function onRouteChange() {
-      if (sidebarProps.showChild) return;
-
-      if (active.value) {
-        show.value = true;
-      }
-    };
-
     var onLinkClick = function onLinkClick(event) {
       if (!props.item.href || props.item.disabled) {
         event.preventDefault();
@@ -322,7 +314,7 @@
       if (hasChild.value || !sidebarProps.showChild) {
         if (isCollapsed.value && isFirstLevel.value) return;
 
-        if (!props.item.href || exactActive.value) {
+        if (!props.item.href || active.value) {
           show.value = !show.value;
         }
       }
@@ -407,8 +399,8 @@
     var show = vue.computed({
       get: function get() {
         if (!hasChild.value) return false;
-        if (sidebarProps.showChild) return true;
         if (isCollapsed.value && isFirstLevel.value) return hover.value;
+        if (sidebarProps.showChild) return true;
         return sidebarProps.showOneChild && isFirstLevel.value ? props.item === activeShow.value : itemShow.value;
       },
       set: function set(show) {
@@ -489,7 +481,6 @@
       linkAttrs: linkAttrs,
       itemClass: itemClass,
       isMobileItem: isMobileItem,
-      onRouteChange: onRouteChange,
       onLinkClick: onLinkClick,
       onMouseOver: onMouseOver,
       onMouseOut: onMouseOut,
@@ -528,7 +519,7 @@
     )) : (vue.openBlock(), vue.createBlock(_component_router_link, {
       key: 1,
       custom: "",
-      to: $props.item.href
+      to: _ctx.$attrs.href
     }, {
       default: vue.withCtx(function (_ref) {
         var href = _ref.href,
@@ -628,13 +619,11 @@
 
       var _useMenu = useMenu(sidebarProps),
           isCollapsed = _useMenu.isCollapsed,
-          currentRoute = _useMenu.currentRoute,
           mobileItemStyle = _useMenu.mobileItemStyle,
           mobileItemDropdownStyle = _useMenu.mobileItemDropdownStyle,
           mobileItemBackgroundStyle = _useMenu.mobileItemBackgroundStyle;
 
       var _toRefs = vue.toRefs(sidebarProps),
-          disableHover = _toRefs.disableHover,
           linkComponentName = _toRefs.linkComponentName;
 
       var _useItem = useItem(props),
@@ -649,7 +638,6 @@
           linkAttrs = _useItem.linkAttrs,
           itemClass = _useItem.itemClass,
           isMobileItem = _useItem.isMobileItem,
-          onRouteChange = _useItem.onRouteChange,
           onLinkClick = _useItem.onLinkClick,
           onMouseOver = _useItem.onMouseOver,
           onMouseOut = _useItem.onMouseOut,
@@ -660,33 +648,17 @@
           onExpandBeforeLeave = _useItem.onExpandBeforeLeave,
           onExpandAfterLeave = _useItem.onExpandAfterLeave;
 
-      var router = vue.getCurrentInstance().appContext.config.globalProperties.$router;
-
-      if (router) {
-        vue.watch(function () {
-          return router.currentRoute.value;
-        }, function () {
-          onRouteChange();
-        }, {
-          immediate: true
-        });
-      } else {
-        vue.watch(function () {
-          return currentRoute.value;
-        }, function () {
-          onRouteChange();
-        }, {
-          immediate: true
-        });
-        window.addEventListener('hashchange', onRouteChange);
-        vue.onUnmounted(function () {
-          window.removeEventListener('hashchange', onRouteChange);
-        });
-      }
-
+      vue.watch(function () {
+        return active.value;
+      }, function () {
+        if (active.value) {
+          show.value = true;
+        }
+      }, {
+        immediate: true
+      });
       return {
         isCollapsed: isCollapsed,
-        disableHover: disableHover,
         linkComponentName: linkComponentName,
         active: active,
         exactActive: exactActive,
@@ -702,7 +674,6 @@
         linkClass: linkClass,
         linkAttrs: linkAttrs,
         itemClass: itemClass,
-        onRouteChange: onRouteChange,
         onLinkClick: onLinkClick,
         onMouseOver: onMouseOver,
         onMouseOut: onMouseOut,
@@ -1073,6 +1044,17 @@
         unsetMobileItem();
         isCollapsed.value = currentCollapsed;
       });
+      var router = vue.getCurrentInstance().appContext.config.globalProperties.$router;
+
+      if (!router) {
+        vue.onMounted(function () {
+          window.addEventListener('hashchange', onRouteChange);
+        });
+        vue.onUnmounted(function () {
+          window.removeEventListener('hashchange', onRouteChange);
+        });
+      }
+
       return {
         sidebarMenuRef: sidebarMenuRef,
         isCollapsed: isCollapsed,
