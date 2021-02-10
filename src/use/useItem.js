@@ -42,13 +42,6 @@ export default function useItem (props) {
     })
   }
 
-  const onRouteChange = () => {
-    if (sidebarProps.showChild) return
-    if (active.value) {
-      show.value = true
-    }
-  }
-
   const onLinkClick = (event) => {
     if (!props.item.href || props.item.disabled) {
       event.preventDefault()
@@ -59,7 +52,7 @@ export default function useItem (props) {
 
     if (hasChild.value || !sidebarProps.showChild) {
       if (isCollapsed.value && isFirstLevel.value) return
-      if (!props.item.href || exactActive.value) {
+      if (!props.item.href || active.value) {
         show.value = !show.value
       }
     }
@@ -227,7 +220,6 @@ export default function useItem (props) {
     linkAttrs,
     itemClass,
     isMobileItem,
-    onRouteChange,
     onLinkClick,
     onMouseOver,
     onMouseOut,

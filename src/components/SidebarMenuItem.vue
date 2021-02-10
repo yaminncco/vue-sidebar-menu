@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import { toRefs, watch, onUnmounted, getCurrentInstance, inject } from 'vue'
+import { toRefs, inject, watch } from 'vue'
 import useMenu from '../use/useMenu'
 import useItem from '../use/useItem'
 
@@ -128,8 +128,8 @@ export default {
   },
   setup (props) {
     const sidebarProps = inject('vsm-props')
-    const { isCollapsed, currentRoute, mobileItemStyle, mobileItemDropdownStyle, mobileItemBackgroundStyle } = useMenu(sidebarProps)
-    const { disableHover, linkComponentName } = toRefs(sidebarProps)
+    const { isCollapsed, mobileItemStyle, mobileItemDropdownStyle, mobileItemBackgroundStyle } = useMenu(sidebarProps)
+    const { linkComponentName } = toRefs(sidebarProps)
     const {
       active,
       exactActive,
@@ -142,7 +142,6 @@ export default {
       linkAttrs,
       itemClass,
       isMobileItem,
-      onRouteChange,
       onLinkClick,
       onMouseOver,
       onMouseOut,
@@ -154,29 +153,16 @@ export default {
       onExpandAfterLeave
     } = useItem(props)
 
-    const router = getCurrentInstance().appContext.config.globalProperties.$router
-
-    if (router) {
-      watch(() => router.currentRoute.value, () => {
-        onRouteChange()
-      }, {
-        immediate: true
-      })
-    } else {
-      watch(() => currentRoute.value, () => {
-        onRouteChange()
-      }, {
-        immediate: true
-      })
-      window.addEventListener('hashchange', onRouteChange)
-      onUnmounted(() => {
-        window.removeEventListener('hashchange', onRouteChange)
-      })
-    }
+    watch(() => active.value, () => {
+      if (active.value) {
+        show.value = true
+      }
+    }, {
+      immediate: true
+    })
 
     return {
       isCollapsed,
-      disableHover,
       linkComponentName,
       active,
       exactActive,
@@ -192,7 +178,6 @@ export default {
       linkClass,
       linkAttrs,
       itemClass,
-      onRouteChange,
       onLinkClick,
       onMouseOver,
       onMouseOut,

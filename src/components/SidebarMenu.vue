@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { provide, watch, toRefs } from 'vue'
+import { provide, watch, toRefs, getCurrentInstance, onMounted, onUnmounted } from 'vue'
 import useMenu from '../use/useMenu'
 
 import SidebarMenuItem from './SidebarMenuItem.vue'
@@ -136,6 +136,16 @@ export default {
       unsetMobileItem()
       isCollapsed.value = currentCollapsed
     })
+
+    const router = getCurrentInstance().appContext.config.globalProperties.$router
+    if (!router) {
+      onMounted(() => {
+        window.addEventListener('hashchange', onRouteChange)
+      })
+      onUnmounted(() => {
+        window.removeEventListener('hashchange', onRouteChange)
+      })
+    }
 
     return {
       sidebarMenuRef,
