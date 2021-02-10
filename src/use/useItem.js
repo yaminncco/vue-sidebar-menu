@@ -135,8 +135,8 @@ export default function useItem (props) {
   const show = computed({
     get: () => {
       if (!hasChild.value) return false
-      if (sidebarProps.showChild) return true
       if (isCollapsed.value && isFirstLevel.value) return hover.value
+      if (sidebarProps.showChild) return true
       return sidebarProps.showOneChild && isFirstLevel.value ? props.item === activeShow.value : itemShow.value
     },
     set: show => {
