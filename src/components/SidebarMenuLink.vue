@@ -9,7 +9,7 @@
     v-else
     v-slot="{ href, navigate }"
     custom
-    :to="item.href"
+    :to="$attrs.href"
   >
     <a
       v-bind="$attrs"
