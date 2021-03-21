@@ -72,12 +72,17 @@ export default function useItem (props) {
   }
 
   const onMouseEnter = (event) => {
-    if (props.item.disabled || sidebarProps.disableHover) return
-    if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value)
-    emitMobileItem(event, event.currentTarget)
+    if (props.item.disabled) return
+    if (isMobileItem.value && ((sidebarProps.disableHover && hasChild.value) || !sidebarProps.disableHover)) {
+      if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value)
+    }
+    if (!sidebarProps.disableHover) {
+      emitMobileItem(event, event.currentTarget)
+    }
   }
 
   const onMouseLeave = () => {
+    if (sidebarProps.disableHover && !hasChild.value) return
     let delay
     if (!sidebarProps.disableHover) {
       delay = 300
