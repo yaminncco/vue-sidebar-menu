@@ -11,18 +11,18 @@ A Vue.js sidebar menu component with vue-router compatibility
 ## Changelog
 
 - router-link now is the default link component (without vue-router use `linkComponentName` prop)
+- added new prop `linkComponentName` for a customized link (more info [here](#customize-link))
 - updated the active behavior to match vue-router and removed exact-active class
 - removed `alias`, `exactPath` property
-- added new prop `linkComponentName` for a customized link
 - added a custom scrollbar
-- renamed title proprty for the header item to header
+- renamed `title` property for the header item to `header`
 - changed `width` prop default value from '350px' to '290px'
 - changed `widthCollapsed` prop default value  from '50px' to '65px'
 - `collapsed` prop can be sync using v-model
 - removed `toggle-collapse` event (listen to `update:collapsed` instead)
 - removed the node parameter from `item-click` event
+- added new `isOpen` slot prop for the dropdown-icon
 - `dropdown-icon` slot no longer rotate when open
-- add new `isOpen` slot prop for the dropdwon-icon
 - changed the default arrow and toggle icon (no longer use Font Awesome 5 Free)
 - dropdown css selector is now `vsm--dropdown` instead of `vsm--dropdown>.vsm--list`
 - the open modifier class apply to link instead of item
@@ -302,6 +302,41 @@ or you can override Sass variables (complete list of all variables can be found 
   </template>
 </sidebar-menu>
 ```
+
+## Customize link
+
+by default the component use a customized version of `<router-link>`, if your are using a 3rd party framework you can customize the link via the use of the `link-component-name` prop.
+
+the link component must be registered globally and define item as a prop.
+
+example with inertia.js:
+
+```js
+import { createApp, h } from 'vue'
+import link from '@inertiajs/inertia-vue3/src/link'
+
+const customLink = {
+  name: 'CustomLink',
+  props: ['item'],
+  render() {
+    return h(link, this.$slots.default)
+  },
+  watch: {
+    '$page.url' () {
+      this.onRouteChange()
+    }
+  },
+  inject: ['onRouteChange']
+}
+
+const app = createApp(App)
+app.component('custom-link', customLink)
+```
+```html
+<sidebar-menu :link-component-name="'custom-link'">
+```
+
+Note: the `onRouteChange` function can be injected useful for updating the active state whenever the url change.
 
 ## Development
 
