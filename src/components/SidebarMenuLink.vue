@@ -31,10 +31,18 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      router: false
+    }
+  },
   computed: {
     isHyperLink () {
-      return !!(!this.item.href || this.item.external)
+      return !!(!this.item.href || this.item.external || !this.router)
     }
+  },
+  mounted () {
+    this.router = !!this.$router
   }
 }
 </script>
