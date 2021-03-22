@@ -334,12 +334,19 @@
     };
 
     var onMouseEnter = function onMouseEnter(event) {
-      if (props.item.disabled || sidebarProps.disableHover) return;
-      if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value);
-      emitMobileItem(event, event.currentTarget);
+      if (props.item.disabled) return;
+
+      if (isMobileItem.value && (sidebarProps.disableHover && hasChild.value || !sidebarProps.disableHover)) {
+        if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value);
+      }
+
+      if (!sidebarProps.disableHover) {
+        emitMobileItem(event, event.currentTarget);
+      }
     };
 
     var onMouseLeave = function onMouseLeave() {
+      if (sidebarProps.disableHover && !hasChild.value) return;
       var delay;
 
       if (!sidebarProps.disableHover) {
@@ -502,10 +509,18 @@
         required: true
       }
     },
+    data: function data() {
+      return {
+        router: false
+      };
+    },
     computed: {
       isHyperLink: function isHyperLink() {
-        return !!(!this.item.href || this.item.external);
+        return !!(!this.item.href || this.item.external || !this.router);
       }
+    },
+    mounted: function mounted() {
+      this.router = !!this.$router;
     }
   };
 
