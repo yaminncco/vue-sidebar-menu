@@ -1,9 +1,7 @@
 <template>
   <component
     :is="tag"
-    v-bind="[isRouterLink ? { to: href } : { href: href }, attributes]"
-    :tabindex="item.disabled && -1"
-    :target="target"
+    v-bind="[isRouterLink ? { to: href } : { href: href }, ...$attrs]"
   >
     <slot />
   </component>
@@ -12,14 +10,11 @@
 <script>
 export default {
   name: 'SidebarMenuLink',
+  inheritAttrs: false,
   props: {
     item: {
       type: Object,
       required: true
-    },
-    attributes: {
-      type: Object,
-      default: null
     }
   },
   computed: {
@@ -32,10 +27,6 @@ export default {
     href () {
       if (!this.item.href) return '#'
       return this.item.href
-    },
-    target () {
-      if (this.item.external) return '_blank'
-      return '_self'
     }
   }
 }

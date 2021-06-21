@@ -22,7 +22,7 @@
     <sidebar-menu-link
       :item="item"
       :class="itemLinkClass"
-      :attributes="item.attributes"
+      v-bind="itemLinkAttributes"
       @click.native="clickEvent"
     >
       <sidebar-menu-icon
@@ -183,6 +183,16 @@ export default {
         { 'vsm--link_disabled': this.item.disabled },
         this.item.class
       ]
+    },
+    itemLinkAttributes () {
+      const target = this.item.external ? '_blank' : '_self'
+      const tabindex = this.item.disabled ? -1 : null
+
+      return {
+        target,
+        tabindex,
+        ...this.item.attributes
+      }
     },
     isItemHidden () {
       if (this.isCollapsed) {
