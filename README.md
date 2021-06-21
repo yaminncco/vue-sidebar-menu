@@ -143,7 +143,7 @@ menu [
 
 ### Vue-router Support
 
-if you are using vue-router, `<router-link>` will be used instead of hyperlink `<a>`
+if you are using vue-router, `<router-link>` (`<nuxt-link>` in nuxt) will be used instead of hyperlink `<a>`
 
 ### Props
 
