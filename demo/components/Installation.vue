@@ -2,7 +2,7 @@
   <div>
     <h2>Installation</h2>
     <p>Use npm to install plugin</p>
-    <pre>npm i vue-sidebar-menu@alpha --save</pre>
+    <pre>npm i vue-sidebar-menu@next --save</pre>
     <p>Import the plugin globally</p>
     <pre>import { createApp } from 'vue'
 import App from "./App.vue"

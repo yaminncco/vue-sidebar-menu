@@ -6,31 +6,18 @@ A Vue.js sidebar menu component with vue-router compatibility
 
 [vue-sidebar-menu-demo](https://yaminncco.github.io/vue-sidebar-menu/)
 
-### This documentation is for Vue 3, for Vue 2.x see [here](https://github.com/yaminncco/vue-sidebar-menu/tree/master)
+## What new in v5.0.0
 
-## Changelog
-
-- router-link now is the default link component (without vue-router use `linkComponentName` prop)
-- added new prop `linkComponentName` for a customized link (more info [here](#customize-link))
-- updated the active behavior to match vue-router and removed exact-active class
-- removed `alias`, `exactPath` property
-- added a custom scrollbar
-- renamed `title` property for the header item to `header`
-- changed `width` prop default value from '350px' to '290px'
-- changed `widthCollapsed` prop default value  from '50px' to '65px'
-- `collapsed` prop can be sync using v-model
-- removed `toggle-collapse` event (listen to `update:collapsed` instead)
-- removed the node parameter from `item-click` event
-- added new `isOpen` slot prop for the dropdown-icon
-- `dropdown-icon` slot no longer rotate when open
-- changed the default arrow and toggle icon (no longer use Font Awesome 5 Free)
-- dropdown css selector is now `vsm--dropdown` instead of `vsm--dropdown>.vsm--list`
-- the open modifier class apply to link instead of item
+- Vue 3 support
+- Improved the sidebar design
+- Added custom scrollbar
+- Improved the sidebar accessibility
+- Custom link support
 
 ## Installation
 
 ```
-npm i vue-sidebar-menu@alpha --save
+npm i vue-sidebar-menu@next --save
 ```
 
 Install the plugin globally.
