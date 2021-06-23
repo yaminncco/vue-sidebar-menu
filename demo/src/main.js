@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
-import VueSidebarMenu from '../src'
+import VueSidebarMenu from '../../src'
 
 import Installation from './components/Installation.vue'
 import BasicUsage from './components/BasicUsage.vue'
