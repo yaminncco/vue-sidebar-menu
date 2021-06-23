@@ -1,4 +1,17 @@
 <template>
+  <sidebar-menu
+    v-model:collapsed="collapsed"
+    :menu="menu"
+    :theme="selectedTheme"
+    :show-one-child="true"
+    @update:collapsed="onToggleCollapse"
+    @item-click="onItemClick"
+  />
+  <div
+    v-if="isOnMobile && !collapsed"
+    class="sidebar-overlay"
+    @click="collapsed = true"
+  />
   <div
     id="demo"
     :class="[{'collapsed' : collapsed}, {'onmobile' : isOnMobile}]"
@@ -30,19 +43,6 @@
         <hr style="margin: 50px 0px;border: 1px solid #e3e3e3;">
         <router-view />
       </div>
-      <sidebar-menu
-        v-model:collapsed="collapsed"
-        :menu="menu"
-        :theme="selectedTheme"
-        :show-one-child="true"
-        @update:collapsed="onToggleCollapse"
-        @item-click="onItemClick"
-      />
-      <div
-        v-if="isOnMobile && !collapsed"
-        class="sidebar-overlay"
-        @click="collapsed = true"
-      />
     </div>
   </div>
 </template>
@@ -255,15 +255,5 @@ body {
 
 .container {
   max-width: 900px;
-}
-
-pre {
-  font-family: Consolas, monospace;
-  color: #000;
-  background: #fff;
-  border-radius: 2px;
-  padding: 15px;
-  line-height: 1.5;
-  overflow: auto;
 }
 </style>

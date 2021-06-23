@@ -25,7 +25,7 @@ Install the plugin globally.
 ```js
 //main.js
 import { createApp } from 'vue'
-import App from "./App.vue"
+import App from './App.vue'
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 
@@ -91,13 +91,11 @@ export default {
 menu [
   // item
   {
+    // string or a location object
     href: '/',
-    /* with vue-router you can use :to prop
-    href: { path: '/' }
-    you can mark link as external
+    // href: { path: '/' }
     // external: true
-    */
-      
+
     title: 'Dashboard',
 
     // icon class
@@ -119,7 +117,7 @@ menu [
         // element: 'span'
     }
     */
-      
+
     // child: []
     // disabled: true
     // class: ''
@@ -157,7 +155,7 @@ props: {
     required: true
   },
 
-  // Sidebar Collapse state
+  // Sidebar Collapse state (v-model:collapsed to enable two-way data binding)
   collapsed: {
     type: Boolean,
     default: false
@@ -324,10 +322,3 @@ app.component('custom-link', customLink)
 ```
 
 Note: the `onRouteChange` function can be injected useful for updating the active state whenever the url change.
-
-## Development
-
-```
-npm install
-npm run dev
-```

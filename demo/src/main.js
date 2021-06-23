@@ -9,6 +9,8 @@ import Props from './components/Props.vue'
 import Events from './components/Events.vue'
 import Styling from './components/Styling.vue'
 
+import PrismCode from './components/PrismCode.vue'
+
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
@@ -47,4 +49,5 @@ const router = createRouter({
 createApp(App)
   .use(router)
   .use(VueSidebarMenu)
+  .component('prism-code', PrismCode)
   .mount('#app')

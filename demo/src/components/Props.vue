@@ -1,14 +1,15 @@
 <template>
   <div>
     <h2>Props</h2>
-    <pre>props: {
+    <prism-code lang="js">
+      {{ `props: {
   // Sidebar menu (required)
   menu: {
     type: Array,
     required: true
   },
 
-  // Sidebar Collapse state
+  // Sidebar Collapse state (v-model:collapsed to enable two-way data binding)
   collapsed: {
     type: Boolean,
     default: false
@@ -73,7 +74,7 @@
     type: String,
     default: undefined
   }
-}
-</pre>
+}` }}
+    </prism-code>
   </div>
 </template>

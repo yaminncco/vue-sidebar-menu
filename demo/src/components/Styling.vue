@@ -2,7 +2,8 @@
   <div>
     <h2>Styling</h2>
     <p>All styles customization can be done in normal CSS by using this classes</p>
-    <pre>.v-sidebar-menu {}
+    <prism-code lang="css">
+      {{ `.v-sidebar-menu {}
 .v-sidebar-menu.vsm_expanded {}
 .v-sidebar-menu.vsm_collapsed {}
 .v-sidebar-menu.vsm_rtl {}
@@ -22,23 +23,24 @@
 .v-sidebar-menu .vsm--header {}
 .v-sidebar-menu .vsm--dropdown {}
 .v-sidebar-menu .vsm--mobile-bg {}
-.v-sidebar-menu .vsm--toggle-btn {}
-</pre>
+.v-sidebar-menu .vsm--toggle-btn {}` }}
+    </prism-code>
     <p>or you can override Sass variables (complete list of all variables can be found in `src/scss/_variables.scss`) and create your own theme</p>
-    <pre>@import "custom-var.scss";
-@import "vue-sidebar-menu/src/scss/vue-sidebar-menu.scss";
-</pre>
+    <prism-code lang="css">
+      {{ `@import "custom-var.scss";
+@import "vue-sidebar-menu/src/scss/vue-sidebar-menu.scss";` }}
+    </prism-code>
     <h2>Slots</h2>
-    <pre>
-&lt;sidebar-menu&gt;
-    &lt;template v-slot:header&gt;header&lt;/template&gt;
-    &lt;template v-slot:footer&gt;footer&lt;/template&gt;
-    &lt;template v-slot:toggle-icon&gt;toggle-icon&lt;/template&gt;
-    &lt;template v-slot:dropdown-icon="{ isOpen }"&gt;
-      &lt;span v-if="!isOpen"&gt;+&lt;/span&gt;
-      &lt;span v-else&gt;-&lt;/span&gt;
-    &lt;/template&gt;
-&lt;/sidebar-menu&gt;
-</pre>
+    <prism-code lang="html">
+      {{ `&lt;sidebar-menu>
+  &lt;template v-slot:header>header&lt;/template>
+  &lt;template v-slot:footer>footer&lt;/template>
+  &lt;template v-slot:toggle-icon>toggle-icon&lt;/template>
+  &lt;template v-slot:dropdown-icon="{ isOpen }">
+    &lt;span v-if="!isOpen">+&lt;/span>
+    &lt;span v-else>-&lt;/span>
+  &lt;/template>
+&lt;/sidebar-menu>` }}
+    </prism-code>
   </div>
 </template>

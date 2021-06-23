@@ -1,18 +1,18 @@
 <template>
   <div>
     <h2>Basic Usage</h2>
-    <pre>&lt;template&gt;
-  &lt;sidebar-menu :menu="menu" /&gt;
-&lt;/template&gt;
+    <prism-code lang="html">
+      {{ `&lt;template>
+  &lt;sidebar-menu :menu="menu" />
+&lt;/template>
 
-&lt;script&gt;
+&lt;script>
   export default {
     data() {
       return {
         menu: [
           {
-            header: true,
-            title: 'Main Navigation',
+            header: 'Main Navigation',
             hiddenOnCollapse: true
           },
           {
@@ -35,19 +35,17 @@
       }
     }
   }
-&lt;/script&gt;
-</pre>
+&lt;/script>` }}
+    </prism-code>
     <h3>Item Properties</h3>
-    <pre>...
-menu [
+    <prism-code lang="js">
+      {{ `menu [
   // item
   {
+    // string or a location object
     href: '/',
-    /* with vue-router you can use :to prop
-    href: { path: '/' }
-    you can mark link as external
+    // href: { path: '/' }
     // external: true
-    */
 
     title: 'Dashboard',
 
@@ -81,8 +79,7 @@ menu [
 
   // header item
   {
-    header: true,
-    title: 'Main Navigation'
+    header: 'Main Navigation'
     // hidden: false
     // hiddenOnCollapse: true
     // class: ''
@@ -96,8 +93,7 @@ menu [
     // hidden: false
     // hiddenOnCollapse: true
   }
-]
-...
-</pre>
+]` }}
+    </prism-code>
   </div>
 </template>

@@ -2,24 +2,28 @@
   <div>
     <h2>Installation</h2>
     <p>Use npm to install plugin</p>
-    <pre>npm i vue-sidebar-menu@next --save</pre>
+    <prism-code lang="bash">
+      {{ `npm i vue-sidebar-menu@next --save` }}
+    </prism-code>
     <p>Import the plugin globally</p>
-    <pre>import { createApp } from 'vue'
-import App from "./App.vue"
+    <prism-code lang="js">
+      {{ `import { createApp } from 'vue'
+import App from './App.vue'
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 
 const app = createApp(App)
 app.use(VueSidebarMenu)
-app.mount("#app")
-</pre>
+app.mount("#app")` }}
+    </prism-code>
     <p>Or import the component locally.</p>
-    <pre>import { SidebarMenu } from 'vue-sidebar-menu'
+    <prism-code lang="js">
+      {{ `import { SidebarMenu } from 'vue-sidebar-menu'
 export default {
-    components: {
-        SidebarMenu
-    }
-}
-</pre>
+  components: {
+    SidebarMenu
+  }
+}` }}
+    </prism-code>
   </div>
 </template>
