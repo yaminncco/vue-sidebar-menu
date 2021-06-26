@@ -166,29 +166,18 @@ function useMenu(props, context) {
   };
 }
 
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
 
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
+
+    if (enumerableOnly) {
+      symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+    }
+
     keys.push.apply(keys, symbols);
   }
 
@@ -213,6 +202,21 @@ function _objectSpread2(target) {
   }
 
   return target;
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
 }
 
 // Adapted from vue-router-next
@@ -496,7 +500,7 @@ function useItem(props) {
   };
 }
 
-var script = {
+var script$5 = {
   name: 'SidebarMenuLink',
   inheritAttrs: false,
   props: {
@@ -505,53 +509,49 @@ var script = {
       required: true
     }
   },
-  data: function data() {
+  data () {
     return {
       router: false
-    };
-  },
-  computed: {
-    isHyperLink: function isHyperLink() {
-      return !!(!this.item.href || this.item.external || !this.router);
     }
   },
-  mounted: function mounted() {
+  computed: {
+    isHyperLink () {
+      return !!(!this.item.href || this.item.external || !this.router)
+    }
+  },
+  mounted () {
     this.router = !!this.$router;
   }
 };
 
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_router_link = resolveComponent("router-link");
+function render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_router_link = resolveComponent("router-link");
 
-  return $options.isHyperLink ? (openBlock(), createBlock("a", mergeProps({
-    key: 0
-  }, _ctx.$attrs), [renderSlot(_ctx.$slots, "default")], 16
-  /* FULL_PROPS */
-  )) : (openBlock(), createBlock(_component_router_link, {
-    key: 1,
-    custom: "",
-    to: _ctx.$attrs.href
-  }, {
-    default: withCtx(function (_ref) {
-      var href = _ref.href,
-          navigate = _ref.navigate;
-      return [createVNode("a", mergeProps(_ctx.$attrs, {
-        href: href,
-        onClick: navigate
-      }), [renderSlot(_ctx.$slots, "default")], 16
-      /* FULL_PROPS */
-      , ["href", "onClick"])];
-    }),
-    _: 3
-  }, 8
-  /* PROPS */
-  , ["to"]));
+  return ($options.isHyperLink)
+    ? (openBlock(), createBlock("a", mergeProps({ key: 0 }, _ctx.$attrs), [
+        renderSlot(_ctx.$slots, "default")
+      ], 16 /* FULL_PROPS */))
+    : (openBlock(), createBlock(_component_router_link, {
+        key: 1,
+        custom: "",
+        to: _ctx.$attrs.href
+      }, {
+        default: withCtx(({ href, navigate }) => [
+          createVNode("a", mergeProps(_ctx.$attrs, {
+            href: href,
+            onClick: navigate
+          }), [
+            renderSlot(_ctx.$slots, "default")
+          ], 16 /* FULL_PROPS */, ["href", "onClick"])
+        ]),
+        _: 3 /* FORWARDED */
+      }, 8 /* PROPS */, ["to"]))
 }
 
-script.render = render;
-script.__file = "src/components/SidebarMenuLink.vue";
+script$5.render = render$5;
+script$5.__file = "src/components/SidebarMenuLink.vue";
 
-var script$1 = {
+var script$4 = {
   name: 'SidebarMenuIcon',
   props: {
     icon: {
@@ -561,59 +561,51 @@ var script$1 = {
   }
 };
 
-function render$1(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createBlock(resolveDynamicComponent($props.icon.element ? $props.icon.element : 'i'), mergeProps({
-    class: ["vsm--icon", typeof $props.icon === 'string' || $props.icon instanceof String ? $props.icon : $props.icon.class],
+function render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  return (openBlock(), createBlock(resolveDynamicComponent($props.icon.element ? $props.icon.element : 'i'), mergeProps({
+    class: ["vsm--icon", typeof $props.icon === 'string' || ($props.icon instanceof String) ? $props.icon : $props.icon.class],
     "aria-hidden": "true"
   }, $props.icon.attributes), {
-    default: withCtx(function () {
-      return [createTextVNode(toDisplayString($props.icon.text), 1
-      /* TEXT */
-      )];
-    }),
-    _: 1
-  }, 16
-  /* FULL_PROPS */
-  , ["class"]);
+    default: withCtx(() => [
+      createTextVNode(toDisplayString($props.icon.text), 1 /* TEXT */)
+    ]),
+    _: 1 /* STABLE */
+  }, 16 /* FULL_PROPS */, ["class"]))
 }
 
-script$1.render = render$1;
-script$1.__file = "src/components/SidebarMenuIcon.vue";
+script$4.render = render$4;
+script$4.__file = "src/components/SidebarMenuIcon.vue";
 
-var script$2 = {
+var script$3 = {
   name: 'SidebarMenuBadge',
   props: {
     badge: {
       type: Object,
-      default: function _default() {}
+      default: () => {}
     }
   }
 };
 
-function render$2(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createBlock(resolveDynamicComponent($props.badge.element ? $props.badge.element : 'span'), mergeProps({
+function render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  return (openBlock(), createBlock(resolveDynamicComponent($props.badge.element ? $props.badge.element : 'span'), mergeProps({
     class: ["vsm--badge", $props.badge.class]
   }, $props.badge.attributes), {
-    default: withCtx(function () {
-      return [createTextVNode(toDisplayString($props.badge.text), 1
-      /* TEXT */
-      )];
-    }),
-    _: 1
-  }, 16
-  /* FULL_PROPS */
-  , ["class"]);
+    default: withCtx(() => [
+      createTextVNode(toDisplayString($props.badge.text), 1 /* TEXT */)
+    ]),
+    _: 1 /* STABLE */
+  }, 16 /* FULL_PROPS */, ["class"]))
 }
 
-script$2.render = render$2;
-script$2.__file = "src/components/SidebarMenuBadge.vue";
+script$3.render = render$3;
+script$3.__file = "src/components/SidebarMenuBadge.vue";
 
-var script$3 = {
+var script$2 = {
   name: 'SidebarMenuItem',
   components: {
-    SidebarMenuLink: script,
-    SidebarMenuIcon: script$1,
-    SidebarMenuBadge: script$2
+    SidebarMenuLink: script$5,
+    SidebarMenuIcon: script$4,
+    SidebarMenuBadge: script$3
   },
   props: {
     item: {
@@ -625,263 +617,244 @@ var script$3 = {
       default: 1
     }
   },
-  setup: function setup(props) {
-    var sidebarProps = inject('vsm-props');
+  setup (props) {
+    const sidebarProps = inject('vsm-props');
+    const { isCollapsed, mobileItemStyle, mobileItemDropdownStyle, mobileItemBackgroundStyle } = useMenu(sidebarProps);
+    const { linkComponentName } = toRefs(sidebarProps);
+    const {
+      active,
+      exactActive,
+      show,
+      hover,
+      isFirstLevel,
+      isHidden,
+      hasChild,
+      linkClass,
+      linkAttrs,
+      itemClass,
+      isMobileItem,
+      onLinkClick,
+      onMouseOver,
+      onMouseOut,
+      onMouseEnter,
+      onMouseLeave,
+      onExpandEnter,
+      onExpandAfterEnter,
+      onExpandBeforeLeave,
+      onExpandAfterLeave
+    } = useItem(props);
 
-    var _useMenu = useMenu(sidebarProps),
-        isCollapsed = _useMenu.isCollapsed,
-        mobileItemStyle = _useMenu.mobileItemStyle,
-        mobileItemDropdownStyle = _useMenu.mobileItemDropdownStyle,
-        mobileItemBackgroundStyle = _useMenu.mobileItemBackgroundStyle;
-
-    var _toRefs = toRefs(sidebarProps),
-        linkComponentName = _toRefs.linkComponentName;
-
-    var _useItem = useItem(props),
-        active = _useItem.active,
-        exactActive = _useItem.exactActive,
-        show = _useItem.show,
-        hover = _useItem.hover,
-        isFirstLevel = _useItem.isFirstLevel,
-        isHidden = _useItem.isHidden,
-        hasChild = _useItem.hasChild,
-        linkClass = _useItem.linkClass,
-        linkAttrs = _useItem.linkAttrs,
-        itemClass = _useItem.itemClass,
-        isMobileItem = _useItem.isMobileItem,
-        onLinkClick = _useItem.onLinkClick,
-        onMouseOver = _useItem.onMouseOver,
-        onMouseOut = _useItem.onMouseOut,
-        onMouseEnter = _useItem.onMouseEnter,
-        onMouseLeave = _useItem.onMouseLeave,
-        onExpandEnter = _useItem.onExpandEnter,
-        onExpandAfterEnter = _useItem.onExpandAfterEnter,
-        onExpandBeforeLeave = _useItem.onExpandBeforeLeave,
-        onExpandAfterLeave = _useItem.onExpandAfterLeave;
-
-    watch(function () {
-      return active.value;
-    }, function () {
+    watch(() => active.value, () => {
       if (active.value) {
         show.value = true;
       }
     }, {
       immediate: true
     });
+
     return {
-      isCollapsed: isCollapsed,
-      linkComponentName: linkComponentName,
-      active: active,
-      exactActive: exactActive,
-      isMobileItem: isMobileItem,
-      mobileItemStyle: mobileItemStyle,
-      mobileItemDropdownStyle: mobileItemDropdownStyle,
-      mobileItemBackgroundStyle: mobileItemBackgroundStyle,
-      show: show,
-      hover: hover,
-      isFirstLevel: isFirstLevel,
-      isHidden: isHidden,
-      hasChild: hasChild,
-      linkClass: linkClass,
-      linkAttrs: linkAttrs,
-      itemClass: itemClass,
-      onLinkClick: onLinkClick,
-      onMouseOver: onMouseOver,
-      onMouseOut: onMouseOut,
-      onMouseEnter: onMouseEnter,
-      onMouseLeave: onMouseLeave,
-      onExpandEnter: onExpandEnter,
-      onExpandAfterEnter: onExpandAfterEnter,
-      onExpandBeforeLeave: onExpandBeforeLeave,
-      onExpandAfterLeave: onExpandAfterLeave
-    };
+      isCollapsed,
+      linkComponentName,
+      active,
+      exactActive,
+      isMobileItem,
+      mobileItemStyle,
+      mobileItemDropdownStyle,
+      mobileItemBackgroundStyle,
+      show,
+      hover,
+      isFirstLevel,
+      isHidden,
+      hasChild,
+      linkClass,
+      linkAttrs,
+      itemClass,
+      onLinkClick,
+      onMouseOver,
+      onMouseOut,
+      onMouseEnter,
+      onMouseLeave,
+      onExpandEnter,
+      onExpandAfterEnter,
+      onExpandBeforeLeave,
+      onExpandAfterLeave
+    }
   }
 };
 
-var _hoisted_1 = {
-  key: 0
-};
-var _hoisted_2 = {
-  class: "vsm--dropdown"
-};
-function render$3(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_sidebar_menu_icon = resolveComponent("sidebar-menu-icon");
+const _hoisted_1$2 = { key: 0 };
+const _hoisted_2$2 = { class: "vsm--dropdown" };
 
-  var _component_sidebar_menu_badge = resolveComponent("sidebar-menu-badge");
+function render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_sidebar_menu_icon = resolveComponent("sidebar-menu-icon");
+  const _component_sidebar_menu_badge = resolveComponent("sidebar-menu-badge");
+  const _component_sidebar_menu_item = resolveComponent("sidebar-menu-item", true);
 
-  var _component_sidebar_menu_item = resolveComponent("sidebar-menu-item");
-
-  return $props.item.component && !$setup.isHidden ? (openBlock(), createBlock("li", _hoisted_1, [(openBlock(), createBlock(resolveDynamicComponent($props.item.component), $props.item.props, null, 16
-  /* FULL_PROPS */
-  ))])) : $props.item.header && !$setup.isHidden ? (openBlock(), createBlock("li", mergeProps({
-    key: 1,
-    class: ["vsm--header", $props.item.class]
-  }, $props.item.attributes), toDisplayString($props.item.header), 17
-  /* TEXT, FULL_PROPS */
-  )) : !$setup.isHidden ? (openBlock(), createBlock("li", mergeProps({
-    key: 2,
-    class: $setup.itemClass,
-    onMouseover: _cache[1] || (_cache[1] = function () {
-      return $setup.onMouseOver.apply($setup, arguments);
-    }),
-    onMouseout: _cache[2] || (_cache[2] = function () {
-      return $setup.onMouseOut.apply($setup, arguments);
-    })
-  }, toHandlers($setup.isCollapsed && $setup.isFirstLevel ? {
-    mouseenter: $setup.onMouseEnter,
-    mouseleave: $setup.onMouseLeave
-  } : {})), [(openBlock(), createBlock(resolveDynamicComponent($setup.linkComponentName ? $setup.linkComponentName : 'SidebarMenuLink'), mergeProps({
-    item: $props.item,
-    class: $setup.linkClass
-  }, $setup.linkAttrs, {
-    onClick: $setup.onLinkClick
-  }), {
-    default: withCtx(function () {
-      return [$setup.isCollapsed && $setup.isFirstLevel ? (openBlock(), createBlock(Transition, {
-        key: 0,
-        name: "slide-animation"
-      }, {
-        default: withCtx(function () {
-          return [$setup.hover ? (openBlock(), createBlock("div", {
-            key: 0,
-            class: "vsm--mobile-bg",
-            style: $setup.mobileItemBackgroundStyle
-          }, null, 4
-          /* STYLE */
-          )) : createCommentVNode("v-if", true)];
-        }),
-        _: 1
-      })) : createCommentVNode("v-if", true), $props.item.icon ? (openBlock(), createBlock(_component_sidebar_menu_icon, {
-        key: 1,
-        icon: $props.item.icon
-      }, null, 8
-      /* PROPS */
-      , ["icon"])) : createCommentVNode("v-if", true), createVNode("div", {
-        class: ["vsm--title", $setup.isCollapsed && $setup.isFirstLevel && !$setup.isMobileItem && 'vsm--title_hidden'],
-        style: $setup.isMobileItem && $setup.mobileItemStyle
-      }, [createVNode("span", null, toDisplayString($props.item.title), 1
-      /* TEXT */
-      ), $props.item.badge ? (openBlock(), createBlock(_component_sidebar_menu_badge, {
-        key: 0,
-        badge: $props.item.badge
-      }, null, 8
-      /* PROPS */
-      , ["badge"])) : createCommentVNode("v-if", true), $setup.hasChild ? (openBlock(), createBlock("div", {
-        key: 1,
-        class: ["vsm--arrow", {
-          'vsm--arrow_open': $setup.show
-        }]
-      }, [renderSlot(_ctx.$slots, "dropdown-icon", {
-        isOpen: $setup.show
-      })], 2
-      /* CLASS */
-      )) : createCommentVNode("v-if", true)], 6
-      /* CLASS, STYLE */
-      )];
-    }),
-    _: 1
-  }, 16
-  /* FULL_PROPS */
-  , ["item", "class", "onClick"])), $setup.hasChild ? (openBlock(), createBlock(Transition, {
-    key: 0,
-    appear: $setup.isMobileItem,
-    name: "expand",
-    onEnter: $setup.onExpandEnter,
-    onAfterEnter: $setup.onExpandAfterEnter,
-    onBeforeLeave: $setup.onExpandBeforeLeave,
-    onAfterLeave: $setup.onExpandAfterLeave
-  }, {
-    default: withCtx(function () {
-      return [$setup.show ? (openBlock(), createBlock("div", {
-        key: 0,
-        class: ["vsm--child", $setup.isMobileItem && 'vsm--child_mobile'],
-        style: $setup.isMobileItem && $setup.mobileItemDropdownStyle
-      }, [createVNode("ul", _hoisted_2, [(openBlock(true), createBlock(Fragment, null, renderList($props.item.child, function (subItem, index) {
-        return openBlock(), createBlock(_component_sidebar_menu_item, {
-          key: index,
-          item: subItem,
-          level: $props.level + 1
-        }, {
-          "dropdown-icon": withCtx(function (_ref) {
-            var isOpen = _ref.isOpen;
-            return [renderSlot(_ctx.$slots, "dropdown-icon", {
-              isOpen: isOpen
-            })];
-          }),
-          _: 2
-        }, 1032
-        /* PROPS, DYNAMIC_SLOTS */
-        , ["item", "level"]);
-      }), 128
-      /* KEYED_FRAGMENT */
-      ))])], 6
-      /* CLASS, STYLE */
-      )) : createCommentVNode("v-if", true)];
-    }),
-    _: 1
-  }, 8
-  /* PROPS */
-  , ["appear", "onEnter", "onAfterEnter", "onBeforeLeave", "onAfterLeave"])) : createCommentVNode("v-if", true)], 16
-  /* FULL_PROPS */
-  )) : createCommentVNode("v-if", true);
+  return ($props.item.component && !$setup.isHidden)
+    ? (openBlock(), createBlock("li", _hoisted_1$2, [
+        (openBlock(), createBlock(resolveDynamicComponent($props.item.component), $props.item.props, null, 16 /* FULL_PROPS */))
+      ]))
+    : ($props.item.header && !$setup.isHidden)
+      ? (openBlock(), createBlock("li", mergeProps({
+          key: 1,
+          class: ["vsm--header", $props.item.class]
+        }, $props.item.attributes), toDisplayString($props.item.header), 17 /* TEXT, FULL_PROPS */))
+      : (!$setup.isHidden)
+        ? (openBlock(), createBlock("li", mergeProps({
+            key: 2,
+            class: $setup.itemClass,
+            onMouseover: _cache[1] || (_cache[1] = (...args) => ($setup.onMouseOver && $setup.onMouseOver(...args))),
+            onMouseout: _cache[2] || (_cache[2] = (...args) => ($setup.onMouseOut && $setup.onMouseOut(...args)))
+          }, toHandlers(($setup.isCollapsed && $setup.isFirstLevel) ? { mouseenter: $setup.onMouseEnter, mouseleave: $setup.onMouseLeave} : {})), [
+            (openBlock(), createBlock(resolveDynamicComponent($setup.linkComponentName ? $setup.linkComponentName : 'SidebarMenuLink'), mergeProps({
+              item: $props.item,
+              class: $setup.linkClass
+            }, $setup.linkAttrs, { onClick: $setup.onLinkClick }), {
+              default: withCtx(() => [
+                ($setup.isCollapsed && $setup.isFirstLevel)
+                  ? (openBlock(), createBlock(Transition, {
+                      key: 0,
+                      name: "slide-animation"
+                    }, {
+                      default: withCtx(() => [
+                        ($setup.hover)
+                          ? (openBlock(), createBlock("div", {
+                              key: 0,
+                              class: "vsm--mobile-bg",
+                              style: $setup.mobileItemBackgroundStyle
+                            }, null, 4 /* STYLE */))
+                          : createCommentVNode("v-if", true)
+                      ]),
+                      _: 1 /* STABLE */
+                    }))
+                  : createCommentVNode("v-if", true),
+                ($props.item.icon)
+                  ? (openBlock(), createBlock(_component_sidebar_menu_icon, {
+                      key: 1,
+                      icon: $props.item.icon
+                    }, null, 8 /* PROPS */, ["icon"]))
+                  : createCommentVNode("v-if", true),
+                createVNode("div", {
+                  class: ["vsm--title", ($setup.isCollapsed && $setup.isFirstLevel) && !$setup.isMobileItem && 'vsm--title_hidden'],
+                  style: $setup.isMobileItem && $setup.mobileItemStyle
+                }, [
+                  createVNode("span", null, toDisplayString($props.item.title), 1 /* TEXT */),
+                  ($props.item.badge)
+                    ? (openBlock(), createBlock(_component_sidebar_menu_badge, {
+                        key: 0,
+                        badge: $props.item.badge
+                      }, null, 8 /* PROPS */, ["badge"]))
+                    : createCommentVNode("v-if", true),
+                  ($setup.hasChild)
+                    ? (openBlock(), createBlock("div", {
+                        key: 1,
+                        class: ["vsm--arrow", {'vsm--arrow_open' : $setup.show}]
+                      }, [
+                        renderSlot(_ctx.$slots, "dropdown-icon", { isOpen: $setup.show })
+                      ], 2 /* CLASS */))
+                    : createCommentVNode("v-if", true)
+                ], 6 /* CLASS, STYLE */)
+              ]),
+              _: 3 /* FORWARDED */
+            }, 16 /* FULL_PROPS */, ["item", "class", "onClick"])),
+            ($setup.hasChild)
+              ? (openBlock(), createBlock(Transition, {
+                  key: 0,
+                  appear: $setup.isMobileItem,
+                  name: "expand",
+                  onEnter: $setup.onExpandEnter,
+                  onAfterEnter: $setup.onExpandAfterEnter,
+                  onBeforeLeave: $setup.onExpandBeforeLeave,
+                  onAfterLeave: $setup.onExpandAfterLeave
+                }, {
+                  default: withCtx(() => [
+                    ($setup.show)
+                      ? (openBlock(), createBlock("div", {
+                          key: 0,
+                          class: ["vsm--child", $setup.isMobileItem && 'vsm--child_mobile'],
+                          style: $setup.isMobileItem && $setup.mobileItemDropdownStyle
+                        }, [
+                          createVNode("ul", _hoisted_2$2, [
+                            (openBlock(true), createBlock(Fragment, null, renderList($props.item.child, (subItem, index) => {
+                              return (openBlock(), createBlock(_component_sidebar_menu_item, {
+                                key: index,
+                                item: subItem,
+                                level: $props.level+1
+                              }, {
+                                "dropdown-icon": withCtx(({ isOpen }) => [
+                                  renderSlot(_ctx.$slots, "dropdown-icon", { isOpen })
+                                ]),
+                                _: 2 /* DYNAMIC */
+                              }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["item", "level"]))
+                            }), 128 /* KEYED_FRAGMENT */))
+                          ])
+                        ], 6 /* CLASS, STYLE */))
+                      : createCommentVNode("v-if", true)
+                  ]),
+                  _: 1 /* STABLE */
+                }, 8 /* PROPS */, ["appear", "onEnter", "onAfterEnter", "onBeforeLeave", "onAfterLeave"]))
+              : createCommentVNode("v-if", true)
+          ], 16 /* FULL_PROPS */))
+        : createCommentVNode("v-if", true)
 }
 
-script$3.render = render$3;
-script$3.__file = "src/components/SidebarMenuItem.vue";
+script$2.render = render$2;
+script$2.__file = "src/components/SidebarMenuItem.vue";
 
-var script$4 = {
+var script$1 = {
   name: 'SidebarMenuScroll',
-  setup: function setup() {
-    var sidebarProps = inject('vsm-props');
+  setup () {
+    const sidebarProps = inject('vsm-props');
+    const { isCollapsed } = useMenu(sidebarProps);
 
-    var _useMenu = useMenu(sidebarProps),
-        isCollapsed = _useMenu.isCollapsed;
+    const scrollRef = ref(null);
+    const scrollBarRef = ref(null);
+    const scrollThumbRef = ref(null);
 
-    var scrollRef = ref(null);
-    var scrollBarRef = ref(null);
-    var scrollThumbRef = ref(null);
-    var thumbYPerc = ref(0);
-    var thumbHeightPerc = ref(0);
-    var cursorY = 0;
-    var cursorDown = false;
-    var thumbStyle = computed(function () {
+    const thumbYPerc = ref(0);
+    const thumbHeightPerc = ref(0);
+
+    let cursorY = 0;
+    let cursorDown = false;
+
+    const thumbStyle = computed(() => {
       return {
-        height: "".concat(thumbHeightPerc.value, "%"),
-        transform: "translateY(".concat(thumbYPerc.value, "%)")
-      };
+        height: `${thumbHeightPerc.value}%`,
+        transform: `translateY(${thumbYPerc.value}%)`
+      }
     });
 
-    var onScrollUpdate = function onScrollUpdate() {
-      nextTick(function () {
+    const onScrollUpdate = () => {
+      nextTick(() => {
         updateThumb();
       });
     };
 
     provide('emitScrollUpdate', onScrollUpdate);
-    onMounted(function () {
+
+    onMounted(() => {
       onScrollUpdate();
       window.addEventListener('resize', onScrollUpdate);
     });
-    onUnmounted(function () {
+    onUnmounted(() => {
       window.removeEventListener('resize', onScrollUpdate);
     });
-    watch(function () {
-      return isCollapsed.value;
-    }, function () {
+
+    watch(() => isCollapsed.value, () => {
       onScrollUpdate();
     });
 
-    var onScroll = function onScroll() {
+    const onScroll = () => {
       requestAnimationFrame(onScrollUpdate);
     };
 
-    var onClick = function onClick(e) {
-      var offset = Math.abs(scrollBarRef.value.getBoundingClientRect().y - e.clientY);
-      var thumbHalf = scrollThumbRef.value.offsetHeight / 2;
+    const onClick = (e) => {
+      const offset = Math.abs(scrollBarRef.value.getBoundingClientRect().y - e.clientY);
+      const thumbHalf = scrollThumbRef.value.offsetHeight / 2;
       updateScrollTop(offset - thumbHalf);
     };
 
-    var onMouseDown = function onMouseDown(e) {
+    const onMouseDown = (e) => {
       e.stopImmediatePropagation();
       cursorDown = true;
       window.addEventListener('mousemove', onMouseMove);
@@ -889,86 +862,80 @@ var script$4 = {
       cursorY = scrollThumbRef.value.offsetHeight - (e.clientY - scrollThumbRef.value.getBoundingClientRect().y);
     };
 
-    var onMouseMove = function onMouseMove(e) {
-      if (!cursorDown) return;
-      var offset = e.clientY - scrollBarRef.value.getBoundingClientRect().y;
-      var thumbClickPosition = scrollThumbRef.value.offsetHeight - cursorY;
+    const onMouseMove = (e) => {
+      if (!cursorDown) return
+      const offset = e.clientY - scrollBarRef.value.getBoundingClientRect().y;
+      const thumbClickPosition = scrollThumbRef.value.offsetHeight - cursorY;
       updateScrollTop(offset - thumbClickPosition);
     };
 
-    var onMouseUp = function onMouseUp(e) {
+    const onMouseUp = (e) => {
       cursorDown = false;
       cursorY = 0;
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
     };
 
-    var updateThumb = function updateThumb() {
-      var heightPerc = scrollRef.value.clientHeight * 100 / scrollRef.value.scrollHeight;
+    const updateThumb = () => {
+      const heightPerc = scrollRef.value.clientHeight * 100 / scrollRef.value.scrollHeight;
       thumbHeightPerc.value = heightPerc < 100 ? heightPerc : 0;
       thumbYPerc.value = scrollRef.value.scrollTop * 100 / scrollRef.value.clientHeight;
     };
 
-    var updateScrollTop = function updateScrollTop(y) {
-      var scrollPerc = y * 100 / scrollBarRef.value.offsetHeight;
+    const updateScrollTop = (y) => {
+      const scrollPerc = y * 100 / scrollBarRef.value.offsetHeight;
       scrollRef.value.scrollTop = scrollPerc * scrollRef.value.scrollHeight / 100;
     };
 
     return {
-      scrollRef: scrollRef,
-      scrollBarRef: scrollBarRef,
-      scrollThumbRef: scrollThumbRef,
-      thumbStyle: thumbStyle,
-      onScroll: onScroll,
-      onClick: onClick,
-      onMouseDown: onMouseDown
-    };
+      scrollRef,
+      scrollBarRef,
+      scrollThumbRef,
+      thumbStyle,
+      onScroll,
+      onClick,
+      onMouseDown
+    }
   }
 };
 
-var _hoisted_1$1 = {
-  class: "vsm--scroll-wrapper"
-};
-var _hoisted_2$1 = {
-  class: "vsm--scroll-overflow"
-};
-function render$4(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createBlock("div", _hoisted_1$1, [createVNode("div", _hoisted_2$1, [createVNode("div", {
-    ref: "scrollRef",
-    class: "vsm--scroll",
-    onScroll: _cache[1] || (_cache[1] = function () {
-      return $setup.onScroll.apply($setup, arguments);
-    })
-  }, [renderSlot(_ctx.$slots, "default")], 544
-  /* HYDRATE_EVENTS, NEED_PATCH */
-  ), createVNode("div", {
-    ref: "scrollBarRef",
-    class: "vsm--scroll-bar",
-    onMousedown: _cache[3] || (_cache[3] = function () {
-      return $setup.onClick.apply($setup, arguments);
-    })
-  }, [createVNode("div", {
-    ref: "scrollThumbRef",
-    class: "vsm--scroll-thumb",
-    style: $setup.thumbStyle,
-    onMousedown: _cache[2] || (_cache[2] = function () {
-      return $setup.onMouseDown.apply($setup, arguments);
-    })
-  }, null, 36
-  /* STYLE, HYDRATE_EVENTS */
-  )], 544
-  /* HYDRATE_EVENTS, NEED_PATCH */
-  )])]);
+const _hoisted_1$1 = { class: "vsm--scroll-wrapper" };
+const _hoisted_2$1 = { class: "vsm--scroll-overflow" };
+
+function render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  return (openBlock(), createBlock("div", _hoisted_1$1, [
+    createVNode("div", _hoisted_2$1, [
+      createVNode("div", {
+        ref: "scrollRef",
+        class: "vsm--scroll",
+        onScroll: _cache[1] || (_cache[1] = (...args) => ($setup.onScroll && $setup.onScroll(...args)))
+      }, [
+        renderSlot(_ctx.$slots, "default")
+      ], 544 /* HYDRATE_EVENTS, NEED_PATCH */),
+      createVNode("div", {
+        ref: "scrollBarRef",
+        class: "vsm--scroll-bar",
+        onMousedown: _cache[3] || (_cache[3] = (...args) => ($setup.onClick && $setup.onClick(...args)))
+      }, [
+        createVNode("div", {
+          ref: "scrollThumbRef",
+          class: "vsm--scroll-thumb",
+          style: $setup.thumbStyle,
+          onMousedown: _cache[2] || (_cache[2] = (...args) => ($setup.onMouseDown && $setup.onMouseDown(...args)))
+        }, null, 36 /* STYLE, HYDRATE_EVENTS */)
+      ], 544 /* HYDRATE_EVENTS, NEED_PATCH */)
+    ])
+  ]))
 }
 
-script$4.render = render$4;
-script$4.__file = "src/components/SidebarMenuScroll.vue";
+script$1.render = render$1;
+script$1.__file = "src/components/SidebarMenuScroll.vue";
 
-var script$5 = {
+var script = {
   name: 'SidebarMenu',
   components: {
-    SidebarMenuItem: script$3,
-    SidebarMenuScroll: script$4
+    SidebarMenuItem: script$2,
+    SidebarMenuScroll: script$1
   },
   props: {
     menu: {
@@ -1021,140 +988,121 @@ var script$5 = {
     }
   },
   emits: {
-    'item-click': function itemClick(event, item) {
-      return !!(event && item);
+    'item-click' (event, item) {
+      return !!(event && item)
     },
-    'update:collapsed': function updateCollapsed(collapsed) {
-      return !!(typeof collapsed === 'boolean');
+    'update:collapsed' (collapsed) {
+      return !!(typeof collapsed === 'boolean')
     }
   },
-  setup: function setup(props, context) {
+  setup (props, context) {
     provide('vsm-props', props);
 
-    var _useMenu = useMenu(props, context),
-        sidebarMenuRef = _useMenu.sidebarMenuRef,
-        isCollapsed = _useMenu.isCollapsed,
-        sidebarWidth = _useMenu.sidebarWidth,
-        sidebarClass = _useMenu.sidebarClass,
-        onToggleClick = _useMenu.onToggleClick,
-        onItemClick = _useMenu.onItemClick,
-        onRouteChange = _useMenu.onRouteChange,
-        unsetMobileItem = _useMenu.unsetMobileItem;
+    const {
+      sidebarMenuRef,
+      isCollapsed,
+      sidebarWidth,
+      sidebarClass,
+      onToggleClick,
+      onItemClick,
+      onRouteChange,
+      unsetMobileItem
+    } = useMenu(props, context);
 
     provide('emitItemClick', onItemClick);
     provide('emitScrollUpdate');
     provide('onRouteChange', onRouteChange);
 
-    var _toRefs = toRefs(props),
-        collapsed = _toRefs.collapsed;
-
+    const { collapsed } = toRefs(props);
     isCollapsed.value = collapsed.value;
-    watch(function () {
-      return props.collapsed;
-    }, function (currentCollapsed) {
+
+    watch(() => props.collapsed, (currentCollapsed) => {
       unsetMobileItem();
       isCollapsed.value = currentCollapsed;
     });
-    var router = getCurrentInstance().appContext.config.globalProperties.$router;
 
+    const router = getCurrentInstance().appContext.config.globalProperties.$router;
     if (!router) {
-      onMounted(function () {
+      onMounted(() => {
         window.addEventListener('hashchange', onRouteChange);
       });
-      onUnmounted(function () {
+      onUnmounted(() => {
         window.removeEventListener('hashchange', onRouteChange);
       });
     }
 
     return {
-      sidebarMenuRef: sidebarMenuRef,
-      isCollapsed: isCollapsed,
-      sidebarWidth: sidebarWidth,
-      sidebarClass: sidebarClass,
-      onToggleClick: onToggleClick,
-      onItemClick: onItemClick,
-      onRouteChange: onRouteChange
-    };
+      sidebarMenuRef,
+      isCollapsed,
+      sidebarWidth,
+      sidebarClass,
+      onToggleClick,
+      onItemClick,
+      onRouteChange
+    }
   }
 };
 
-var _hoisted_1$2 = /*#__PURE__*/createVNode("span", {
-  class: "vsm--arrow_default"
-}, null, -1
-/* HOISTED */
-);
+const _hoisted_1 = /*#__PURE__*/createVNode("span", { class: "vsm--arrow_default" }, null, -1 /* HOISTED */);
+const _hoisted_2 = /*#__PURE__*/createVNode("span", { class: "vsm--toggle-btn_default" }, null, -1 /* HOISTED */);
 
-var _hoisted_2$2 = /*#__PURE__*/createVNode("span", {
-  class: "vsm--toggle-btn_default"
-}, null, -1
-/* HOISTED */
-);
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_sidebar_menu_item = resolveComponent("sidebar-menu-item");
+  const _component_sidebar_menu_scroll = resolveComponent("sidebar-menu-scroll");
 
-function render$5(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_sidebar_menu_item = resolveComponent("sidebar-menu-item");
-
-  var _component_sidebar_menu_scroll = resolveComponent("sidebar-menu-scroll");
-
-  return openBlock(), createBlock("div", {
+  return (openBlock(), createBlock("div", {
     ref: "sidebarMenuRef",
     class: ["v-sidebar-menu", $setup.sidebarClass],
-    style: {
-      'max-width': $setup.sidebarWidth
-    }
-  }, [renderSlot(_ctx.$slots, "header"), createVNode(_component_sidebar_menu_scroll, null, {
-    default: withCtx(function () {
-      return [createVNode("ul", {
-        class: "vsm--menu",
-        style: {
-          'width': $setup.sidebarWidth,
-          'position': 'static !important'
-        }
-      }, [(openBlock(true), createBlock(Fragment, null, renderList($props.menu, function (item, index) {
-        return openBlock(), createBlock(_component_sidebar_menu_item, {
-          key: index,
-          item: item
-        }, {
-          "dropdown-icon": withCtx(function (_ref) {
-            var isOpen = _ref.isOpen;
-            return [renderSlot(_ctx.$slots, "dropdown-icon", {
-              isOpen: isOpen
-            }, function () {
-              return [_hoisted_1$2];
-            })];
-          }),
-          _: 2
-        }, 1032
-        /* PROPS, DYNAMIC_SLOTS */
-        , ["item"]);
-      }), 128
-      /* KEYED_FRAGMENT */
-      ))], 4
-      /* STYLE */
-      )];
+    style: {'max-width': $setup.sidebarWidth}
+  }, [
+    renderSlot(_ctx.$slots, "header"),
+    createVNode(_component_sidebar_menu_scroll, null, {
+      default: withCtx(() => [
+        createVNode("ul", {
+          class: "vsm--menu",
+          style: {'width': $setup.sidebarWidth, 'position': 'static !important'}
+        }, [
+          (openBlock(true), createBlock(Fragment, null, renderList($props.menu, (item, index) => {
+            return (openBlock(), createBlock(_component_sidebar_menu_item, {
+              key: index,
+              item: item
+            }, {
+              "dropdown-icon": withCtx(({ isOpen }) => [
+                renderSlot(_ctx.$slots, "dropdown-icon", { isOpen }, () => [
+                  _hoisted_1
+                ])
+              ]),
+              _: 2 /* DYNAMIC */
+            }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["item"]))
+          }), 128 /* KEYED_FRAGMENT */))
+        ], 4 /* STYLE */)
+      ]),
+      _: 1 /* STABLE */
     }),
-    _: 1
-  }), renderSlot(_ctx.$slots, "footer"), !$props.hideToggle ? (openBlock(), createBlock("button", {
-    key: 0,
-    class: "vsm--toggle-btn",
-    onClick: _cache[1] || (_cache[1] = function () {
-      return $setup.onToggleClick.apply($setup, arguments);
-    })
-  }, [renderSlot(_ctx.$slots, "toggle-icon", {}, function () {
-    return [_hoisted_2$2];
-  })])) : createCommentVNode("v-if", true)], 6
-  /* CLASS, STYLE */
-  );
+    renderSlot(_ctx.$slots, "footer"),
+    (!$props.hideToggle)
+      ? (openBlock(), createBlock("button", {
+          key: 0,
+          class: "vsm--toggle-btn",
+          onClick: _cache[1] || (_cache[1] = (...args) => ($setup.onToggleClick && $setup.onToggleClick(...args)))
+        }, [
+          renderSlot(_ctx.$slots, "toggle-icon", {}, () => [
+            _hoisted_2
+          ])
+        ]))
+      : createCommentVNode("v-if", true)
+  ], 6 /* CLASS, STYLE */))
 }
 
-script$5.render = render$5;
-script$5.__file = "src/components/SidebarMenu.vue";
+script.render = render;
+script.__file = "src/components/SidebarMenu.vue";
 
 var index = {
   install: function install(Vue) {
-    Vue.component('SidebarMenu', script$5);
+    Vue.component('SidebarMenu', script);
   }
 };
 
 export default index;
-export { script$5 as SidebarMenu };
+export { script as SidebarMenu };
 //# sourceMappingURL=vue-sidebar-menu.esm.js.map

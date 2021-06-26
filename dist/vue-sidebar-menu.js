@@ -170,29 +170,18 @@
     };
   }
 
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: true,
-        configurable: true,
-        writable: true
-      });
-    } else {
-      obj[key] = value;
-    }
-
-    return obj;
-  }
-
   function ownKeys(object, enumerableOnly) {
     var keys = Object.keys(object);
 
     if (Object.getOwnPropertySymbols) {
       var symbols = Object.getOwnPropertySymbols(object);
-      if (enumerableOnly) symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
+
+      if (enumerableOnly) {
+        symbols = symbols.filter(function (sym) {
+          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+        });
+      }
+
       keys.push.apply(keys, symbols);
     }
 
@@ -217,6 +206,21 @@
     }
 
     return target;
+  }
+
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
   }
 
   // Adapted from vue-router-next
@@ -500,7 +504,7 @@
     };
   }
 
-  var script = {
+  var script$5 = {
     name: 'SidebarMenuLink',
     inheritAttrs: false,
     props: {
@@ -509,53 +513,49 @@
         required: true
       }
     },
-    data: function data() {
+    data () {
       return {
         router: false
-      };
-    },
-    computed: {
-      isHyperLink: function isHyperLink() {
-        return !!(!this.item.href || this.item.external || !this.router);
       }
     },
-    mounted: function mounted() {
+    computed: {
+      isHyperLink () {
+        return !!(!this.item.href || this.item.external || !this.router)
+      }
+    },
+    mounted () {
       this.router = !!this.$router;
     }
   };
 
-  function render(_ctx, _cache, $props, $setup, $data, $options) {
-    var _component_router_link = vue.resolveComponent("router-link");
+  function render$5(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_router_link = vue.resolveComponent("router-link");
 
-    return $options.isHyperLink ? (vue.openBlock(), vue.createBlock("a", vue.mergeProps({
-      key: 0
-    }, _ctx.$attrs), [vue.renderSlot(_ctx.$slots, "default")], 16
-    /* FULL_PROPS */
-    )) : (vue.openBlock(), vue.createBlock(_component_router_link, {
-      key: 1,
-      custom: "",
-      to: _ctx.$attrs.href
-    }, {
-      default: vue.withCtx(function (_ref) {
-        var href = _ref.href,
-            navigate = _ref.navigate;
-        return [vue.createVNode("a", vue.mergeProps(_ctx.$attrs, {
-          href: href,
-          onClick: navigate
-        }), [vue.renderSlot(_ctx.$slots, "default")], 16
-        /* FULL_PROPS */
-        , ["href", "onClick"])];
-      }),
-      _: 3
-    }, 8
-    /* PROPS */
-    , ["to"]));
+    return ($options.isHyperLink)
+      ? (vue.openBlock(), vue.createBlock("a", vue.mergeProps({ key: 0 }, _ctx.$attrs), [
+          vue.renderSlot(_ctx.$slots, "default")
+        ], 16 /* FULL_PROPS */))
+      : (vue.openBlock(), vue.createBlock(_component_router_link, {
+          key: 1,
+          custom: "",
+          to: _ctx.$attrs.href
+        }, {
+          default: vue.withCtx(({ href, navigate }) => [
+            vue.createVNode("a", vue.mergeProps(_ctx.$attrs, {
+              href: href,
+              onClick: navigate
+            }), [
+              vue.renderSlot(_ctx.$slots, "default")
+            ], 16 /* FULL_PROPS */, ["href", "onClick"])
+          ]),
+          _: 3 /* FORWARDED */
+        }, 8 /* PROPS */, ["to"]))
   }
 
-  script.render = render;
-  script.__file = "src/components/SidebarMenuLink.vue";
+  script$5.render = render$5;
+  script$5.__file = "src/components/SidebarMenuLink.vue";
 
-  var script$1 = {
+  var script$4 = {
     name: 'SidebarMenuIcon',
     props: {
       icon: {
@@ -565,59 +565,51 @@
     }
   };
 
-  function render$1(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.icon.element ? $props.icon.element : 'i'), vue.mergeProps({
-      class: ["vsm--icon", typeof $props.icon === 'string' || $props.icon instanceof String ? $props.icon : $props.icon.class],
+  function render$4(_ctx, _cache, $props, $setup, $data, $options) {
+    return (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.icon.element ? $props.icon.element : 'i'), vue.mergeProps({
+      class: ["vsm--icon", typeof $props.icon === 'string' || ($props.icon instanceof String) ? $props.icon : $props.icon.class],
       "aria-hidden": "true"
     }, $props.icon.attributes), {
-      default: vue.withCtx(function () {
-        return [vue.createTextVNode(vue.toDisplayString($props.icon.text), 1
-        /* TEXT */
-        )];
-      }),
-      _: 1
-    }, 16
-    /* FULL_PROPS */
-    , ["class"]);
+      default: vue.withCtx(() => [
+        vue.createTextVNode(vue.toDisplayString($props.icon.text), 1 /* TEXT */)
+      ]),
+      _: 1 /* STABLE */
+    }, 16 /* FULL_PROPS */, ["class"]))
   }
 
-  script$1.render = render$1;
-  script$1.__file = "src/components/SidebarMenuIcon.vue";
+  script$4.render = render$4;
+  script$4.__file = "src/components/SidebarMenuIcon.vue";
 
-  var script$2 = {
+  var script$3 = {
     name: 'SidebarMenuBadge',
     props: {
       badge: {
         type: Object,
-        default: function _default() {}
+        default: () => {}
       }
     }
   };
 
-  function render$2(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.badge.element ? $props.badge.element : 'span'), vue.mergeProps({
+  function render$3(_ctx, _cache, $props, $setup, $data, $options) {
+    return (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.badge.element ? $props.badge.element : 'span'), vue.mergeProps({
       class: ["vsm--badge", $props.badge.class]
     }, $props.badge.attributes), {
-      default: vue.withCtx(function () {
-        return [vue.createTextVNode(vue.toDisplayString($props.badge.text), 1
-        /* TEXT */
-        )];
-      }),
-      _: 1
-    }, 16
-    /* FULL_PROPS */
-    , ["class"]);
+      default: vue.withCtx(() => [
+        vue.createTextVNode(vue.toDisplayString($props.badge.text), 1 /* TEXT */)
+      ]),
+      _: 1 /* STABLE */
+    }, 16 /* FULL_PROPS */, ["class"]))
   }
 
-  script$2.render = render$2;
-  script$2.__file = "src/components/SidebarMenuBadge.vue";
+  script$3.render = render$3;
+  script$3.__file = "src/components/SidebarMenuBadge.vue";
 
-  var script$3 = {
+  var script$2 = {
     name: 'SidebarMenuItem',
     components: {
-      SidebarMenuLink: script,
-      SidebarMenuIcon: script$1,
-      SidebarMenuBadge: script$2
+      SidebarMenuLink: script$5,
+      SidebarMenuIcon: script$4,
+      SidebarMenuBadge: script$3
     },
     props: {
       item: {
@@ -629,263 +621,244 @@
         default: 1
       }
     },
-    setup: function setup(props) {
-      var sidebarProps = vue.inject('vsm-props');
+    setup (props) {
+      const sidebarProps = vue.inject('vsm-props');
+      const { isCollapsed, mobileItemStyle, mobileItemDropdownStyle, mobileItemBackgroundStyle } = useMenu(sidebarProps);
+      const { linkComponentName } = vue.toRefs(sidebarProps);
+      const {
+        active,
+        exactActive,
+        show,
+        hover,
+        isFirstLevel,
+        isHidden,
+        hasChild,
+        linkClass,
+        linkAttrs,
+        itemClass,
+        isMobileItem,
+        onLinkClick,
+        onMouseOver,
+        onMouseOut,
+        onMouseEnter,
+        onMouseLeave,
+        onExpandEnter,
+        onExpandAfterEnter,
+        onExpandBeforeLeave,
+        onExpandAfterLeave
+      } = useItem(props);
 
-      var _useMenu = useMenu(sidebarProps),
-          isCollapsed = _useMenu.isCollapsed,
-          mobileItemStyle = _useMenu.mobileItemStyle,
-          mobileItemDropdownStyle = _useMenu.mobileItemDropdownStyle,
-          mobileItemBackgroundStyle = _useMenu.mobileItemBackgroundStyle;
-
-      var _toRefs = vue.toRefs(sidebarProps),
-          linkComponentName = _toRefs.linkComponentName;
-
-      var _useItem = useItem(props),
-          active = _useItem.active,
-          exactActive = _useItem.exactActive,
-          show = _useItem.show,
-          hover = _useItem.hover,
-          isFirstLevel = _useItem.isFirstLevel,
-          isHidden = _useItem.isHidden,
-          hasChild = _useItem.hasChild,
-          linkClass = _useItem.linkClass,
-          linkAttrs = _useItem.linkAttrs,
-          itemClass = _useItem.itemClass,
-          isMobileItem = _useItem.isMobileItem,
-          onLinkClick = _useItem.onLinkClick,
-          onMouseOver = _useItem.onMouseOver,
-          onMouseOut = _useItem.onMouseOut,
-          onMouseEnter = _useItem.onMouseEnter,
-          onMouseLeave = _useItem.onMouseLeave,
-          onExpandEnter = _useItem.onExpandEnter,
-          onExpandAfterEnter = _useItem.onExpandAfterEnter,
-          onExpandBeforeLeave = _useItem.onExpandBeforeLeave,
-          onExpandAfterLeave = _useItem.onExpandAfterLeave;
-
-      vue.watch(function () {
-        return active.value;
-      }, function () {
+      vue.watch(() => active.value, () => {
         if (active.value) {
           show.value = true;
         }
       }, {
         immediate: true
       });
+
       return {
-        isCollapsed: isCollapsed,
-        linkComponentName: linkComponentName,
-        active: active,
-        exactActive: exactActive,
-        isMobileItem: isMobileItem,
-        mobileItemStyle: mobileItemStyle,
-        mobileItemDropdownStyle: mobileItemDropdownStyle,
-        mobileItemBackgroundStyle: mobileItemBackgroundStyle,
-        show: show,
-        hover: hover,
-        isFirstLevel: isFirstLevel,
-        isHidden: isHidden,
-        hasChild: hasChild,
-        linkClass: linkClass,
-        linkAttrs: linkAttrs,
-        itemClass: itemClass,
-        onLinkClick: onLinkClick,
-        onMouseOver: onMouseOver,
-        onMouseOut: onMouseOut,
-        onMouseEnter: onMouseEnter,
-        onMouseLeave: onMouseLeave,
-        onExpandEnter: onExpandEnter,
-        onExpandAfterEnter: onExpandAfterEnter,
-        onExpandBeforeLeave: onExpandBeforeLeave,
-        onExpandAfterLeave: onExpandAfterLeave
-      };
+        isCollapsed,
+        linkComponentName,
+        active,
+        exactActive,
+        isMobileItem,
+        mobileItemStyle,
+        mobileItemDropdownStyle,
+        mobileItemBackgroundStyle,
+        show,
+        hover,
+        isFirstLevel,
+        isHidden,
+        hasChild,
+        linkClass,
+        linkAttrs,
+        itemClass,
+        onLinkClick,
+        onMouseOver,
+        onMouseOut,
+        onMouseEnter,
+        onMouseLeave,
+        onExpandEnter,
+        onExpandAfterEnter,
+        onExpandBeforeLeave,
+        onExpandAfterLeave
+      }
     }
   };
 
-  var _hoisted_1 = {
-    key: 0
-  };
-  var _hoisted_2 = {
-    class: "vsm--dropdown"
-  };
-  function render$3(_ctx, _cache, $props, $setup, $data, $options) {
-    var _component_sidebar_menu_icon = vue.resolveComponent("sidebar-menu-icon");
+  const _hoisted_1$2 = { key: 0 };
+  const _hoisted_2$2 = { class: "vsm--dropdown" };
 
-    var _component_sidebar_menu_badge = vue.resolveComponent("sidebar-menu-badge");
+  function render$2(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_sidebar_menu_icon = vue.resolveComponent("sidebar-menu-icon");
+    const _component_sidebar_menu_badge = vue.resolveComponent("sidebar-menu-badge");
+    const _component_sidebar_menu_item = vue.resolveComponent("sidebar-menu-item", true);
 
-    var _component_sidebar_menu_item = vue.resolveComponent("sidebar-menu-item");
-
-    return $props.item.component && !$setup.isHidden ? (vue.openBlock(), vue.createBlock("li", _hoisted_1, [(vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.item.component), $props.item.props, null, 16
-    /* FULL_PROPS */
-    ))])) : $props.item.header && !$setup.isHidden ? (vue.openBlock(), vue.createBlock("li", vue.mergeProps({
-      key: 1,
-      class: ["vsm--header", $props.item.class]
-    }, $props.item.attributes), vue.toDisplayString($props.item.header), 17
-    /* TEXT, FULL_PROPS */
-    )) : !$setup.isHidden ? (vue.openBlock(), vue.createBlock("li", vue.mergeProps({
-      key: 2,
-      class: $setup.itemClass,
-      onMouseover: _cache[1] || (_cache[1] = function () {
-        return $setup.onMouseOver.apply($setup, arguments);
-      }),
-      onMouseout: _cache[2] || (_cache[2] = function () {
-        return $setup.onMouseOut.apply($setup, arguments);
-      })
-    }, vue.toHandlers($setup.isCollapsed && $setup.isFirstLevel ? {
-      mouseenter: $setup.onMouseEnter,
-      mouseleave: $setup.onMouseLeave
-    } : {})), [(vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($setup.linkComponentName ? $setup.linkComponentName : 'SidebarMenuLink'), vue.mergeProps({
-      item: $props.item,
-      class: $setup.linkClass
-    }, $setup.linkAttrs, {
-      onClick: $setup.onLinkClick
-    }), {
-      default: vue.withCtx(function () {
-        return [$setup.isCollapsed && $setup.isFirstLevel ? (vue.openBlock(), vue.createBlock(vue.Transition, {
-          key: 0,
-          name: "slide-animation"
-        }, {
-          default: vue.withCtx(function () {
-            return [$setup.hover ? (vue.openBlock(), vue.createBlock("div", {
-              key: 0,
-              class: "vsm--mobile-bg",
-              style: $setup.mobileItemBackgroundStyle
-            }, null, 4
-            /* STYLE */
-            )) : vue.createCommentVNode("v-if", true)];
-          }),
-          _: 1
-        })) : vue.createCommentVNode("v-if", true), $props.item.icon ? (vue.openBlock(), vue.createBlock(_component_sidebar_menu_icon, {
-          key: 1,
-          icon: $props.item.icon
-        }, null, 8
-        /* PROPS */
-        , ["icon"])) : vue.createCommentVNode("v-if", true), vue.createVNode("div", {
-          class: ["vsm--title", $setup.isCollapsed && $setup.isFirstLevel && !$setup.isMobileItem && 'vsm--title_hidden'],
-          style: $setup.isMobileItem && $setup.mobileItemStyle
-        }, [vue.createVNode("span", null, vue.toDisplayString($props.item.title), 1
-        /* TEXT */
-        ), $props.item.badge ? (vue.openBlock(), vue.createBlock(_component_sidebar_menu_badge, {
-          key: 0,
-          badge: $props.item.badge
-        }, null, 8
-        /* PROPS */
-        , ["badge"])) : vue.createCommentVNode("v-if", true), $setup.hasChild ? (vue.openBlock(), vue.createBlock("div", {
-          key: 1,
-          class: ["vsm--arrow", {
-            'vsm--arrow_open': $setup.show
-          }]
-        }, [vue.renderSlot(_ctx.$slots, "dropdown-icon", {
-          isOpen: $setup.show
-        })], 2
-        /* CLASS */
-        )) : vue.createCommentVNode("v-if", true)], 6
-        /* CLASS, STYLE */
-        )];
-      }),
-      _: 1
-    }, 16
-    /* FULL_PROPS */
-    , ["item", "class", "onClick"])), $setup.hasChild ? (vue.openBlock(), vue.createBlock(vue.Transition, {
-      key: 0,
-      appear: $setup.isMobileItem,
-      name: "expand",
-      onEnter: $setup.onExpandEnter,
-      onAfterEnter: $setup.onExpandAfterEnter,
-      onBeforeLeave: $setup.onExpandBeforeLeave,
-      onAfterLeave: $setup.onExpandAfterLeave
-    }, {
-      default: vue.withCtx(function () {
-        return [$setup.show ? (vue.openBlock(), vue.createBlock("div", {
-          key: 0,
-          class: ["vsm--child", $setup.isMobileItem && 'vsm--child_mobile'],
-          style: $setup.isMobileItem && $setup.mobileItemDropdownStyle
-        }, [vue.createVNode("ul", _hoisted_2, [(vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.item.child, function (subItem, index) {
-          return vue.openBlock(), vue.createBlock(_component_sidebar_menu_item, {
-            key: index,
-            item: subItem,
-            level: $props.level + 1
-          }, {
-            "dropdown-icon": vue.withCtx(function (_ref) {
-              var isOpen = _ref.isOpen;
-              return [vue.renderSlot(_ctx.$slots, "dropdown-icon", {
-                isOpen: isOpen
-              })];
-            }),
-            _: 2
-          }, 1032
-          /* PROPS, DYNAMIC_SLOTS */
-          , ["item", "level"]);
-        }), 128
-        /* KEYED_FRAGMENT */
-        ))])], 6
-        /* CLASS, STYLE */
-        )) : vue.createCommentVNode("v-if", true)];
-      }),
-      _: 1
-    }, 8
-    /* PROPS */
-    , ["appear", "onEnter", "onAfterEnter", "onBeforeLeave", "onAfterLeave"])) : vue.createCommentVNode("v-if", true)], 16
-    /* FULL_PROPS */
-    )) : vue.createCommentVNode("v-if", true);
+    return ($props.item.component && !$setup.isHidden)
+      ? (vue.openBlock(), vue.createBlock("li", _hoisted_1$2, [
+          (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.item.component), $props.item.props, null, 16 /* FULL_PROPS */))
+        ]))
+      : ($props.item.header && !$setup.isHidden)
+        ? (vue.openBlock(), vue.createBlock("li", vue.mergeProps({
+            key: 1,
+            class: ["vsm--header", $props.item.class]
+          }, $props.item.attributes), vue.toDisplayString($props.item.header), 17 /* TEXT, FULL_PROPS */))
+        : (!$setup.isHidden)
+          ? (vue.openBlock(), vue.createBlock("li", vue.mergeProps({
+              key: 2,
+              class: $setup.itemClass,
+              onMouseover: _cache[1] || (_cache[1] = (...args) => ($setup.onMouseOver && $setup.onMouseOver(...args))),
+              onMouseout: _cache[2] || (_cache[2] = (...args) => ($setup.onMouseOut && $setup.onMouseOut(...args)))
+            }, vue.toHandlers(($setup.isCollapsed && $setup.isFirstLevel) ? { mouseenter: $setup.onMouseEnter, mouseleave: $setup.onMouseLeave} : {})), [
+              (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($setup.linkComponentName ? $setup.linkComponentName : 'SidebarMenuLink'), vue.mergeProps({
+                item: $props.item,
+                class: $setup.linkClass
+              }, $setup.linkAttrs, { onClick: $setup.onLinkClick }), {
+                default: vue.withCtx(() => [
+                  ($setup.isCollapsed && $setup.isFirstLevel)
+                    ? (vue.openBlock(), vue.createBlock(vue.Transition, {
+                        key: 0,
+                        name: "slide-animation"
+                      }, {
+                        default: vue.withCtx(() => [
+                          ($setup.hover)
+                            ? (vue.openBlock(), vue.createBlock("div", {
+                                key: 0,
+                                class: "vsm--mobile-bg",
+                                style: $setup.mobileItemBackgroundStyle
+                              }, null, 4 /* STYLE */))
+                            : vue.createCommentVNode("v-if", true)
+                        ]),
+                        _: 1 /* STABLE */
+                      }))
+                    : vue.createCommentVNode("v-if", true),
+                  ($props.item.icon)
+                    ? (vue.openBlock(), vue.createBlock(_component_sidebar_menu_icon, {
+                        key: 1,
+                        icon: $props.item.icon
+                      }, null, 8 /* PROPS */, ["icon"]))
+                    : vue.createCommentVNode("v-if", true),
+                  vue.createVNode("div", {
+                    class: ["vsm--title", ($setup.isCollapsed && $setup.isFirstLevel) && !$setup.isMobileItem && 'vsm--title_hidden'],
+                    style: $setup.isMobileItem && $setup.mobileItemStyle
+                  }, [
+                    vue.createVNode("span", null, vue.toDisplayString($props.item.title), 1 /* TEXT */),
+                    ($props.item.badge)
+                      ? (vue.openBlock(), vue.createBlock(_component_sidebar_menu_badge, {
+                          key: 0,
+                          badge: $props.item.badge
+                        }, null, 8 /* PROPS */, ["badge"]))
+                      : vue.createCommentVNode("v-if", true),
+                    ($setup.hasChild)
+                      ? (vue.openBlock(), vue.createBlock("div", {
+                          key: 1,
+                          class: ["vsm--arrow", {'vsm--arrow_open' : $setup.show}]
+                        }, [
+                          vue.renderSlot(_ctx.$slots, "dropdown-icon", { isOpen: $setup.show })
+                        ], 2 /* CLASS */))
+                      : vue.createCommentVNode("v-if", true)
+                  ], 6 /* CLASS, STYLE */)
+                ]),
+                _: 3 /* FORWARDED */
+              }, 16 /* FULL_PROPS */, ["item", "class", "onClick"])),
+              ($setup.hasChild)
+                ? (vue.openBlock(), vue.createBlock(vue.Transition, {
+                    key: 0,
+                    appear: $setup.isMobileItem,
+                    name: "expand",
+                    onEnter: $setup.onExpandEnter,
+                    onAfterEnter: $setup.onExpandAfterEnter,
+                    onBeforeLeave: $setup.onExpandBeforeLeave,
+                    onAfterLeave: $setup.onExpandAfterLeave
+                  }, {
+                    default: vue.withCtx(() => [
+                      ($setup.show)
+                        ? (vue.openBlock(), vue.createBlock("div", {
+                            key: 0,
+                            class: ["vsm--child", $setup.isMobileItem && 'vsm--child_mobile'],
+                            style: $setup.isMobileItem && $setup.mobileItemDropdownStyle
+                          }, [
+                            vue.createVNode("ul", _hoisted_2$2, [
+                              (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.item.child, (subItem, index) => {
+                                return (vue.openBlock(), vue.createBlock(_component_sidebar_menu_item, {
+                                  key: index,
+                                  item: subItem,
+                                  level: $props.level+1
+                                }, {
+                                  "dropdown-icon": vue.withCtx(({ isOpen }) => [
+                                    vue.renderSlot(_ctx.$slots, "dropdown-icon", { isOpen })
+                                  ]),
+                                  _: 2 /* DYNAMIC */
+                                }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["item", "level"]))
+                              }), 128 /* KEYED_FRAGMENT */))
+                            ])
+                          ], 6 /* CLASS, STYLE */))
+                        : vue.createCommentVNode("v-if", true)
+                    ]),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["appear", "onEnter", "onAfterEnter", "onBeforeLeave", "onAfterLeave"]))
+                : vue.createCommentVNode("v-if", true)
+            ], 16 /* FULL_PROPS */))
+          : vue.createCommentVNode("v-if", true)
   }
 
-  script$3.render = render$3;
-  script$3.__file = "src/components/SidebarMenuItem.vue";
+  script$2.render = render$2;
+  script$2.__file = "src/components/SidebarMenuItem.vue";
 
-  var script$4 = {
+  var script$1 = {
     name: 'SidebarMenuScroll',
-    setup: function setup() {
-      var sidebarProps = vue.inject('vsm-props');
+    setup () {
+      const sidebarProps = vue.inject('vsm-props');
+      const { isCollapsed } = useMenu(sidebarProps);
 
-      var _useMenu = useMenu(sidebarProps),
-          isCollapsed = _useMenu.isCollapsed;
+      const scrollRef = vue.ref(null);
+      const scrollBarRef = vue.ref(null);
+      const scrollThumbRef = vue.ref(null);
 
-      var scrollRef = vue.ref(null);
-      var scrollBarRef = vue.ref(null);
-      var scrollThumbRef = vue.ref(null);
-      var thumbYPerc = vue.ref(0);
-      var thumbHeightPerc = vue.ref(0);
-      var cursorY = 0;
-      var cursorDown = false;
-      var thumbStyle = vue.computed(function () {
+      const thumbYPerc = vue.ref(0);
+      const thumbHeightPerc = vue.ref(0);
+
+      let cursorY = 0;
+      let cursorDown = false;
+
+      const thumbStyle = vue.computed(() => {
         return {
-          height: "".concat(thumbHeightPerc.value, "%"),
-          transform: "translateY(".concat(thumbYPerc.value, "%)")
-        };
+          height: `${thumbHeightPerc.value}%`,
+          transform: `translateY(${thumbYPerc.value}%)`
+        }
       });
 
-      var onScrollUpdate = function onScrollUpdate() {
-        vue.nextTick(function () {
+      const onScrollUpdate = () => {
+        vue.nextTick(() => {
           updateThumb();
         });
       };
 
       vue.provide('emitScrollUpdate', onScrollUpdate);
-      vue.onMounted(function () {
+
+      vue.onMounted(() => {
         onScrollUpdate();
         window.addEventListener('resize', onScrollUpdate);
       });
-      vue.onUnmounted(function () {
+      vue.onUnmounted(() => {
         window.removeEventListener('resize', onScrollUpdate);
       });
-      vue.watch(function () {
-        return isCollapsed.value;
-      }, function () {
+
+      vue.watch(() => isCollapsed.value, () => {
         onScrollUpdate();
       });
 
-      var onScroll = function onScroll() {
+      const onScroll = () => {
         requestAnimationFrame(onScrollUpdate);
       };
 
-      var onClick = function onClick(e) {
-        var offset = Math.abs(scrollBarRef.value.getBoundingClientRect().y - e.clientY);
-        var thumbHalf = scrollThumbRef.value.offsetHeight / 2;
+      const onClick = (e) => {
+        const offset = Math.abs(scrollBarRef.value.getBoundingClientRect().y - e.clientY);
+        const thumbHalf = scrollThumbRef.value.offsetHeight / 2;
         updateScrollTop(offset - thumbHalf);
       };
 
-      var onMouseDown = function onMouseDown(e) {
+      const onMouseDown = (e) => {
         e.stopImmediatePropagation();
         cursorDown = true;
         window.addEventListener('mousemove', onMouseMove);
@@ -893,86 +866,80 @@
         cursorY = scrollThumbRef.value.offsetHeight - (e.clientY - scrollThumbRef.value.getBoundingClientRect().y);
       };
 
-      var onMouseMove = function onMouseMove(e) {
-        if (!cursorDown) return;
-        var offset = e.clientY - scrollBarRef.value.getBoundingClientRect().y;
-        var thumbClickPosition = scrollThumbRef.value.offsetHeight - cursorY;
+      const onMouseMove = (e) => {
+        if (!cursorDown) return
+        const offset = e.clientY - scrollBarRef.value.getBoundingClientRect().y;
+        const thumbClickPosition = scrollThumbRef.value.offsetHeight - cursorY;
         updateScrollTop(offset - thumbClickPosition);
       };
 
-      var onMouseUp = function onMouseUp(e) {
+      const onMouseUp = (e) => {
         cursorDown = false;
         cursorY = 0;
         window.removeEventListener('mousemove', onMouseMove);
         window.removeEventListener('mouseup', onMouseUp);
       };
 
-      var updateThumb = function updateThumb() {
-        var heightPerc = scrollRef.value.clientHeight * 100 / scrollRef.value.scrollHeight;
+      const updateThumb = () => {
+        const heightPerc = scrollRef.value.clientHeight * 100 / scrollRef.value.scrollHeight;
         thumbHeightPerc.value = heightPerc < 100 ? heightPerc : 0;
         thumbYPerc.value = scrollRef.value.scrollTop * 100 / scrollRef.value.clientHeight;
       };
 
-      var updateScrollTop = function updateScrollTop(y) {
-        var scrollPerc = y * 100 / scrollBarRef.value.offsetHeight;
+      const updateScrollTop = (y) => {
+        const scrollPerc = y * 100 / scrollBarRef.value.offsetHeight;
         scrollRef.value.scrollTop = scrollPerc * scrollRef.value.scrollHeight / 100;
       };
 
       return {
-        scrollRef: scrollRef,
-        scrollBarRef: scrollBarRef,
-        scrollThumbRef: scrollThumbRef,
-        thumbStyle: thumbStyle,
-        onScroll: onScroll,
-        onClick: onClick,
-        onMouseDown: onMouseDown
-      };
+        scrollRef,
+        scrollBarRef,
+        scrollThumbRef,
+        thumbStyle,
+        onScroll,
+        onClick,
+        onMouseDown
+      }
     }
   };
 
-  var _hoisted_1$1 = {
-    class: "vsm--scroll-wrapper"
-  };
-  var _hoisted_2$1 = {
-    class: "vsm--scroll-overflow"
-  };
-  function render$4(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createBlock("div", _hoisted_1$1, [vue.createVNode("div", _hoisted_2$1, [vue.createVNode("div", {
-      ref: "scrollRef",
-      class: "vsm--scroll",
-      onScroll: _cache[1] || (_cache[1] = function () {
-        return $setup.onScroll.apply($setup, arguments);
-      })
-    }, [vue.renderSlot(_ctx.$slots, "default")], 544
-    /* HYDRATE_EVENTS, NEED_PATCH */
-    ), vue.createVNode("div", {
-      ref: "scrollBarRef",
-      class: "vsm--scroll-bar",
-      onMousedown: _cache[3] || (_cache[3] = function () {
-        return $setup.onClick.apply($setup, arguments);
-      })
-    }, [vue.createVNode("div", {
-      ref: "scrollThumbRef",
-      class: "vsm--scroll-thumb",
-      style: $setup.thumbStyle,
-      onMousedown: _cache[2] || (_cache[2] = function () {
-        return $setup.onMouseDown.apply($setup, arguments);
-      })
-    }, null, 36
-    /* STYLE, HYDRATE_EVENTS */
-    )], 544
-    /* HYDRATE_EVENTS, NEED_PATCH */
-    )])]);
+  const _hoisted_1$1 = { class: "vsm--scroll-wrapper" };
+  const _hoisted_2$1 = { class: "vsm--scroll-overflow" };
+
+  function render$1(_ctx, _cache, $props, $setup, $data, $options) {
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$1, [
+      vue.createVNode("div", _hoisted_2$1, [
+        vue.createVNode("div", {
+          ref: "scrollRef",
+          class: "vsm--scroll",
+          onScroll: _cache[1] || (_cache[1] = (...args) => ($setup.onScroll && $setup.onScroll(...args)))
+        }, [
+          vue.renderSlot(_ctx.$slots, "default")
+        ], 544 /* HYDRATE_EVENTS, NEED_PATCH */),
+        vue.createVNode("div", {
+          ref: "scrollBarRef",
+          class: "vsm--scroll-bar",
+          onMousedown: _cache[3] || (_cache[3] = (...args) => ($setup.onClick && $setup.onClick(...args)))
+        }, [
+          vue.createVNode("div", {
+            ref: "scrollThumbRef",
+            class: "vsm--scroll-thumb",
+            style: $setup.thumbStyle,
+            onMousedown: _cache[2] || (_cache[2] = (...args) => ($setup.onMouseDown && $setup.onMouseDown(...args)))
+          }, null, 36 /* STYLE, HYDRATE_EVENTS */)
+        ], 544 /* HYDRATE_EVENTS, NEED_PATCH */)
+      ])
+    ]))
   }
 
-  script$4.render = render$4;
-  script$4.__file = "src/components/SidebarMenuScroll.vue";
+  script$1.render = render$1;
+  script$1.__file = "src/components/SidebarMenuScroll.vue";
 
-  var script$5 = {
+  var script = {
     name: 'SidebarMenu',
     components: {
-      SidebarMenuItem: script$3,
-      SidebarMenuScroll: script$4
+      SidebarMenuItem: script$2,
+      SidebarMenuScroll: script$1
     },
     props: {
       menu: {
@@ -1025,141 +992,122 @@
       }
     },
     emits: {
-      'item-click': function itemClick(event, item) {
-        return !!(event && item);
+      'item-click' (event, item) {
+        return !!(event && item)
       },
-      'update:collapsed': function updateCollapsed(collapsed) {
-        return !!(typeof collapsed === 'boolean');
+      'update:collapsed' (collapsed) {
+        return !!(typeof collapsed === 'boolean')
       }
     },
-    setup: function setup(props, context) {
+    setup (props, context) {
       vue.provide('vsm-props', props);
 
-      var _useMenu = useMenu(props, context),
-          sidebarMenuRef = _useMenu.sidebarMenuRef,
-          isCollapsed = _useMenu.isCollapsed,
-          sidebarWidth = _useMenu.sidebarWidth,
-          sidebarClass = _useMenu.sidebarClass,
-          onToggleClick = _useMenu.onToggleClick,
-          onItemClick = _useMenu.onItemClick,
-          onRouteChange = _useMenu.onRouteChange,
-          unsetMobileItem = _useMenu.unsetMobileItem;
+      const {
+        sidebarMenuRef,
+        isCollapsed,
+        sidebarWidth,
+        sidebarClass,
+        onToggleClick,
+        onItemClick,
+        onRouteChange,
+        unsetMobileItem
+      } = useMenu(props, context);
 
       vue.provide('emitItemClick', onItemClick);
       vue.provide('emitScrollUpdate');
       vue.provide('onRouteChange', onRouteChange);
 
-      var _toRefs = vue.toRefs(props),
-          collapsed = _toRefs.collapsed;
-
+      const { collapsed } = vue.toRefs(props);
       isCollapsed.value = collapsed.value;
-      vue.watch(function () {
-        return props.collapsed;
-      }, function (currentCollapsed) {
+
+      vue.watch(() => props.collapsed, (currentCollapsed) => {
         unsetMobileItem();
         isCollapsed.value = currentCollapsed;
       });
-      var router = vue.getCurrentInstance().appContext.config.globalProperties.$router;
 
+      const router = vue.getCurrentInstance().appContext.config.globalProperties.$router;
       if (!router) {
-        vue.onMounted(function () {
+        vue.onMounted(() => {
           window.addEventListener('hashchange', onRouteChange);
         });
-        vue.onUnmounted(function () {
+        vue.onUnmounted(() => {
           window.removeEventListener('hashchange', onRouteChange);
         });
       }
 
       return {
-        sidebarMenuRef: sidebarMenuRef,
-        isCollapsed: isCollapsed,
-        sidebarWidth: sidebarWidth,
-        sidebarClass: sidebarClass,
-        onToggleClick: onToggleClick,
-        onItemClick: onItemClick,
-        onRouteChange: onRouteChange
-      };
+        sidebarMenuRef,
+        isCollapsed,
+        sidebarWidth,
+        sidebarClass,
+        onToggleClick,
+        onItemClick,
+        onRouteChange
+      }
     }
   };
 
-  var _hoisted_1$2 = /*#__PURE__*/vue.createVNode("span", {
-    class: "vsm--arrow_default"
-  }, null, -1
-  /* HOISTED */
-  );
+  const _hoisted_1 = /*#__PURE__*/vue.createVNode("span", { class: "vsm--arrow_default" }, null, -1 /* HOISTED */);
+  const _hoisted_2 = /*#__PURE__*/vue.createVNode("span", { class: "vsm--toggle-btn_default" }, null, -1 /* HOISTED */);
 
-  var _hoisted_2$2 = /*#__PURE__*/vue.createVNode("span", {
-    class: "vsm--toggle-btn_default"
-  }, null, -1
-  /* HOISTED */
-  );
+  function render(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_sidebar_menu_item = vue.resolveComponent("sidebar-menu-item");
+    const _component_sidebar_menu_scroll = vue.resolveComponent("sidebar-menu-scroll");
 
-  function render$5(_ctx, _cache, $props, $setup, $data, $options) {
-    var _component_sidebar_menu_item = vue.resolveComponent("sidebar-menu-item");
-
-    var _component_sidebar_menu_scroll = vue.resolveComponent("sidebar-menu-scroll");
-
-    return vue.openBlock(), vue.createBlock("div", {
+    return (vue.openBlock(), vue.createBlock("div", {
       ref: "sidebarMenuRef",
       class: ["v-sidebar-menu", $setup.sidebarClass],
-      style: {
-        'max-width': $setup.sidebarWidth
-      }
-    }, [vue.renderSlot(_ctx.$slots, "header"), vue.createVNode(_component_sidebar_menu_scroll, null, {
-      default: vue.withCtx(function () {
-        return [vue.createVNode("ul", {
-          class: "vsm--menu",
-          style: {
-            'width': $setup.sidebarWidth,
-            'position': 'static !important'
-          }
-        }, [(vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.menu, function (item, index) {
-          return vue.openBlock(), vue.createBlock(_component_sidebar_menu_item, {
-            key: index,
-            item: item
-          }, {
-            "dropdown-icon": vue.withCtx(function (_ref) {
-              var isOpen = _ref.isOpen;
-              return [vue.renderSlot(_ctx.$slots, "dropdown-icon", {
-                isOpen: isOpen
-              }, function () {
-                return [_hoisted_1$2];
-              })];
-            }),
-            _: 2
-          }, 1032
-          /* PROPS, DYNAMIC_SLOTS */
-          , ["item"]);
-        }), 128
-        /* KEYED_FRAGMENT */
-        ))], 4
-        /* STYLE */
-        )];
+      style: {'max-width': $setup.sidebarWidth}
+    }, [
+      vue.renderSlot(_ctx.$slots, "header"),
+      vue.createVNode(_component_sidebar_menu_scroll, null, {
+        default: vue.withCtx(() => [
+          vue.createVNode("ul", {
+            class: "vsm--menu",
+            style: {'width': $setup.sidebarWidth, 'position': 'static !important'}
+          }, [
+            (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.menu, (item, index) => {
+              return (vue.openBlock(), vue.createBlock(_component_sidebar_menu_item, {
+                key: index,
+                item: item
+              }, {
+                "dropdown-icon": vue.withCtx(({ isOpen }) => [
+                  vue.renderSlot(_ctx.$slots, "dropdown-icon", { isOpen }, () => [
+                    _hoisted_1
+                  ])
+                ]),
+                _: 2 /* DYNAMIC */
+              }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["item"]))
+            }), 128 /* KEYED_FRAGMENT */))
+          ], 4 /* STYLE */)
+        ]),
+        _: 1 /* STABLE */
       }),
-      _: 1
-    }), vue.renderSlot(_ctx.$slots, "footer"), !$props.hideToggle ? (vue.openBlock(), vue.createBlock("button", {
-      key: 0,
-      class: "vsm--toggle-btn",
-      onClick: _cache[1] || (_cache[1] = function () {
-        return $setup.onToggleClick.apply($setup, arguments);
-      })
-    }, [vue.renderSlot(_ctx.$slots, "toggle-icon", {}, function () {
-      return [_hoisted_2$2];
-    })])) : vue.createCommentVNode("v-if", true)], 6
-    /* CLASS, STYLE */
-    );
+      vue.renderSlot(_ctx.$slots, "footer"),
+      (!$props.hideToggle)
+        ? (vue.openBlock(), vue.createBlock("button", {
+            key: 0,
+            class: "vsm--toggle-btn",
+            onClick: _cache[1] || (_cache[1] = (...args) => ($setup.onToggleClick && $setup.onToggleClick(...args)))
+          }, [
+            vue.renderSlot(_ctx.$slots, "toggle-icon", {}, () => [
+              _hoisted_2
+            ])
+          ]))
+        : vue.createCommentVNode("v-if", true)
+    ], 6 /* CLASS, STYLE */))
   }
 
-  script$5.render = render$5;
-  script$5.__file = "src/components/SidebarMenu.vue";
+  script.render = render;
+  script.__file = "src/components/SidebarMenu.vue";
 
   var index = {
     install: function install(Vue) {
-      Vue.component('SidebarMenu', script$5);
+      Vue.component('SidebarMenu', script);
     }
   };
 
-  exports.SidebarMenu = script$5;
+  exports.SidebarMenu = script;
   exports.default = index;
 
   Object.defineProperty(exports, '__esModule', { value: true });
