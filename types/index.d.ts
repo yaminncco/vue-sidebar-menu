@@ -72,7 +72,7 @@ export class SidebarMenu {
   menu: Array<SidebarItem | SidebarComponentItem | SidebarHeaderItem>;
 
   /**
-   * Sidebar Collapse state.
+   * Sidebar Collapse state (v-model:collapsed to enable two-way data binding).
    * by default false
    */
   collapsed?: boolean;
