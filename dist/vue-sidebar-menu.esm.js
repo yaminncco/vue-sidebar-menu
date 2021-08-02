@@ -1,4 +1,4 @@
-import { computed, ref, reactive, getCurrentInstance, inject, resolveComponent, openBlock, createBlock, mergeProps, renderSlot, withCtx, createVNode, resolveDynamicComponent, createTextVNode, toDisplayString, toRefs, watch, toHandlers, Transition, createCommentVNode, Fragment, renderList, provide, onMounted, onUnmounted, nextTick } from 'vue';
+import { ref, reactive, computed, getCurrentInstance, inject, resolveComponent, openBlock, createBlock, mergeProps, renderSlot, withCtx, createVNode, resolveDynamicComponent, createTextVNode, toDisplayString, toRefs, watch, toHandlers, Transition, createCommentVNode, Fragment, renderList, provide, onMounted, onUnmounted, nextTick } from 'vue';
 
 var isCollapsed = ref(false);
 var sidebarMenuRef = ref(null);
@@ -311,9 +311,7 @@ function useItem(props) {
 
     emitMobileItem(event, event.currentTarget.parentElement);
 
-    if (hasChild.value || !sidebarProps.showChild) {
-      if (isCollapsed.value && isFirstLevel.value) return;
-
+    if (hasChild.value) {
       if (!props.item.href || active.value) {
         show.value = !show.value;
       }
@@ -1103,6 +1101,5 @@ var index = {
   }
 };
 
-export default index;
-export { script as SidebarMenu };
+export { script as SidebarMenu, index as default };
 //# sourceMappingURL=vue-sidebar-menu.esm.js.map

@@ -315,9 +315,7 @@
 
       emitMobileItem(event, event.currentTarget.parentElement);
 
-      if (hasChild.value || !sidebarProps.showChild) {
-        if (isCollapsed.value && isFirstLevel.value) return;
-
+      if (hasChild.value) {
         if (!props.item.href || active.value) {
           show.value = !show.value;
         }
@@ -1108,7 +1106,7 @@
   };
 
   exports.SidebarMenu = script;
-  exports.default = index;
+  exports['default'] = index;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
