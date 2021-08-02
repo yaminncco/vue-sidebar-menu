@@ -50,8 +50,7 @@ export default function useItem (props) {
 
     emitMobileItem(event, event.currentTarget.parentElement)
 
-    if (hasChild.value || !sidebarProps.showChild) {
-      if (isCollapsed.value && isFirstLevel.value) return
+    if (hasChild.value) {
       if (!props.item.href || active.value) {
         show.value = !show.value
       }
