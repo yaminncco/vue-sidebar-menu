@@ -6,7 +6,7 @@ A Vue.js Sidebar Menu Component
 
 [vue-sidebar-menu-demo](https://yaminncco.github.io/vue-sidebar-menu/)
 
-### This documentation is for Vue 2, for Vue 3 you can try the prerelease see [here](https://github.com/yaminncco/vue-sidebar-menu/tree/next)
+### :warning: This documentation is for Vue 2, for Vue 3 [click here](https://github.com/yaminncco/vue-sidebar-menu/tree/next)
 
 ## Installation
 
