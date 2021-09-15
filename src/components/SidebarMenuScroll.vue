@@ -52,6 +52,7 @@ export default {
     })
 
     const onScrollUpdate = () => {
+      if (!scrollRef.value) return
       nextTick(() => {
         updateThumb()
       })
