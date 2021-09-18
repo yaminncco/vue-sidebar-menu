@@ -1,6 +1,6 @@
 import { getCurrentInstance, computed, ref, inject } from 'vue'
 import useMenu from './useMenu'
-import { activeRecordIndex, isSameRouteLocationParams } from './useRouterLink'
+import { activeRecordIndex, isSameRouteLocationParams, includesParams } from './useRouterLink'
 
 const activeShow = ref(null)
 
@@ -28,8 +28,12 @@ export default function useItem (props) {
       const route = router.resolve(item.href)
       const routerCurrentRoute = router.currentRoute.value
       return activeRecordIndex(route, routerCurrentRoute) > -1 &&
-        activeRecordIndex(route, routerCurrentRoute) === routerCurrentRoute.matched.length - 1 &&
-        isSameRouteLocationParams(routerCurrentRoute.params, route.params)
+        !item.exact
+        ? includesParams(routerCurrentRoute.params, route.params)
+        : (
+            activeRecordIndex(route, routerCurrentRoute) === routerCurrentRoute.matched.length - 1 &&
+            isSameRouteLocationParams(routerCurrentRoute.params, route.params)
+          )
     } else {
       return item.href === currentRoute.value
     }
