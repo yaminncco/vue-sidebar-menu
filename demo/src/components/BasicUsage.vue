@@ -45,7 +45,6 @@
     // string or a location object
     href: '/',
     // href: { path: '/' }
-    // external: true
 
     title: 'Dashboard',
 
@@ -75,6 +74,10 @@
     // attributes: {}
     // hidden: false
     // hiddenOnCollapse: true
+
+    /* with vue-router */
+    // external: true
+    // exact: true // apply active class when current route is exactly the same. (based on route records, query & hash are not relevant)
   },
 
   // header item
