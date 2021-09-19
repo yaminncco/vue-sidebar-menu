@@ -40,6 +40,10 @@ export interface SidebarItem {
   hidden?: boolean;
 
   hiddenOnCollapse?: boolean;
+
+  external?: boolean;
+
+  exact?: boolean;
 }
 
 export interface SidebarHeaderItem {
