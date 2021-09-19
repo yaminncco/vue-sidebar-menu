@@ -208,6 +208,22 @@
     return target;
   }
 
+  function _typeof(obj) {
+    "@babel/helpers - typeof";
+
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+      _typeof = function (obj) {
+        return typeof obj;
+      };
+    } else {
+      _typeof = function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+      };
+    }
+
+    return _typeof(obj);
+  }
+
   function _defineProperty(obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, {
@@ -241,6 +257,34 @@
 
     for (var key in a) {
       if (!isSameRouteLocationParamsValue(a[key], b[key])) return false;
+    }
+
+    return true;
+  }
+  function includesParams(outer, inner) {
+    var _loop = function _loop(key) {
+      var innerValue = inner[key];
+      var outerValue = outer[key];
+
+      if (typeof innerValue === 'string') {
+        if (innerValue !== outerValue) return {
+          v: false
+        };
+      } else {
+        if (!Array.isArray(outerValue) || outerValue.length !== innerValue.length || innerValue.some(function (value, i) {
+          return value !== outerValue[i];
+        })) {
+          return {
+            v: false
+          };
+        }
+      }
+    };
+
+    for (var key in inner) {
+      var _ret = _loop(key);
+
+      if (_typeof(_ret) === "object") return _ret.v;
     }
 
     return true;
@@ -294,7 +338,7 @@
       if (router) {
         var route = router.resolve(item.href);
         var routerCurrentRoute = router.currentRoute.value;
-        return activeRecordIndex(route, routerCurrentRoute) > -1 && activeRecordIndex(route, routerCurrentRoute) === routerCurrentRoute.matched.length - 1 && isSameRouteLocationParams(routerCurrentRoute.params, route.params);
+        return activeRecordIndex(route, routerCurrentRoute) > -1 && !item.exact ? includesParams(routerCurrentRoute.params, route.params) : activeRecordIndex(route, routerCurrentRoute) === routerCurrentRoute.matched.length - 1 && isSameRouteLocationParams(routerCurrentRoute.params, route.params);
       } else {
         return item.href === currentRoute.value;
       }
@@ -827,6 +871,7 @@
       });
 
       const onScrollUpdate = () => {
+        if (!scrollRef.value) return
         vue.nextTick(() => {
           updateThumb();
         });
