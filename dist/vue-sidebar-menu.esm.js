@@ -1,5 +1,74 @@
 import { ref, reactive, computed, getCurrentInstance, inject, resolveComponent, openBlock, createBlock, mergeProps, renderSlot, withCtx, createVNode, resolveDynamicComponent, createTextVNode, toDisplayString, toRefs, watch, toHandlers, Transition, createCommentVNode, Fragment, renderList, provide, onMounted, onUnmounted, nextTick } from 'vue';
 
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+
+    if (enumerableOnly) {
+      symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+    }
+
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
 var isCollapsed = ref(false);
 var sidebarMenuRef = ref(null);
 var mobileItem = ref(null);
@@ -13,6 +82,26 @@ var mobileItemRect = reactive({
 var mobileItemTimeout = ref(null);
 var currentRoute = ref(window.location.pathname + window.location.search + window.location.hash);
 function useMenu(props, context) {
+  var id = 0;
+
+  function transformItems(items) {
+    return items.map(function (item) {
+      if (item.child) {
+        return _objectSpread2(_objectSpread2({}, item), {}, {
+          id: id++,
+          child: transformItems(item.child)
+        });
+      }
+
+      return _objectSpread2(_objectSpread2({}, item), {}, {
+        id: id++
+      });
+    });
+  }
+
+  var computedMenu = computed(function () {
+    return transformItems(props.menu);
+  });
   var sidebarWidth = computed(function () {
     return isCollapsed.value ? props.widthCollapsed : props.width;
   });
@@ -150,6 +239,7 @@ function useMenu(props, context) {
   return {
     sidebarMenuRef: sidebarMenuRef,
     isCollapsed: isCollapsed,
+    computedMenu: computedMenu,
     sidebarWidth: sidebarWidth,
     sidebarClass: sidebarClass,
     currentRoute: currentRoute,
@@ -164,75 +254,6 @@ function useMenu(props, context) {
     unsetMobileItem: unsetMobileItem,
     mobileItemTimeout: mobileItemTimeout
   };
-}
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-
-    if (enumerableOnly) {
-      symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-    }
-
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
 }
 
 // Adapted from vue-router-next
@@ -403,7 +424,9 @@ function useItem(props) {
 
     if (isCollapsed.value && isFirstLevel.value) {
       setTimeout(function () {
-        if (mobileItem.value !== props.item) {
+        var _mobileItem$value;
+
+        if (((_mobileItem$value = mobileItem.value) === null || _mobileItem$value === void 0 ? void 0 : _mobileItem$value.id) !== props.item.id) {
           setMobileItem({
             item: props.item,
             itemEl: itemEl
@@ -447,10 +470,12 @@ function useItem(props) {
 
   var show = computed({
     get: function get() {
+      var _activeShow$value;
+
       if (!hasChild.value) return false;
       if (isCollapsed.value && isFirstLevel.value) return hover.value;
       if (sidebarProps.showChild) return true;
-      return sidebarProps.showOneChild && isFirstLevel.value ? props.item === activeShow.value : itemShow.value;
+      return sidebarProps.showOneChild && isFirstLevel.value ? props.item.id === ((_activeShow$value = activeShow.value) === null || _activeShow$value === void 0 ? void 0 : _activeShow$value.id) : itemShow.value;
     },
     set: function set(show) {
       if (sidebarProps.showOneChild && isFirstLevel.value) {
@@ -461,7 +486,9 @@ function useItem(props) {
     }
   });
   var hover = computed(function () {
-    return isCollapsed.value && isFirstLevel.value ? props.item === mobileItem.value : itemHover.value;
+    var _mobileItem$value2;
+
+    return isCollapsed.value && isFirstLevel.value ? props.item.id === ((_mobileItem$value2 = mobileItem.value) === null || _mobileItem$value2 === void 0 ? void 0 : _mobileItem$value2.id) : itemHover.value;
   });
   var isFirstLevel = computed(function () {
     return props.level === 1;
@@ -817,9 +844,9 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
                           style: $setup.isMobileItem && $setup.mobileItemDropdownStyle
                         }, [
                           createVNode("ul", _hoisted_2$2, [
-                            (openBlock(true), createBlock(Fragment, null, renderList($props.item.child, (subItem, index) => {
+                            (openBlock(true), createBlock(Fragment, null, renderList($props.item.child, (subItem) => {
                               return (openBlock(), createBlock(_component_sidebar_menu_item, {
-                                key: index,
+                                key: subItem.id,
                                 item: subItem,
                                 level: $props.level+1
                               }, {
@@ -1044,6 +1071,7 @@ var script = {
     const {
       sidebarMenuRef,
       isCollapsed,
+      computedMenu,
       sidebarWidth,
       sidebarClass,
       onToggleClick,
@@ -1077,6 +1105,7 @@ var script = {
     return {
       sidebarMenuRef,
       isCollapsed,
+      computedMenu,
       sidebarWidth,
       sidebarClass,
       onToggleClick,
@@ -1105,9 +1134,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           class: "vsm--menu",
           style: {'width': $setup.sidebarWidth, 'position': 'static !important'}
         }, [
-          (openBlock(true), createBlock(Fragment, null, renderList($props.menu, (item, index) => {
+          (openBlock(true), createBlock(Fragment, null, renderList($setup.computedMenu, (item) => {
             return (openBlock(), createBlock(_component_sidebar_menu_item, {
-              key: index,
+              key: item.id,
               item: item
             }, {
               "dropdown-icon": withCtx(({ isOpen }) => [

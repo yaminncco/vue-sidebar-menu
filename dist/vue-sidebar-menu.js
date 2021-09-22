@@ -4,6 +4,75 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['vue-sidebar-menu'] = {}, global.Vue));
 }(this, (function (exports, vue) { 'use strict';
 
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+
+      if (enumerableOnly) {
+        symbols = symbols.filter(function (sym) {
+          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+        });
+      }
+
+      keys.push.apply(keys, symbols);
+    }
+
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+
+      if (i % 2) {
+        ownKeys(Object(source), true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(Object(source)).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+
+    return target;
+  }
+
+  function _typeof(obj) {
+    "@babel/helpers - typeof";
+
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+      _typeof = function (obj) {
+        return typeof obj;
+      };
+    } else {
+      _typeof = function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+      };
+    }
+
+    return _typeof(obj);
+  }
+
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  }
+
   var isCollapsed = vue.ref(false);
   var sidebarMenuRef = vue.ref(null);
   var mobileItem = vue.ref(null);
@@ -17,6 +86,26 @@
   var mobileItemTimeout = vue.ref(null);
   var currentRoute = vue.ref(window.location.pathname + window.location.search + window.location.hash);
   function useMenu(props, context) {
+    var id = 0;
+
+    function transformItems(items) {
+      return items.map(function (item) {
+        if (item.child) {
+          return _objectSpread2(_objectSpread2({}, item), {}, {
+            id: id++,
+            child: transformItems(item.child)
+          });
+        }
+
+        return _objectSpread2(_objectSpread2({}, item), {}, {
+          id: id++
+        });
+      });
+    }
+
+    var computedMenu = vue.computed(function () {
+      return transformItems(props.menu);
+    });
     var sidebarWidth = vue.computed(function () {
       return isCollapsed.value ? props.widthCollapsed : props.width;
     });
@@ -154,6 +243,7 @@
     return {
       sidebarMenuRef: sidebarMenuRef,
       isCollapsed: isCollapsed,
+      computedMenu: computedMenu,
       sidebarWidth: sidebarWidth,
       sidebarClass: sidebarClass,
       currentRoute: currentRoute,
@@ -168,75 +258,6 @@
       unsetMobileItem: unsetMobileItem,
       mobileItemTimeout: mobileItemTimeout
     };
-  }
-
-  function ownKeys(object, enumerableOnly) {
-    var keys = Object.keys(object);
-
-    if (Object.getOwnPropertySymbols) {
-      var symbols = Object.getOwnPropertySymbols(object);
-
-      if (enumerableOnly) {
-        symbols = symbols.filter(function (sym) {
-          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-        });
-      }
-
-      keys.push.apply(keys, symbols);
-    }
-
-    return keys;
-  }
-
-  function _objectSpread2(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i] != null ? arguments[i] : {};
-
-      if (i % 2) {
-        ownKeys(Object(source), true).forEach(function (key) {
-          _defineProperty(target, key, source[key]);
-        });
-      } else if (Object.getOwnPropertyDescriptors) {
-        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-      } else {
-        ownKeys(Object(source)).forEach(function (key) {
-          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-        });
-      }
-    }
-
-    return target;
-  }
-
-  function _typeof(obj) {
-    "@babel/helpers - typeof";
-
-    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-      _typeof = function (obj) {
-        return typeof obj;
-      };
-    } else {
-      _typeof = function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-      };
-    }
-
-    return _typeof(obj);
-  }
-
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: true,
-        configurable: true,
-        writable: true
-      });
-    } else {
-      obj[key] = value;
-    }
-
-    return obj;
   }
 
   // Adapted from vue-router-next
@@ -407,7 +428,9 @@
 
       if (isCollapsed.value && isFirstLevel.value) {
         setTimeout(function () {
-          if (mobileItem.value !== props.item) {
+          var _mobileItem$value;
+
+          if (((_mobileItem$value = mobileItem.value) === null || _mobileItem$value === void 0 ? void 0 : _mobileItem$value.id) !== props.item.id) {
             setMobileItem({
               item: props.item,
               itemEl: itemEl
@@ -451,10 +474,12 @@
 
     var show = vue.computed({
       get: function get() {
+        var _activeShow$value;
+
         if (!hasChild.value) return false;
         if (isCollapsed.value && isFirstLevel.value) return hover.value;
         if (sidebarProps.showChild) return true;
-        return sidebarProps.showOneChild && isFirstLevel.value ? props.item === activeShow.value : itemShow.value;
+        return sidebarProps.showOneChild && isFirstLevel.value ? props.item.id === ((_activeShow$value = activeShow.value) === null || _activeShow$value === void 0 ? void 0 : _activeShow$value.id) : itemShow.value;
       },
       set: function set(show) {
         if (sidebarProps.showOneChild && isFirstLevel.value) {
@@ -465,7 +490,9 @@
       }
     });
     var hover = vue.computed(function () {
-      return isCollapsed.value && isFirstLevel.value ? props.item === mobileItem.value : itemHover.value;
+      var _mobileItem$value2;
+
+      return isCollapsed.value && isFirstLevel.value ? props.item.id === ((_mobileItem$value2 = mobileItem.value) === null || _mobileItem$value2 === void 0 ? void 0 : _mobileItem$value2.id) : itemHover.value;
     });
     var isFirstLevel = vue.computed(function () {
       return props.level === 1;
@@ -821,9 +848,9 @@
                             style: $setup.isMobileItem && $setup.mobileItemDropdownStyle
                           }, [
                             vue.createVNode("ul", _hoisted_2$2, [
-                              (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.item.child, (subItem, index) => {
+                              (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.item.child, (subItem) => {
                                 return (vue.openBlock(), vue.createBlock(_component_sidebar_menu_item, {
-                                  key: index,
+                                  key: subItem.id,
                                   item: subItem,
                                   level: $props.level+1
                                 }, {
@@ -1048,6 +1075,7 @@
       const {
         sidebarMenuRef,
         isCollapsed,
+        computedMenu,
         sidebarWidth,
         sidebarClass,
         onToggleClick,
@@ -1081,6 +1109,7 @@
       return {
         sidebarMenuRef,
         isCollapsed,
+        computedMenu,
         sidebarWidth,
         sidebarClass,
         onToggleClick,
@@ -1109,9 +1138,9 @@
             class: "vsm--menu",
             style: {'width': $setup.sidebarWidth, 'position': 'static !important'}
           }, [
-            (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.menu, (item, index) => {
+            (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($setup.computedMenu, (item) => {
               return (vue.openBlock(), vue.createBlock(_component_sidebar_menu_item, {
-                key: index,
+                key: item.id,
                 item: item
               }, {
                 "dropdown-icon": vue.withCtx(({ isOpen }) => [
