@@ -14,6 +14,19 @@ const mobileItemTimeout = ref(null)
 const currentRoute = ref(window.location.pathname + window.location.search + window.location.hash)
 
 export default function useMenu (props, context) {
+  let id = 0
+  function transformItems (items) {
+    return items.map(item => {
+      if (item.child) {
+        return { ...item, id: id++, child: transformItems(item.child) }
+      }
+      return { ...item, id: id++ }
+    })
+  }
+  const computedMenu = computed(() => {
+    return transformItems(props.menu)
+  })
+
   const sidebarWidth = computed(() => {
     return isCollapsed.value ? props.widthCollapsed : props.width
   })
@@ -121,6 +134,7 @@ export default function useMenu (props, context) {
   return {
     sidebarMenuRef,
     isCollapsed,
+    computedMenu,
     sidebarWidth,
     sidebarClass,
     currentRoute,

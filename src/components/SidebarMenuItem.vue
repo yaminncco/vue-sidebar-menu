@@ -81,8 +81,8 @@
         >
           <ul class="vsm--dropdown">
             <sidebar-menu-item
-              v-for="(subItem, index) in item.child"
-              :key="index"
+              v-for="subItem in item.child"
+              :key="subItem.id"
               :item="subItem"
               :level="level+1"
             >

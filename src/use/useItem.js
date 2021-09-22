@@ -97,7 +97,7 @@ export default function useItem (props) {
     if (hover.value) return
     if (isCollapsed.value && isFirstLevel.value) {
       setTimeout(() => {
-        if (mobileItem.value !== props.item) {
+        if (mobileItem.value?.id !== props.item.id) {
           setMobileItem({ item: props.item, itemEl })
           show.value = true
         }
@@ -138,7 +138,7 @@ export default function useItem (props) {
       if (!hasChild.value) return false
       if (isCollapsed.value && isFirstLevel.value) return hover.value
       if (sidebarProps.showChild) return true
-      return sidebarProps.showOneChild && isFirstLevel.value ? props.item === activeShow.value : itemShow.value
+      return sidebarProps.showOneChild && isFirstLevel.value ? props.item.id === activeShow.value?.id : itemShow.value
     },
     set: show => {
       if (sidebarProps.showOneChild && isFirstLevel.value) {
@@ -149,7 +149,7 @@ export default function useItem (props) {
   })
 
   const hover = computed(() => {
-    return (isCollapsed.value && isFirstLevel.value) ? props.item === mobileItem.value : itemHover.value
+    return (isCollapsed.value && isFirstLevel.value) ? props.item.id === mobileItem.value?.id : itemHover.value
   })
 
   const isFirstLevel = computed(() => {

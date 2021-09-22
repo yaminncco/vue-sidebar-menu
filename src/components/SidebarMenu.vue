@@ -12,8 +12,8 @@
         :style="{'width': sidebarWidth, 'position': 'static !important'}"
       >
         <sidebar-menu-item
-          v-for="(item, index) in menu"
-          :key="index"
+          v-for="item in computedMenu"
+          :key="item.id"
           :item="item"
         >
           <template #dropdown-icon="{ isOpen }">
@@ -117,6 +117,7 @@ export default {
     const {
       sidebarMenuRef,
       isCollapsed,
+      computedMenu,
       sidebarWidth,
       sidebarClass,
       onToggleClick,
@@ -150,6 +151,7 @@ export default {
     return {
       sidebarMenuRef,
       isCollapsed,
+      computedMenu,
       sidebarWidth,
       sidebarClass,
       onToggleClick,
