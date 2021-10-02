@@ -19,21 +19,22 @@ export default function useItem (props) {
   })
 
   const exactActive = computed(() => {
-    return isLinkActive(props.item)
+    return isLinkActive(props.item, true)
   })
 
-  const isLinkActive = (item) => {
+  const isLinkActive = (item, exact) => {
     if (!item.href || item.external) return false
     if (router) {
       const route = router.resolve(item.href)
       const routerCurrentRoute = router.currentRoute.value
-      return activeRecordIndex(route, routerCurrentRoute) > -1 &&
-        !item.exact
-        ? includesParams(routerCurrentRoute.params, route.params)
-        : (
-            activeRecordIndex(route, routerCurrentRoute) === routerCurrentRoute.matched.length - 1 &&
-            isSameRouteLocationParams(routerCurrentRoute.params, route.params)
-          )
+      const activeIndex = activeRecordIndex(route, routerCurrentRoute)
+      if (exact || item.exact) {
+        return activeIndex > -1 &&
+        activeIndex === routerCurrentRoute.matched.length - 1 &&
+          isSameRouteLocationParams(routerCurrentRoute.params, route.params)
+      }
+      return activeIndex > -1 &&
+      includesParams(routerCurrentRoute.params, route.params)
     } else {
       return item.href === currentRoute.value
     }
