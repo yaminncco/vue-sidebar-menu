@@ -350,16 +350,22 @@
       return isLinkActive(props.item) || isChildActive(props.item.child);
     });
     var exactActive = vue.computed(function () {
-      return isLinkActive(props.item);
+      return isLinkActive(props.item, true);
     });
 
-    var isLinkActive = function isLinkActive(item) {
+    var isLinkActive = function isLinkActive(item, exact) {
       if (!item.href || item.external) return false;
 
       if (router) {
         var route = router.resolve(item.href);
         var routerCurrentRoute = router.currentRoute.value;
-        return activeRecordIndex(route, routerCurrentRoute) > -1 && !item.exact ? includesParams(routerCurrentRoute.params, route.params) : activeRecordIndex(route, routerCurrentRoute) === routerCurrentRoute.matched.length - 1 && isSameRouteLocationParams(routerCurrentRoute.params, route.params);
+        var activeIndex = activeRecordIndex(route, routerCurrentRoute);
+
+        if (exact || item.exact) {
+          return activeIndex > -1 && activeIndex === routerCurrentRoute.matched.length - 1 && isSameRouteLocationParams(routerCurrentRoute.params, route.params);
+        }
+
+        return activeIndex > -1 && includesParams(routerCurrentRoute.params, route.params);
       } else {
         return item.href === currentRoute.value;
       }
