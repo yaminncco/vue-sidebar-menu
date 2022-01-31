@@ -192,7 +192,7 @@ export default function useItem (props) {
     const tabindex = props.item.disabled ? -1 : null
     const ariaCurrent = exactActive.value ? 'page' : null
     const ariaHaspopup = hasChild.value ? true : null
-    const ariaExpanded = show.value ? true : null
+    const ariaExpanded = hasChild.value ? show.value : null
 
     return {
       href,
