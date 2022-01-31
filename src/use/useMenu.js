@@ -91,32 +91,33 @@ export default function useMenu (props, context) {
 
   const setMobileItem = ({ item, itemEl }) => {
     if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value)
-    const itemLinkEl = itemEl.children[0]
-    const { top, bottom, height } = itemLinkEl.getBoundingClientRect()
+    const linkEl = itemEl.children[0]
+    const { top: linkTop, bottom: linkBottom, height: linkHeight } = linkEl.getBoundingClientRect()
     const { left: sidebarLeft, right: sidebarRight } = sidebarMenuRef.value.getBoundingClientRect()
-    const offsetTop = itemLinkEl.offsetParent.getBoundingClientRect().top
-    let parentHeight
-    let parentWidth
+    const offsetParentTop = linkEl.offsetParent.getBoundingClientRect().top
+
+    let parentHeight = window.innerHeight
+    let parentWidth = window.innerWidth
     let parentTop = 0
-    let width = 0
+    let parentRight = parentWidth
     const maxWidth = parseInt(props.width) - parseInt(props.widthCollapsed)
     if (props.relative) {
       const parent = sidebarMenuRef.value.parentElement
       parentHeight = parent.clientHeight
       parentWidth = parent.clientWidth
       parentTop = parent.getBoundingClientRect().top
-      width = props.rtl ? parentWidth - (parent.getBoundingClientRect().right - sidebarLeft) : parent.getBoundingClientRect().right - sidebarRight
-    } else {
-      parentHeight = window.innerHeight
-      parentWidth = window.innerWidth
-      width = props.rtl ? parentWidth - (parentWidth - sidebarLeft) : parentWidth - sidebarRight
+      parentRight = parent.getBoundingClientRect().right
     }
+    const width = props.rtl
+      ? parentWidth - (parentRight - sidebarLeft)
+      : parentWidth - sidebarRight
+
     mobileItem.value = item
-    mobileItemRect.top = top - offsetTop
-    mobileItemRect.height = height
-    mobileItemRect.padding = window.getComputedStyle(itemLinkEl).paddingRight
+    mobileItemRect.top = linkTop - offsetParentTop
+    mobileItemRect.height = linkHeight
+    mobileItemRect.padding = window.getComputedStyle(linkEl).paddingRight
     mobileItemRect.maxWidth = width <= maxWidth ? width : maxWidth
-    mobileItemRect.maxHeight = parentHeight - (bottom - parentTop)
+    mobileItemRect.maxHeight = parentHeight - (linkBottom - parentTop)
   }
 
   const unsetMobileItem = (immediate = true, delay = 800) => {
