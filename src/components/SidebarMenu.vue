@@ -9,7 +9,7 @@
     <sidebar-menu-scroll>
       <ul
         class="vsm--menu"
-        :style="{'width': sidebarWidth, 'position': 'static !important'}"
+        :style="{'width': sidebarWidth}"
       >
         <sidebar-menu-item
           v-for="item in computedMenu"

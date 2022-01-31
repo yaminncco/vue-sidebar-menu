@@ -40,6 +40,10 @@
       overflow-x: hidden;
       height: 100%;
       width: calc(100% + 17px);
+      & > .vsm--menu {
+        position: static !important;
+        transition: 0.3s width ease;
+      }
     }
     
     .vsm--scroll-bar {
