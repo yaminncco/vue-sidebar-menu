@@ -182,22 +182,22 @@ function useMenu(props, context) {
     var item = _ref.item,
         itemEl = _ref.itemEl;
     if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value);
-    var itemLinkEl = itemEl.children[0];
+    var linkEl = itemEl.children[0];
 
-    var _itemLinkEl$getBoundi = itemLinkEl.getBoundingClientRect(),
-        top = _itemLinkEl$getBoundi.top,
-        bottom = _itemLinkEl$getBoundi.bottom,
-        height = _itemLinkEl$getBoundi.height;
+    var _linkEl$getBoundingCl = linkEl.getBoundingClientRect(),
+        linkTop = _linkEl$getBoundingCl.top,
+        linkBottom = _linkEl$getBoundingCl.bottom,
+        linkHeight = _linkEl$getBoundingCl.height;
 
     var _sidebarMenuRef$value = sidebarMenuRef.value.getBoundingClientRect(),
         sidebarLeft = _sidebarMenuRef$value.left,
         sidebarRight = _sidebarMenuRef$value.right;
 
-    var offsetTop = itemLinkEl.offsetParent.getBoundingClientRect().top;
-    var parentHeight;
-    var parentWidth;
+    var offsetParentTop = linkEl.offsetParent.getBoundingClientRect().top;
+    var parentHeight = window.innerHeight;
+    var parentWidth = window.innerWidth;
     var parentTop = 0;
-    var width = 0;
+    var parentRight = parentWidth;
     var maxWidth = parseInt(props.width) - parseInt(props.widthCollapsed);
 
     if (props.relative) {
@@ -205,19 +205,16 @@ function useMenu(props, context) {
       parentHeight = parent.clientHeight;
       parentWidth = parent.clientWidth;
       parentTop = parent.getBoundingClientRect().top;
-      width = props.rtl ? parentWidth - (parent.getBoundingClientRect().right - sidebarLeft) : parent.getBoundingClientRect().right - sidebarRight;
-    } else {
-      parentHeight = window.innerHeight;
-      parentWidth = window.innerWidth;
-      width = props.rtl ? parentWidth - (parentWidth - sidebarLeft) : parentWidth - sidebarRight;
+      parentRight = parent.getBoundingClientRect().right;
     }
 
+    var width = props.rtl ? parentWidth - (parentRight - sidebarLeft) : parentWidth - sidebarRight;
     mobileItem.value = item;
-    mobileItemRect.top = top - offsetTop;
-    mobileItemRect.height = height;
-    mobileItemRect.padding = window.getComputedStyle(itemLinkEl).paddingRight;
+    mobileItemRect.top = linkTop - offsetParentTop;
+    mobileItemRect.height = linkHeight;
+    mobileItemRect.padding = window.getComputedStyle(linkEl).paddingRight;
     mobileItemRect.maxWidth = width <= maxWidth ? width : maxWidth;
-    mobileItemRect.maxHeight = parentHeight - (bottom - parentTop);
+    mobileItemRect.maxHeight = parentHeight - (linkBottom - parentTop);
   };
 
   var unsetMobileItem = function unsetMobileItem() {
@@ -532,7 +529,7 @@ function useItem(props) {
     var tabindex = props.item.disabled ? -1 : null;
     var ariaCurrent = exactActive.value ? 'page' : null;
     var ariaHaspopup = hasChild.value ? true : null;
-    var ariaExpanded = show.value ? true : null;
+    var ariaExpanded = hasChild.value ? show.value : null;
     return _objectSpread2({
       href: href,
       target: target,
@@ -1138,7 +1135,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       default: withCtx(() => [
         createVNode("ul", {
           class: "vsm--menu",
-          style: {'width': $setup.sidebarWidth, 'position': 'static !important'}
+          style: {'width': $setup.sidebarWidth}
         }, [
           (openBlock(true), createBlock(Fragment, null, renderList($setup.computedMenu, (item) => {
             return (openBlock(), createBlock(_component_sidebar_menu_item, {
