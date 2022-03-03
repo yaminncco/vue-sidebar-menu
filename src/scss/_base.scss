@@ -39,7 +39,13 @@
       overflow-y: scroll;
       overflow-x: hidden;
       height: 100%;
-      width: calc(100% + 17px);
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        display: none;
+      }
       & > .vsm--menu {
         position: static !important;
         transition: 0.3s width ease;
