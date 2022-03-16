@@ -5,6 +5,7 @@ $item-color: #fff !default;
 
 $item-active-color: null !default;
 $item-active-bg: null !default;
+$item-active-line-color: $primary-color !default;
 
 $item-open-color: #fff !default;
 $item-open-bg: $primary-color !default;
@@ -13,7 +14,7 @@ $item-hover-color: null !default;
 $item-hover-bg: rgba(darken($base-bg, 5%), 0.5) !default;
 
 $icon-color: null !default;
-$icon-bg: darken( $base-bg, 5% ) !default;
+$icon-bg: darken($base-bg, 5%) !default;
 
 $icon-active-color: null !default;
 $icon-active-bg: null !default;
@@ -26,8 +27,13 @@ $mobile-item-bg: $primary-color !default;
 $mobile-icon-color: $mobile-item-color !default;
 $mobile-icon-bg: $mobile-item-bg !default;
 
-$dropdown-bg: lighten( $base-bg, 5% ) !default;
 $dropdown-color: null !default;
+$dropdown-bg: lighten($base-bg, 5%) !default;
+
+$header-item-color: rgba($item-color, 0.7) !default;
+
+$toggle-btn-color: #fff !default;
+$toggle-btn-bg: darken($base-bg, 5%) !default;
 
 $item-font-size: 16px !default;
 $item-line-height: 30px !default;

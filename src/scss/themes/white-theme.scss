@@ -5,6 +5,9 @@ $icon-active-color: #fff;
 $icon-active-bg: $item-color;
 $item-hover-bg: rgba(darken($base-bg, 5%), 0.5);
 $dropdown-bg: #e3e3e3;
+$header-item-color: rgba($item-color, 0.7);
+$toggle-btn-color: $item-color;
+$toggle-btn-bg: darken($base-bg, 5%);
 
 .v-sidebar-menu.vsm_white-theme {
   background-color: $base-bg;
@@ -16,7 +19,7 @@ $dropdown-bg: #e3e3e3;
     }
     &_level-1 {
       &.vsm--link_active {
-        box-shadow: 3px 0px 0px 0px $primary-color inset;
+        box-shadow: 3px 0px 0px 0px $item-active-line-color inset;
         & .vsm--icon {
           color: $icon-active-color;
           background-color: $icon-active-bg;
@@ -79,19 +82,19 @@ $dropdown-bg: #e3e3e3;
 
   &.vsm_rtl {
     .vsm--link_level-1.vsm--link_active {
-      box-shadow: -3px 0px 0px 0px $primary-color inset;
+      box-shadow: -3px 0px 0px 0px $item-active-line-color inset;
     }
   }
 
   .vsm--header {
-    color: rgba($item-color, 0.7);
+    color: $header-item-color;
   }
   .vsm--badge_default {
     color: $item-color;
-    background-color: darken( $base-bg, 5% );
+    background-color: darken($base-bg, 5%);
   }
   .vsm--toggle-btn {
-    color: $item-color;
-    background-color: darken( $base-bg, 5% );
+    color: $toggle-btn-color;
+    background-color: $toggle-btn-bg;
   }
 }
