@@ -13,12 +13,12 @@ const mobileItemRect = reactive({
 const mobileItemTimeout = ref(null)
 const currentRoute = ref(window.location.pathname + window.location.search + window.location.hash)
 
-export default function useMenu (props, context) {
+export default function useMenu(props, context) {
   let id = 0
-  function transformItems (items) {
+  function transformItems(items) {
     return items.map(item => {
       if (item.child) {
-        return { ...item, id: id++, child: transformItems(item.child) }
+        return { ...item, id: item.id || id++, child: transformItems(item.child) }
       }
       return { ...item, id: id++ }
     })
