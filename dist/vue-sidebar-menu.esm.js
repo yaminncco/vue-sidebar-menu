@@ -1,18 +1,13 @@
-import { ref, reactive, computed, getCurrentInstance, inject, resolveComponent, openBlock, createBlock, mergeProps, renderSlot, withCtx, createVNode, resolveDynamicComponent, createTextVNode, toDisplayString, toRefs, watch, toHandlers, Transition, createCommentVNode, Fragment, renderList, provide, onMounted, onUnmounted, nextTick } from 'vue';
+import { ref, reactive, computed, getCurrentInstance, inject, resolveComponent, openBlock, createElementBlock, normalizeProps, mergeProps, renderSlot, createBlock, withCtx, createElementVNode, resolveDynamicComponent, createTextVNode, toDisplayString, toRefs, watch, guardReactiveProps, toHandlers, Transition, normalizeStyle, createCommentVNode, normalizeClass, Fragment, renderList, provide, onMounted, onUnmounted, nextTick, createVNode } from 'vue';
 
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
 
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object);
-
-    if (enumerableOnly) {
-      symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-    }
-
-    keys.push.apply(keys, symbols);
+    enumerableOnly && (symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    })), keys.push.apply(keys, symbols);
   }
 
   return keys;
@@ -20,19 +15,12 @@ function ownKeys(object, enumerableOnly) {
 
 function _objectSpread2(target) {
   for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
+    var source = null != arguments[i] ? arguments[i] : {};
+    i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+      _defineProperty(target, key, source[key]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+    });
   }
 
   return target;
@@ -41,17 +29,11 @@ function _objectSpread2(target) {
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, _typeof(obj);
 }
 
 function _defineProperty(obj, key, value) {
@@ -88,13 +70,13 @@ function useMenu(props, context) {
     return items.map(function (item) {
       if (item.child) {
         return _objectSpread2(_objectSpread2({}, item), {}, {
-          id: id++,
+          id: item.id || id++,
           child: transformItems(item.child)
         });
       }
 
       return _objectSpread2(_objectSpread2({}, item), {}, {
-        id: id++
+        id: item.id || id++
       });
     });
   }
@@ -596,11 +578,13 @@ var script$5 = {
   }
 };
 
+const _hoisted_1$3 = ["href", "onClick"];
+
 function render$5(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_router_link = resolveComponent("router-link");
 
   return ($options.isHyperLink)
-    ? (openBlock(), createBlock("a", mergeProps({ key: 0 }, _ctx.$attrs), [
+    ? (openBlock(), createElementBlock("a", normalizeProps(mergeProps({ key: 0 }, _ctx.$attrs)), [
         renderSlot(_ctx.$slots, "default")
       ], 16 /* FULL_PROPS */))
     : (openBlock(), createBlock(_component_router_link, {
@@ -609,12 +593,12 @@ function render$5(_ctx, _cache, $props, $setup, $data, $options) {
         to: _ctx.$attrs.href
       }, {
         default: withCtx(({ href, navigate }) => [
-          createVNode("a", mergeProps(_ctx.$attrs, {
+          createElementVNode("a", mergeProps(_ctx.$attrs, {
             href: href,
             onClick: navigate
           }), [
             renderSlot(_ctx.$slots, "default")
-          ], 16 /* FULL_PROPS */, ["href", "onClick"])
+          ], 16 /* FULL_PROPS */, _hoisted_1$3)
         ]),
         _: 3 /* FORWARDED */
       }, 8 /* PROPS */, ["to"]))
@@ -763,20 +747,20 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_sidebar_menu_item = resolveComponent("sidebar-menu-item", true);
 
   return ($props.item.component && !$setup.isHidden)
-    ? (openBlock(), createBlock("li", _hoisted_1$2, [
-        (openBlock(), createBlock(resolveDynamicComponent($props.item.component), $props.item.props, null, 16 /* FULL_PROPS */))
+    ? (openBlock(), createElementBlock("li", _hoisted_1$2, [
+        (openBlock(), createBlock(resolveDynamicComponent($props.item.component), normalizeProps(guardReactiveProps($props.item.props)), null, 16 /* FULL_PROPS */))
       ]))
     : ($props.item.header && !$setup.isHidden)
-      ? (openBlock(), createBlock("li", mergeProps({
+      ? (openBlock(), createElementBlock("li", mergeProps({
           key: 1,
           class: ["vsm--header", $props.item.class]
         }, $props.item.attributes), toDisplayString($props.item.header), 17 /* TEXT, FULL_PROPS */))
       : (!$setup.isHidden)
-        ? (openBlock(), createBlock("li", mergeProps({
+        ? (openBlock(), createElementBlock("li", mergeProps({
             key: 2,
             class: $setup.itemClass,
-            onMouseover: _cache[1] || (_cache[1] = (...args) => ($setup.onMouseOver && $setup.onMouseOver(...args))),
-            onMouseout: _cache[2] || (_cache[2] = (...args) => ($setup.onMouseOut && $setup.onMouseOut(...args)))
+            onMouseover: _cache[0] || (_cache[0] = (...args) => ($setup.onMouseOver && $setup.onMouseOver(...args))),
+            onMouseout: _cache[1] || (_cache[1] = (...args) => ($setup.onMouseOut && $setup.onMouseOut(...args)))
           }, toHandlers(($setup.isCollapsed && $setup.isFirstLevel) ? { mouseenter: $setup.onMouseEnter, mouseleave: $setup.onMouseLeave} : {})), [
             (openBlock(), createBlock(resolveDynamicComponent($setup.linkComponentName ? $setup.linkComponentName : 'SidebarMenuLink'), mergeProps({
               item: $props.item,
@@ -790,10 +774,10 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
                     }, {
                       default: withCtx(() => [
                         ($setup.hover)
-                          ? (openBlock(), createBlock("div", {
+                          ? (openBlock(), createElementBlock("div", {
                               key: 0,
                               class: "vsm--mobile-bg",
-                              style: $setup.mobileItemBackgroundStyle
+                              style: normalizeStyle($setup.mobileItemBackgroundStyle)
                             }, null, 4 /* STYLE */))
                           : createCommentVNode("v-if", true)
                       ]),
@@ -806,11 +790,11 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
                       icon: $props.item.icon
                     }, null, 8 /* PROPS */, ["icon"]))
                   : createCommentVNode("v-if", true),
-                createVNode("div", {
-                  class: ["vsm--title", ($setup.isCollapsed && $setup.isFirstLevel) && !$setup.isMobileItem && 'vsm--title_hidden'],
-                  style: $setup.isMobileItem && $setup.mobileItemStyle
+                createElementVNode("div", {
+                  class: normalizeClass(["vsm--title", ($setup.isCollapsed && $setup.isFirstLevel) && !$setup.isMobileItem && 'vsm--title_hidden']),
+                  style: normalizeStyle($setup.isMobileItem && $setup.mobileItemStyle)
                 }, [
-                  createVNode("span", null, toDisplayString($props.item.title), 1 /* TEXT */),
+                  createElementVNode("span", null, toDisplayString($props.item.title), 1 /* TEXT */),
                   ($props.item.badge)
                     ? (openBlock(), createBlock(_component_sidebar_menu_badge, {
                         key: 0,
@@ -818,11 +802,11 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
                       }, null, 8 /* PROPS */, ["badge"]))
                     : createCommentVNode("v-if", true),
                   ($setup.hasChild)
-                    ? (openBlock(), createBlock("div", {
+                    ? (openBlock(), createElementBlock("div", {
                         key: 1,
-                        class: ["vsm--arrow", {'vsm--arrow_open' : $setup.show}]
+                        class: normalizeClass(["vsm--arrow", {'vsm--arrow_open' : $setup.show}])
                       }, [
-                        renderSlot(_ctx.$slots, "dropdown-icon", { isOpen: $setup.show })
+                        renderSlot(_ctx.$slots, "dropdown-icon", normalizeProps(guardReactiveProps({ isOpen: $setup.show })))
                       ], 2 /* CLASS */))
                     : createCommentVNode("v-if", true)
                 ], 6 /* CLASS, STYLE */)
@@ -841,20 +825,20 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
                 }, {
                   default: withCtx(() => [
                     ($setup.show)
-                      ? (openBlock(), createBlock("div", {
+                      ? (openBlock(), createElementBlock("div", {
                           key: 0,
-                          class: ["vsm--child", $setup.isMobileItem && 'vsm--child_mobile'],
-                          style: $setup.isMobileItem && $setup.mobileItemDropdownStyle
+                          class: normalizeClass(["vsm--child", $setup.isMobileItem && 'vsm--child_mobile']),
+                          style: normalizeStyle($setup.isMobileItem && $setup.mobileItemDropdownStyle)
                         }, [
-                          createVNode("ul", _hoisted_2$2, [
-                            (openBlock(true), createBlock(Fragment, null, renderList($props.item.child, (subItem) => {
+                          createElementVNode("ul", _hoisted_2$2, [
+                            (openBlock(true), createElementBlock(Fragment, null, renderList($props.item.child, (subItem) => {
                               return (openBlock(), createBlock(_component_sidebar_menu_item, {
                                 key: subItem.id,
                                 item: subItem,
                                 level: $props.level+1
                               }, {
                                 "dropdown-icon": withCtx(({ isOpen }) => [
-                                  renderSlot(_ctx.$slots, "dropdown-icon", { isOpen })
+                                  renderSlot(_ctx.$slots, "dropdown-icon", normalizeProps(guardReactiveProps({ isOpen })))
                                 ]),
                                 _: 2 /* DYNAMIC */
                               }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["item", "level"]))
@@ -863,7 +847,7 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
                         ], 6 /* CLASS, STYLE */))
                       : createCommentVNode("v-if", true)
                   ]),
-                  _: 1 /* STABLE */
+                  _: 3 /* FORWARDED */
                 }, 8 /* PROPS */, ["appear", "onEnter", "onAfterEnter", "onBeforeLeave", "onAfterLeave"]))
               : createCommentVNode("v-if", true)
           ], 16 /* FULL_PROPS */))
@@ -976,25 +960,25 @@ const _hoisted_1$1 = { class: "vsm--scroll-wrapper" };
 const _hoisted_2$1 = { class: "vsm--scroll-overflow" };
 
 function render$1(_ctx, _cache, $props, $setup, $data, $options) {
-  return (openBlock(), createBlock("div", _hoisted_1$1, [
-    createVNode("div", _hoisted_2$1, [
-      createVNode("div", {
+  return (openBlock(), createElementBlock("div", _hoisted_1$1, [
+    createElementVNode("div", _hoisted_2$1, [
+      createElementVNode("div", {
         ref: "scrollRef",
         class: "vsm--scroll",
-        onScroll: _cache[1] || (_cache[1] = (...args) => ($setup.onScroll && $setup.onScroll(...args)))
+        onScroll: _cache[0] || (_cache[0] = (...args) => ($setup.onScroll && $setup.onScroll(...args)))
       }, [
         renderSlot(_ctx.$slots, "default")
       ], 544 /* HYDRATE_EVENTS, NEED_PATCH */),
-      createVNode("div", {
+      createElementVNode("div", {
         ref: "scrollBarRef",
         class: "vsm--scroll-bar",
-        onMousedown: _cache[3] || (_cache[3] = (...args) => ($setup.onClick && $setup.onClick(...args)))
+        onMousedown: _cache[2] || (_cache[2] = (...args) => ($setup.onClick && $setup.onClick(...args)))
       }, [
-        createVNode("div", {
+        createElementVNode("div", {
           ref: "scrollThumbRef",
           class: "vsm--scroll-thumb",
-          style: $setup.thumbStyle,
-          onMousedown: _cache[2] || (_cache[2] = (...args) => ($setup.onMouseDown && $setup.onMouseDown(...args)))
+          style: normalizeStyle($setup.thumbStyle),
+          onMousedown: _cache[1] || (_cache[1] = (...args) => ($setup.onMouseDown && $setup.onMouseDown(...args)))
         }, null, 36 /* STYLE, HYDRATE_EVENTS */)
       ], 544 /* HYDRATE_EVENTS, NEED_PATCH */)
     ])
@@ -1118,32 +1102,32 @@ var script = {
   }
 };
 
-const _hoisted_1 = /*#__PURE__*/createVNode("span", { class: "vsm--arrow_default" }, null, -1 /* HOISTED */);
-const _hoisted_2 = /*#__PURE__*/createVNode("span", { class: "vsm--toggle-btn_default" }, null, -1 /* HOISTED */);
+const _hoisted_1 = /*#__PURE__*/createElementVNode("span", { class: "vsm--arrow_default" }, null, -1 /* HOISTED */);
+const _hoisted_2 = /*#__PURE__*/createElementVNode("span", { class: "vsm--toggle-btn_default" }, null, -1 /* HOISTED */);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_sidebar_menu_item = resolveComponent("sidebar-menu-item");
   const _component_sidebar_menu_scroll = resolveComponent("sidebar-menu-scroll");
 
-  return (openBlock(), createBlock("div", {
+  return (openBlock(), createElementBlock("div", {
     ref: "sidebarMenuRef",
-    class: ["v-sidebar-menu", $setup.sidebarClass],
-    style: {'max-width': $setup.sidebarWidth}
+    class: normalizeClass(["v-sidebar-menu", $setup.sidebarClass]),
+    style: normalizeStyle({'max-width': $setup.sidebarWidth})
   }, [
     renderSlot(_ctx.$slots, "header"),
     createVNode(_component_sidebar_menu_scroll, null, {
       default: withCtx(() => [
-        createVNode("ul", {
+        createElementVNode("ul", {
           class: "vsm--menu",
-          style: {'width': $setup.sidebarWidth}
+          style: normalizeStyle({'width': $setup.sidebarWidth})
         }, [
-          (openBlock(true), createBlock(Fragment, null, renderList($setup.computedMenu, (item) => {
+          (openBlock(true), createElementBlock(Fragment, null, renderList($setup.computedMenu, (item) => {
             return (openBlock(), createBlock(_component_sidebar_menu_item, {
               key: item.id,
               item: item
             }, {
               "dropdown-icon": withCtx(({ isOpen }) => [
-                renderSlot(_ctx.$slots, "dropdown-icon", { isOpen }, () => [
+                renderSlot(_ctx.$slots, "dropdown-icon", normalizeProps(guardReactiveProps({ isOpen })), () => [
                   _hoisted_1
                 ])
               ]),
@@ -1152,14 +1136,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }), 128 /* KEYED_FRAGMENT */))
         ], 4 /* STYLE */)
       ]),
-      _: 1 /* STABLE */
+      _: 3 /* FORWARDED */
     }),
     renderSlot(_ctx.$slots, "footer"),
     (!$props.hideToggle)
-      ? (openBlock(), createBlock("button", {
+      ? (openBlock(), createElementBlock("button", {
           key: 0,
           class: "vsm--toggle-btn",
-          onClick: _cache[1] || (_cache[1] = (...args) => ($setup.onToggleClick && $setup.onToggleClick(...args)))
+          onClick: _cache[0] || (_cache[0] = (...args) => ($setup.onToggleClick && $setup.onToggleClick(...args)))
         }, [
           renderSlot(_ctx.$slots, "toggle-icon", {}, () => [
             _hoisted_2

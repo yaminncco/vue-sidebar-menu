@@ -20,7 +20,7 @@ export default function useMenu(props, context) {
       if (item.child) {
         return { ...item, id: item.id || id++, child: transformItems(item.child) }
       }
-      return { ...item, id: id++ }
+      return { ...item, id: item.id || id++ }
     })
   }
   const computedMenu = computed(() => {
