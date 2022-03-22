@@ -89,16 +89,15 @@
     var id = 0;
 
     function transformItems(items) {
-      return items.map(function (item) {
-        if (item.child) {
-          return _objectSpread2(_objectSpread2({}, item), {}, {
-            id: id++,
-            child: transformItems(item.child)
-          });
-        }
+      function randomId() {
+        return "".concat(Date.now() + '' + id++);
+      }
 
-        return _objectSpread2(_objectSpread2({}, item), {}, {
-          id: id++
+      return items.map(function (item) {
+        return _objectSpread2(_objectSpread2({
+          id: randomId()
+        }, item), item.child && {
+          child: transformItems(item.child)
         });
       });
     }
