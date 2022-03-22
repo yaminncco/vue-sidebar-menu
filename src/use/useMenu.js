@@ -16,11 +16,11 @@ const currentRoute = ref(window.location.pathname + window.location.search + win
 export default function useMenu (props, context) {
   let id = 0
   function transformItems (items) {
+    function randomId () {
+      return `${Date.now() + '' + id++}`
+    }
     return items.map(item => {
-      if (item.child) {
-        return { ...item, id: id++, child: transformItems(item.child) }
-      }
-      return { ...item, id: id++ }
+      return { id: randomId(), ...item, ...(item.child && { child: transformItems(item.child) }) }
     })
   }
   const computedMenu = computed(() => {
