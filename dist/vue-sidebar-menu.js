@@ -4,6 +4,180 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['vue-sidebar-menu'] = {}, global.Vue));
 }(this, (function (exports, vue) { 'use strict';
 
+  var initSidebar = function initSidebar(props, context) {
+    var _toRefs = vue.toRefs(props),
+        collapsed = _toRefs.collapsed,
+        relative = _toRefs.relative,
+        width = _toRefs.width,
+        widthCollapsed = _toRefs.widthCollapsed,
+        rtl = _toRefs.rtl;
+
+    var sidebarRef = vue.ref(null);
+    var isCollapsed = vue.ref(collapsed.value);
+    var activeShow = vue.ref(null);
+    var mobileItem = vue.reactive({
+      item: null,
+      rect: {
+        top: 0,
+        height: 0,
+        padding: '',
+        maxHeight: 0,
+        maxWidth: 0
+      },
+      timeout: null
+    });
+    var getMobileItem = vue.computed(function () {
+      return mobileItem.item;
+    });
+    var getMobileItemRect = vue.computed(function () {
+      return mobileItem.rect;
+    });
+    var currentRoute = vue.ref(window.location.pathname + window.location.search + window.location.hash);
+
+    var updateIsCollapsed = function updateIsCollapsed(val) {
+      isCollapsed.value = val;
+    };
+
+    var updateActiveShow = function updateActiveShow(id) {
+      activeShow.value = id;
+    };
+
+    var setMobileItem = function setMobileItem(_ref) {
+      var item = _ref.item,
+          itemEl = _ref.itemEl;
+      clearMobileItemTimeout();
+      var linkEl = itemEl.children[0];
+
+      var _linkEl$getBoundingCl = linkEl.getBoundingClientRect(),
+          linkTop = _linkEl$getBoundingCl.top,
+          linkBottom = _linkEl$getBoundingCl.bottom,
+          linkHeight = _linkEl$getBoundingCl.height;
+
+      var _sidebarRef$value$get = sidebarRef.value.getBoundingClientRect(),
+          sidebarLeft = _sidebarRef$value$get.left,
+          sidebarRight = _sidebarRef$value$get.right;
+
+      var offsetParentTop = linkEl.offsetParent.getBoundingClientRect().top;
+      var parentHeight = window.innerHeight;
+      var parentWidth = window.innerWidth;
+      var parentTop = 0;
+      var parentRight = parentWidth;
+      var maxWidth = parseInt(width.value) - parseInt(widthCollapsed.value);
+
+      if (relative.value) {
+        var parent = sidebarRef.value.parentElement;
+        parentHeight = parent.clientHeight;
+        parentWidth = parent.clientWidth;
+        parentTop = parent.getBoundingClientRect().top;
+        parentRight = parent.getBoundingClientRect().right;
+      }
+
+      var rectWidth = rtl.value ? parentWidth - (parentRight - sidebarLeft) : parentRight - sidebarRight;
+      updateMobileItem(item);
+      updateMobileItemRect({
+        top: linkTop - offsetParentTop,
+        height: linkHeight,
+        padding: window.getComputedStyle(linkEl).paddingRight,
+        maxWidth: rectWidth <= maxWidth ? rectWidth : maxWidth,
+        maxHeight: parentHeight - (linkBottom - parentTop)
+      });
+    };
+
+    var unsetMobileItem = function unsetMobileItem() {
+      var immediate = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 800;
+      if (!getMobileItem.value) return;
+      clearMobileItemTimeout();
+
+      if (immediate) {
+        updateMobileItem(null);
+        return;
+      }
+
+      mobileItem.timeout = setTimeout(function () {
+        updateMobileItem(null);
+      }, delay);
+    };
+
+    var clearMobileItemTimeout = function clearMobileItemTimeout() {
+      if (mobileItem.timeout) clearTimeout(mobileItem.timeout);
+    };
+
+    var updateMobileItem = function updateMobileItem(item) {
+      mobileItem.item = item;
+    };
+
+    var updateMobileItemRect = function updateMobileItemRect(_ref2) {
+      var top = _ref2.top,
+          height = _ref2.height,
+          padding = _ref2.padding,
+          maxWidth = _ref2.maxWidth,
+          maxHeight = _ref2.maxHeight;
+      mobileItem.rect.top = top;
+      mobileItem.rect.height = height;
+      mobileItem.rect.padding = padding;
+      mobileItem.rect.maxWidth = maxWidth;
+      mobileItem.rect.maxHeight = maxHeight;
+    };
+
+    var updateCurrentRoute = function updateCurrentRoute() {
+      var route = window.location.pathname + window.location.search + window.location.hash;
+      currentRoute.value = route;
+    };
+
+    var onItemClick = function onItemClick(event, item) {
+      context.emit('item-click', event, item);
+    };
+
+    vue.provide('vsmProps', props);
+    vue.provide('getSidebarRef', sidebarRef);
+    vue.provide('getIsCollapsed', isCollapsed);
+    vue.provide('getActiveShow', activeShow);
+    vue.provide('getMobileItem', getMobileItem);
+    vue.provide('getMobileItemRect', getMobileItemRect);
+    vue.provide('getCurrentRoute', currentRoute);
+    vue.provide('updateIsCollapsed', updateIsCollapsed);
+    vue.provide('updateActiveShow', updateActiveShow);
+    vue.provide('setMobileItem', setMobileItem);
+    vue.provide('unsetMobileItem', unsetMobileItem);
+    vue.provide('clearMobileItemTimeout', clearMobileItemTimeout);
+    vue.provide('onRouteChange', updateCurrentRoute);
+    vue.provide('emitItemClick', onItemClick);
+    return {
+      getSidebarRef: sidebarRef,
+      getIsCollapsed: isCollapsed,
+      getActiveShow: activeShow,
+      getMobileItem: getMobileItem,
+      getMobileItemRect: getMobileItemRect,
+      getCurrentRoute: currentRoute,
+      updateIsCollapsed: updateIsCollapsed,
+      updateActiveShow: updateActiveShow,
+      setMobileItem: setMobileItem,
+      unsetMobileItem: unsetMobileItem,
+      clearMobileItemTimeout: clearMobileItemTimeout,
+      updateCurrentRoute: updateCurrentRoute,
+      onItemClick: onItemClick
+    };
+  };
+  var useSidebar = function useSidebar() {
+    return {
+      getSidebarProps: vue.inject('vsmProps'),
+      getSidebarRef: vue.inject('getSidebarRef'),
+      getIsCollapsed: vue.inject('getIsCollapsed'),
+      getActiveShow: vue.inject('getActiveShow'),
+      getMobileItem: vue.inject('getMobileItem'),
+      getMobileItemRect: vue.inject('getMobileItemRect'),
+      getCurrentRoute: vue.inject('getCurrentRoute'),
+      updateIsCollapsed: vue.inject('updateIsCollapsed'),
+      updateActiveShow: vue.inject('updateActiveShow'),
+      setMobileItem: vue.inject('setMobileItem'),
+      unsetMobileItem: vue.inject('unsetMobileItem'),
+      clearMobileItemTimeout: vue.inject('clearMobileItemTimeout'),
+      onRouteChange: vue.inject('onRouteChange'),
+      emitItemClick: vue.inject('emitItemClick')
+    };
+  };
+
   function ownKeys(object, enumerableOnly) {
     var keys = Object.keys(object);
 
@@ -71,189 +245,6 @@
     }
 
     return obj;
-  }
-
-  var isCollapsed = vue.ref(false);
-  var sidebarMenuRef = vue.ref(null);
-  var mobileItem = vue.ref(null);
-  var mobileItemRect = vue.reactive({
-    top: 0,
-    height: 0,
-    padding: '',
-    maxHeight: 0,
-    maxWidth: 0
-  });
-  var mobileItemTimeout = vue.ref(null);
-  var currentRoute = vue.ref(window.location.pathname + window.location.search + window.location.hash);
-  function useMenu(props, context) {
-    var id = 0;
-
-    function transformItems(items) {
-      function randomId() {
-        return "".concat(Date.now() + '' + id++);
-      }
-
-      return items.map(function (item) {
-        return _objectSpread2(_objectSpread2({
-          id: randomId()
-        }, item), item.child && {
-          child: transformItems(item.child)
-        });
-      });
-    }
-
-    var computedMenu = vue.computed(function () {
-      return transformItems(props.menu);
-    });
-    var sidebarWidth = vue.computed(function () {
-      return isCollapsed.value ? props.widthCollapsed : props.width;
-    });
-    var sidebarClass = vue.computed(function () {
-      return [!isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed', props.theme ? "vsm_".concat(props.theme) : '', props.rtl ? 'vsm_rtl' : '', props.relative ? 'vsm_relative' : ''];
-    });
-    var mobileItemDropdownStyle = vue.computed(function () {
-      return [{
-        position: 'absolute'
-      }, {
-        top: "".concat(mobileItemRect.top + mobileItemRect.height, "px")
-      }, !props.rtl ? {
-        left: props.widthCollapsed
-      } : {
-        right: props.widthCollapsed
-      }, {
-        width: "".concat(mobileItemRect.maxWidth, "px")
-      }, {
-        'max-height': "".concat(mobileItemRect.maxHeight, "px")
-      }, {
-        'overflow-y': 'auto'
-      }];
-    });
-    var mobileItemStyle = vue.computed(function () {
-      return [{
-        position: 'absolute'
-      }, {
-        top: "".concat(mobileItemRect.top, "px")
-      }, !props.rtl ? {
-        left: props.widthCollapsed
-      } : {
-        right: props.widthCollapsed
-      }, {
-        width: "".concat(mobileItemRect.maxWidth, "px")
-      }, {
-        height: "".concat(mobileItemRect.height, "px")
-      }, {
-        'padding-right': "".concat(mobileItemRect.padding)
-      }, {
-        'padding-left': "".concat(mobileItemRect.padding)
-      }, {
-        'z-index': '20'
-      }];
-    });
-    var mobileItemBackgroundStyle = vue.computed(function () {
-      return [{
-        position: 'absolute'
-      }, {
-        top: "".concat(mobileItemRect.top, "px")
-      }, !props.rtl ? {
-        left: '0px'
-      } : {
-        right: '0px'
-      }, {
-        width: "".concat(mobileItemRect.maxWidth + parseInt(props.widthCollapsed), "px")
-      }, {
-        height: "".concat(mobileItemRect.height, "px")
-      }, {
-        'z-index': '10'
-      }];
-    });
-
-    var onToggleClick = function onToggleClick() {
-      unsetMobileItem();
-      isCollapsed.value = !isCollapsed.value;
-      context.emit('update:collapsed', isCollapsed.value);
-    };
-
-    var onItemClick = function onItemClick(event, item) {
-      context.emit('item-click', event, item);
-    };
-
-    var onRouteChange = function onRouteChange() {
-      currentRoute.value = window.location.pathname + window.location.search + window.location.hash;
-    };
-
-    var setMobileItem = function setMobileItem(_ref) {
-      var item = _ref.item,
-          itemEl = _ref.itemEl;
-      if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value);
-      var linkEl = itemEl.children[0];
-
-      var _linkEl$getBoundingCl = linkEl.getBoundingClientRect(),
-          linkTop = _linkEl$getBoundingCl.top,
-          linkBottom = _linkEl$getBoundingCl.bottom,
-          linkHeight = _linkEl$getBoundingCl.height;
-
-      var _sidebarMenuRef$value = sidebarMenuRef.value.getBoundingClientRect(),
-          sidebarLeft = _sidebarMenuRef$value.left,
-          sidebarRight = _sidebarMenuRef$value.right;
-
-      var offsetParentTop = linkEl.offsetParent.getBoundingClientRect().top;
-      var parentHeight = window.innerHeight;
-      var parentWidth = window.innerWidth;
-      var parentTop = 0;
-      var parentRight = parentWidth;
-      var maxWidth = parseInt(props.width) - parseInt(props.widthCollapsed);
-
-      if (props.relative) {
-        var parent = sidebarMenuRef.value.parentElement;
-        parentHeight = parent.clientHeight;
-        parentWidth = parent.clientWidth;
-        parentTop = parent.getBoundingClientRect().top;
-        parentRight = parent.getBoundingClientRect().right;
-      }
-
-      var width = props.rtl ? parentWidth - (parentRight - sidebarLeft) : parentWidth - sidebarRight;
-      mobileItem.value = item;
-      mobileItemRect.top = linkTop - offsetParentTop;
-      mobileItemRect.height = linkHeight;
-      mobileItemRect.padding = window.getComputedStyle(linkEl).paddingRight;
-      mobileItemRect.maxWidth = width <= maxWidth ? width : maxWidth;
-      mobileItemRect.maxHeight = parentHeight - (linkBottom - parentTop);
-    };
-
-    var unsetMobileItem = function unsetMobileItem() {
-      var immediate = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 800;
-      if (!mobileItem.value) return;
-      if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value);
-
-      if (immediate) {
-        mobileItem.value = null;
-        return;
-      }
-
-      mobileItemTimeout.value = setTimeout(function () {
-        mobileItem.value = null;
-      }, delay);
-    };
-
-    return {
-      sidebarMenuRef: sidebarMenuRef,
-      isCollapsed: isCollapsed,
-      computedMenu: computedMenu,
-      sidebarWidth: sidebarWidth,
-      sidebarClass: sidebarClass,
-      currentRoute: currentRoute,
-      onToggleClick: onToggleClick,
-      onItemClick: onItemClick,
-      onRouteChange: onRouteChange,
-      mobileItem: mobileItem,
-      mobileItemStyle: mobileItemStyle,
-      mobileItemDropdownStyle: mobileItemDropdownStyle,
-      mobileItemBackgroundStyle: mobileItemBackgroundStyle,
-      setMobileItem: setMobileItem,
-      unsetMobileItem: unsetMobileItem,
-      mobileItemTimeout: mobileItemTimeout
-    };
   }
 
   // Adapted from vue-router-next
@@ -325,21 +316,23 @@
     }) : a.length === 1 && a[0] === b;
   }
 
-  var activeShow = vue.ref(null);
   function useItem(props) {
     var router = vue.getCurrentInstance().appContext.config.globalProperties.$router;
-    var sidebarProps = vue.inject('vsm-props');
-    var emitItemClick = vue.inject('emitItemClick');
+
+    var _useSidebar = useSidebar(),
+        sidebarProps = _useSidebar.getSidebarProps,
+        isCollapsed = _useSidebar.getIsCollapsed,
+        activeShow = _useSidebar.getActiveShow,
+        mobileItem = _useSidebar.getMobileItem,
+        mobileItemRect = _useSidebar.getMobileItemRect,
+        currentRoute = _useSidebar.getCurrentRoute,
+        updateActiveShow = _useSidebar.updateActiveShow,
+        setMobileItem = _useSidebar.setMobileItem,
+        unsetMobileItem = _useSidebar.unsetMobileItem,
+        clearMobileItemTimeout = _useSidebar.clearMobileItemTimeout,
+        emitItemClick = _useSidebar.emitItemClick;
+
     var emitScrollUpdate = vue.inject('emitScrollUpdate');
-
-    var _useMenu = useMenu(sidebarProps),
-        isCollapsed = _useMenu.isCollapsed,
-        currentRoute = _useMenu.currentRoute,
-        mobileItem = _useMenu.mobileItem,
-        setMobileItem = _useMenu.setMobileItem,
-        unsetMobileItem = _useMenu.unsetMobileItem,
-        mobileItemTimeout = _useMenu.mobileItemTimeout;
-
     var itemShow = vue.ref(false);
     var itemHover = vue.ref(false);
     var active = vue.computed(function () {
@@ -406,7 +399,7 @@
       if (props.item.disabled) return;
 
       if (isMobileItem.value && (sidebarProps.disableHover && hasChild.value || !sidebarProps.disableHover)) {
-        if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value);
+        clearMobileItemTimeout();
       }
 
       if (!sidebarProps.disableHover) {
@@ -476,16 +469,14 @@
 
     var show = vue.computed({
       get: function get() {
-        var _activeShow$value;
-
         if (!hasChild.value) return false;
         if (isCollapsed.value && isFirstLevel.value) return hover.value;
         if (sidebarProps.showChild) return true;
-        return sidebarProps.showOneChild && isFirstLevel.value ? props.item.id === ((_activeShow$value = activeShow.value) === null || _activeShow$value === void 0 ? void 0 : _activeShow$value.id) : itemShow.value;
+        return sidebarProps.showOneChild && isFirstLevel.value ? props.item.id === activeShow.value : itemShow.value;
       },
       set: function set(show) {
         if (sidebarProps.showOneChild && isFirstLevel.value) {
-          show ? activeShow.value = props.item : activeShow.value = null;
+          show ? updateActiveShow(props.item.id) : updateActiveShow(null);
         }
 
         itemShow.value = show;
@@ -550,10 +541,73 @@
     var isMobileItem = vue.computed(function () {
       return isCollapsed.value && isFirstLevel.value && hover.value;
     });
+    var mobileItemDropdownStyle = vue.computed(function () {
+      return [{
+        position: 'absolute'
+      }, {
+        top: "".concat(mobileItemRect.value.top + mobileItemRect.value.height, "px")
+      }, !sidebarProps.rtl ? {
+        left: sidebarProps.widthCollapsed
+      } : {
+        right: sidebarProps.widthCollapsed
+      }, {
+        width: "".concat(mobileItemRect.value.maxWidth, "px")
+      }, {
+        'max-height': "".concat(mobileItemRect.value.maxHeight, "px")
+      }, {
+        'overflow-y': 'auto'
+      }];
+    });
+    var mobileItemStyle = vue.computed(function () {
+      return [{
+        position: 'absolute'
+      }, {
+        top: "".concat(mobileItemRect.value.top, "px")
+      }, !sidebarProps.rtl ? {
+        left: sidebarProps.widthCollapsed
+      } : {
+        right: sidebarProps.widthCollapsed
+      }, {
+        width: "".concat(mobileItemRect.value.maxWidth, "px")
+      }, {
+        height: "".concat(mobileItemRect.value.height, "px")
+      }, {
+        'padding-right': "".concat(mobileItemRect.value.padding)
+      }, {
+        'padding-left': "".concat(mobileItemRect.value.padding)
+      }, {
+        'z-index': '20'
+      }];
+    });
+    var mobileItemBackgroundStyle = vue.computed(function () {
+      return [{
+        position: 'absolute'
+      }, {
+        top: "".concat(mobileItemRect.value.top, "px")
+      }, !sidebarProps.rtl ? {
+        left: '0px'
+      } : {
+        right: '0px'
+      }, {
+        width: "".concat(mobileItemRect.value.maxWidth + parseInt(sidebarProps.widthCollapsed), "px")
+      }, {
+        height: "".concat(mobileItemRect.value.height, "px")
+      }, {
+        'z-index': '10'
+      }];
+    });
+    vue.watch(function () {
+      return active.value;
+    }, function () {
+      if (active.value) {
+        show.value = true;
+      }
+    }, {
+      immediate: true
+    });
     return {
       active: active,
       exactActive: exactActive,
-      activeShow: activeShow,
       show: show,
       hover: hover,
       isFirstLevel: isFirstLevel,
@@ -563,6 +617,9 @@
       linkAttrs: linkAttrs,
       itemClass: itemClass,
       isMobileItem: isMobileItem,
+      mobileItemDropdownStyle: mobileItemDropdownStyle,
+      mobileItemStyle: mobileItemStyle,
+      mobileItemBackgroundStyle: mobileItemBackgroundStyle,
       onLinkClick: onLinkClick,
       onMouseOver: onMouseOver,
       onMouseOut: onMouseOut,
@@ -693,9 +750,12 @@
       }
     },
     setup (props) {
-      const sidebarProps = vue.inject('vsm-props');
-      const { isCollapsed, mobileItemStyle, mobileItemDropdownStyle, mobileItemBackgroundStyle } = useMenu(sidebarProps);
-      const { linkComponentName } = vue.toRefs(sidebarProps);
+      const {
+        getSidebarProps,
+        getIsCollapsed: isCollapsed
+      } = useSidebar();
+      const { linkComponentName } = vue.toRefs(getSidebarProps);
+
       const {
         active,
         exactActive,
@@ -708,6 +768,9 @@
         linkAttrs,
         itemClass,
         isMobileItem,
+        mobileItemStyle,
+        mobileItemDropdownStyle,
+        mobileItemBackgroundStyle,
         onLinkClick,
         onMouseOver,
         onMouseOut,
@@ -718,14 +781,6 @@
         onExpandBeforeLeave,
         onExpandAfterLeave
       } = useItem(props);
-
-      vue.watch(() => active.value, () => {
-        if (active.value) {
-          show.value = true;
-        }
-      }, {
-        immediate: true
-      });
 
       return {
         isCollapsed,
@@ -879,8 +934,7 @@
   var script$1 = {
     name: 'SidebarMenuScroll',
     setup () {
-      const sidebarProps = vue.inject('vsm-props');
-      const { isCollapsed } = useMenu(sidebarProps);
+      const { getIsCollapsed: isCollapsed } = useSidebar();
 
       const scrollRef = vue.ref(null);
       const scrollBarRef = vue.ref(null);
@@ -905,20 +959,6 @@
           updateThumb();
         });
       };
-
-      vue.provide('emitScrollUpdate', onScrollUpdate);
-
-      vue.onMounted(() => {
-        onScrollUpdate();
-        window.addEventListener('resize', onScrollUpdate);
-      });
-      vue.onUnmounted(() => {
-        window.removeEventListener('resize', onScrollUpdate);
-      });
-
-      vue.watch(() => isCollapsed.value, () => {
-        onScrollUpdate();
-      });
 
       const onScroll = () => {
         requestAnimationFrame(onScrollUpdate);
@@ -962,6 +1002,20 @@
         const scrollPerc = y * 100 / scrollBarRef.value.offsetHeight;
         scrollRef.value.scrollTop = scrollPerc * scrollRef.value.scrollHeight / 100;
       };
+
+      vue.watch(() => isCollapsed.value, () => {
+        onScrollUpdate();
+      });
+
+      vue.onMounted(() => {
+        onScrollUpdate();
+        window.addEventListener('resize', onScrollUpdate);
+      });
+      vue.onUnmounted(() => {
+        window.removeEventListener('resize', onScrollUpdate);
+      });
+
+      vue.provide('emitScrollUpdate', onScrollUpdate);
 
       return {
         scrollRef,
@@ -1072,39 +1126,58 @@
       }
     },
     setup (props, context) {
-      vue.provide('vsm-props', props);
-
       const {
-        sidebarMenuRef,
-        isCollapsed,
-        computedMenu,
-        sidebarWidth,
-        sidebarClass,
-        onToggleClick,
-        onItemClick,
-        onRouteChange,
-        unsetMobileItem
-      } = useMenu(props, context);
+        getSidebarRef: sidebarMenuRef,
+        getIsCollapsed: isCollapsed,
+        updateIsCollapsed,
+        unsetMobileItem,
+        updateCurrentRoute,
+      } = initSidebar(props, context);
 
-      vue.provide('emitItemClick', onItemClick);
-      vue.provide('emitScrollUpdate');
-      vue.provide('onRouteChange', onRouteChange);
+      const computedMenu = vue.computed(() => {
+        let id = 0;
+        function transformItems (items) {
+          function randomId () {
+            return `${Date.now() + '' + id++}`
+          }
+          return items.map(item => {
+            return { id: randomId(), ...item, ...(item.child && { child: transformItems(item.child) }) }
+          })
+        }
+        return transformItems(props.menu)
+      });
 
-      const { collapsed } = vue.toRefs(props);
-      isCollapsed.value = collapsed.value;
+      const sidebarWidth = vue.computed(() => {
+        return isCollapsed.value ? props.widthCollapsed : props.width
+      });
+
+      const sidebarClass = vue.computed(() => {
+        return [
+          !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
+          props.theme ? `vsm_${props.theme}` : '',
+          props.rtl ? 'vsm_rtl' : '',
+          props.relative ? 'vsm_relative' : ''
+        ]
+      });
+
+      const onToggleClick = () => {
+        unsetMobileItem();
+        updateIsCollapsed(!isCollapsed.value);
+        context.emit('update:collapsed', isCollapsed.value);
+      };
 
       vue.watch(() => props.collapsed, (currentCollapsed) => {
         unsetMobileItem();
-        isCollapsed.value = currentCollapsed;
+        updateIsCollapsed(currentCollapsed);
       });
 
       const router = vue.getCurrentInstance().appContext.config.globalProperties.$router;
       if (!router) {
         vue.onMounted(() => {
-          window.addEventListener('hashchange', onRouteChange);
+          window.addEventListener('hashchange', updateCurrentRoute);
         });
         vue.onUnmounted(() => {
-          window.removeEventListener('hashchange', onRouteChange);
+          window.removeEventListener('hashchange', updateCurrentRoute);
         });
       }
 
@@ -1115,8 +1188,7 @@
         sidebarWidth,
         sidebarClass,
         onToggleClick,
-        onItemClick,
-        onRouteChange
+        onRouteChange: updateCurrentRoute
       }
     }
   };
