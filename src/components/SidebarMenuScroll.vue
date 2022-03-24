@@ -25,14 +25,13 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, inject, watch, nextTick, provide, onUnmounted } from 'vue'
-import useMenu from '../use/useMenu'
+import { ref, computed, onMounted, watch, nextTick, provide, onUnmounted } from 'vue'
+import { useSidebar } from '../use/useSidebar'
 
 export default {
   name: 'SidebarMenuScroll',
   setup () {
-    const sidebarProps = inject('vsm-props')
-    const { isCollapsed } = useMenu(sidebarProps)
+    const { getIsCollapsed: isCollapsed } = useSidebar()
 
     const scrollRef = ref(null)
     const scrollBarRef = ref(null)
@@ -57,20 +56,6 @@ export default {
         updateThumb()
       })
     }
-
-    provide('emitScrollUpdate', onScrollUpdate)
-
-    onMounted(() => {
-      onScrollUpdate()
-      window.addEventListener('resize', onScrollUpdate)
-    })
-    onUnmounted(() => {
-      window.removeEventListener('resize', onScrollUpdate)
-    })
-
-    watch(() => isCollapsed.value, () => {
-      onScrollUpdate()
-    })
 
     const onScroll = () => {
       requestAnimationFrame(onScrollUpdate)
@@ -114,6 +99,20 @@ export default {
       const scrollPerc = y * 100 / scrollBarRef.value.offsetHeight
       scrollRef.value.scrollTop = scrollPerc * scrollRef.value.scrollHeight / 100
     }
+
+    watch(() => isCollapsed.value, () => {
+      onScrollUpdate()
+    })
+
+    onMounted(() => {
+      onScrollUpdate()
+      window.addEventListener('resize', onScrollUpdate)
+    })
+    onUnmounted(() => {
+      window.removeEventListener('resize', onScrollUpdate)
+    })
+
+    provide('emitScrollUpdate', onScrollUpdate)
 
     return {
       scrollRef,

@@ -41,8 +41,8 @@
 </template>
 
 <script>
-import { provide, watch, toRefs, getCurrentInstance, onMounted, onUnmounted } from 'vue'
-import useMenu from '../use/useMenu'
+import { watch, getCurrentInstance, onMounted, onUnmounted, computed } from 'vue'
+import { initSidebar } from '../use/useSidebar'
 
 import SidebarMenuItem from './SidebarMenuItem.vue'
 import SidebarMenuScroll from './SidebarMenuScroll.vue'
@@ -112,39 +112,58 @@ export default {
     }
   },
   setup (props, context) {
-    provide('vsm-props', props)
-
     const {
-      sidebarMenuRef,
-      isCollapsed,
-      computedMenu,
-      sidebarWidth,
-      sidebarClass,
-      onToggleClick,
-      onItemClick,
-      onRouteChange,
-      unsetMobileItem
-    } = useMenu(props, context)
+      getSidebarRef: sidebarMenuRef,
+      getIsCollapsed: isCollapsed,
+      updateIsCollapsed,
+      unsetMobileItem,
+      updateCurrentRoute,
+    } = initSidebar(props, context)
 
-    provide('emitItemClick', onItemClick)
-    provide('emitScrollUpdate')
-    provide('onRouteChange', onRouteChange)
+    const computedMenu = computed(() => {
+      let id = 0
+      function transformItems (items) {
+        function randomId () {
+          return `${Date.now() + '' + id++}`
+        }
+        return items.map(item => {
+          return { id: randomId(), ...item, ...(item.child && { child: transformItems(item.child) }) }
+        })
+      }
+      return transformItems(props.menu)
+    })
 
-    const { collapsed } = toRefs(props)
-    isCollapsed.value = collapsed.value
+    const sidebarWidth = computed(() => {
+      return isCollapsed.value ? props.widthCollapsed : props.width
+    })
+
+    const sidebarClass = computed(() => {
+      return [
+        !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
+        props.theme ? `vsm_${props.theme}` : '',
+        props.rtl ? 'vsm_rtl' : '',
+        props.relative ? 'vsm_relative' : ''
+      ]
+    })
+
+    const onToggleClick = () => {
+      unsetMobileItem()
+      updateIsCollapsed(!isCollapsed.value)
+      context.emit('update:collapsed', isCollapsed.value)
+    }
 
     watch(() => props.collapsed, (currentCollapsed) => {
       unsetMobileItem()
-      isCollapsed.value = currentCollapsed
+      updateIsCollapsed(currentCollapsed)
     })
 
     const router = getCurrentInstance().appContext.config.globalProperties.$router
     if (!router) {
       onMounted(() => {
-        window.addEventListener('hashchange', onRouteChange)
+        window.addEventListener('hashchange', updateCurrentRoute)
       })
       onUnmounted(() => {
-        window.removeEventListener('hashchange', onRouteChange)
+        window.removeEventListener('hashchange', updateCurrentRoute)
       })
     }
 
@@ -155,8 +174,7 @@ export default {
       sidebarWidth,
       sidebarClass,
       onToggleClick,
-      onItemClick,
-      onRouteChange
+      onRouteChange: updateCurrentRoute
     }
   }
 }

@@ -1,15 +1,23 @@
-import { getCurrentInstance, computed, ref, inject } from 'vue'
-import useMenu from './useMenu'
+import { getCurrentInstance, computed, ref, inject, watch } from 'vue'
+import { useSidebar } from '../use/useSidebar'
 import { activeRecordIndex, isSameRouteLocationParams, includesParams } from './useRouterLink'
-
-const activeShow = ref(null)
 
 export default function useItem (props) {
   const router = getCurrentInstance().appContext.config.globalProperties.$router
-  const sidebarProps = inject('vsm-props')
-  const emitItemClick = inject('emitItemClick')
+  const {
+    getSidebarProps: sidebarProps,
+    getIsCollapsed: isCollapsed,
+    getActiveShow: activeShow,
+    getMobileItem: mobileItem,
+    getMobileItemRect: mobileItemRect,
+    getCurrentRoute: currentRoute,
+    updateActiveShow,
+    setMobileItem,
+    unsetMobileItem,
+    clearMobileItemTimeout,
+    emitItemClick
+  } = useSidebar()
   const emitScrollUpdate = inject('emitScrollUpdate')
-  const { isCollapsed, currentRoute, mobileItem, setMobileItem, unsetMobileItem, mobileItemTimeout } = useMenu(sidebarProps)
 
   const itemShow = ref(false)
   const itemHover = ref(false)
@@ -78,7 +86,7 @@ export default function useItem (props) {
   const onMouseEnter = (event) => {
     if (props.item.disabled) return
     if (isMobileItem.value && ((sidebarProps.disableHover && hasChild.value) || !sidebarProps.disableHover)) {
-      if (mobileItemTimeout.value) clearTimeout(mobileItemTimeout.value)
+      clearMobileItemTimeout()
     }
     if (!sidebarProps.disableHover) {
       emitMobileItem(event, event.currentTarget)
@@ -139,11 +147,11 @@ export default function useItem (props) {
       if (!hasChild.value) return false
       if (isCollapsed.value && isFirstLevel.value) return hover.value
       if (sidebarProps.showChild) return true
-      return sidebarProps.showOneChild && isFirstLevel.value ? props.item.id === activeShow.value?.id : itemShow.value
+      return sidebarProps.showOneChild && isFirstLevel.value ? props.item.id === activeShow.value : itemShow.value
     },
     set: show => {
       if (sidebarProps.showOneChild && isFirstLevel.value) {
-        show ? activeShow.value = props.item : activeShow.value = null
+        show ? updateActiveShow(props.item.id) : updateActiveShow(null)
       }
       itemShow.value = show
     }
@@ -216,10 +224,52 @@ export default function useItem (props) {
     return isCollapsed.value && isFirstLevel.value && hover.value
   })
 
+  const mobileItemDropdownStyle = computed(() => {
+    return [
+      { position: 'absolute' },
+      { top: `${mobileItemRect.value.top + mobileItemRect.value.height}px` },
+      !sidebarProps.rtl ? { left: sidebarProps.widthCollapsed } : { right: sidebarProps.widthCollapsed },
+      { width: `${mobileItemRect.value.maxWidth}px` },
+      { 'max-height': `${mobileItemRect.value.maxHeight}px` },
+      { 'overflow-y': 'auto' }
+    ]
+  })
+
+  const mobileItemStyle = computed(() => {
+    return [
+      { position: 'absolute' },
+      { top: `${mobileItemRect.value.top}px` },
+      !sidebarProps.rtl ? { left: sidebarProps.widthCollapsed } : { right: sidebarProps.widthCollapsed },
+      { width: `${mobileItemRect.value.maxWidth}px` },
+      { height: `${mobileItemRect.value.height}px` },
+      { 'padding-right': `${mobileItemRect.value.padding}` },
+      { 'padding-left': `${mobileItemRect.value.padding}` },
+      { 'z-index': '20' }
+    ]
+  })
+
+  const mobileItemBackgroundStyle = computed(() => {
+    return [
+      { position: 'absolute' },
+      { top: `${mobileItemRect.value.top}px` },
+      !sidebarProps.rtl ? { left: '0px' } : { right: '0px' },
+      { width: `${mobileItemRect.value.maxWidth + parseInt(sidebarProps.widthCollapsed)}px` },
+      { height: `${mobileItemRect.value.height}px` },
+      { 'z-index': '10' }
+    ]
+  })
+
+  watch(() => active.value, () => {
+    if (active.value) {
+      show.value = true
+    }
+  }, {
+    immediate: true
+  })
+
   return {
     active,
     exactActive,
-    activeShow,
     show,
     hover,
     isFirstLevel,
@@ -229,6 +279,9 @@ export default function useItem (props) {
     linkAttrs,
     itemClass,
     isMobileItem,
+    mobileItemDropdownStyle,
+    mobileItemStyle,
+    mobileItemBackgroundStyle,
     onLinkClick,
     onMouseOver,
     onMouseOut,

@@ -101,8 +101,8 @@
 </template>
 
 <script>
-import { toRefs, inject, watch } from 'vue'
-import useMenu from '../use/useMenu'
+import { toRefs } from 'vue'
+import { useSidebar } from '../use/useSidebar'
 import useItem from '../use/useItem'
 
 import SidebarMenuLink from './SidebarMenuLink.vue'
@@ -127,9 +127,12 @@ export default {
     }
   },
   setup (props) {
-    const sidebarProps = inject('vsm-props')
-    const { isCollapsed, mobileItemStyle, mobileItemDropdownStyle, mobileItemBackgroundStyle } = useMenu(sidebarProps)
-    const { linkComponentName } = toRefs(sidebarProps)
+    const {
+      getSidebarProps,
+      getIsCollapsed: isCollapsed
+    } = useSidebar()
+    const { linkComponentName } = toRefs(getSidebarProps)
+
     const {
       active,
       exactActive,
@@ -142,6 +145,9 @@ export default {
       linkAttrs,
       itemClass,
       isMobileItem,
+      mobileItemStyle,
+      mobileItemDropdownStyle,
+      mobileItemBackgroundStyle,
       onLinkClick,
       onMouseOver,
       onMouseOut,
@@ -152,14 +158,6 @@ export default {
       onExpandBeforeLeave,
       onExpandAfterLeave
     } = useItem(props)
-
-    watch(() => active.value, () => {
-      if (active.value) {
-        show.value = true
-      }
-    }, {
-      immediate: true
-    })
 
     return {
       isCollapsed,
