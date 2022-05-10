@@ -6,7 +6,7 @@ A Vue.js sidebar menu component with vue-router compatibility
 
 [vue-sidebar-menu-demo](https://yaminncco.github.io/vue-sidebar-menu/)
 
-### :warning: This documentation is for Vue 3, for Vue 2 [click here](https://github.com/yaminncco/vue-sidebar-menu/tree/master)
+### :warning: This documentation is for Vue 3, for Vue 2 [click here](https://github.com/yaminncco/vue-sidebar-menu/tree/vue2)
 
 ## What new in v5.0.0
 
@@ -19,7 +19,7 @@ A Vue.js sidebar menu component with vue-router compatibility
 ## Installation
 
 ```
-npm i vue-sidebar-menu@next --save
+npm i vue-sidebar-menu --save
 ```
 
 Install the plugin globally.

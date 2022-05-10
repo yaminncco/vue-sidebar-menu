@@ -117,7 +117,7 @@ export default {
       getIsCollapsed: isCollapsed,
       updateIsCollapsed,
       unsetMobileItem,
-      updateCurrentRoute,
+      updateCurrentRoute
     } = initSidebar(props, context)
 
     const computedMenu = computed(() => {

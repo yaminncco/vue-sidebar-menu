@@ -3,7 +3,7 @@
     <h2>Installation</h2>
     <p>Use npm to install plugin</p>
     <prism-code lang="bash">
-      {{ `npm i vue-sidebar-menu@next --save` }}
+      {{ `npm i vue-sidebar-menu --save` }}
     </prism-code>
     <p>Import the plugin globally</p>
     <prism-code lang="js">
