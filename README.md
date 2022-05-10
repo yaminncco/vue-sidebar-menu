@@ -2,16 +2,12 @@
 
 A Vue.js Sidebar Menu Component
 
-## Demo
-
-[vue-sidebar-menu-demo](https://yaminncco.github.io/vue-sidebar-menu/)
-
 ### :warning: This documentation is for Vue 2, for Vue 3 [click here](https://github.com/yaminncco/vue-sidebar-menu/tree/next)
 
 ## Installation
 
 ```
-npm i vue-sidebar-menu --save
+npm i vue-sidebar-menu@4 --save
 ```
 
 Install the plugin globally.
