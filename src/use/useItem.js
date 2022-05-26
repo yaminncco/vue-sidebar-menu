@@ -85,33 +85,34 @@ export default function useItem (props) {
 
   const onMouseEnter = (event) => {
     if (props.item.disabled) return
-    if (isMobileItem.value && ((sidebarProps.disableHover && hasChild.value) || !sidebarProps.disableHover)) {
+    if (sidebarProps.disableHover) {
+      if (isMobileItem.value && hasChild.value) {
+        clearMobileItemTimeout()
+      }
+    } else {
       clearMobileItemTimeout()
-    }
-    if (!sidebarProps.disableHover) {
       emitMobileItem(event, event.currentTarget)
     }
   }
 
   const onMouseLeave = () => {
     if (sidebarProps.disableHover && !hasChild.value) return
-    let delay
-    if (!sidebarProps.disableHover) {
-      delay = 300
+    if (isMobileItem.value) {
+      unsetMobileItem(false, !sidebarProps.disableHover ? 300 : undefined)
     }
-    unsetMobileItem(false, delay)
   }
 
   const emitMobileItem = (event, itemEl) => {
-    if (hover.value) return
-    if (isCollapsed.value && isFirstLevel.value) {
+    if (isMobileItem.value) return
+    if (isCollapsed.value) {
       setTimeout(() => {
-        if (mobileItem.value?.id !== props.item.id) {
-          setMobileItem({ item: props.item, itemEl })
-          show.value = true
+        if (isFirstLevel.value) {
+          if (!isMobileItem.value) {
+            setMobileItem({ item: props.item, itemEl })
+          }
         }
         if (event.type === 'click' && !hasChild.value) {
-          unsetMobileItem(false)
+          unsetMobileItem(false, !isFirstLevel.value ? 300 : undefined)
         }
       }, 0)
     }
@@ -158,7 +159,7 @@ export default function useItem (props) {
   })
 
   const hover = computed(() => {
-    return (isCollapsed.value && isFirstLevel.value) ? props.item.id === mobileItem.value?.id : itemHover.value
+    return (isCollapsed.value && isFirstLevel.value) ? isMobileItem.value : itemHover.value
   })
 
   const isFirstLevel = computed(() => {
@@ -221,7 +222,7 @@ export default function useItem (props) {
   })
 
   const isMobileItem = computed(() => {
-    return isCollapsed.value && isFirstLevel.value && hover.value
+    return props.item.id === mobileItem.value?.id
   })
 
   const mobileItemDropdownStyle = computed(() => {
