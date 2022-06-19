@@ -116,17 +116,19 @@
       &_level-1 {
         .vsm--icon {
           height: $icon-height;
-          line-height: $icon-height;
           width: $icon-width;
           flex-shrink: 0;
-          text-align: center;
           border-radius: 3px;
         }
       }
     }
   
     .vsm--icon {
-      display: inline-block;
+      height: 25px;
+      width: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-right: 15px;
       z-index: 20;
     }
