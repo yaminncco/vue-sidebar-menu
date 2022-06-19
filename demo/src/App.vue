@@ -48,10 +48,21 @@
 </template>
 
 <script>
-import { markRaw } from 'vue'
+import { h, markRaw } from 'vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 const separator = {
   template: '<hr style="border-color: rgba(0, 0, 0, 0.1); margin: 20px;">'
+}
+
+const faIcon = (props) => {
+  return {
+    element: markRaw({
+      render: () => h('div', [
+        h(FontAwesomeIcon, { size: 'lg', ...props })
+      ])
+    })
+  }
 }
 
 export default {
@@ -66,12 +77,12 @@ export default {
         {
           href: '/',
           title: 'Installation',
-          icon: 'fa fa-download'
+          icon: faIcon({ icon: 'fa-solid fa-download' })
         },
         {
           href: '/basic-usage',
           title: 'Basic Usage',
-          icon: 'fa fa-code'
+          icon: faIcon({ icon: 'fa-solid fa-code' })
         },
         {
           header: 'Usage',
@@ -80,17 +91,17 @@ export default {
         {
           href: '/props',
           title: 'Props',
-          icon: 'fa fa-cogs'
+          icon: faIcon({ icon: 'fa-solid fa-cogs' })
         },
         {
           href: '/events',
           title: 'Events',
-          icon: 'fa fa-bell'
+          icon: faIcon({ icon: 'fa-solid fa-bell' })
         },
         {
           href: '/styling',
           title: 'Styling',
-          icon: 'fa fa-palette'
+          icon: faIcon({ icon: 'fa-solid fa-palette' })
         },
         {
           component: markRaw(separator)
@@ -102,12 +113,12 @@ export default {
         {
           href: '/disabled',
           title: 'Disabled page',
-          icon: 'fa fa-lock',
+          icon: faIcon({ icon: 'fa-solid fa-lock' }),
           disabled: true
         },
         {
           title: 'Badge',
-          icon: 'fa fa-cog',
+          icon: faIcon({ icon: 'fa-solid fa-cog' }),
           badge: {
             text: 'new',
             class: 'vsm--badge_default'
@@ -116,23 +127,23 @@ export default {
         {
           href: '/page',
           title: 'Dropdown Page',
-          icon: 'fa fa-list-ul',
+          icon: faIcon({ icon: 'fa-solid fa-list-ul' }),
           child: [
             {
               href: '/page/sub-page-1',
               title: 'Sub Page 01',
-              icon: 'fa fa-file-alt'
+              icon: faIcon({ icon: 'fa-solid fa-file-alt', size: 'sm' })
             },
             {
               href: '/page/sub-page-2',
               title: 'Sub Page 02',
-              icon: 'fa fa-file-alt'
+              icon: faIcon({ icon: 'fa-solid fa-file-alt', size: 'sm' })
             }
           ]
         },
         {
           title: 'Multiple Level',
-          icon: 'fa fa-list-alt',
+          icon: faIcon({ icon: 'fa-solid fa-list-alt' }),
           child: [
             {
               title: 'page'

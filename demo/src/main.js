@@ -11,6 +11,9 @@ import Styling from './components/Styling.vue'
 
 import PrismCode from './components/PrismCode.vue'
 
+import './fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
@@ -50,4 +53,5 @@ createApp(App)
   .use(router)
   .use(VueSidebarMenu)
   .component('prism-code', PrismCode)
+  .component('font-awesome-icon', FontAwesomeIcon)
   .mount('#app')

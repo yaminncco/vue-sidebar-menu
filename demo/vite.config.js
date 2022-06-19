@@ -15,5 +15,10 @@ export default defineConfig({
     dedupe: [
       'vue'
     ]
+  },
+  server: {
+    fs: {
+      allow: ['..']
+    }
   }
 })
