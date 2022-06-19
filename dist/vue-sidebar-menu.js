@@ -398,43 +398,40 @@
     var onMouseEnter = function onMouseEnter(event) {
       if (props.item.disabled) return;
 
-      if (isMobileItem.value && (sidebarProps.disableHover && hasChild.value || !sidebarProps.disableHover)) {
+      if (sidebarProps.disableHover) {
+        if (isMobileItem.value && hasChild.value) {
+          clearMobileItemTimeout();
+        }
+      } else {
         clearMobileItemTimeout();
-      }
-
-      if (!sidebarProps.disableHover) {
         emitMobileItem(event, event.currentTarget);
       }
     };
 
     var onMouseLeave = function onMouseLeave() {
       if (sidebarProps.disableHover && !hasChild.value) return;
-      var delay;
 
-      if (!sidebarProps.disableHover) {
-        delay = 300;
+      if (isMobileItem.value) {
+        unsetMobileItem(false, !sidebarProps.disableHover ? 300 : undefined);
       }
-
-      unsetMobileItem(false, delay);
     };
 
     var emitMobileItem = function emitMobileItem(event, itemEl) {
-      if (hover.value) return;
+      if (isMobileItem.value) return;
 
-      if (isCollapsed.value && isFirstLevel.value) {
+      if (isCollapsed.value) {
         setTimeout(function () {
-          var _mobileItem$value;
-
-          if (((_mobileItem$value = mobileItem.value) === null || _mobileItem$value === void 0 ? void 0 : _mobileItem$value.id) !== props.item.id) {
-            setMobileItem({
-              item: props.item,
-              itemEl: itemEl
-            });
-            show.value = true;
+          if (isFirstLevel.value) {
+            if (!isMobileItem.value) {
+              setMobileItem({
+                item: props.item,
+                itemEl: itemEl
+              });
+            }
           }
 
           if (event.type === 'click' && !hasChild.value) {
-            unsetMobileItem(false);
+            unsetMobileItem(false, !isFirstLevel.value ? 300 : undefined);
           }
         }, 0);
       }
@@ -483,9 +480,7 @@
       }
     });
     var hover = vue.computed(function () {
-      var _mobileItem$value2;
-
-      return isCollapsed.value && isFirstLevel.value ? props.item.id === ((_mobileItem$value2 = mobileItem.value) === null || _mobileItem$value2 === void 0 ? void 0 : _mobileItem$value2.id) : itemHover.value;
+      return isCollapsed.value && isFirstLevel.value ? isMobileItem.value : itemHover.value;
     });
     var isFirstLevel = vue.computed(function () {
       return props.level === 1;
@@ -539,7 +534,9 @@
       }];
     });
     var isMobileItem = vue.computed(function () {
-      return isCollapsed.value && isFirstLevel.value && hover.value;
+      var _mobileItem$value;
+
+      return props.item.id === ((_mobileItem$value = mobileItem.value) === null || _mobileItem$value === void 0 ? void 0 : _mobileItem$value.id);
     });
     var mobileItemDropdownStyle = vue.computed(function () {
       return [{
@@ -1131,7 +1128,7 @@
         getIsCollapsed: isCollapsed,
         updateIsCollapsed,
         unsetMobileItem,
-        updateCurrentRoute,
+        updateCurrentRoute
       } = initSidebar(props, context);
 
       const computedMenu = vue.computed(() => {
