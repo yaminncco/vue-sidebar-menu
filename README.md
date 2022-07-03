@@ -273,7 +273,7 @@ All styles customization can be done in normal CSS by using this classes
 .v-sidebar-menu .vsm--toggle-btn {}
 ```
 
-or you can override Sass variables (complete list of all variables can be found in `src/scss/_variables.scss`) and create your own theme. To include your theme add the following lines and make sure to not set a 'selectedTheme' (eg. `selectedTheme: 'white-theme'`) since this will set some of the color variables.
+or you can override Sass variables (complete list of all variables can be found in `src/scss/_variables.scss`) and create your own theme. Make sure to set prop `theme` to default value.
 
 ```scss
 @import "custom-var.scss";
