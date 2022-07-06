@@ -1,7 +1,7 @@
 <template>
   <component
     :is="tag"
-    v-bind="[isRouterLink ? { to: href } : { href: href }, ...$attrs]"
+    v-bind="[isRouterLink ? { to: href } : { href: href }, { ...$attrs }]"
   >
     <slot />
   </component>
