@@ -1,7 +1,7 @@
 <template>
   <component
     :is="tag"
-    v-bind="[isRouterLink ? { to: href } : { href: href }, ...$attrs]"
+    v-bind="componentAttrs"
   >
     <slot />
   </component>
@@ -20,6 +20,9 @@ export default {
   computed: {
     isRouterLink () {
       return !!this.$router && this.item.href && !this.item.external
+    },
+    componentAttrs() {
+      return Object.assign(this.isRouterLink ? { to: this.href } : { href: this.href }, this.$attrs)
     },
     tag () {
       return this.isRouterLink ? this.$nuxt ? 'nuxt-link' : 'router-link' : 'a'
