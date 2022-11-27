@@ -16,7 +16,6 @@
         <div
           ref="scrollThumbRef"
           class="vsm--scroll-thumb"
-          :style="thumbStyle"
           @mousedown="onMouseDown"
         />
       </div>
@@ -25,7 +24,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, watch, nextTick, provide, onUnmounted } from 'vue'
+import { ref, onMounted, watch, nextTick, provide, onUnmounted } from 'vue'
 import { useSidebar } from '../use/useSidebar'
 
 export default {
@@ -37,18 +36,8 @@ export default {
     const scrollBarRef = ref(null)
     const scrollThumbRef = ref(null)
 
-    const thumbYPerc = ref(0)
-    const thumbHeightPerc = ref(0)
-
     let cursorY = 0
     let cursorDown = false
-
-    const thumbStyle = computed(() => {
-      return {
-        height: `${thumbHeightPerc.value}%`,
-        transform: `translateY(${thumbYPerc.value}%)`
-      }
-    })
 
     const onScrollUpdate = () => {
       if (!scrollRef.value) return
@@ -91,8 +80,11 @@ export default {
 
     const updateThumb = () => {
       const heightPerc = scrollRef.value.clientHeight * 100 / scrollRef.value.scrollHeight
-      thumbHeightPerc.value = heightPerc < 100 ? heightPerc : 0
-      thumbYPerc.value = scrollRef.value.scrollTop * 100 / scrollRef.value.clientHeight
+      const thumbHeightPerc = heightPerc < 100 ? heightPerc : 0
+      const thumbYPerc = scrollRef.value.scrollTop * 100 / scrollRef.value.clientHeight || 0
+
+      scrollThumbRef.value.style.height = `${thumbHeightPerc}%`
+      scrollThumbRef.value.style.transform = `translateY(${thumbYPerc}%)`
     }
 
     const updateScrollTop = (y) => {
@@ -118,7 +110,6 @@ export default {
       scrollRef,
       scrollBarRef,
       scrollThumbRef,
-      thumbStyle,
       onScroll,
       onClick,
       onMouseDown
