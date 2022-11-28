@@ -18,7 +18,7 @@ app.mount("#app")` }}
     </prism-code>
     <p>Or import the component locally.</p>
     <prism-code lang="js">
-      {{ `import { SidebarMenu } from 'vue-sidebar-menu'	  
+      {{ `import { SidebarMenu } from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 export default {
   components: {
