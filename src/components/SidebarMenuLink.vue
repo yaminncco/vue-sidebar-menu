@@ -23,6 +23,7 @@
 
 <script>
 export default {
+  compatConfig: { MODE: 3 },
   name: 'SidebarMenuLink',
   inheritAttrs: false,
   props: {

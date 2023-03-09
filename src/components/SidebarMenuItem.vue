@@ -110,6 +110,7 @@ import SidebarMenuIcon from './SidebarMenuIcon.vue'
 import SidebarMenuBadge from './SidebarMenuBadge.vue'
 
 export default {
+  compatConfig: { MODE: 3 },
   name: 'SidebarMenuItem',
   components: {
     SidebarMenuLink,

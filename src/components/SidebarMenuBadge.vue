@@ -11,6 +11,7 @@
 
 <script>
 export default {
+  compatConfig: { MODE: 3 },
   name: 'SidebarMenuBadge',
   props: {
     badge: {
