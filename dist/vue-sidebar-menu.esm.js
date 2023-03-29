@@ -1179,8 +1179,8 @@ var script = {
   }
 };
 
-const _hoisted_1 = /*#__PURE__*/createElementVNode("span", { class: "vsm--arrow_default" }, null, -1 /* HOISTED */);
-const _hoisted_2 = /*#__PURE__*/createElementVNode("span", { class: "vsm--toggle-btn_default" }, null, -1 /* HOISTED */);
+const _hoisted_1 = /*#__PURE__*/createElementVNode("span", { class: "vsm--toggle-btn_default" }, null, -1 /* HOISTED */);
+const _hoisted_2 = /*#__PURE__*/createElementVNode("span", { class: "vsm--arrow_default" }, null, -1 /* HOISTED */);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_sidebar_menu_item = resolveComponent("sidebar-menu-item");
@@ -1191,6 +1191,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: normalizeClass(["v-sidebar-menu", $setup.sidebarClass]),
     style: normalizeStyle({'max-width': $setup.sidebarWidth})
   }, [
+    (!$props.hideToggle)
+      ? (openBlock(), createElementBlock("button", {
+          key: 0,
+          class: "vsm--toggle-btn",
+          onClick: _cache[0] || (_cache[0] = (...args) => ($setup.onToggleClick && $setup.onToggleClick(...args)))
+        }, [
+          renderSlot(_ctx.$slots, "toggle-icon", {}, () => [
+            _hoisted_1
+          ])
+        ]))
+      : createCommentVNode("v-if", true),
     renderSlot(_ctx.$slots, "header"),
     createVNode(_component_sidebar_menu_scroll, null, {
       default: withCtx(() => [
@@ -1205,7 +1216,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }, {
               "dropdown-icon": withCtx(({ isOpen }) => [
                 renderSlot(_ctx.$slots, "dropdown-icon", normalizeProps(guardReactiveProps({ isOpen })), () => [
-                  _hoisted_1
+                  _hoisted_2
                 ])
               ]),
               _: 2 /* DYNAMIC */
@@ -1215,18 +1226,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ]),
       _: 3 /* FORWARDED */
     }),
-    renderSlot(_ctx.$slots, "footer"),
-    (!$props.hideToggle)
-      ? (openBlock(), createElementBlock("button", {
-          key: 0,
-          class: "vsm--toggle-btn",
-          onClick: _cache[0] || (_cache[0] = (...args) => ($setup.onToggleClick && $setup.onToggleClick(...args)))
-        }, [
-          renderSlot(_ctx.$slots, "toggle-icon", {}, () => [
-            _hoisted_2
-          ])
-        ]))
-      : createCommentVNode("v-if", true)
+    renderSlot(_ctx.$slots, "footer")
   ], 6 /* CLASS, STYLE */))
 }
 

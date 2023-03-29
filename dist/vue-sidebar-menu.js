@@ -1183,8 +1183,8 @@
     }
   };
 
-  const _hoisted_1 = /*#__PURE__*/vue.createElementVNode("span", { class: "vsm--arrow_default" }, null, -1 /* HOISTED */);
-  const _hoisted_2 = /*#__PURE__*/vue.createElementVNode("span", { class: "vsm--toggle-btn_default" }, null, -1 /* HOISTED */);
+  const _hoisted_1 = /*#__PURE__*/vue.createElementVNode("span", { class: "vsm--toggle-btn_default" }, null, -1 /* HOISTED */);
+  const _hoisted_2 = /*#__PURE__*/vue.createElementVNode("span", { class: "vsm--arrow_default" }, null, -1 /* HOISTED */);
 
   function render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_sidebar_menu_item = vue.resolveComponent("sidebar-menu-item");
@@ -1195,6 +1195,17 @@
       class: vue.normalizeClass(["v-sidebar-menu", $setup.sidebarClass]),
       style: vue.normalizeStyle({'max-width': $setup.sidebarWidth})
     }, [
+      (!$props.hideToggle)
+        ? (vue.openBlock(), vue.createElementBlock("button", {
+            key: 0,
+            class: "vsm--toggle-btn",
+            onClick: _cache[0] || (_cache[0] = (...args) => ($setup.onToggleClick && $setup.onToggleClick(...args)))
+          }, [
+            vue.renderSlot(_ctx.$slots, "toggle-icon", {}, () => [
+              _hoisted_1
+            ])
+          ]))
+        : vue.createCommentVNode("v-if", true),
       vue.renderSlot(_ctx.$slots, "header"),
       vue.createVNode(_component_sidebar_menu_scroll, null, {
         default: vue.withCtx(() => [
@@ -1209,7 +1220,7 @@
               }, {
                 "dropdown-icon": vue.withCtx(({ isOpen }) => [
                   vue.renderSlot(_ctx.$slots, "dropdown-icon", vue.normalizeProps(vue.guardReactiveProps({ isOpen })), () => [
-                    _hoisted_1
+                    _hoisted_2
                   ])
                 ]),
                 _: 2 /* DYNAMIC */
@@ -1219,18 +1230,7 @@
         ]),
         _: 3 /* FORWARDED */
       }),
-      vue.renderSlot(_ctx.$slots, "footer"),
-      (!$props.hideToggle)
-        ? (vue.openBlock(), vue.createElementBlock("button", {
-            key: 0,
-            class: "vsm--toggle-btn",
-            onClick: _cache[0] || (_cache[0] = (...args) => ($setup.onToggleClick && $setup.onToggleClick(...args)))
-          }, [
-            vue.renderSlot(_ctx.$slots, "toggle-icon", {}, () => [
-              _hoisted_2
-            ])
-          ]))
-        : vue.createCommentVNode("v-if", true)
+      vue.renderSlot(_ctx.$slots, "footer")
     ], 6 /* CLASS, STYLE */))
   }
 

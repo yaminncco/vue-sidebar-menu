@@ -5,6 +5,15 @@
     :class="sidebarClass"
     :style="{'max-width': sidebarWidth}"
   >
+    <button
+      v-if="!hideToggle"
+      class="vsm--toggle-btn"
+      @click="onToggleClick"
+    >
+      <slot name="toggle-icon">
+        <span class="vsm--toggle-btn_default" />
+      </slot>
+    </button>
     <slot name="header" />
     <sidebar-menu-scroll>
       <ul
@@ -28,15 +37,6 @@
       </ul>
     </sidebar-menu-scroll>
     <slot name="footer" />
-    <button
-      v-if="!hideToggle"
-      class="vsm--toggle-btn"
-      @click="onToggleClick"
-    >
-      <slot name="toggle-icon">
-        <span class="vsm--toggle-btn_default" />
-      </slot>
-    </button>
   </div>
 </template>
 
