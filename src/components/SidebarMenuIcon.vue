@@ -12,6 +12,7 @@
 
 <script>
 export default {
+  compatConfig: { MODE: 3 },
   name: 'SidebarMenuIcon',
   props: {
     icon: {

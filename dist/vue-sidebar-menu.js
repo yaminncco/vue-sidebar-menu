@@ -630,6 +630,7 @@
   }
 
   var script$5 = {
+    compatConfig: { MODE: 3 },
     name: 'SidebarMenuLink',
     inheritAttrs: false,
     props: {
@@ -683,6 +684,7 @@
   script$5.__file = "src/components/SidebarMenuLink.vue";
 
   var script$4 = {
+    compatConfig: { MODE: 3 },
     name: 'SidebarMenuIcon',
     props: {
       icon: {
@@ -708,6 +710,7 @@
   script$4.__file = "src/components/SidebarMenuIcon.vue";
 
   var script$3 = {
+    compatConfig: { MODE: 3 },
     name: 'SidebarMenuBadge',
     props: {
       badge: {
@@ -732,6 +735,7 @@
   script$3.__file = "src/components/SidebarMenuBadge.vue";
 
   var script$2 = {
+    compatConfig: { MODE: 3 },
     name: 'SidebarMenuItem',
     components: {
       SidebarMenuLink: script$5,
@@ -931,6 +935,7 @@
   script$2.__file = "src/components/SidebarMenuItem.vue";
 
   var script$1 = {
+    compatConfig: { MODE: 3 },
     name: 'SidebarMenuScroll',
     setup () {
       const { getIsCollapsed: isCollapsed } = useSidebar();
@@ -1052,6 +1057,7 @@
   script$1.__file = "src/components/SidebarMenuScroll.vue";
 
   var script = {
+    compatConfig: { MODE: 3 },
     name: 'SidebarMenu',
     components: {
       SidebarMenuItem: script$2,

@@ -48,6 +48,7 @@ import SidebarMenuItem from './SidebarMenuItem.vue'
 import SidebarMenuScroll from './SidebarMenuScroll.vue'
 
 export default {
+  compatConfig: { MODE: 3 },
   name: 'SidebarMenu',
   components: {
     SidebarMenuItem,

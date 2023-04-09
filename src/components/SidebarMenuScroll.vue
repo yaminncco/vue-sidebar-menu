@@ -28,6 +28,7 @@ import { ref, onMounted, watch, nextTick, provide, onUnmounted } from 'vue'
 import { useSidebar } from '../use/useSidebar'
 
 export default {
+  compatConfig: { MODE: 3 },
   name: 'SidebarMenuScroll',
   setup () {
     const { getIsCollapsed: isCollapsed } = useSidebar()
