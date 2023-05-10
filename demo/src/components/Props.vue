@@ -2,7 +2,8 @@
   <div>
     <h2>Props</h2>
     <prism-code lang="js">
-      {{ `props: {
+      {{
+        `props: {
   // Sidebar menu (required)
   menu: {
     type: Array,
@@ -74,7 +75,8 @@
     type: String,
     default: undefined
   }
-}` }}
+}`
+      }}
     </prism-code>
   </div>
 </template>

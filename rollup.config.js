@@ -9,22 +9,20 @@ import pkg from './package.json'
 
 const plugins = [
   vue({
-    css: false
+    css: false,
   }),
   resolve(),
   commonjs(),
   babel({
     babelHelpers: 'bundled',
     exclude: 'node_modules/**',
-    presets: [
-      '@babel/preset-env'
-    ]
+    presets: ['@babel/preset-env'],
   }),
   postcss({
     extract: path.resolve('dist/vue-sidebar-menu.css'),
     minimize: true,
-    sourceMap: true
-  })
+    sourceMap: true,
+  }),
 ]
 
 export default {
@@ -35,7 +33,7 @@ export default {
       file: pkg.module,
       format: 'es',
       exports: 'named',
-      sourcemap: true
+      sourcemap: true,
     },
     {
       file: pkg.main,
@@ -44,8 +42,8 @@ export default {
       sourcemap: true,
       name: 'vue-sidebar-menu',
       globals: {
-        vue: 'Vue'
-      }
+        vue: 'Vue',
+      },
     },
     {
       file: pkg.unpkg,
@@ -54,12 +52,10 @@ export default {
       sourcemap: true,
       name: 'VueSidebarMenu',
       globals: {
-        vue: 'Vue'
+        vue: 'Vue',
       },
-      plugins: [
-        terser()
-      ]
-    }
+      plugins: [terser()],
+    },
   ],
-  plugins
+  plugins,
 }

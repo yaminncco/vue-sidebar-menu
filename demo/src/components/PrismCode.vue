@@ -16,19 +16,19 @@ export default {
   props: {
     lang: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
-      isHighlighted: false
+      isHighlighted: false,
     }
   },
-  mounted () {
+  mounted() {
     if (!this.isHighlighted) {
       Prism.highlightElement(this.$refs.code)
       this.isHighlighted = true
     }
-  }
+  },
 }
 </script>

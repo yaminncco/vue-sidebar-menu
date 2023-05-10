@@ -3,24 +3,18 @@
     ref="sidebarMenuRef"
     class="v-sidebar-menu"
     :class="sidebarClass"
-    :style="{'max-width': sidebarWidth}"
+    :style="{ 'max-width': sidebarWidth }"
   >
     <slot name="header" />
     <sidebar-menu-scroll>
-      <ul
-        class="vsm--menu"
-        :style="{'width': sidebarWidth}"
-      >
+      <ul class="vsm--menu" :style="{ width: sidebarWidth }">
         <sidebar-menu-item
           v-for="item in computedMenu"
           :key="item.id"
           :item="item"
         >
           <template #dropdown-icon="{ isOpen }">
-            <slot
-              name="dropdown-icon"
-              v-bind="{ isOpen }"
-            >
+            <slot name="dropdown-icon" v-bind="{ isOpen }">
               <span class="vsm--arrow_default" />
             </slot>
           </template>
@@ -28,11 +22,7 @@
       </ul>
     </sidebar-menu-scroll>
     <slot name="footer" />
-    <button
-      v-if="!hideToggle"
-      class="vsm--toggle-btn"
-      @click="onToggleClick"
-    >
+    <button v-if="!hideToggle" class="vsm--toggle-btn" @click="onToggleClick">
       <slot name="toggle-icon">
         <span class="vsm--toggle-btn_default" />
       </slot>
@@ -41,7 +31,13 @@
 </template>
 
 <script>
-import { watch, getCurrentInstance, onMounted, onUnmounted, computed } from 'vue'
+import {
+  watch,
+  getCurrentInstance,
+  onMounted,
+  onUnmounted,
+  computed,
+} from 'vue'
 import { initSidebar } from '../use/useSidebar'
 
 import SidebarMenuItem from './SidebarMenuItem.vue'
@@ -52,83 +48,87 @@ export default {
   name: 'SidebarMenu',
   components: {
     SidebarMenuItem,
-    SidebarMenuScroll
+    SidebarMenuScroll,
   },
   props: {
     menu: {
       type: Array,
-      required: true
+      required: true,
     },
     collapsed: {
       type: Boolean,
-      default: false
+      default: false,
     },
     width: {
       type: String,
-      default: '290px'
+      default: '290px',
     },
     widthCollapsed: {
       type: String,
-      default: '65px'
+      default: '65px',
     },
     showChild: {
       type: Boolean,
-      default: false
+      default: false,
     },
     theme: {
       type: String,
-      default: ''
+      default: '',
     },
     showOneChild: {
       type: Boolean,
-      default: false
+      default: false,
     },
     rtl: {
       type: Boolean,
-      default: false
+      default: false,
     },
     relative: {
       type: Boolean,
-      default: false
+      default: false,
     },
     hideToggle: {
       type: Boolean,
-      default: false
+      default: false,
     },
     disableHover: {
       type: Boolean,
-      default: false
+      default: false,
     },
     linkComponentName: {
       type: String,
-      default: undefined
-    }
+      default: undefined,
+    },
   },
   emits: {
-    'item-click' (event, item) {
+    'item-click'(event, item) {
       return !!(event && item)
     },
-    'update:collapsed' (collapsed) {
+    'update:collapsed'(collapsed) {
       return !!(typeof collapsed === 'boolean')
-    }
+    },
   },
-  setup (props, context) {
+  setup(props, context) {
     const {
       getSidebarRef: sidebarMenuRef,
       getIsCollapsed: isCollapsed,
       updateIsCollapsed,
       unsetMobileItem,
-      updateCurrentRoute
+      updateCurrentRoute,
     } = initSidebar(props, context)
 
     const computedMenu = computed(() => {
       let id = 0
-      function transformItems (items) {
-        function randomId () {
+      function transformItems(items) {
+        function randomId() {
           return `${Date.now() + '' + id++}`
         }
-        return items.map(item => {
-          return { id: randomId(), ...item, ...(item.child && { child: transformItems(item.child) }) }
+        return items.map((item) => {
+          return {
+            id: randomId(),
+            ...item,
+            ...(item.child && { child: transformItems(item.child) }),
+          }
         })
       }
       return transformItems(props.menu)
@@ -143,7 +143,7 @@ export default {
         !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
         props.theme ? `vsm_${props.theme}` : '',
         props.rtl ? 'vsm_rtl' : '',
-        props.relative ? 'vsm_relative' : ''
+        props.relative ? 'vsm_relative' : '',
       ]
     })
 
@@ -153,12 +153,16 @@ export default {
       context.emit('update:collapsed', isCollapsed.value)
     }
 
-    watch(() => props.collapsed, (currentCollapsed) => {
-      unsetMobileItem()
-      updateIsCollapsed(currentCollapsed)
-    })
+    watch(
+      () => props.collapsed,
+      (currentCollapsed) => {
+        unsetMobileItem()
+        updateIsCollapsed(currentCollapsed)
+      }
+    )
 
-    const router = getCurrentInstance().appContext.config.globalProperties.$router
+    const router =
+      getCurrentInstance().appContext.config.globalProperties.$router
     if (!router) {
       onMounted(() => {
         window.addEventListener('hashchange', updateCurrentRoute)
@@ -175,9 +179,9 @@ export default {
       sidebarWidth,
       sidebarClass,
       onToggleClick,
-      onRouteChange: updateCurrentRoute
+      onRouteChange: updateCurrentRoute,
     }
-  }
+  },
 }
 </script>
 

@@ -33,7 +33,7 @@ import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 
 const app = createApp(App)
 app.use(VueSidebarMenu)
-app.mount("#app")
+app.mount('#app')
 ```
 
 Or import the component locally.
@@ -44,8 +44,8 @@ import { SidebarMenu } from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 export default {
   components: {
-    SidebarMenu
-  }
+    SidebarMenu,
+  },
 }
 ```
 
@@ -63,12 +63,12 @@ export default {
         menu: [
           {
             header: 'Main Navigation',
-            hiddenOnCollapse: true
+            hiddenOnCollapse: true,
           },
           {
             href: '/',
             title: 'Dashboard',
-            icon: 'fa fa-user'
+            icon: 'fa fa-user',
           },
           {
             href: '/charts',
@@ -77,13 +77,13 @@ export default {
             child: [
               {
                 href: '/charts/sublink',
-                title: 'Sub Link'
-              }
-            ]
-          }
-        ]
+                title: 'Sub Link',
+              },
+            ],
+          },
+        ],
       }
-    }
+    },
   }
 </script>
 ```
@@ -91,9 +91,9 @@ export default {
 ### Item Properties
 
 ```js
-menu [
+menu[
   // item
-  {
+  ({
     // string or a location object
     href: '/',
     // href: { path: '/' }
@@ -101,7 +101,7 @@ menu [
     title: 'Dashboard',
 
     // icon class
-    icon: 'fa fa-user'
+    icon: 'fa fa-user',
     /* or custom icon
     icon: {
         element: 'span',
@@ -131,23 +131,21 @@ menu [
     // external: true
     // exact: true // apply active class when current route is exactly the same. (based on route records, query & hash are not relevant)
   },
-
   // header item
   {
-    header: 'Main Navigation'
+    header: 'Main Navigation',
     // hidden: false
     // hiddenOnCollapse: true
     // class: ''
     // attributes: {}
   },
-
   // component item
   {
-    component: componentName
+    component: componentName,
     // props: componentProps
     // hidden: false
     // hiddenOnCollapse: true
-  }
+  })
 ]
 ```
 
@@ -233,53 +231,68 @@ props: {
 
 ```html
 <sidebar-menu @update:collapsed="onToggleCollapse" @item-click="onItemClick" />
-...
-methods: {
-  onToggleCollapse(collapsed) {},
-  onItemClick(event, item) {}
-}
-...
+... methods: { onToggleCollapse(collapsed) {}, onItemClick(event, item) {} } ...
 ```
 
-__@update:collapsed(collapsed)__ Trigger on toggle btn click
+**@update:collapsed(collapsed)** Trigger on toggle btn click
 
-__@item-click(event, item)__ Trigger on item link click
+**@item-click(event, item)** Trigger on item link click
 
 ## Styles
 
 All styles customization can be done in normal CSS by using this classes
 
 ```css
-.v-sidebar-menu {}
-.v-sidebar-menu.vsm_expanded {}
-.v-sidebar-menu.vsm_collapsed {}
-.v-sidebar-menu.vsm_rtl {}
-.v-sidebar-menu .vsm--item {}
-.v-sidebar-menu .vsm--link {}
-.v-sidebar-menu .vsm--link_active {}
-.v-sidebar-menu .vsm--link_open {}
-.v-sidebar-menu .vsm--link_mobile {}
-.v-sidebar-menu .vsm--link_level-[n] {}
-.v-sidebar-menu .vsm--link_disabled {}
-.v-sidebar-menu .vsm--title {}
-.v-sidebar-menu .vsm--icon {}
-.v-sidebar-menu .vsm--arrow {}
-.v-sidebar-menu .vsm--arrow_open {}
-.v-sidebar-menu .vsm--badge {}
-.v-sidebar-menu .vsm--badge_default {}
-.v-sidebar-menu .vsm--header {}
-.v-sidebar-menu .vsm--dropdown {}
-.v-sidebar-menu .vsm--mobile-bg {}
-.v-sidebar-menu .vsm--toggle-btn {}
+.v-sidebar-menu {
+}
+.v-sidebar-menu.vsm_expanded {
+}
+.v-sidebar-menu.vsm_collapsed {
+}
+.v-sidebar-menu.vsm_rtl {
+}
+.v-sidebar-menu .vsm--item {
+}
+.v-sidebar-menu .vsm--link {
+}
+.v-sidebar-menu .vsm--link_active {
+}
+.v-sidebar-menu .vsm--link_open {
+}
+.v-sidebar-menu .vsm--link_mobile {
+}
+.v-sidebar-menu .vsm--link_level-[n] {
+}
+.v-sidebar-menu .vsm--link_disabled {
+}
+.v-sidebar-menu .vsm--title {
+}
+.v-sidebar-menu .vsm--icon {
+}
+.v-sidebar-menu .vsm--arrow {
+}
+.v-sidebar-menu .vsm--arrow_open {
+}
+.v-sidebar-menu .vsm--badge {
+}
+.v-sidebar-menu .vsm--badge_default {
+}
+.v-sidebar-menu .vsm--header {
+}
+.v-sidebar-menu .vsm--dropdown {
+}
+.v-sidebar-menu .vsm--mobile-bg {
+}
+.v-sidebar-menu .vsm--toggle-btn {
+}
 ```
 
 or you can override Sass variables (complete list of all variables can be found in `src/scss/_variables.scss`) and create your own theme. Make sure to set prop `theme` to default value.
 
 ```scss
-@import "custom-var.scss";
-@import "vue-sidebar-menu/src/scss/vue-sidebar-menu.scss";
+@import 'custom-var.scss';
+@import 'vue-sidebar-menu/src/scss/vue-sidebar-menu.scss';
 ```
-
 
 ## Slots
 
@@ -314,18 +327,19 @@ const customLink = {
     return h(link, this.$slots.default)
   },
   watch: {
-    '$page.url' () {
+    '$page.url'() {
       this.onRouteChange()
-    }
+    },
   },
-  inject: ['onRouteChange']
+  inject: ['onRouteChange'],
 }
 
 const app = createApp(App)
 app.component('custom-link', customLink)
 ```
+
 ```html
-<sidebar-menu :link-component-name="'custom-link'">
+<sidebar-menu :link-component-name="'custom-link'"></sidebar-menu>
 ```
 
 Note: the `onRouteChange` function can be injected useful for updating the active state whenever the url change.

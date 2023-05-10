@@ -20,33 +20,33 @@ const router = createRouter({
     {
       path: '/',
       name: 'Installation',
-      component: Installation
+      component: Installation,
     },
     {
       path: '/basic-usage',
       name: 'BasicUsage',
-      component: BasicUsage
+      component: BasicUsage,
     },
     {
       path: '/props',
       name: 'Props',
-      component: Props
+      component: Props,
     },
     {
       path: '/events',
       name: 'Events',
-      component: Events
+      component: Events,
     },
     {
       path: '/styling',
       name: 'Styling',
-      component: Styling
+      component: Styling,
     },
     {
       path: '/:pathMatch(.*)',
-      component: Installation
-    }
-  ]
+      component: Installation,
+    },
+  ],
 })
 
 createApp(App)

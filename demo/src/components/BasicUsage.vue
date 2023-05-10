@@ -2,7 +2,8 @@
   <div>
     <h2>Basic Usage</h2>
     <prism-code lang="html">
-      {{ `&lt;template>
+      {{
+        `&lt;template>
   &lt;sidebar-menu :menu="menu" />
 &lt;/template>
 
@@ -35,11 +36,13 @@
       }
     }
   }
-&lt;/script>` }}
+&lt;/script>`
+      }}
     </prism-code>
     <h3>Item Properties</h3>
     <prism-code lang="js">
-      {{ `menu [
+      {{
+        `menu [
   // item
   {
     // string or a location object
@@ -96,7 +99,8 @@
     // hidden: false
     // hiddenOnCollapse: true
   }
-]` }}
+]`
+      }}
     </prism-code>
   </div>
 </template>

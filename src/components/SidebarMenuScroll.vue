@@ -1,18 +1,10 @@
 <template>
   <div class="vsm--scroll-wrapper">
     <div class="vsm--scroll-overflow">
-      <div
-        ref="scrollRef"
-        class="vsm--scroll"
-        @scroll="onScroll"
-      >
+      <div ref="scrollRef" class="vsm--scroll" @scroll="onScroll">
         <slot />
       </div>
-      <div
-        ref="scrollBarRef"
-        class="vsm--scroll-bar"
-        @mousedown="onClick"
-      >
+      <div ref="scrollBarRef" class="vsm--scroll-bar" @mousedown="onClick">
         <div
           ref="scrollThumbRef"
           class="vsm--scroll-thumb"
@@ -30,7 +22,7 @@ import { useSidebar } from '../use/useSidebar'
 export default {
   compatConfig: { MODE: 3 },
   name: 'SidebarMenuScroll',
-  setup () {
+  setup() {
     const { getIsCollapsed: isCollapsed } = useSidebar()
 
     const scrollRef = ref(null)
@@ -52,7 +44,9 @@ export default {
     }
 
     const onClick = (e) => {
-      const offset = Math.abs(scrollBarRef.value.getBoundingClientRect().y - e.clientY)
+      const offset = Math.abs(
+        scrollBarRef.value.getBoundingClientRect().y - e.clientY
+      )
       const thumbHalf = scrollThumbRef.value.offsetHeight / 2
       updateScrollTop(offset - thumbHalf)
     }
@@ -62,7 +56,9 @@ export default {
       cursorDown = true
       window.addEventListener('mousemove', onMouseMove)
       window.addEventListener('mouseup', onMouseUp)
-      cursorY = scrollThumbRef.value.offsetHeight - (e.clientY - scrollThumbRef.value.getBoundingClientRect().y)
+      cursorY =
+        scrollThumbRef.value.offsetHeight -
+        (e.clientY - scrollThumbRef.value.getBoundingClientRect().y)
     }
 
     const onMouseMove = (e) => {
@@ -80,22 +76,28 @@ export default {
     }
 
     const updateThumb = () => {
-      const heightPerc = scrollRef.value.clientHeight * 100 / scrollRef.value.scrollHeight
+      const heightPerc =
+        (scrollRef.value.clientHeight * 100) / scrollRef.value.scrollHeight
       const thumbHeightPerc = heightPerc < 100 ? heightPerc : 0
-      const thumbYPerc = scrollRef.value.scrollTop * 100 / scrollRef.value.clientHeight || 0
+      const thumbYPerc =
+        (scrollRef.value.scrollTop * 100) / scrollRef.value.clientHeight || 0
 
       scrollThumbRef.value.style.height = `${thumbHeightPerc}%`
       scrollThumbRef.value.style.transform = `translateY(${thumbYPerc}%)`
     }
 
     const updateScrollTop = (y) => {
-      const scrollPerc = y * 100 / scrollBarRef.value.offsetHeight
-      scrollRef.value.scrollTop = scrollPerc * scrollRef.value.scrollHeight / 100
+      const scrollPerc = (y * 100) / scrollBarRef.value.offsetHeight
+      scrollRef.value.scrollTop =
+        (scrollPerc * scrollRef.value.scrollHeight) / 100
     }
 
-    watch(() => isCollapsed.value, () => {
-      onScrollUpdate()
-    })
+    watch(
+      () => isCollapsed.value,
+      () => {
+        onScrollUpdate()
+      }
+    )
 
     onMounted(() => {
       onScrollUpdate()
@@ -113,8 +115,8 @@ export default {
       scrollThumbRef,
       onScroll,
       onClick,
-      onMouseDown
+      onMouseDown,
     }
-  }
+  },
 }
 </script>

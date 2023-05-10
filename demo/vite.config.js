@@ -6,19 +6,17 @@ export default defineConfig({
   plugins: [vue()],
   base: '/vue-sidebar-menu/',
   build: {
-    outDir: '../docs'
+    outDir: '../docs',
   },
   resolve: {
     alias: {
-      vue: 'vue/dist/vue.esm-bundler.js'
+      vue: 'vue/dist/vue.esm-bundler.js',
     },
-    dedupe: [
-      'vue'
-    ]
+    dedupe: ['vue'],
   },
   server: {
     fs: {
-      allow: ['..']
-    }
-  }
+      allow: ['..'],
+    },
+  },
 })

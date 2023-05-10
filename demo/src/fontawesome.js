@@ -10,7 +10,7 @@ import {
   faCog,
   faListUl,
   faFileAlt,
-  faListAlt
+  faListAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(

@@ -12,16 +12,18 @@
     class="sidebar-overlay"
     @click="collapsed = true"
   />
-  <div
-    id="demo"
-    :class="[{'collapsed' : collapsed}, {'onmobile' : isOnMobile}]"
-  >
+  <div id="demo" :class="[{ collapsed: collapsed }, { onmobile: isOnMobile }]">
     <div class="demo">
       <div class="container">
         <h1>
           vue-sidebar-menu
           <a
-            style="color: #000;text-transform: uppercase;font-size: 14px;font-weight: 400;"
+            style="
+              color: #000;
+              text-transform: uppercase;
+              font-size: 14px;
+              font-weight: 400;
+            "
             href="https://github.com/yaminncco/vue-sidebar-menu"
           >
             Github
@@ -40,7 +42,7 @@
             </option>
           </select>
         </div>
-        <hr style="margin: 50px 0px;border: 1px solid #e3e3e3;">
+        <hr style="margin: 50px 0px; border: 1px solid #e3e3e3" />
         <router-view />
       </div>
     </div>
@@ -52,77 +54,75 @@ import { h, markRaw } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 const separator = {
-  template: '<hr style="border-color: rgba(0, 0, 0, 0.1); margin: 20px;">'
+  template: '<hr style="border-color: rgba(0, 0, 0, 0.1); margin: 20px;">',
 }
 
 const faIcon = (props) => {
   return {
     element: markRaw({
-      render: () => h('div', [
-        h(FontAwesomeIcon, { size: 'lg', ...props })
-      ])
-    })
+      render: () => h('div', [h(FontAwesomeIcon, { size: 'lg', ...props })]),
+    }),
   }
 }
 
 export default {
   name: 'App',
-  data () {
+  data() {
     return {
       menu: [
         {
           header: 'Getting Started',
-          hiddenOnCollapse: true
+          hiddenOnCollapse: true,
         },
         {
           href: '/',
           title: 'Installation',
-          icon: faIcon({ icon: 'fa-solid fa-download' })
+          icon: faIcon({ icon: 'fa-solid fa-download' }),
         },
         {
           href: '/basic-usage',
           title: 'Basic Usage',
-          icon: faIcon({ icon: 'fa-solid fa-code' })
+          icon: faIcon({ icon: 'fa-solid fa-code' }),
         },
         {
           header: 'Usage',
-          hiddenOnCollapse: true
+          hiddenOnCollapse: true,
         },
         {
           href: '/props',
           title: 'Props',
-          icon: faIcon({ icon: 'fa-solid fa-cogs' })
+          icon: faIcon({ icon: 'fa-solid fa-cogs' }),
         },
         {
           href: '/events',
           title: 'Events',
-          icon: faIcon({ icon: 'fa-solid fa-bell' })
+          icon: faIcon({ icon: 'fa-solid fa-bell' }),
         },
         {
           href: '/styling',
           title: 'Styling',
-          icon: faIcon({ icon: 'fa-solid fa-palette' })
+          icon: faIcon({ icon: 'fa-solid fa-palette' }),
         },
         {
-          component: markRaw(separator)
+          component: markRaw(separator),
         },
         {
           header: 'Example',
-          hiddenOnCollapse: true
+          hiddenOnCollapse: true,
         },
         {
           href: '/disabled',
           title: 'Disabled page',
           icon: faIcon({ icon: 'fa-solid fa-lock' }),
-          disabled: true
+          disabled: true,
         },
         {
           title: 'Badge',
           icon: faIcon({ icon: 'fa-solid fa-cog' }),
           badge: {
             text: 'new',
-            class: 'vsm--badge_default'
-          }
+            class: 'vsm--badge_default',
+          },
         },
         {
           href: '/page',
@@ -132,35 +132,35 @@ export default {
             {
               href: '/page/sub-page-1',
               title: 'Sub Page 01',
-              icon: faIcon({ icon: 'fa-solid fa-file-alt', size: 'sm' })
+              icon: faIcon({ icon: 'fa-solid fa-file-alt', size: 'sm' }),
             },
             {
               href: '/page/sub-page-2',
               title: 'Sub Page 02',
-              icon: faIcon({ icon: 'fa-solid fa-file-alt', size: 'sm' })
-            }
-          ]
+              icon: faIcon({ icon: 'fa-solid fa-file-alt', size: 'sm' }),
+            },
+          ],
         },
         {
           title: 'Multiple Level',
           icon: faIcon({ icon: 'fa-solid fa-list-alt' }),
           child: [
             {
-              title: 'page'
+              title: 'page',
             },
             {
               title: 'Level 2 ',
               child: [
                 {
-                  title: 'page'
+                  title: 'page',
                 },
                 {
-                  title: 'Page'
-                }
-              ]
+                  title: 'Page',
+                },
+              ],
             },
             {
-              title: 'Page'
+              title: 'Page',
             },
             {
               title: 'Another Level 2',
@@ -169,47 +169,47 @@ export default {
                   title: 'Level 3',
                   child: [
                     {
-                      title: 'Page'
+                      title: 'Page',
                     },
                     {
-                      title: 'Page'
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
+                      title: 'Page',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
       ],
       collapsed: false,
       themes: [
         {
           name: 'Default theme',
-          input: ''
+          input: '',
         },
         {
           name: 'White theme',
-          input: 'white-theme'
-        }
+          input: 'white-theme',
+        },
       ],
       selectedTheme: 'white-theme',
-      isOnMobile: false
+      isOnMobile: false,
     }
   },
-  mounted () {
+  mounted() {
     this.onResize()
     window.addEventListener('resize', this.onResize)
   },
   methods: {
-    onToggleCollapse (collapsed) {
+    onToggleCollapse(collapsed) {
       console.log('onToggleCollapse')
     },
-    onItemClick (event, item) {
+    onItemClick(event, item) {
       console.log('onItemClick')
       // console.log(event)
       // console.log(item)
     },
-    onResize () {
+    onResize() {
       if (window.innerWidth <= 767) {
         this.isOnMobile = true
         this.collapsed = true
@@ -217,8 +217,8 @@ export default {
         this.isOnMobile = false
         this.collapsed = false
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -1,11 +1,6 @@
 <template>
-  <li
-    v-if="item.component && !isHidden"
-  >
-    <component
-      :is="item.component"
-      v-bind="item.props"
-    />
+  <li v-if="item.component && !isHidden">
+    <component :is="item.component" v-bind="item.props" />
   </li>
   <li
     v-else-if="item.header && !isHidden"
@@ -20,7 +15,11 @@
     :class="itemClass"
     @mouseover="onMouseOver"
     @mouseout="onMouseOut"
-    v-on="(isCollapsed && isFirstLevel) ? { mouseenter: onMouseEnter, mouseleave: onMouseLeave} : {}"
+    v-on="
+      isCollapsed && isFirstLevel
+        ? { mouseenter: onMouseEnter, mouseleave: onMouseLeave }
+        : {}
+    "
   >
     <component
       :is="linkComponentName ? linkComponentName : 'SidebarMenuLink'"
@@ -38,29 +37,22 @@
           />
         </transition>
       </template>
-      <sidebar-menu-icon
-        v-if="item.icon"
-        :icon="item.icon"
-      />
+      <sidebar-menu-icon v-if="item.icon" :icon="item.icon" />
       <div
         class="vsm--title"
-        :class="(isCollapsed && isFirstLevel) && !isMobileItem && 'vsm--title_hidden'"
+        :class="
+          isCollapsed && isFirstLevel && !isMobileItem && 'vsm--title_hidden'
+        "
         :style="isMobileItem && mobileItemStyle"
       >
         <span>{{ item.title }}</span>
-        <sidebar-menu-badge
-          v-if="item.badge"
-          :badge="item.badge"
-        />
+        <sidebar-menu-badge v-if="item.badge" :badge="item.badge" />
         <div
           v-if="hasChild"
           class="vsm--arrow"
-          :class="{'vsm--arrow_open' : show}"
+          :class="{ 'vsm--arrow_open': show }"
         >
-          <slot
-            name="dropdown-icon"
-            v-bind="{ isOpen: show }"
-          />
+          <slot name="dropdown-icon" v-bind="{ isOpen: show }" />
         </div>
       </div>
     </component>
@@ -84,13 +76,10 @@
               v-for="subItem in item.child"
               :key="subItem.id"
               :item="subItem"
-              :level="level+1"
+              :level="level + 1"
             >
               <template #dropdown-icon="{ isOpen }">
-                <slot
-                  name="dropdown-icon"
-                  v-bind="{ isOpen }"
-                />
+                <slot name="dropdown-icon" v-bind="{ isOpen }" />
               </template>
             </sidebar-menu-item>
           </ul>
@@ -115,23 +104,20 @@ export default {
   components: {
     SidebarMenuLink,
     SidebarMenuIcon,
-    SidebarMenuBadge
+    SidebarMenuBadge,
   },
   props: {
     item: {
       type: Object,
-      required: true
+      required: true,
     },
     level: {
       type: Number,
-      default: 1
-    }
+      default: 1,
+    },
   },
-  setup (props) {
-    const {
-      getSidebarProps,
-      getIsCollapsed: isCollapsed
-    } = useSidebar()
+  setup(props) {
+    const { getSidebarProps, getIsCollapsed: isCollapsed } = useSidebar()
     const { linkComponentName } = toRefs(getSidebarProps)
 
     const {
@@ -157,7 +143,7 @@ export default {
       onExpandEnter,
       onExpandAfterEnter,
       onExpandBeforeLeave,
-      onExpandAfterLeave
+      onExpandAfterLeave,
     } = useItem(props)
 
     return {
@@ -185,8 +171,8 @@ export default {
       onExpandEnter,
       onExpandAfterEnter,
       onExpandBeforeLeave,
-      onExpandAfterLeave
+      onExpandAfterLeave,
     }
-  }
+  },
 }
 </script>

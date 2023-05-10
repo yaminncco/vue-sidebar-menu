@@ -13,13 +13,15 @@ export const initSidebar = (props, context) => {
       height: 0,
       padding: '',
       maxHeight: 0,
-      maxWidth: 0
+      maxWidth: 0,
     },
-    timeout: null
+    timeout: null,
   })
   const getMobileItem = computed(() => mobileItem.item)
   const getMobileItemRect = computed(() => mobileItem.rect)
-  const currentRoute = ref(window.location.pathname + window.location.search + window.location.hash)
+  const currentRoute = ref(
+    window.location.pathname + window.location.search + window.location.hash
+  )
 
   const updateIsCollapsed = (val) => {
     isCollapsed.value = val
@@ -32,8 +34,13 @@ export const initSidebar = (props, context) => {
   const setMobileItem = ({ item, itemEl }) => {
     clearMobileItemTimeout()
     const linkEl = itemEl.children[0]
-    const { top: linkTop, bottom: linkBottom, height: linkHeight } = linkEl.getBoundingClientRect()
-    const { left: sidebarLeft, right: sidebarRight } = sidebarRef.value.getBoundingClientRect()
+    const {
+      top: linkTop,
+      bottom: linkBottom,
+      height: linkHeight,
+    } = linkEl.getBoundingClientRect()
+    const { left: sidebarLeft, right: sidebarRight } =
+      sidebarRef.value.getBoundingClientRect()
     const offsetParentTop = linkEl.offsetParent.getBoundingClientRect().top
 
     let parentHeight = window.innerHeight
@@ -59,7 +66,7 @@ export const initSidebar = (props, context) => {
       height: linkHeight,
       padding: window.getComputedStyle(linkEl).paddingRight,
       maxWidth: rectWidth <= maxWidth ? rectWidth : maxWidth,
-      maxHeight: parentHeight - (linkBottom - parentTop)
+      maxHeight: parentHeight - (linkBottom - parentTop),
     })
   }
 
@@ -83,7 +90,13 @@ export const initSidebar = (props, context) => {
     mobileItem.item = item
   }
 
-  const updateMobileItemRect = ({ top, height, padding, maxWidth, maxHeight }) => {
+  const updateMobileItemRect = ({
+    top,
+    height,
+    padding,
+    maxWidth,
+    maxHeight,
+  }) => {
     mobileItem.rect.top = top
     mobileItem.rect.height = height
     mobileItem.rect.padding = padding
@@ -92,7 +105,8 @@ export const initSidebar = (props, context) => {
   }
 
   const updateCurrentRoute = () => {
-    const route = window.location.pathname + window.location.search + window.location.hash
+    const route =
+      window.location.pathname + window.location.search + window.location.hash
     currentRoute.value = route
   }
 
@@ -129,7 +143,7 @@ export const initSidebar = (props, context) => {
     unsetMobileItem,
     clearMobileItemTimeout,
     updateCurrentRoute,
-    onItemClick
+    onItemClick,
   }
 }
 
@@ -147,5 +161,5 @@ export const useSidebar = () => ({
   unsetMobileItem: inject('unsetMobileItem'),
   clearMobileItemTimeout: inject('clearMobileItemTimeout'),
   onRouteChange: inject('onRouteChange'),
-  emitItemClick: inject('emitItemClick')
+  emitItemClick: inject('emitItemClick'),
 })

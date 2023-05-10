@@ -1,8 +1,12 @@
 import { getCurrentInstance, computed, ref, inject, watch } from 'vue'
 import { useSidebar } from '../use/useSidebar'
-import { activeRecordIndex, isSameRouteLocationParams, includesParams } from './useRouterLink'
+import {
+  activeRecordIndex,
+  isSameRouteLocationParams,
+  includesParams,
+} from './useRouterLink'
 
-export default function useItem (props) {
+export default function useItem(props) {
   const router = getCurrentInstance().appContext.config.globalProperties.$router
   const {
     getSidebarProps: sidebarProps,
@@ -15,7 +19,7 @@ export default function useItem (props) {
     setMobileItem,
     unsetMobileItem,
     clearMobileItemTimeout,
-    emitItemClick
+    emitItemClick,
   } = useSidebar()
   const emitScrollUpdate = inject('emitScrollUpdate')
 
@@ -37,12 +41,16 @@ export default function useItem (props) {
       const routerCurrentRoute = router.currentRoute.value
       const activeIndex = activeRecordIndex(route, routerCurrentRoute)
       if (exact || item.exact) {
-        return activeIndex > -1 &&
-        activeIndex === routerCurrentRoute.matched.length - 1 &&
+        return (
+          activeIndex > -1 &&
+          activeIndex === routerCurrentRoute.matched.length - 1 &&
           isSameRouteLocationParams(routerCurrentRoute.params, route.params)
+        )
       }
-      return activeIndex > -1 &&
-      includesParams(routerCurrentRoute.params, route.params)
+      return (
+        activeIndex > -1 &&
+        includesParams(routerCurrentRoute.params, route.params)
+      )
     } else {
       return item.href === currentRoute.value
     }
@@ -50,7 +58,7 @@ export default function useItem (props) {
 
   const isChildActive = (child) => {
     if (!child) return false
-    return child.some(item => {
+    return child.some((item) => {
       return isLinkActive(item) || isChildActive(item.child)
     })
   }
@@ -148,18 +156,22 @@ export default function useItem (props) {
       if (!hasChild.value) return false
       if (isCollapsed.value && isFirstLevel.value) return hover.value
       if (sidebarProps.showChild) return true
-      return sidebarProps.showOneChild && isFirstLevel.value ? props.item.id === activeShow.value : itemShow.value
+      return sidebarProps.showOneChild && isFirstLevel.value
+        ? props.item.id === activeShow.value
+        : itemShow.value
     },
-    set: show => {
+    set: (show) => {
       if (sidebarProps.showOneChild && isFirstLevel.value) {
         show ? updateActiveShow(props.item.id) : updateActiveShow(null)
       }
       itemShow.value = show
-    }
+    },
   })
 
   const hover = computed(() => {
-    return (isCollapsed.value && isFirstLevel.value) ? isMobileItem.value : itemHover.value
+    return isCollapsed.value && isFirstLevel.value
+      ? isMobileItem.value
+      : itemHover.value
   })
 
   const isFirstLevel = computed(() => {
@@ -191,7 +203,7 @@ export default function useItem (props) {
       { 'vsm--link_active': active.value },
       { 'vsm--link_disabled': props.item.disabled },
       { 'vsm--link_open': show.value },
-      props.item.class
+      props.item.class,
     ]
   })
 
@@ -210,15 +222,12 @@ export default function useItem (props) {
       'aria-current': ariaCurrent,
       'aria-haspopup': ariaHaspopup,
       'aria-expanded': ariaExpanded,
-      ...props.item.attributes
+      ...props.item.attributes,
     }
   })
 
   const itemClass = computed(() => {
-    return [
-      'vsm--item',
-      { 'vsm--item_mobile': isMobileItem.value }
-    ]
+    return ['vsm--item', { 'vsm--item_mobile': isMobileItem.value }]
   })
 
   const isMobileItem = computed(() => {
@@ -229,10 +238,12 @@ export default function useItem (props) {
     return [
       { position: 'absolute' },
       { top: `${mobileItemRect.value.top + mobileItemRect.value.height}px` },
-      !sidebarProps.rtl ? { left: sidebarProps.widthCollapsed } : { right: sidebarProps.widthCollapsed },
+      !sidebarProps.rtl
+        ? { left: sidebarProps.widthCollapsed }
+        : { right: sidebarProps.widthCollapsed },
       { width: `${mobileItemRect.value.maxWidth}px` },
       { 'max-height': `${mobileItemRect.value.maxHeight}px` },
-      { 'overflow-y': 'auto' }
+      { 'overflow-y': 'auto' },
     ]
   })
 
@@ -240,12 +251,14 @@ export default function useItem (props) {
     return [
       { position: 'absolute' },
       { top: `${mobileItemRect.value.top}px` },
-      !sidebarProps.rtl ? { left: sidebarProps.widthCollapsed } : { right: sidebarProps.widthCollapsed },
+      !sidebarProps.rtl
+        ? { left: sidebarProps.widthCollapsed }
+        : { right: sidebarProps.widthCollapsed },
       { width: `${mobileItemRect.value.maxWidth}px` },
       { height: `${mobileItemRect.value.height}px` },
       { 'padding-right': `${mobileItemRect.value.padding}` },
       { 'padding-left': `${mobileItemRect.value.padding}` },
-      { 'z-index': '20' }
+      { 'z-index': '20' },
     ]
   })
 
@@ -254,19 +267,27 @@ export default function useItem (props) {
       { position: 'absolute' },
       { top: `${mobileItemRect.value.top}px` },
       !sidebarProps.rtl ? { left: '0px' } : { right: '0px' },
-      { width: `${mobileItemRect.value.maxWidth + parseInt(sidebarProps.widthCollapsed)}px` },
+      {
+        width: `${
+          mobileItemRect.value.maxWidth + parseInt(sidebarProps.widthCollapsed)
+        }px`,
+      },
       { height: `${mobileItemRect.value.height}px` },
-      { 'z-index': '10' }
+      { 'z-index': '10' },
     ]
   })
 
-  watch(() => active.value, () => {
-    if (active.value) {
-      show.value = true
+  watch(
+    () => active.value,
+    () => {
+      if (active.value) {
+        show.value = true
+      }
+    },
+    {
+      immediate: true,
     }
-  }, {
-    immediate: true
-  })
+  )
 
   return {
     active,
@@ -291,6 +312,6 @@ export default function useItem (props) {
     onExpandEnter,
     onExpandAfterEnter,
     onExpandBeforeLeave,
-    onExpandAfterLeave
+    onExpandAfterLeave,
   }
 }

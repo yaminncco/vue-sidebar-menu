@@ -1,21 +1,9 @@
 <template>
-  <a
-    v-if="isHyperLink"
-    v-bind="$attrs"
-  >
+  <a v-if="isHyperLink" v-bind="$attrs">
     <slot />
   </a>
-  <router-link
-    v-else
-    v-slot="{ href, navigate }"
-    custom
-    :to="$attrs.href"
-  >
-    <a
-      v-bind="$attrs"
-      :href="href"
-      @click="navigate"
-    >
+  <router-link v-else v-slot="{ href, navigate }" custom :to="$attrs.href">
+    <a v-bind="$attrs" :href="href" @click="navigate">
       <slot />
     </a>
   </router-link>
@@ -29,21 +17,21 @@ export default {
   props: {
     item: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
-      router: false
+      router: false,
     }
   },
   computed: {
-    isHyperLink () {
+    isHyperLink() {
       return !!(!this.item.href || this.item.external || !this.router)
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.router = !!this.$router
-  }
+  },
 }
 </script>
