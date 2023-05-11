@@ -11,7 +11,7 @@ export const initSidebar = (props, context) => {
     rect: {
       top: 0,
       height: 0,
-      padding: '',
+      padding: [0, 0],
       maxHeight: 0,
       maxWidth: 0,
     },
@@ -34,14 +34,20 @@ export const initSidebar = (props, context) => {
   const setMobileItem = ({ item, itemEl }) => {
     clearMobileItemTimeout()
     const linkEl = itemEl.children[0]
+    const rect = getMobileItemRectFromEl(linkEl)
+    updateMobileItem(item)
+    updateMobileItemRect(rect)
+  }
+
+  const getMobileItemRectFromEl = (el) => {
     const {
-      top: linkTop,
-      bottom: linkBottom,
-      height: linkHeight,
-    } = linkEl.getBoundingClientRect()
+      top: elTop,
+      bottom: elBottom,
+      height: elHeight,
+    } = el.getBoundingClientRect()
     const { left: sidebarLeft, right: sidebarRight } =
       sidebarRef.value.getBoundingClientRect()
-    const offsetParentTop = linkEl.offsetParent.getBoundingClientRect().top
+    const offsetParentTop = el.offsetParent.getBoundingClientRect().top
 
     let parentHeight = window.innerHeight
     let parentWidth = window.innerWidth
@@ -60,14 +66,16 @@ export const initSidebar = (props, context) => {
       ? parentWidth - (parentRight - sidebarLeft)
       : parentRight - sidebarRight
 
-    updateMobileItem(item)
-    updateMobileItemRect({
-      top: linkTop - offsetParentTop,
-      height: linkHeight,
-      padding: window.getComputedStyle(linkEl).paddingRight,
+    const paddingLeft = parseInt(window.getComputedStyle(el).paddingLeft)
+    const paddingRight = parseInt(window.getComputedStyle(el).paddingRight)
+
+    return {
+      top: elTop - offsetParentTop,
+      height: elHeight,
+      padding: [paddingLeft, paddingRight],
       maxWidth: rectWidth <= maxWidth ? rectWidth : maxWidth,
-      maxHeight: parentHeight - (linkBottom - parentTop),
-    })
+      maxHeight: parentHeight - (elBottom - parentTop),
+    }
   }
 
   const unsetMobileItem = (immediate = true, delay = 800) => {
@@ -90,18 +98,10 @@ export const initSidebar = (props, context) => {
     mobileItem.item = item
   }
 
-  const updateMobileItemRect = ({
-    top,
-    height,
-    padding,
-    maxWidth,
-    maxHeight,
-  }) => {
-    mobileItem.rect.top = top
-    mobileItem.rect.height = height
-    mobileItem.rect.padding = padding
-    mobileItem.rect.maxWidth = maxWidth
-    mobileItem.rect.maxHeight = maxHeight
+  const updateMobileItemRect = (mobileItemRect) => {
+    Object.keys(mobileItem.rect).forEach((key) => {
+      mobileItem.rect[key] = mobileItemRect[key]
+    })
   }
 
   const updateCurrentRoute = () => {

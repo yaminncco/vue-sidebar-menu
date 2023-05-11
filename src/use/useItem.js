@@ -256,8 +256,8 @@ export default function useItem(props) {
         : { right: sidebarProps.widthCollapsed },
       { width: `${mobileItemRect.value.maxWidth}px` },
       { height: `${mobileItemRect.value.height}px` },
-      { 'padding-right': `${mobileItemRect.value.padding}` },
-      { 'padding-left': `${mobileItemRect.value.padding}` },
+      { 'padding-left': `${mobileItemRect.value.padding[0]}px` },
+      { 'padding-right': `${mobileItemRect.value.padding[1]}px` },
       { 'z-index': '20' },
     ]
   })
