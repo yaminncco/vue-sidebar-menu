@@ -1,13 +1,12 @@
-import { inject, toRefs, ref, reactive, computed, provide, getCurrentInstance, watch, resolveComponent, openBlock, createElementBlock, normalizeProps, mergeProps, renderSlot, createBlock, withCtx, createElementVNode, resolveDynamicComponent, createTextVNode, toDisplayString, guardReactiveProps, toHandlers, Transition, normalizeStyle, createCommentVNode, normalizeClass, Fragment, renderList, onMounted, onUnmounted, nextTick, createVNode } from 'vue';
+import { toRefs, ref, reactive, computed, provide, inject, getCurrentInstance, watch, resolveComponent, openBlock, createElementBlock, normalizeProps, mergeProps, renderSlot, createBlock, withCtx, createElementVNode, resolveDynamicComponent, createTextVNode, toDisplayString, normalizeClass, guardReactiveProps, toHandlers, Transition, normalizeStyle, createCommentVNode, Fragment, renderList, onMounted, onUnmounted, nextTick, createVNode } from 'vue';
 
 var initSidebar = function initSidebar(props, context) {
   var _toRefs = toRefs(props),
-      collapsed = _toRefs.collapsed,
-      relative = _toRefs.relative,
-      width = _toRefs.width,
-      widthCollapsed = _toRefs.widthCollapsed,
-      rtl = _toRefs.rtl;
-
+    collapsed = _toRefs.collapsed,
+    relative = _toRefs.relative,
+    width = _toRefs.width,
+    widthCollapsed = _toRefs.widthCollapsed,
+    rtl = _toRefs.rtl;
   var sidebarRef = ref(null);
   var isCollapsed = ref(collapsed.value);
   var activeShow = ref(null);
@@ -16,7 +15,7 @@ var initSidebar = function initSidebar(props, context) {
     rect: {
       top: 0,
       height: 0,
-      padding: '',
+      padding: [0, 0],
       maxHeight: 0,
       maxWidth: 0
     },
@@ -29,37 +28,35 @@ var initSidebar = function initSidebar(props, context) {
     return mobileItem.rect;
   });
   var currentRoute = ref(window.location.pathname + window.location.search + window.location.hash);
-
   var updateIsCollapsed = function updateIsCollapsed(val) {
     isCollapsed.value = val;
   };
-
   var updateActiveShow = function updateActiveShow(id) {
     activeShow.value = id;
   };
-
   var setMobileItem = function setMobileItem(_ref) {
     var item = _ref.item,
-        itemEl = _ref.itemEl;
+      itemEl = _ref.itemEl;
     clearMobileItemTimeout();
     var linkEl = itemEl.children[0];
-
-    var _linkEl$getBoundingCl = linkEl.getBoundingClientRect(),
-        linkTop = _linkEl$getBoundingCl.top,
-        linkBottom = _linkEl$getBoundingCl.bottom,
-        linkHeight = _linkEl$getBoundingCl.height;
-
+    var rect = getMobileItemRectFromEl(linkEl);
+    updateMobileItem(item);
+    updateMobileItemRect(rect);
+  };
+  var getMobileItemRectFromEl = function getMobileItemRectFromEl(el) {
+    var _el$getBoundingClient = el.getBoundingClientRect(),
+      elTop = _el$getBoundingClient.top,
+      elBottom = _el$getBoundingClient.bottom,
+      elHeight = _el$getBoundingClient.height;
     var _sidebarRef$value$get = sidebarRef.value.getBoundingClientRect(),
-        sidebarLeft = _sidebarRef$value$get.left,
-        sidebarRight = _sidebarRef$value$get.right;
-
-    var offsetParentTop = linkEl.offsetParent.getBoundingClientRect().top;
+      sidebarLeft = _sidebarRef$value$get.left,
+      sidebarRight = _sidebarRef$value$get.right;
+    var offsetParentTop = el.offsetParent.getBoundingClientRect().top;
     var parentHeight = window.innerHeight;
     var parentWidth = window.innerWidth;
     var parentTop = 0;
     var parentRight = parentWidth;
     var maxWidth = parseInt(width.value) - parseInt(widthCollapsed.value);
-
     if (relative.value) {
       var parent = sidebarRef.value.parentElement;
       parentHeight = parent.clientHeight;
@@ -67,64 +64,48 @@ var initSidebar = function initSidebar(props, context) {
       parentTop = parent.getBoundingClientRect().top;
       parentRight = parent.getBoundingClientRect().right;
     }
-
     var rectWidth = rtl.value ? parentWidth - (parentRight - sidebarLeft) : parentRight - sidebarRight;
-    updateMobileItem(item);
-    updateMobileItemRect({
-      top: linkTop - offsetParentTop,
-      height: linkHeight,
-      padding: window.getComputedStyle(linkEl).paddingRight,
+    var paddingLeft = parseInt(window.getComputedStyle(el).paddingLeft);
+    var paddingRight = parseInt(window.getComputedStyle(el).paddingRight);
+    return {
+      top: elTop - offsetParentTop,
+      height: elHeight,
+      padding: [paddingLeft, paddingRight],
       maxWidth: rectWidth <= maxWidth ? rectWidth : maxWidth,
-      maxHeight: parentHeight - (linkBottom - parentTop)
-    });
+      maxHeight: parentHeight - (elBottom - parentTop)
+    };
   };
-
   var unsetMobileItem = function unsetMobileItem() {
     var immediate = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
     var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 800;
     if (!getMobileItem.value) return;
     clearMobileItemTimeout();
-
     if (immediate) {
       updateMobileItem(null);
       return;
     }
-
     mobileItem.timeout = setTimeout(function () {
       updateMobileItem(null);
     }, delay);
   };
-
   var clearMobileItemTimeout = function clearMobileItemTimeout() {
     if (mobileItem.timeout) clearTimeout(mobileItem.timeout);
   };
-
   var updateMobileItem = function updateMobileItem(item) {
     mobileItem.item = item;
   };
-
-  var updateMobileItemRect = function updateMobileItemRect(_ref2) {
-    var top = _ref2.top,
-        height = _ref2.height,
-        padding = _ref2.padding,
-        maxWidth = _ref2.maxWidth,
-        maxHeight = _ref2.maxHeight;
-    mobileItem.rect.top = top;
-    mobileItem.rect.height = height;
-    mobileItem.rect.padding = padding;
-    mobileItem.rect.maxWidth = maxWidth;
-    mobileItem.rect.maxHeight = maxHeight;
+  var updateMobileItemRect = function updateMobileItemRect(mobileItemRect) {
+    Object.keys(mobileItem.rect).forEach(function (key) {
+      mobileItem.rect[key] = mobileItemRect[key];
+    });
   };
-
   var updateCurrentRoute = function updateCurrentRoute() {
     var route = window.location.pathname + window.location.search + window.location.hash;
     currentRoute.value = route;
   };
-
   var onItemClick = function onItemClick(event, item) {
     context.emit('item-click', event, item);
   };
-
   provide('vsmProps', props);
   provide('getSidebarRef', sidebarRef);
   provide('getIsCollapsed', isCollapsed);
@@ -176,59 +157,36 @@ var useSidebar = function useSidebar() {
 
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
-
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object);
-
-    if (enumerableOnly) {
-      symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-    }
-
-    keys.push.apply(keys, symbols);
+    enumerableOnly && (symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    })), keys.push.apply(keys, symbols);
   }
-
   return keys;
 }
-
 function _objectSpread2(target) {
   for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
+    var source = null != arguments[i] ? arguments[i] : {};
+    i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+      _defineProperty(target, key, source[key]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+    });
   }
-
   return target;
 }
-
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, _typeof(obj);
 }
-
 function _defineProperty(obj, key, value) {
+  key = _toPropertyKey(key);
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -239,12 +197,26 @@ function _defineProperty(obj, key, value) {
   } else {
     obj[key] = value;
   }
-
   return obj;
+}
+function _toPrimitive(input, hint) {
+  if (typeof input !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if (typeof res !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+function _toPropertyKey(arg) {
+  var key = _toPrimitive(arg, "string");
+  return typeof key === "symbol" ? key : String(key);
 }
 
 // Adapted from vue-router-next
 // See: https://github.com/vuejs/vue-router-next/blob/master/src/RouterLink.ts
+
 function activeRecordIndex(route, currentRoute) {
   var matched = route.matched;
   var length = matched.length;
@@ -258,18 +230,15 @@ function activeRecordIndex(route, currentRoute) {
 }
 function isSameRouteLocationParams(a, b) {
   if (Object.keys(a).length !== Object.keys(b).length) return false;
-
   for (var key in a) {
     if (!isSameRouteLocationParamsValue(a[key], b[key])) return false;
   }
-
   return true;
 }
 function includesParams(outer, inner) {
-  var _loop = function _loop(key) {
+  var _loop = function _loop() {
     var innerValue = inner[key];
     var outerValue = outer[key];
-
     if (typeof innerValue === 'string') {
       if (innerValue !== outerValue) return {
         v: false
@@ -284,28 +253,21 @@ function includesParams(outer, inner) {
       }
     }
   };
-
   for (var key in inner) {
-    var _ret = _loop(key);
-
+    var _ret = _loop();
     if (_typeof(_ret) === "object") return _ret.v;
   }
-
   return true;
 }
-
 function getOriginalPath(record) {
   return record ? record.aliasOf ? record.aliasOf.path : record.path : '';
 }
-
 function isSameRouteRecord(a, b) {
   return (a.aliasOf || a) === (b.aliasOf || b);
 }
-
 function isSameRouteLocationParamsValue(a, b) {
   return Array.isArray(a) ? isEquivalentArray(a, b) : Array.isArray(b) ? isEquivalentArray(b, a) : a === b;
 }
-
 function isEquivalentArray(a, b) {
   return Array.isArray(b) ? a.length === b.length && a.every(function (value, i) {
     return value === b[i];
@@ -314,20 +276,18 @@ function isEquivalentArray(a, b) {
 
 function useItem(props) {
   var router = getCurrentInstance().appContext.config.globalProperties.$router;
-
   var _useSidebar = useSidebar(),
-      sidebarProps = _useSidebar.getSidebarProps,
-      isCollapsed = _useSidebar.getIsCollapsed,
-      activeShow = _useSidebar.getActiveShow,
-      mobileItem = _useSidebar.getMobileItem,
-      mobileItemRect = _useSidebar.getMobileItemRect,
-      currentRoute = _useSidebar.getCurrentRoute,
-      updateActiveShow = _useSidebar.updateActiveShow,
-      setMobileItem = _useSidebar.setMobileItem,
-      unsetMobileItem = _useSidebar.unsetMobileItem,
-      clearMobileItemTimeout = _useSidebar.clearMobileItemTimeout,
-      emitItemClick = _useSidebar.emitItemClick;
-
+    sidebarProps = _useSidebar.getSidebarProps,
+    isCollapsed = _useSidebar.getIsCollapsed,
+    activeShow = _useSidebar.getActiveShow,
+    mobileItem = _useSidebar.getMobileItem,
+    mobileItemRect = _useSidebar.getMobileItemRect,
+    currentRoute = _useSidebar.getCurrentRoute,
+    updateActiveShow = _useSidebar.updateActiveShow,
+    setMobileItem = _useSidebar.setMobileItem,
+    unsetMobileItem = _useSidebar.unsetMobileItem,
+    clearMobileItemTimeout = _useSidebar.clearMobileItemTimeout,
+    emitItemClick = _useSidebar.emitItemClick;
   var emitScrollUpdate = inject('emitScrollUpdate');
   var itemShow = ref(false);
   var itemHover = ref(false);
@@ -337,63 +297,50 @@ function useItem(props) {
   var exactActive = computed(function () {
     return isLinkActive(props.item, true);
   });
-
   var isLinkActive = function isLinkActive(item, exact) {
     if (!item.href || item.external) return false;
-
     if (router) {
       var route = router.resolve(item.href);
       var routerCurrentRoute = router.currentRoute.value;
       var activeIndex = activeRecordIndex(route, routerCurrentRoute);
-
       if (exact || item.exact) {
         return activeIndex > -1 && activeIndex === routerCurrentRoute.matched.length - 1 && isSameRouteLocationParams(routerCurrentRoute.params, route.params);
       }
-
       return activeIndex > -1 && includesParams(routerCurrentRoute.params, route.params);
     } else {
       return item.href === currentRoute.value;
     }
   };
-
   var isChildActive = function isChildActive(child) {
     if (!child) return false;
     return child.some(function (item) {
       return isLinkActive(item) || isChildActive(item.child);
     });
   };
-
   var onLinkClick = function onLinkClick(event) {
     if (!props.item.href || props.item.disabled) {
       event.preventDefault();
       if (props.item.disabled) return;
     }
-
     emitMobileItem(event, event.currentTarget.parentElement);
-
     if (hasChild.value) {
       if (!props.item.href || active.value) {
         show.value = !show.value;
       }
     }
-
     emitItemClick(event, props.item);
   };
-
   var onMouseOver = function onMouseOver(event) {
     if (props.item.disabled) return;
     event.stopPropagation();
     itemHover.value = true;
   };
-
   var onMouseOut = function onMouseOut(event) {
     event.stopPropagation();
     itemHover.value = false;
   };
-
   var onMouseEnter = function onMouseEnter(event) {
     if (props.item.disabled) return;
-
     if (sidebarProps.disableHover) {
       if (isMobileItem.value && hasChild.value) {
         clearMobileItemTimeout();
@@ -403,18 +350,14 @@ function useItem(props) {
       emitMobileItem(event, event.currentTarget);
     }
   };
-
   var onMouseLeave = function onMouseLeave() {
     if (sidebarProps.disableHover && !hasChild.value) return;
-
     if (isMobileItem.value) {
       unsetMobileItem(false, !sidebarProps.disableHover ? 300 : undefined);
     }
   };
-
   var emitMobileItem = function emitMobileItem(event, itemEl) {
     if (isMobileItem.value) return;
-
     if (isCollapsed.value) {
       setTimeout(function () {
         if (isFirstLevel.value) {
@@ -425,41 +368,33 @@ function useItem(props) {
             });
           }
         }
-
         if (event.type === 'click' && !hasChild.value) {
           unsetMobileItem(false, !isFirstLevel.value ? 300 : undefined);
         }
       }, 0);
     }
   };
-
   var onExpandEnter = function onExpandEnter(el) {
     el.style.height = el.scrollHeight + 'px';
   };
-
   var onExpandAfterEnter = function onExpandAfterEnter(el) {
     el.style.height = 'auto';
-
     if (!isCollapsed.value) {
       emitScrollUpdate();
     }
   };
-
   var onExpandBeforeLeave = function onExpandBeforeLeave(el) {
     if (isCollapsed.value && isFirstLevel.value) {
       el.style.display = 'none';
       return;
     }
-
     el.style.height = el.scrollHeight + 'px';
   };
-
   var onExpandAfterLeave = function onExpandAfterLeave() {
     if (!isCollapsed.value) {
       emitScrollUpdate();
     }
   };
-
   var show = computed({
     get: function get() {
       if (!hasChild.value) return false;
@@ -471,7 +406,6 @@ function useItem(props) {
       if (sidebarProps.showOneChild && isFirstLevel.value) {
         show ? updateActiveShow(props.item.id) : updateActiveShow(null);
       }
-
       itemShow.value = show;
     }
   });
@@ -531,7 +465,6 @@ function useItem(props) {
   });
   var isMobileItem = computed(function () {
     var _mobileItem$value;
-
     return props.item.id === ((_mobileItem$value = mobileItem.value) === null || _mobileItem$value === void 0 ? void 0 : _mobileItem$value.id);
   });
   var mobileItemDropdownStyle = computed(function () {
@@ -565,9 +498,9 @@ function useItem(props) {
     }, {
       height: "".concat(mobileItemRect.value.height, "px")
     }, {
-      'padding-right': "".concat(mobileItemRect.value.padding)
+      'padding-left': "".concat(mobileItemRect.value.padding[0], "px")
     }, {
-      'padding-left': "".concat(mobileItemRect.value.padding)
+      'padding-right': "".concat(mobileItemRect.value.padding[1], "px")
     }, {
       'z-index': '20'
     }];
@@ -632,22 +565,22 @@ var script$5 = {
   props: {
     item: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
-      router: false
+      router: false,
     }
   },
   computed: {
-    isHyperLink () {
+    isHyperLink() {
       return !!(!this.item.href || this.item.external || !this.router)
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.router = !!this.$router;
-  }
+  },
 };
 
 const _hoisted_1$3 = ["href", "onClick"];
@@ -685,21 +618,28 @@ var script$4 = {
   props: {
     icon: {
       type: [String, Object],
-      default: ''
-    }
-  }
+      default: '',
+    },
+  },
 };
 
 function render$4(_ctx, _cache, $props, $setup, $data, $options) {
-  return (openBlock(), createBlock(resolveDynamicComponent($props.icon.element ? $props.icon.element : 'i'), mergeProps({
-    class: ["vsm--icon", typeof $props.icon === 'string' || ($props.icon instanceof String) ? $props.icon : $props.icon.class],
-    "aria-hidden": "true"
-  }, $props.icon.attributes), {
-    default: withCtx(() => [
-      createTextVNode(toDisplayString($props.icon.text), 1 /* TEXT */)
-    ]),
-    _: 1 /* STABLE */
-  }, 16 /* FULL_PROPS */, ["class"]))
+  return (!(typeof $props.icon === 'string'))
+    ? (openBlock(), createBlock(resolveDynamicComponent($props.icon.element ? $props.icon.element : 'i'), mergeProps({
+        key: 0,
+        class: ['vsm--icon', $props.icon.class],
+        "aria-hidden": "true"
+      }, $props.icon.attributes), {
+        default: withCtx(() => [
+          createTextVNode(toDisplayString($props.icon.text), 1 /* TEXT */)
+        ]),
+        _: 1 /* STABLE */
+      }, 16 /* FULL_PROPS */, ["class"]))
+    : (openBlock(), createElementBlock("i", {
+        key: 1,
+        class: normalizeClass([$props.icon]),
+        "aria-hidden": "true"
+      }, null, 2 /* CLASS */))
 }
 
 script$4.render = render$4;
@@ -711,14 +651,14 @@ var script$3 = {
   props: {
     badge: {
       type: Object,
-      default: () => {}
-    }
-  }
+      default: () => {},
+    },
+  },
 };
 
 function render$3(_ctx, _cache, $props, $setup, $data, $options) {
   return (openBlock(), createBlock(resolveDynamicComponent($props.badge.element ? $props.badge.element : 'span'), mergeProps({
-    class: ["vsm--badge", $props.badge.class]
+    class: ['vsm--badge', $props.badge.class]
   }, $props.badge.attributes), {
     default: withCtx(() => [
       createTextVNode(toDisplayString($props.badge.text), 1 /* TEXT */)
@@ -736,23 +676,20 @@ var script$2 = {
   components: {
     SidebarMenuLink: script$5,
     SidebarMenuIcon: script$4,
-    SidebarMenuBadge: script$3
+    SidebarMenuBadge: script$3,
   },
   props: {
     item: {
       type: Object,
-      required: true
+      required: true,
     },
     level: {
       type: Number,
-      default: 1
-    }
+      default: 1,
+    },
   },
-  setup (props) {
-    const {
-      getSidebarProps,
-      getIsCollapsed: isCollapsed
-    } = useSidebar();
+  setup(props) {
+    const { getSidebarProps, getIsCollapsed: isCollapsed } = useSidebar();
     const { linkComponentName } = toRefs(getSidebarProps);
 
     const {
@@ -778,7 +715,7 @@ var script$2 = {
       onExpandEnter,
       onExpandAfterEnter,
       onExpandBeforeLeave,
-      onExpandAfterLeave
+      onExpandAfterLeave,
     } = useItem(props);
 
     return {
@@ -806,9 +743,9 @@ var script$2 = {
       onExpandEnter,
       onExpandAfterEnter,
       onExpandBeforeLeave,
-      onExpandAfterLeave
+      onExpandAfterLeave,
     }
-  }
+  },
 };
 
 const _hoisted_1$2 = { key: 0 };
@@ -826,7 +763,7 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
     : ($props.item.header && !$setup.isHidden)
       ? (openBlock(), createElementBlock("li", mergeProps({
           key: 1,
-          class: ["vsm--header", $props.item.class]
+          class: ['vsm--header', $props.item.class]
         }, $props.item.attributes), toDisplayString($props.item.header), 17 /* TEXT, FULL_PROPS */))
       : (!$setup.isHidden)
         ? (openBlock(), createElementBlock("li", mergeProps({
@@ -834,7 +771,11 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
             class: $setup.itemClass,
             onMouseover: _cache[0] || (_cache[0] = (...args) => ($setup.onMouseOver && $setup.onMouseOver(...args))),
             onMouseout: _cache[1] || (_cache[1] = (...args) => ($setup.onMouseOut && $setup.onMouseOut(...args)))
-          }, toHandlers(($setup.isCollapsed && $setup.isFirstLevel) ? { mouseenter: $setup.onMouseEnter, mouseleave: $setup.onMouseLeave} : {}, true)), [
+          }, toHandlers(
+      $setup.isCollapsed && $setup.isFirstLevel
+        ? { mouseenter: $setup.onMouseEnter, mouseleave: $setup.onMouseLeave }
+        : {}
+    , true)), [
             (openBlock(), createBlock(resolveDynamicComponent($setup.linkComponentName ? $setup.linkComponentName : 'SidebarMenuLink'), mergeProps({
               item: $props.item,
               class: $setup.linkClass
@@ -864,7 +805,10 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
                     }, null, 8 /* PROPS */, ["icon"]))
                   : createCommentVNode("v-if", true),
                 createElementVNode("div", {
-                  class: normalizeClass(["vsm--title", ($setup.isCollapsed && $setup.isFirstLevel) && !$setup.isMobileItem && 'vsm--title_hidden']),
+                  class: normalizeClass([
+          'vsm--title',
+          $setup.isCollapsed && $setup.isFirstLevel && !$setup.isMobileItem && 'vsm--title_hidden',
+        ]),
                   style: normalizeStyle($setup.isMobileItem && $setup.mobileItemStyle)
                 }, [
                   createElementVNode("span", null, toDisplayString($props.item.title), 1 /* TEXT */),
@@ -877,7 +821,7 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
                   ($setup.hasChild)
                     ? (openBlock(), createElementBlock("div", {
                         key: 1,
-                        class: normalizeClass(["vsm--arrow", {'vsm--arrow_open' : $setup.show}])
+                        class: normalizeClass(['vsm--arrow', { 'vsm--arrow_open': $setup.show }])
                       }, [
                         renderSlot(_ctx.$slots, "dropdown-icon", normalizeProps(guardReactiveProps({ isOpen: $setup.show })))
                       ], 2 /* CLASS */))
@@ -900,7 +844,7 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
                     ($setup.show)
                       ? (openBlock(), createElementBlock("div", {
                           key: 0,
-                          class: normalizeClass(["vsm--child", $setup.isMobileItem && 'vsm--child_mobile']),
+                          class: normalizeClass(['vsm--child', $setup.isMobileItem && 'vsm--child_mobile']),
                           style: normalizeStyle($setup.isMobileItem && $setup.mobileItemDropdownStyle)
                         }, [
                           createElementVNode("ul", _hoisted_2$2, [
@@ -908,7 +852,7 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
                               return (openBlock(), createBlock(_component_sidebar_menu_item, {
                                 key: subItem.id,
                                 item: subItem,
-                                level: $props.level+1
+                                level: $props.level + 1
                               }, {
                                 "dropdown-icon": withCtx(({ isOpen }) => [
                                   renderSlot(_ctx.$slots, "dropdown-icon", normalizeProps(guardReactiveProps({ isOpen })))
@@ -933,7 +877,7 @@ script$2.__file = "src/components/SidebarMenuItem.vue";
 var script$1 = {
   compatConfig: { MODE: 3 },
   name: 'SidebarMenuScroll',
-  setup () {
+  setup() {
     const { getIsCollapsed: isCollapsed } = useSidebar();
 
     const scrollRef = ref(null);
@@ -955,7 +899,9 @@ var script$1 = {
     };
 
     const onClick = (e) => {
-      const offset = Math.abs(scrollBarRef.value.getBoundingClientRect().y - e.clientY);
+      const offset = Math.abs(
+        scrollBarRef.value.getBoundingClientRect().y - e.clientY
+      );
       const thumbHalf = scrollThumbRef.value.offsetHeight / 2;
       updateScrollTop(offset - thumbHalf);
     };
@@ -965,7 +911,9 @@ var script$1 = {
       cursorDown = true;
       window.addEventListener('mousemove', onMouseMove);
       window.addEventListener('mouseup', onMouseUp);
-      cursorY = scrollThumbRef.value.offsetHeight - (e.clientY - scrollThumbRef.value.getBoundingClientRect().y);
+      cursorY =
+        scrollThumbRef.value.offsetHeight -
+        (e.clientY - scrollThumbRef.value.getBoundingClientRect().y);
     };
 
     const onMouseMove = (e) => {
@@ -983,22 +931,28 @@ var script$1 = {
     };
 
     const updateThumb = () => {
-      const heightPerc = scrollRef.value.clientHeight * 100 / scrollRef.value.scrollHeight;
+      const heightPerc =
+        (scrollRef.value.clientHeight * 100) / scrollRef.value.scrollHeight;
       const thumbHeightPerc = heightPerc < 100 ? heightPerc : 0;
-      const thumbYPerc = scrollRef.value.scrollTop * 100 / scrollRef.value.clientHeight || 0;
+      const thumbYPerc =
+        (scrollRef.value.scrollTop * 100) / scrollRef.value.clientHeight || 0;
 
       scrollThumbRef.value.style.height = `${thumbHeightPerc}%`;
       scrollThumbRef.value.style.transform = `translateY(${thumbYPerc}%)`;
     };
 
     const updateScrollTop = (y) => {
-      const scrollPerc = y * 100 / scrollBarRef.value.offsetHeight;
-      scrollRef.value.scrollTop = scrollPerc * scrollRef.value.scrollHeight / 100;
+      const scrollPerc = (y * 100) / scrollBarRef.value.offsetHeight;
+      scrollRef.value.scrollTop =
+        (scrollPerc * scrollRef.value.scrollHeight) / 100;
     };
 
-    watch(() => isCollapsed.value, () => {
-      onScrollUpdate();
-    });
+    watch(
+      () => isCollapsed.value,
+      () => {
+        onScrollUpdate();
+      }
+    );
 
     onMounted(() => {
       onScrollUpdate();
@@ -1016,9 +970,9 @@ var script$1 = {
       scrollThumbRef,
       onScroll,
       onClick,
-      onMouseDown
+      onMouseDown,
     }
-  }
+  },
 };
 
 const _hoisted_1$1 = { class: "vsm--scroll-wrapper" };
@@ -1057,83 +1011,88 @@ var script = {
   name: 'SidebarMenu',
   components: {
     SidebarMenuItem: script$2,
-    SidebarMenuScroll: script$1
+    SidebarMenuScroll: script$1,
   },
   props: {
     menu: {
       type: Array,
-      required: true
+      required: true,
     },
     collapsed: {
       type: Boolean,
-      default: false
+      default: false,
     },
     width: {
       type: String,
-      default: '290px'
+      default: '290px',
     },
     widthCollapsed: {
       type: String,
-      default: '65px'
+      default: '65px',
     },
     showChild: {
       type: Boolean,
-      default: false
+      default: false,
     },
     theme: {
       type: String,
-      default: ''
+      default: undefined,
+      validator: (value) => ['', 'white-theme'].includes(value),
     },
     showOneChild: {
       type: Boolean,
-      default: false
+      default: false,
     },
     rtl: {
       type: Boolean,
-      default: false
+      default: false,
     },
     relative: {
       type: Boolean,
-      default: false
+      default: false,
     },
     hideToggle: {
       type: Boolean,
-      default: false
+      default: false,
     },
     disableHover: {
       type: Boolean,
-      default: false
+      default: false,
     },
     linkComponentName: {
       type: String,
-      default: undefined
-    }
+      default: undefined,
+    },
   },
   emits: {
-    'item-click' (event, item) {
+    'item-click'(event, item) {
       return !!(event && item)
     },
-    'update:collapsed' (collapsed) {
+    'update:collapsed'(collapsed) {
       return !!(typeof collapsed === 'boolean')
-    }
+    },
   },
-  setup (props, context) {
+  setup(props, context) {
     const {
       getSidebarRef: sidebarMenuRef,
       getIsCollapsed: isCollapsed,
       updateIsCollapsed,
       unsetMobileItem,
-      updateCurrentRoute
+      updateCurrentRoute,
     } = initSidebar(props, context);
 
     const computedMenu = computed(() => {
       let id = 0;
-      function transformItems (items) {
-        function randomId () {
+      function transformItems(items) {
+        function randomId() {
           return `${Date.now() + '' + id++}`
         }
-        return items.map(item => {
-          return { id: randomId(), ...item, ...(item.child && { child: transformItems(item.child) }) }
+        return items.map((item) => {
+          return {
+            id: randomId(),
+            ...item,
+            ...(item.child && { child: transformItems(item.child) }),
+          }
         })
       }
       return transformItems(props.menu)
@@ -1146,9 +1105,9 @@ var script = {
     const sidebarClass = computed(() => {
       return [
         !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
-        props.theme ? `vsm_${props.theme}` : '',
-        props.rtl ? 'vsm_rtl' : '',
-        props.relative ? 'vsm_relative' : ''
+        props.theme && `vsm_${props.theme}`,
+        props.rtl && 'vsm_rtl',
+        props.relative && 'vsm_relative',
       ]
     });
 
@@ -1158,12 +1117,16 @@ var script = {
       context.emit('update:collapsed', isCollapsed.value);
     };
 
-    watch(() => props.collapsed, (currentCollapsed) => {
-      unsetMobileItem();
-      updateIsCollapsed(currentCollapsed);
-    });
+    watch(
+      () => props.collapsed,
+      (currentCollapsed) => {
+        unsetMobileItem();
+        updateIsCollapsed(currentCollapsed);
+      }
+    );
 
-    const router = getCurrentInstance().appContext.config.globalProperties.$router;
+    const router =
+      getCurrentInstance().appContext.config.globalProperties.$router;
     if (!router) {
       onMounted(() => {
         window.addEventListener('hashchange', updateCurrentRoute);
@@ -1180,9 +1143,9 @@ var script = {
       sidebarWidth,
       sidebarClass,
       onToggleClick,
-      onRouteChange: updateCurrentRoute
+      onRouteChange: updateCurrentRoute,
     }
-  }
+  },
 };
 
 const _hoisted_1 = /*#__PURE__*/createElementVNode("span", { class: "vsm--arrow_default" }, null, -1 /* HOISTED */);
@@ -1194,15 +1157,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (openBlock(), createElementBlock("div", {
     ref: "sidebarMenuRef",
-    class: normalizeClass(["v-sidebar-menu", $setup.sidebarClass]),
-    style: normalizeStyle({'max-width': $setup.sidebarWidth})
+    class: normalizeClass(['v-sidebar-menu', $setup.sidebarClass]),
+    style: normalizeStyle({ 'max-width': $setup.sidebarWidth })
   }, [
     renderSlot(_ctx.$slots, "header"),
     createVNode(_component_sidebar_menu_scroll, null, {
       default: withCtx(() => [
         createElementVNode("ul", {
           class: "vsm--menu",
-          style: normalizeStyle({'width': $setup.sidebarWidth})
+          style: normalizeStyle({ width: $setup.sidebarWidth })
         }, [
           (openBlock(true), createElementBlock(Fragment, null, renderList($setup.computedMenu, (item) => {
             return (openBlock(), createBlock(_component_sidebar_menu_item, {
