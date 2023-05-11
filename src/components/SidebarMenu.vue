@@ -1,8 +1,7 @@
 <template>
   <div
     ref="sidebarMenuRef"
-    class="v-sidebar-menu"
-    :class="sidebarClass"
+    :class="['v-sidebar-menu', sidebarClass]"
     :style="{ 'max-width': sidebarWidth }"
   >
     <slot name="header" />
@@ -73,7 +72,8 @@ export default {
     },
     theme: {
       type: String,
-      default: '',
+      default: undefined,
+      validator: (value) => ['', 'white-theme'].includes(value),
     },
     showOneChild: {
       type: Boolean,
@@ -141,9 +141,9 @@ export default {
     const sidebarClass = computed(() => {
       return [
         !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
-        props.theme ? `vsm_${props.theme}` : '',
-        props.rtl ? 'vsm_rtl' : '',
-        props.relative ? 'vsm_relative' : '',
+        props.theme && `vsm_${props.theme}`,
+        props.rtl && 'vsm_rtl',
+        props.relative && 'vsm_relative',
       ]
     })
 

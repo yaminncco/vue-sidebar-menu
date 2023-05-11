@@ -4,8 +4,7 @@
   </li>
   <li
     v-else-if="item.header && !isHidden"
-    class="vsm--header"
-    :class="item.class"
+    :class="['vsm--header', item.class]"
     v-bind="item.attributes"
   >
     {{ item.header }}
@@ -39,18 +38,17 @@
       </template>
       <sidebar-menu-icon v-if="item.icon" :icon="item.icon" />
       <div
-        class="vsm--title"
-        :class="
-          isCollapsed && isFirstLevel && !isMobileItem && 'vsm--title_hidden'
-        "
+        :class="[
+          'vsm--title',
+          isCollapsed && isFirstLevel && !isMobileItem && 'vsm--title_hidden',
+        ]"
         :style="isMobileItem && mobileItemStyle"
       >
         <span>{{ item.title }}</span>
         <sidebar-menu-badge v-if="item.badge" :badge="item.badge" />
         <div
           v-if="hasChild"
-          class="vsm--arrow"
-          :class="{ 'vsm--arrow_open': show }"
+          :class="['vsm--arrow', { 'vsm--arrow_open': show }]"
         >
           <slot name="dropdown-icon" v-bind="{ isOpen: show }" />
         </div>
@@ -67,8 +65,7 @@
       >
         <div
           v-if="show"
-          class="vsm--child"
-          :class="isMobileItem && 'vsm--child_mobile'"
+          :class="['vsm--child', isMobileItem && 'vsm--child_mobile']"
           :style="isMobileItem && mobileItemDropdownStyle"
         >
           <ul class="vsm--dropdown">
