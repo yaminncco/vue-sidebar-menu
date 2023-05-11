@@ -624,7 +624,7 @@ var script$4 = {
 };
 
 function render$4(_ctx, _cache, $props, $setup, $data, $options) {
-  return (!(typeof $props.icon === 'string'))
+  return (typeof $props.icon === 'object')
     ? (openBlock(), createBlock(resolveDynamicComponent($props.icon.element ? $props.icon.element : 'i'), mergeProps({
         key: 0,
         class: ['vsm--icon', $props.icon.class],
@@ -637,7 +637,7 @@ function render$4(_ctx, _cache, $props, $setup, $data, $options) {
       }, 16 /* FULL_PROPS */, ["class"]))
     : (openBlock(), createElementBlock("i", {
         key: 1,
-        class: normalizeClass([$props.icon]),
+        class: normalizeClass(['vsm--icon', $props.icon]),
         "aria-hidden": "true"
       }, null, 2 /* CLASS */))
 }
@@ -1104,6 +1104,7 @@ var script = {
 
     const sidebarClass = computed(() => {
       return [
+        'v-sidebar-menu',
         !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
         props.theme && `vsm_${props.theme}`,
         props.rtl && 'vsm_rtl',
@@ -1157,7 +1158,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (openBlock(), createElementBlock("div", {
     ref: "sidebarMenuRef",
-    class: normalizeClass(['v-sidebar-menu', $setup.sidebarClass]),
+    class: normalizeClass([$setup.sidebarClass]),
     style: normalizeStyle({ 'max-width': $setup.sidebarWidth })
   }, [
     renderSlot(_ctx.$slots, "header"),

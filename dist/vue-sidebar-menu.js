@@ -628,7 +628,7 @@
   };
 
   function render$4(_ctx, _cache, $props, $setup, $data, $options) {
-    return (!(typeof $props.icon === 'string'))
+    return (typeof $props.icon === 'object')
       ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.icon.element ? $props.icon.element : 'i'), vue.mergeProps({
           key: 0,
           class: ['vsm--icon', $props.icon.class],
@@ -641,7 +641,7 @@
         }, 16 /* FULL_PROPS */, ["class"]))
       : (vue.openBlock(), vue.createElementBlock("i", {
           key: 1,
-          class: vue.normalizeClass([$props.icon]),
+          class: vue.normalizeClass(['vsm--icon', $props.icon]),
           "aria-hidden": "true"
         }, null, 2 /* CLASS */))
   }
@@ -1108,6 +1108,7 @@
 
       const sidebarClass = vue.computed(() => {
         return [
+          'v-sidebar-menu',
           !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
           props.theme && `vsm_${props.theme}`,
           props.rtl && 'vsm_rtl',
@@ -1161,7 +1162,7 @@
 
     return (vue.openBlock(), vue.createElementBlock("div", {
       ref: "sidebarMenuRef",
-      class: vue.normalizeClass(['v-sidebar-menu', $setup.sidebarClass]),
+      class: vue.normalizeClass([$setup.sidebarClass]),
       style: vue.normalizeStyle({ 'max-width': $setup.sidebarWidth })
     }, [
       vue.renderSlot(_ctx.$slots, "header"),

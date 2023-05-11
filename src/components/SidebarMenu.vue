@@ -1,7 +1,7 @@
 <template>
   <div
     ref="sidebarMenuRef"
-    :class="['v-sidebar-menu', sidebarClass]"
+    :class="[sidebarClass]"
     :style="{ 'max-width': sidebarWidth }"
   >
     <slot name="header" />
@@ -140,6 +140,7 @@ export default {
 
     const sidebarClass = computed(() => {
       return [
+        'v-sidebar-menu',
         !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
         props.theme && `vsm_${props.theme}`,
         props.rtl && 'vsm_rtl',
