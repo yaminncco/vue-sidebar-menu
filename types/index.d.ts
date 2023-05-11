@@ -1,9 +1,9 @@
-import { App } from 'vue';
+import { App, Component } from 'vue';
 
 export interface ItemIcon {
-  element?: string;
+  element?: string | Component;
 
-  class?: string;
+  class?: any;
 
   attributes?: object;
 
@@ -11,19 +11,19 @@ export interface ItemIcon {
 }
 
 export interface ItemBadge {
-  text?: string;
+  element?: string | Component;
 
-  element?: string;
-
-  class?: string;
+  class?: any;
 
   attributes?: object;
+
+  text?: string;
 }
 
 export interface SidebarItem {
-  href: string | object;
-
   title: string;
+
+  href?: string | object;
 
   icon?: string | ItemIcon;
 
@@ -33,7 +33,7 @@ export interface SidebarItem {
 
   disabled?: boolean;
 
-  class?: string;
+  class?: any;
 
   attributes?: object;
 
@@ -53,13 +53,13 @@ export interface SidebarHeaderItem {
 
   hiddenOnCollapse?: boolean;
 
-  class?: string;
+  class?: any;
 
   attributes?: object;
 }
 
 export interface SidebarComponentItem {
-  component: string;
+  component: string | Component;
 
   props?: object;
 
@@ -77,49 +77,49 @@ export class SidebarMenu {
 
   /**
    * Sidebar Collapse state (v-model:collapsed to enable two-way data binding).
-   * by default false
+   *
    */
   collapsed?: boolean;
 
   /**
    * Sidebar width (expanded).
-   * by default 290px
+   * @default 290px
    */
   width?: string;
 
   /**
    * Sidebar width (collapsed).
-   *  by default 65px
+   * @default 65px
    */
   widthCollapsed?: string;
 
   /**
    * Keep only one child opened at a time (first level only).
-   * by default false
+   *
    */
   showOneChild?: boolean;
 
   /**
    * Keep all child open.
-   * by default false
+   *
    */
   showChild?: boolean;
 
   /**
    * Position sidebar right to left.
-   * by default false
+   *
    */
   rtl?: boolean;
 
   /**
    * Make sidebar relative to the parent (by default the sidebar is relative to the viewport).
-   * by default false
+   *
    */
   relative?: boolean;
 
   /**
    * Hide toggle collapse button.
-   * by default false.
+   *
    */
   hideToggle?: boolean;
 
@@ -127,11 +127,11 @@ export class SidebarMenu {
    * Sidebar theme (available themes: 'white-theme').
    *
    */
-  theme?: string;
+  theme?: '' | 'white-theme';
 
   /**
    * Disable hover on collapse mode.
-   * by default false.
+   *
    */
   disableHover?: boolean;
 
