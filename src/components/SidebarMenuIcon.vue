@@ -1,14 +1,17 @@
 <template>
   <component
     :is="icon.element ? icon.element : 'i'"
-    v-if="typeof icon === 'object'"
-    :class="['vsm--icon', icon.class]"
-    aria-hidden="true"
-    v-bind="icon.attributes"
+    v-if="typeof icon === 'object' && icon.text"
+    v-bind="attributes"
   >
     {{ icon.text }}
   </component>
-  <i v-else :class="['vsm--icon', icon]" aria-hidden="true" />
+  <component
+    :is="icon.element ? icon.element : 'i'"
+    v-else-if="typeof icon === 'object'"
+    v-bind="attributes"
+  />
+  <i v-else v-bind="attributes" />
 </template>
 
 <script>
@@ -19,6 +22,18 @@ export default {
     icon: {
       type: [String, Object],
       default: '',
+    },
+  },
+  computed: {
+    attributes() {
+      return {
+        class: [
+          'vsm--icon',
+          typeof this.icon === 'object' ? this.icon.class : this.icon,
+        ],
+        'aria-hidden': true,
+        ...this.icon.attributes,
+      }
     },
   },
 }

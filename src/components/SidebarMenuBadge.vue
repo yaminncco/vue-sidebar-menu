@@ -1,11 +1,16 @@
 <template>
   <component
     :is="badge.element ? badge.element : 'span'"
-    :class="['vsm--badge', badge.class]"
-    v-bind="badge.attributes"
+    v-if="badge.text"
+    v-bind="attributes"
   >
     {{ badge.text }}
   </component>
+  <component
+    :is="badge.element ? badge.element : 'span'"
+    v-else
+    v-bind="attributes"
+  />
 </template>
 
 <script>
@@ -16,6 +21,14 @@ export default {
     badge: {
       type: Object,
       default: () => {},
+    },
+  },
+  computed: {
+    attributes() {
+      return {
+        class: ['vsm--badge', this.badge.class],
+        ...this.badge.attributes,
+      }
     },
   },
 }
