@@ -50,18 +50,19 @@
 </template>
 
 <script>
-import { h, markRaw } from 'vue'
+import { h } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-const separator = {
-  template: '<hr style="border-color: rgba(0, 0, 0, 0.1); margin: 20px;">',
-}
+const separator = h('hr', {
+  style: {
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    margin: '20px',
+  },
+})
 
 const faIcon = (props) => {
   return {
-    element: markRaw({
-      render: () => h('div', [h(FontAwesomeIcon, { size: 'lg', ...props })]),
-    }),
+    element: h('div', [h(FontAwesomeIcon, { size: 'lg', ...props })]),
   }
 }
 
@@ -104,7 +105,7 @@ export default {
           icon: faIcon({ icon: 'fa-solid fa-palette' }),
         },
         {
-          component: markRaw(separator),
+          component: separator,
         },
         {
           header: 'Example',

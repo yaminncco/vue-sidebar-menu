@@ -59,9 +59,9 @@
         :appear="isMobileItem"
         name="expand"
         @enter="onExpandEnter"
-        @afterEnter="onExpandAfterEnter"
-        @beforeLeave="onExpandBeforeLeave"
-        @afterLeave="onExpandAfterLeave"
+        @after-enter="onExpandAfterEnter"
+        @before-leave="onExpandBeforeLeave"
+        @after-leave="onExpandAfterLeave"
       >
         <div
           v-if="show"

@@ -93,7 +93,7 @@ export default {
 ```js
 menu[
   // item
-  ({
+  {
     // string or a location object
     href: '/',
     // href: { path: '/' }
@@ -145,7 +145,7 @@ menu[
     // props: componentProps
     // hidden: false
     // hiddenOnCollapse: true
-  })
+  }
 ]
 ```
 
