@@ -625,25 +625,31 @@
         default: '',
       },
     },
+    computed: {
+      attributes() {
+        return {
+          class: [
+            'vsm--icon',
+            typeof this.icon === 'object' ? this.icon.class : this.icon,
+          ],
+          'aria-hidden': true,
+          ...this.icon.attributes,
+        }
+      },
+    },
   };
 
   function render$4(_ctx, _cache, $props, $setup, $data, $options) {
-    return (typeof $props.icon === 'object')
-      ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.icon.element ? $props.icon.element : 'i'), vue.mergeProps({
-          key: 0,
-          class: ['vsm--icon', $props.icon.class],
-          "aria-hidden": "true"
-        }, $props.icon.attributes), {
+    return (typeof $props.icon === 'object' && $props.icon.text)
+      ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.icon.element ? $props.icon.element : 'i'), vue.normalizeProps(vue.mergeProps({ key: 0 }, $options.attributes)), {
           default: vue.withCtx(() => [
             vue.createTextVNode(vue.toDisplayString($props.icon.text), 1 /* TEXT */)
           ]),
           _: 1 /* STABLE */
-        }, 16 /* FULL_PROPS */, ["class"]))
-      : (vue.openBlock(), vue.createElementBlock("i", {
-          key: 1,
-          class: vue.normalizeClass(['vsm--icon', $props.icon]),
-          "aria-hidden": "true"
-        }, null, 2 /* CLASS */))
+        }, 16 /* FULL_PROPS */))
+      : (typeof $props.icon === 'object')
+        ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.icon.element ? $props.icon.element : 'i'), vue.normalizeProps(vue.mergeProps({ key: 1 }, $options.attributes)), null, 16 /* FULL_PROPS */))
+        : (vue.openBlock(), vue.createElementBlock("i", vue.normalizeProps(vue.mergeProps({ key: 2 }, $options.attributes)), null, 16 /* FULL_PROPS */))
   }
 
   script$4.render = render$4;
@@ -658,17 +664,25 @@
         default: () => {},
       },
     },
+    computed: {
+      attributes() {
+        return {
+          class: ['vsm--badge', this.badge.class],
+          ...this.badge.attributes,
+        }
+      },
+    },
   };
 
   function render$3(_ctx, _cache, $props, $setup, $data, $options) {
-    return (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.badge.element ? $props.badge.element : 'span'), vue.mergeProps({
-      class: ['vsm--badge', $props.badge.class]
-    }, $props.badge.attributes), {
-      default: vue.withCtx(() => [
-        vue.createTextVNode(vue.toDisplayString($props.badge.text), 1 /* TEXT */)
-      ]),
-      _: 1 /* STABLE */
-    }, 16 /* FULL_PROPS */, ["class"]))
+    return ($props.badge.text)
+      ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.badge.element ? $props.badge.element : 'span'), vue.normalizeProps(vue.mergeProps({ key: 0 }, $options.attributes)), {
+          default: vue.withCtx(() => [
+            vue.createTextVNode(vue.toDisplayString($props.badge.text), 1 /* TEXT */)
+          ]),
+          _: 1 /* STABLE */
+        }, 16 /* FULL_PROPS */))
+      : (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.badge.element ? $props.badge.element : 'span'), vue.normalizeProps(vue.mergeProps({ key: 1 }, $options.attributes)), null, 16 /* FULL_PROPS */))
   }
 
   script$3.render = render$3;

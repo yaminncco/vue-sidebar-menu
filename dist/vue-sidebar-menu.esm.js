@@ -1,4 +1,4 @@
-import { toRefs, ref, reactive, computed, provide, inject, getCurrentInstance, watch, resolveComponent, openBlock, createElementBlock, normalizeProps, mergeProps, renderSlot, createBlock, withCtx, createElementVNode, resolveDynamicComponent, createTextVNode, toDisplayString, normalizeClass, guardReactiveProps, toHandlers, Transition, normalizeStyle, createCommentVNode, Fragment, renderList, onMounted, onUnmounted, nextTick, createVNode } from 'vue';
+import { toRefs, ref, reactive, computed, provide, inject, getCurrentInstance, watch, resolveComponent, openBlock, createElementBlock, normalizeProps, mergeProps, renderSlot, createBlock, withCtx, createElementVNode, resolveDynamicComponent, createTextVNode, toDisplayString, guardReactiveProps, toHandlers, Transition, normalizeStyle, createCommentVNode, normalizeClass, Fragment, renderList, onMounted, onUnmounted, nextTick, createVNode } from 'vue';
 
 var initSidebar = function initSidebar(props, context) {
   var _toRefs = toRefs(props),
@@ -621,25 +621,31 @@ var script$4 = {
       default: '',
     },
   },
+  computed: {
+    attributes() {
+      return {
+        class: [
+          'vsm--icon',
+          typeof this.icon === 'object' ? this.icon.class : this.icon,
+        ],
+        'aria-hidden': true,
+        ...this.icon.attributes,
+      }
+    },
+  },
 };
 
 function render$4(_ctx, _cache, $props, $setup, $data, $options) {
-  return (typeof $props.icon === 'object')
-    ? (openBlock(), createBlock(resolveDynamicComponent($props.icon.element ? $props.icon.element : 'i'), mergeProps({
-        key: 0,
-        class: ['vsm--icon', $props.icon.class],
-        "aria-hidden": "true"
-      }, $props.icon.attributes), {
+  return (typeof $props.icon === 'object' && $props.icon.text)
+    ? (openBlock(), createBlock(resolveDynamicComponent($props.icon.element ? $props.icon.element : 'i'), normalizeProps(mergeProps({ key: 0 }, $options.attributes)), {
         default: withCtx(() => [
           createTextVNode(toDisplayString($props.icon.text), 1 /* TEXT */)
         ]),
         _: 1 /* STABLE */
-      }, 16 /* FULL_PROPS */, ["class"]))
-    : (openBlock(), createElementBlock("i", {
-        key: 1,
-        class: normalizeClass(['vsm--icon', $props.icon]),
-        "aria-hidden": "true"
-      }, null, 2 /* CLASS */))
+      }, 16 /* FULL_PROPS */))
+    : (typeof $props.icon === 'object')
+      ? (openBlock(), createBlock(resolveDynamicComponent($props.icon.element ? $props.icon.element : 'i'), normalizeProps(mergeProps({ key: 1 }, $options.attributes)), null, 16 /* FULL_PROPS */))
+      : (openBlock(), createElementBlock("i", normalizeProps(mergeProps({ key: 2 }, $options.attributes)), null, 16 /* FULL_PROPS */))
 }
 
 script$4.render = render$4;
@@ -654,17 +660,25 @@ var script$3 = {
       default: () => {},
     },
   },
+  computed: {
+    attributes() {
+      return {
+        class: ['vsm--badge', this.badge.class],
+        ...this.badge.attributes,
+      }
+    },
+  },
 };
 
 function render$3(_ctx, _cache, $props, $setup, $data, $options) {
-  return (openBlock(), createBlock(resolveDynamicComponent($props.badge.element ? $props.badge.element : 'span'), mergeProps({
-    class: ['vsm--badge', $props.badge.class]
-  }, $props.badge.attributes), {
-    default: withCtx(() => [
-      createTextVNode(toDisplayString($props.badge.text), 1 /* TEXT */)
-    ]),
-    _: 1 /* STABLE */
-  }, 16 /* FULL_PROPS */, ["class"]))
+  return ($props.badge.text)
+    ? (openBlock(), createBlock(resolveDynamicComponent($props.badge.element ? $props.badge.element : 'span'), normalizeProps(mergeProps({ key: 0 }, $options.attributes)), {
+        default: withCtx(() => [
+          createTextVNode(toDisplayString($props.badge.text), 1 /* TEXT */)
+        ]),
+        _: 1 /* STABLE */
+      }, 16 /* FULL_PROPS */))
+    : (openBlock(), createBlock(resolveDynamicComponent($props.badge.element ? $props.badge.element : 'span'), normalizeProps(mergeProps({ key: 1 }, $options.attributes)), null, 16 /* FULL_PROPS */))
 }
 
 script$3.render = render$3;
