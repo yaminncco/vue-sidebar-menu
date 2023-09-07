@@ -1168,7 +1168,8 @@
   };
 
   const _hoisted_1 = /*#__PURE__*/vue.createElementVNode("span", { class: "vsm--arrow_default" }, null, -1 /* HOISTED */);
-  const _hoisted_2 = /*#__PURE__*/vue.createElementVNode("span", { class: "vsm--toggle-btn_default" }, null, -1 /* HOISTED */);
+  const _hoisted_2 = ["aria-label"];
+  const _hoisted_3 = /*#__PURE__*/vue.createElementVNode("span", { class: "vsm--toggle-btn_default" }, null, -1 /* HOISTED */);
 
   function render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_sidebar_menu_item = vue.resolveComponent("sidebar-menu-item");
@@ -1208,12 +1209,13 @@
         ? (vue.openBlock(), vue.createElementBlock("button", {
             key: 0,
             class: "vsm--toggle-btn",
+            "aria-label": $props.collapsed ? 'Expand sidebar' : 'Collapse sidebar',
             onClick: _cache[0] || (_cache[0] = (...args) => ($setup.onToggleClick && $setup.onToggleClick(...args)))
           }, [
             vue.renderSlot(_ctx.$slots, "toggle-icon", {}, () => [
-              _hoisted_2
+              _hoisted_3
             ])
-          ]))
+          ], 8 /* PROPS */, _hoisted_2))
         : vue.createCommentVNode("v-if", true)
     ], 6 /* CLASS, STYLE */))
   }
