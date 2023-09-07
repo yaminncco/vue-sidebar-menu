@@ -21,7 +21,12 @@
       </ul>
     </sidebar-menu-scroll>
     <slot name="footer" />
-    <button v-if="!hideToggle" class="vsm--toggle-btn" @click="onToggleClick">
+    <button
+      v-if="!hideToggle"
+      class="vsm--toggle-btn"
+      :aria-label="collapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+      @click="onToggleClick"
+    >
       <slot name="toggle-icon">
         <span class="vsm--toggle-btn_default" />
       </slot>
