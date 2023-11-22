@@ -14,6 +14,7 @@ export const initSidebar = (props, context) => {
       padding: [0, 0],
       maxHeight: 0,
       maxWidth: 0,
+      dropup: 0,
     },
     timeout: null,
   })
@@ -69,12 +70,26 @@ export const initSidebar = (props, context) => {
     const paddingLeft = parseInt(window.getComputedStyle(el).paddingLeft)
     const paddingRight = parseInt(window.getComputedStyle(el).paddingRight)
 
+    const sidebarInnerHeight =
+      sidebarRef.value?.firstElementChild?.getBoundingClientRect().height
+    const top = elTop - offsetParentTop
+    const maxHeight = parentHeight - (elBottom - parentTop)
+
+    const parentVisibleHeight = Math.min(
+      window.innerHeight,
+      window.innerHeight - parentTop,
+      parentHeight - Math.abs(parentTop)
+    )
+    const dropup =
+      maxHeight < parentVisibleHeight * 0.25 ? sidebarInnerHeight - top : 0
+
     return {
-      top: elTop - offsetParentTop,
+      top,
       height: elHeight,
       padding: [paddingLeft, paddingRight],
       maxWidth: rectWidth <= maxWidth ? rectWidth : maxWidth,
-      maxHeight: parentHeight - (elBottom - parentTop),
+      maxHeight,
+      dropup,
     }
   }
 

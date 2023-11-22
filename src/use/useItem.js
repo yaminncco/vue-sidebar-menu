@@ -237,12 +237,23 @@ export default function useItem(props) {
   const mobileItemDropdownStyle = computed(() => {
     return [
       { position: 'absolute' },
-      { top: `${mobileItemRect.value.top + mobileItemRect.value.height}px` },
+      ...(!mobileItemRect.value.dropup
+        ? [
+            {
+              top: `${
+                mobileItemRect.value.top + mobileItemRect.value.height
+              }px`,
+            },
+            { 'max-height': `${mobileItemRect.value.maxHeight}px` },
+          ]
+        : [
+            { bottom: `${mobileItemRect.value.dropup}px` },
+            { 'max-height': `${mobileItemRect.value.top}px` },
+          ]),
       !sidebarProps.rtl
         ? { left: sidebarProps.widthCollapsed }
         : { right: sidebarProps.widthCollapsed },
       { width: `${mobileItemRect.value.maxWidth}px` },
-      { 'max-height': `${mobileItemRect.value.maxHeight}px` },
       { 'overflow-y': 'auto' },
     ]
   })
