@@ -21,7 +21,8 @@
         height: 0,
         padding: [0, 0],
         maxHeight: 0,
-        maxWidth: 0
+        maxWidth: 0,
+        dropup: 0
       },
       timeout: null
     });
@@ -48,6 +49,7 @@
       updateMobileItemRect(rect);
     };
     var getMobileItemRectFromEl = function getMobileItemRectFromEl(el) {
+      var _sidebarRef$value, _sidebarRef$value$fir;
       var _el$getBoundingClient = el.getBoundingClientRect(),
         elTop = _el$getBoundingClient.top,
         elBottom = _el$getBoundingClient.bottom,
@@ -71,12 +73,18 @@
       var rectWidth = rtl.value ? parentWidth - (parentRight - sidebarLeft) : parentRight - sidebarRight;
       var paddingLeft = parseInt(window.getComputedStyle(el).paddingLeft);
       var paddingRight = parseInt(window.getComputedStyle(el).paddingRight);
+      var sidebarInnerHeight = (_sidebarRef$value = sidebarRef.value) === null || _sidebarRef$value === void 0 ? void 0 : (_sidebarRef$value$fir = _sidebarRef$value.firstElementChild) === null || _sidebarRef$value$fir === void 0 ? void 0 : _sidebarRef$value$fir.getBoundingClientRect().height;
+      var top = elTop - offsetParentTop;
+      var maxHeight = parentHeight - (elBottom - parentTop);
+      var parentVisibleHeight = Math.min(window.innerHeight, window.innerHeight - parentTop, parentHeight - Math.abs(parentTop));
+      var dropup = maxHeight < parentVisibleHeight * 0.25 ? sidebarInnerHeight - top : 0;
       return {
-        top: elTop - offsetParentTop,
+        top: top,
         height: elHeight,
         padding: [paddingLeft, paddingRight],
         maxWidth: rectWidth <= maxWidth ? rectWidth : maxWidth,
-        maxHeight: parentHeight - (elBottom - parentTop)
+        maxHeight: maxHeight,
+        dropup: dropup
       };
     };
     var unsetMobileItem = function unsetMobileItem() {
@@ -202,6 +210,31 @@
       obj[key] = value;
     }
     return obj;
+  }
+  function _toConsumableArray(arr) {
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+  }
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+  }
+  function _iterableToArray(iter) {
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+  }
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+    return arr2;
+  }
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
   function _toPrimitive(input, hint) {
     if (typeof input !== "object" || input === null) return input;
@@ -474,19 +507,23 @@
     var mobileItemDropdownStyle = vue.computed(function () {
       return [{
         position: 'absolute'
-      }, {
+      }].concat(_toConsumableArray(!mobileItemRect.value.dropup ? [{
         top: "".concat(mobileItemRect.value.top + mobileItemRect.value.height, "px")
-      }, !sidebarProps.rtl ? {
+      }, {
+        'max-height': "".concat(mobileItemRect.value.maxHeight, "px")
+      }] : [{
+        bottom: "".concat(mobileItemRect.value.dropup, "px")
+      }, {
+        'max-height': "".concat(mobileItemRect.value.top, "px")
+      }]), [!sidebarProps.rtl ? {
         left: sidebarProps.widthCollapsed
       } : {
         right: sidebarProps.widthCollapsed
       }, {
         width: "".concat(mobileItemRect.value.maxWidth, "px")
       }, {
-        'max-height': "".concat(mobileItemRect.value.maxHeight, "px")
-      }, {
         'overflow-y': 'auto'
-      }];
+      }]);
     });
     var mobileItemStyle = vue.computed(function () {
       return [{
