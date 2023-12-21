@@ -13,19 +13,19 @@ $item-open-bg: $primary-color !default;
 $item-hover-color: null !default;
 $item-hover-bg: rgba(darken($base-bg, 5%), 0.5) !default;
 
-$icon-color: null !default;
+$icon-color: $item-color !default;
 $icon-bg: darken($base-bg, 5%) !default;
 
 $icon-active-color: null !default;
 $icon-active-bg: null !default;
 
 $icon-open-color: null !default;
-$icon-open-bg: $item-open-bg !default;
+$icon-open-bg: null !default;
 
 $mobile-item-color: #fff !default;
 $mobile-item-bg: $primary-color !default;
 $mobile-icon-color: $mobile-item-color !default;
-$mobile-icon-bg: $mobile-item-bg !default;
+$mobile-icon-bg: transparent !default;
 
 $dropdown-color: null !default;
 $dropdown-bg: lighten($base-bg, 5%) !default;

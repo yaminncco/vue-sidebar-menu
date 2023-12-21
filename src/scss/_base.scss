@@ -1,3 +1,5 @@
+@import './root';
+
 .v-sidebar-menu {
   * {
     box-sizing: border-box;
@@ -99,10 +101,11 @@
     position: static !important;
     display: flex;
     align-items: center;
-    font-size: $item-font-size;
+    color: inherit;
+    font-size: var(--vsm-item-font-size);
     font-weight: 400;
-    padding: $item-padding;
-    line-height: $item-line-height;
+    padding: var(--vsm-item-padding);
+    line-height: var(--vsm-item-line-height);
     text-decoration: none;
     user-select: none;
     transition: 0.3s all ease;
@@ -115,8 +118,8 @@
     }
     &_level-1 {
       .vsm--icon {
-        height: $icon-height;
-        width: $icon-width;
+        height: var(--vsm-icon-height);
+        width: var(--vsm-icon-width);
         flex-shrink: 0;
         border-radius: 3px;
       }

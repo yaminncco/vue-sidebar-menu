@@ -1,100 +1,19 @@
+@import './theme';
+
 $base-bg: #fff;
 $item-color: #262626;
-$icon-bg: #bbc5d6;
-$icon-active-color: #fff;
-$icon-active-bg: $item-color;
-$item-hover-bg: rgba(darken($base-bg, 5%), 0.5);
-$dropdown-bg: #e3e3e3;
-$header-item-color: rgba($item-color, 0.7);
-$toggle-btn-color: $item-color;
-$toggle-btn-bg: darken($base-bg, 5%);
 
 .v-sidebar-menu.vsm_white-theme {
-  background-color: $base-bg;
-  .vsm--link {
-    color: $item-color;
-    &_active {
-      color: $item-active-color;
-      background-color: $item-active-bg;
-    }
-    &_level-1 {
-      &.vsm--link_active {
-        box-shadow: 3px 0px 0px 0px $item-active-line-color inset;
-        & .vsm--icon {
-          color: $icon-active-color;
-          background-color: $icon-active-bg;
-        }
-      }
-      & .vsm--icon {
-        background-color: $icon-bg;
-      }
-    }
-    &_hover {
-      color: $item-hover-color;
-      background-color: $item-hover-bg;
-    }
-    &_mobile {
-      color: $mobile-item-color;
-    }
-  }
+  --vsm-base-bg: #{$base-bg};
+  --vsm-item-color: #{$item-color};
+  --vsm-item-hover-bg: #{rgba(darken($base-bg, 5%), 0.5)};
+  --vsm-icon-bg: #bbc5d6;
+  --vsm-icon-active-color: #FFF;
+  --vsm-icon-active-bg: var(--vsm-item-color);
+  --vsm-dropdown-bg: #e3e3e3;
+  --vsm-header-item-color: #{rgba($item-color, 0.7)};
+  --vsm-toggle-btn-color: var(--vsm-item-color);
+  --vsm-toggle-btn-bg: #{darken($base-bg, 5%)};
 
-  &.vsm_expanded {
-    .vsm--link_level-1 {
-      &.vsm--link_open {
-        color: $item-open-color;
-        background-color: $item-open-bg;
-        & .vsm--icon {
-          color: $icon-open-color;
-          background-color: $icon-open-bg;
-        }
-      }
-    }
-  }
-
-  &.vsm_collapsed {
-    .vsm--link_level-1 {
-      &.vsm--link_hover {
-        .vsm--icon {
-          color: $mobile-icon-color;
-          background-color: $mobile-icon-bg;
-        }
-      }
-    }
-  }
-
-  .vsm--icon {
-    color: $icon-color;
-  }
-
-  .vsm--dropdown {
-    background-color: $dropdown-bg;
-    & .vsm--link {
-      color: $dropdown-color;
-    }
-    & .vsm--icon {
-      color: $dropdown-color;
-    }
-  }
-
-  .vsm--mobile-bg {
-    background-color: $mobile-item-bg;
-  }
-
-  &.vsm_rtl {
-    .vsm--link_level-1.vsm--link_active {
-      box-shadow: -3px 0px 0px 0px $item-active-line-color inset;
-    }
-  }
-
-  .vsm--header {
-    color: $header-item-color;
-  }
-  .vsm--badge_default {
-    color: $item-color;
-    background-color: darken($base-bg, 5%);
-  }
-  .vsm--toggle-btn {
-    color: $toggle-btn-color;
-    background-color: $toggle-btn-bg;
-  }
+  @include sidebar-theme;
 }
