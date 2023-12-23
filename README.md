@@ -130,6 +130,8 @@ menu[
     /* with vue-router */
     // external: true
     // exact: true // apply active class when current route is exactly the same. (based on route records, query & hash are not relevant)
+
+    // isActive: (item) => boolean | void // return a boolean to override the default active matcher
   },
   // header item
   {
