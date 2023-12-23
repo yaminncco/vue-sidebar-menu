@@ -44,6 +44,8 @@ export interface SidebarItem {
   external?: boolean;
 
   exact?: boolean;
+
+  isActive?: (item: SidebarItem) => boolean | void;
 }
 
 export interface SidebarHeaderItem {

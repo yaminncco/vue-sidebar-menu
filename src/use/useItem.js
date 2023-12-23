@@ -35,6 +35,12 @@ export default function useItem(props) {
   })
 
   const isLinkActive = (item, exact) => {
+    if (item.isActive && typeof item.isActive === 'function') {
+      const isActive = item.isActive(item)
+      if (typeof isActive === 'boolean') {
+        return isActive
+      }
+    }
     if (!item.href || item.external) return false
     if (router) {
       const route = router.resolve(item.href)
