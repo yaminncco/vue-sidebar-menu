@@ -94,7 +94,6 @@
     position: static !important;
     display: block;
     width: 100%;
-    white-space: nowrap;
   }
 
   .vsm--link {
@@ -104,6 +103,7 @@
     color: inherit;
     font-size: var(--vsm-item-font-size);
     font-weight: 400;
+    box-sizing: content-box;
     padding: var(--vsm-item-padding);
     line-height: var(--vsm-item-line-height);
     text-decoration: none;
@@ -120,7 +120,6 @@
       .vsm--icon {
         height: var(--vsm-icon-height);
         width: var(--vsm-icon-width);
-        flex-shrink: 0;
         border-radius: 3px;
       }
     }
@@ -130,6 +129,7 @@
     height: 25px;
     width: 25px;
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
     margin-right: 15px;
@@ -140,18 +140,15 @@
     display: flex;
     align-items: center;
     flex: 1;
+    min-width: 0;
     & > span:first-child {
       flex-grow: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     &_hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
+      visibility: hidden;
     }
   }
 
