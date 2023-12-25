@@ -4,23 +4,25 @@
     :class="[sidebarClass]"
     :style="{ 'max-width': sidebarWidth }"
   >
-    <slot name="header" />
-    <sidebar-menu-scroll>
-      <ul class="vsm--menu" :style="{ width: sidebarWidth }">
-        <sidebar-menu-item
-          v-for="item in computedMenu"
-          :key="item.id"
-          :item="item"
-        >
-          <template #dropdown-icon="{ isOpen }">
-            <slot name="dropdown-icon" v-bind="{ isOpen }">
-              <span class="vsm--arrow_default" />
-            </slot>
-          </template>
-        </sidebar-menu-item>
-      </ul>
-    </sidebar-menu-scroll>
-    <slot name="footer" />
+    <div class="vsm--wrapper">
+      <slot name="header" />
+      <sidebar-menu-scroll>
+        <ul class="vsm--menu" :style="{ width: sidebarWidth }">
+          <sidebar-menu-item
+            v-for="item in computedMenu"
+            :key="item.id"
+            :item="item"
+          >
+            <template #dropdown-icon="{ isOpen }">
+              <slot name="dropdown-icon" v-bind="{ isOpen }">
+                <span class="vsm--arrow_default" />
+              </slot>
+            </template>
+          </sidebar-menu-item>
+        </ul>
+      </sidebar-menu-scroll>
+      <slot name="footer" />
+    </div>
     <button
       v-if="!hideToggle"
       class="vsm--toggle-btn"

@@ -48,13 +48,18 @@ export const initSidebar = (props, context) => {
     } = el.getBoundingClientRect()
     const { left: sidebarLeft, right: sidebarRight } =
       sidebarRef.value.getBoundingClientRect()
-    const offsetParentTop = el.offsetParent.getBoundingClientRect().top
+    const { bottom: wrapperBottom, height: wrapperHeight } =
+      sidebarRef.value.firstElementChild.getBoundingClientRect()
+    const scrollWrapperEl = el.offsetParent
+    const scrollWrapperOffsetTop = scrollWrapperEl.offsetTop
+    const { top: scrollWrapperTop, height: scrollWrapperHeight } =
+      scrollWrapperEl.getBoundingClientRect()
 
     let parentHeight = window.innerHeight
     let parentWidth = window.innerWidth
     let parentTop = 0
     let parentRight = parentWidth
-    const maxWidth = parseInt(width.value) - parseInt(widthCollapsed.value)
+    let maxWidth = parseInt(width.value) - parseInt(widthCollapsed.value)
     if (relative.value) {
       const parent = sidebarRef.value.parentElement
       parentHeight = parent.clientHeight
@@ -66,28 +71,34 @@ export const initSidebar = (props, context) => {
     const rectWidth = rtl.value
       ? parentWidth - (parentRight - sidebarLeft)
       : parentRight - sidebarRight
+    maxWidth = rectWidth <= maxWidth ? rectWidth : maxWidth
 
-    const paddingLeft = parseInt(window.getComputedStyle(el).paddingLeft)
-    const paddingRight = parseInt(window.getComputedStyle(el).paddingRight)
+    const { paddingLeft: pl, paddingRight: pr } = window.getComputedStyle(el)
+    const paddingLeft = parseInt(pl)
+    const paddingRight = parseInt(pr)
 
-    const sidebarInnerHeight =
-      sidebarRef.value?.firstElementChild?.getBoundingClientRect().height
-    const top = elTop - offsetParentTop
-    const maxHeight = parentHeight - (elBottom - parentTop)
-
+    const absoluteTop = elTop - scrollWrapperTop
+    const absoluteBottom =
+      wrapperBottom -
+      elTop -
+      (wrapperHeight - (scrollWrapperHeight + scrollWrapperOffsetTop))
+    let maxHeight = parentHeight - (elBottom - parentTop)
     const parentVisibleHeight = Math.min(
       window.innerHeight,
       window.innerHeight - parentTop,
-      parentHeight - Math.abs(parentTop)
+      parentHeight,
+      parentHeight + parentTop
     )
-    const dropup =
-      maxHeight < parentVisibleHeight * 0.25 ? sidebarInnerHeight - top : 0
+    const maxVisible =
+      parentVisibleHeight - (Math.max(elBottom, 0) - Math.max(parentTop, 0))
+    const dropup = maxVisible < parentVisibleHeight * 0.25 ? absoluteBottom : 0
+    maxHeight = dropup ? elTop - parentTop : maxHeight
 
     return {
-      top,
+      top: absoluteTop,
       height: elHeight,
       padding: [paddingLeft, paddingRight],
-      maxWidth: rectWidth <= maxWidth ? rectWidth : maxWidth,
+      maxWidth,
       maxHeight,
       dropup,
     }
