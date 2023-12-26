@@ -105,10 +105,15 @@ export default {
           icon: faIcon({ icon: 'fa-solid fa-palette' }),
         },
         {
+          href: '/slots',
+          title: 'Slots',
+          icon: faIcon({ icon: 'fa-solid fa-cubes' }),
+        },
+        {
           component: separator,
         },
         {
-          header: 'Example',
+          header: 'Examples',
           hiddenOnCollapse: true,
         },
         {

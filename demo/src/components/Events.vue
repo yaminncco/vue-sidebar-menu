@@ -15,3 +15,9 @@ methods: {
     <p><b>@item-click(event, item)</b> Trigger on item link click</p>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'DocsEvents',
+}
+</script>

@@ -32,3 +32,9 @@ export default {
     </prism-code>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'DocsInstallation',
+}
+</script>

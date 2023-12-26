@@ -80,3 +80,9 @@
     </prism-code>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'DocsProps',
+}
+</script>

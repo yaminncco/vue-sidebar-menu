@@ -42,7 +42,7 @@
     <h3>Item Properties</h3>
     <prism-code lang="js">
       {{
-        `menu [
+        `menu: [
   // item
   {
     // string or a location object
@@ -106,3 +106,9 @@
     </prism-code>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'DocsBasicUsage',
+}
+</script>

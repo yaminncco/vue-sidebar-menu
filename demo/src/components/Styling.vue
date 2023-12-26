@@ -13,6 +13,7 @@
 .v-sidebar-menu .vsm--item {}
 .v-sidebar-menu .vsm--link {}
 .v-sidebar-menu .vsm--link_active {}
+.v-sidebar-menu .vsm--link_hover {}
 .v-sidebar-menu .vsm--link_open {}
 .v-sidebar-menu .vsm--link_mobile {}
 .v-sidebar-menu .vsm--link_level-[n] {}
@@ -29,29 +30,66 @@
 .v-sidebar-menu .vsm--toggle-btn {}`
       }}
     </prism-code>
+
+    <h2>Theming</h2>
     <p>
-      or you can override Sass variables (complete list of all variables can be
-      found in `src/scss/_variables.scss`) and create your own theme
+      You can create your own theme with SCSS or, you can edit the locally
+      scoped CSS variables.
     </p>
-    <prism-code lang="css">
+    <p>
+      <b>Sass variables:</b> (complete list of all variables can be found in
+      `src/scss/_variables.scss`)
+    </p>
+    <prism-code lang="scss">
       {{
-        `@import "custom-var.scss";
+        `// Your variable overrides here.
+$primary-color: red;
 @import "vue-sidebar-menu/src/scss/vue-sidebar-menu.scss";`
       }}
     </prism-code>
-    <h2>Slots</h2>
-    <prism-code lang="html">
+
+    <p><b>CSS variables:</b></p>
+
+    <prism-code lang="css">
       {{
-        `&lt;sidebar-menu>
-  &lt;template v-slot:header>header&lt;/template>
-  &lt;template v-slot:footer>footer&lt;/template>
-  &lt;template v-slot:toggle-icon>toggle-icon&lt;/template>
-  &lt;template v-slot:dropdown-icon="{ isOpen }">
-    &lt;span v-if="!isOpen">+&lt;/span>
-    &lt;span v-else>-&lt;/span>
-  &lt;/template>
-&lt;/sidebar-menu>`
+        `.v-sidebar-menu {
+      --vsm-primary-color: #4285f4;
+      --vsm-base-bg: #2a2a2e;
+      --vsm-item-color: #fff;
+      --vsm-item-active-color:;
+      --vsm-item-active-bg:;
+      --vsm-item-active-line-color: var(--vsm-primary-color);
+      --vsm-item-open-color: #fff;
+      --vsm-item-hover-color:;
+      --vsm-item-open-bg: var(--vsm-primary-color);
+      --vsm-item-hover-bg: rgba(30, 30, 33, 0.5);
+      --vsm-icon-color: var(--vsm-item-color);
+      --vsm-icon-bg: #1e1e21;
+      --vsm-icon-active-color:;
+      --vsm-icon-active-bg:;
+      --vsm-icon-open-color:;
+      --vsm-icon-open-bg:;
+      --vsm-mobile-item-color: #fff;
+      --vsm-mobile-item-bg: var(--vsm-primary-color);
+      --vsm-mobile-icon-color: var(--vsm-mobile-item-color);
+      --vsm-mobile-icon-bg: transparent;
+      --vsm-dropdown-bg: #36363b;
+      --vsm-header-item-color: rgba(255, 255, 255, 0.7);
+      --vsm-toggle-btn-color: #fff;
+      --vsm-toggle-btn-bg: #1e1e21;
+      --vsm-item-font-size: 16px;
+      --vsm-item-line-height: 35px;
+      --vsm-item-padding: 10px 15px;
+      --vsm-icon-height: 35px;
+      --vsm-icon-width: 35px;
+    }`
       }}
     </prism-code>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'DocsStyling',
+}
+</script>
