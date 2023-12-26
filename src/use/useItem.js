@@ -204,11 +204,13 @@ export default function useItem(props) {
     return [
       'vsm--link',
       `vsm--link_level-${props.level}`,
-      { 'vsm--link_mobile': isMobileItem.value },
-      { 'vsm--link_hover': hover.value },
-      { 'vsm--link_active': active.value },
-      { 'vsm--link_disabled': props.item.disabled },
-      { 'vsm--link_open': show.value },
+      {
+        'vsm--link_mobile': isMobileItem.value,
+        'vsm--link_hover': hover.value,
+        'vsm--link_active': active.value,
+        'vsm--link_disabled': props.item.disabled,
+        'vsm--link_open': show.value,
+      },
       props.item.class,
     ]
   })
@@ -258,33 +260,31 @@ export default function useItem(props) {
   })
 
   const mobileItemStyle = computed(() => {
-    return [
-      { position: 'absolute' },
-      { top: `${mobileItemRect.value.top}px` },
-      !sidebarProps.rtl
+    return {
+      position: 'absolute',
+      top: `${mobileItemRect.value.top}px`,
+      ...(!sidebarProps.rtl
         ? { left: sidebarProps.widthCollapsed }
-        : { right: sidebarProps.widthCollapsed },
-      { width: `${mobileItemRect.value.maxWidth}px` },
-      { height: `${mobileItemRect.value.height}px` },
-      { 'padding-left': `${mobileItemRect.value.padding[0]}px` },
-      { 'padding-right': `${mobileItemRect.value.padding[1]}px` },
-      { 'z-index': '20' },
-    ]
+        : { right: sidebarProps.widthCollapsed }),
+      width: `${mobileItemRect.value.maxWidth}px`,
+      height: `${mobileItemRect.value.height}px`,
+      'padding-left': `${mobileItemRect.value.padding[0]}px`,
+      'padding-right': `${mobileItemRect.value.padding[1]}px`,
+      'z-index': '20',
+    }
   })
 
   const mobileItemBackgroundStyle = computed(() => {
-    return [
-      { position: 'absolute' },
-      { top: `${mobileItemRect.value.top}px` },
-      !sidebarProps.rtl ? { left: '0px' } : { right: '0px' },
-      {
-        width: `${
-          mobileItemRect.value.maxWidth + parseInt(sidebarProps.widthCollapsed)
-        }px`,
-      },
-      { height: `${mobileItemRect.value.height}px` },
-      { 'z-index': '10' },
-    ]
+    return {
+      position: 'absolute',
+      top: `${mobileItemRect.value.top}px`,
+      ...(!sidebarProps.rtl ? { left: '0px' } : { right: '0px' }),
+      width: `${
+        mobileItemRect.value.maxWidth + parseInt(sidebarProps.widthCollapsed)
+      }px`,
+      height: `${mobileItemRect.value.height}px`,
+      'z-index': '10',
+    }
   })
 
   watch(

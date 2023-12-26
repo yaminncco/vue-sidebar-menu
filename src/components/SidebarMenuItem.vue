@@ -21,7 +21,7 @@
     "
   >
     <component
-      :is="linkComponentName ? linkComponentName : 'SidebarMenuLink'"
+      :is="linkComponentName ? linkComponentName : SidebarMenuLink"
       :item="item"
       :class="linkClass"
       v-bind="linkAttrs"
@@ -87,6 +87,12 @@
 </template>
 
 <script>
+export default {
+  compatConfig: { MODE: 3 },
+}
+</script>
+
+<script setup>
 import { toRefs } from 'vue'
 import { useSidebar } from '../use/useSidebar'
 import useItem from '../use/useItem'
@@ -95,81 +101,41 @@ import SidebarMenuLink from './SidebarMenuLink.vue'
 import SidebarMenuIcon from './SidebarMenuIcon.vue'
 import SidebarMenuBadge from './SidebarMenuBadge.vue'
 
-export default {
-  compatConfig: { MODE: 3 },
-  name: 'SidebarMenuItem',
-  components: {
-    SidebarMenuLink,
-    SidebarMenuIcon,
-    SidebarMenuBadge,
+const props = defineProps({
+  item: {
+    type: Object,
+    required: true,
   },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    level: {
-      type: Number,
-      default: 1,
-    },
+  level: {
+    type: Number,
+    default: 1,
   },
-  setup(props) {
-    const { getSidebarProps, getIsCollapsed: isCollapsed } = useSidebar()
-    const { linkComponentName } = toRefs(getSidebarProps)
+})
 
-    const {
-      active,
-      exactActive,
-      show,
-      hover,
-      isFirstLevel,
-      isHidden,
-      hasChild,
-      linkClass,
-      linkAttrs,
-      itemClass,
-      isMobileItem,
-      mobileItemStyle,
-      mobileItemDropdownStyle,
-      mobileItemBackgroundStyle,
-      onLinkClick,
-      onMouseOver,
-      onMouseOut,
-      onMouseEnter,
-      onMouseLeave,
-      onExpandEnter,
-      onExpandAfterEnter,
-      onExpandBeforeLeave,
-      onExpandAfterLeave,
-    } = useItem(props)
+const { getSidebarProps, getIsCollapsed: isCollapsed } = useSidebar()
+const { linkComponentName } = toRefs(getSidebarProps)
 
-    return {
-      isCollapsed,
-      linkComponentName,
-      active,
-      exactActive,
-      isMobileItem,
-      mobileItemStyle,
-      mobileItemDropdownStyle,
-      mobileItemBackgroundStyle,
-      show,
-      hover,
-      isFirstLevel,
-      isHidden,
-      hasChild,
-      linkClass,
-      linkAttrs,
-      itemClass,
-      onLinkClick,
-      onMouseOver,
-      onMouseOut,
-      onMouseEnter,
-      onMouseLeave,
-      onExpandEnter,
-      onExpandAfterEnter,
-      onExpandBeforeLeave,
-      onExpandAfterLeave,
-    }
-  },
-}
+const {
+  show,
+  hover,
+  isFirstLevel,
+  isHidden,
+  hasChild,
+  linkClass,
+  linkAttrs,
+  itemClass,
+  isMobileItem,
+  mobileItemStyle,
+  mobileItemDropdownStyle,
+  mobileItemBackgroundStyle,
+  onLinkClick,
+  onMouseOver,
+  onMouseOut,
+  onMouseEnter,
+  onMouseLeave,
+  onExpandEnter,
+  onExpandAfterEnter,
+  onExpandBeforeLeave,
+  onExpandAfterLeave,
+} = useItem(props)
 </script>

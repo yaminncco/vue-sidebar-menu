@@ -16,20 +16,23 @@
 <script>
 export default {
   compatConfig: { MODE: 3 },
-  name: 'SidebarMenuBadge',
-  props: {
-    badge: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  computed: {
-    attributes() {
-      return {
-        class: ['vsm--badge', this.badge.class],
-        ...this.badge.attributes,
-      }
-    },
-  },
 }
+</script>
+
+<script setup>
+import { computed } from 'vue'
+
+const props = defineProps({
+  badge: {
+    type: Object,
+    default: () => {},
+  },
+})
+
+const attributes = computed(() => {
+  return {
+    class: ['vsm--badge', props.badge.class],
+    ...props.badge.attributes,
+  }
+})
 </script>

@@ -1,6 +1,6 @@
 import { ref, computed, inject, provide, reactive, toRefs } from 'vue'
 
-export const initSidebar = (props, context) => {
+export const initSidebar = (props, emits) => {
   const { collapsed, relative, width, widthCollapsed, rtl } = toRefs(props)
 
   const sidebarRef = ref(null)
@@ -137,7 +137,7 @@ export const initSidebar = (props, context) => {
   }
 
   const onItemClick = (event, item) => {
-    context.emit('item-click', event, item)
+    emits('item-click', event, item)
   }
 
   provide('vsmProps', props)

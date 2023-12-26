@@ -17,24 +17,27 @@
 <script>
 export default {
   compatConfig: { MODE: 3 },
-  name: 'SidebarMenuIcon',
-  props: {
-    icon: {
-      type: [String, Object],
-      default: '',
-    },
-  },
-  computed: {
-    attributes() {
-      return {
-        class: [
-          'vsm--icon',
-          typeof this.icon === 'object' ? this.icon.class : this.icon,
-        ],
-        'aria-hidden': true,
-        ...this.icon.attributes,
-      }
-    },
-  },
 }
+</script>
+
+<script setup>
+import { computed } from 'vue'
+
+const props = defineProps({
+  icon: {
+    type: [String, Object],
+    default: '',
+  },
+})
+
+const attributes = computed(() => {
+  return {
+    class: [
+      'vsm--icon',
+      typeof props.icon === 'object' ? props.icon.class : props.icon,
+    ],
+    'aria-hidden': true,
+    ...props.icon.attributes,
+  }
+})
 </script>

@@ -11,27 +11,26 @@
 
 <script>
 export default {
-  compatConfig: { MODE: 3 },
-  name: 'SidebarMenuLink',
-  inheritAttrs: false,
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      router: false,
-    }
-  },
-  computed: {
-    isHyperLink() {
-      return !!(!this.item.href || this.item.external || !this.router)
-    },
-  },
-  mounted() {
-    this.router = !!this.$router
+  compatConfig: {
+    MODE: 3,
+    inheritAttrs: false,
   },
 }
+</script>
+
+<script setup>
+import { computed, getCurrentInstance } from 'vue'
+
+const props = defineProps({
+  item: {
+    type: Object,
+    required: true,
+  },
+})
+
+const router = getCurrentInstance().appContext.config.globalProperties.$router
+
+const isHyperLink = computed(() => {
+  return !!(!props.item.href || props.item.external || !router)
+})
 </script>

@@ -37,6 +37,12 @@
 </template>
 
 <script>
+export default {
+  compatConfig: { MODE: 3 },
+}
+</script>
+
+<script setup>
 import {
   watch,
   getCurrentInstance,
@@ -45,152 +51,136 @@ import {
   computed,
 } from 'vue'
 import { initSidebar } from '../use/useSidebar'
-
 import SidebarMenuItem from './SidebarMenuItem.vue'
 import SidebarMenuScroll from './SidebarMenuScroll.vue'
 
-export default {
-  compatConfig: { MODE: 3 },
-  name: 'SidebarMenu',
-  components: {
-    SidebarMenuItem,
-    SidebarMenuScroll,
+const props = defineProps({
+  menu: {
+    type: Array,
+    required: true,
   },
-  props: {
-    menu: {
-      type: Array,
-      required: true,
-    },
-    collapsed: {
-      type: Boolean,
-      default: false,
-    },
-    width: {
-      type: String,
-      default: '290px',
-    },
-    widthCollapsed: {
-      type: String,
-      default: '65px',
-    },
-    showChild: {
-      type: Boolean,
-      default: false,
-    },
-    theme: {
-      type: String,
-      default: undefined,
-      validator: (value) => ['', 'white-theme'].includes(value),
-    },
-    showOneChild: {
-      type: Boolean,
-      default: false,
-    },
-    rtl: {
-      type: Boolean,
-      default: false,
-    },
-    relative: {
-      type: Boolean,
-      default: false,
-    },
-    hideToggle: {
-      type: Boolean,
-      default: false,
-    },
-    disableHover: {
-      type: Boolean,
-      default: false,
-    },
-    linkComponentName: {
-      type: String,
-      default: undefined,
-    },
+  collapsed: {
+    type: Boolean,
+    default: false,
   },
-  emits: {
-    'item-click'(event, item) {
-      return !!(event && item)
-    },
-    'update:collapsed'(collapsed) {
-      return !!(typeof collapsed === 'boolean')
-    },
+  width: {
+    type: String,
+    default: '290px',
   },
-  setup(props, context) {
-    const {
-      getSidebarRef: sidebarMenuRef,
-      getIsCollapsed: isCollapsed,
-      updateIsCollapsed,
-      unsetMobileItem,
-      updateCurrentRoute,
-    } = initSidebar(props, context)
+  widthCollapsed: {
+    type: String,
+    default: '65px',
+  },
+  showChild: {
+    type: Boolean,
+    default: false,
+  },
+  theme: {
+    type: String,
+    default: undefined,
+    validator: (value) => ['', 'white-theme'].includes(value),
+  },
+  showOneChild: {
+    type: Boolean,
+    default: false,
+  },
+  rtl: {
+    type: Boolean,
+    default: false,
+  },
+  relative: {
+    type: Boolean,
+    default: false,
+  },
+  hideToggle: {
+    type: Boolean,
+    default: false,
+  },
+  disableHover: {
+    type: Boolean,
+    default: false,
+  },
+  linkComponentName: {
+    type: String,
+    default: undefined,
+  },
+})
 
-    const computedMenu = computed(() => {
-      let id = 0
-      function transformItems(items) {
-        function randomId() {
-          return `${Date.now() + '' + id++}`
-        }
-        return items.map((item) => {
-          return {
-            id: randomId(),
-            ...item,
-            ...(item.child && { child: transformItems(item.child) }),
-          }
-        })
+const emits = defineEmits({
+  'item-click'(event, item) {
+    return !!(event && item)
+  },
+  'update:collapsed'(collapsed) {
+    return !!(typeof collapsed === 'boolean')
+  },
+})
+
+const {
+  getSidebarRef: sidebarMenuRef,
+  getIsCollapsed: isCollapsed,
+  updateIsCollapsed,
+  unsetMobileItem,
+  updateCurrentRoute,
+} = initSidebar(props, emits)
+
+const computedMenu = computed(() => {
+  let id = 0
+  function transformItems(items) {
+    function randomId() {
+      return `${Date.now() + '' + id++}`
+    }
+    return items.map((item) => {
+      return {
+        id: randomId(),
+        ...item,
+        ...(item.child && { child: transformItems(item.child) }),
       }
-      return transformItems(props.menu)
     })
+  }
+  return transformItems(props.menu)
+})
 
-    const sidebarWidth = computed(() => {
-      return isCollapsed.value ? props.widthCollapsed : props.width
-    })
+const sidebarWidth = computed(() => {
+  return isCollapsed.value ? props.widthCollapsed : props.width
+})
 
-    const sidebarClass = computed(() => {
-      return [
-        'v-sidebar-menu',
-        !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
-        props.theme && `vsm_${props.theme}`,
-        props.rtl && 'vsm_rtl',
-        props.relative && 'vsm_relative',
-      ]
-    })
+const sidebarClass = computed(() => {
+  return [
+    'v-sidebar-menu',
+    !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
+    props.theme && `vsm_${props.theme}`,
+    props.rtl && 'vsm_rtl',
+    props.relative && 'vsm_relative',
+  ]
+})
 
-    const onToggleClick = () => {
-      unsetMobileItem()
-      updateIsCollapsed(!isCollapsed.value)
-      context.emit('update:collapsed', isCollapsed.value)
-    }
-
-    watch(
-      () => props.collapsed,
-      (currentCollapsed) => {
-        unsetMobileItem()
-        updateIsCollapsed(currentCollapsed)
-      }
-    )
-
-    const router =
-      getCurrentInstance().appContext.config.globalProperties.$router
-    if (!router) {
-      onMounted(() => {
-        window.addEventListener('hashchange', updateCurrentRoute)
-      })
-      onUnmounted(() => {
-        window.removeEventListener('hashchange', updateCurrentRoute)
-      })
-    }
-
-    return {
-      sidebarMenuRef,
-      isCollapsed,
-      computedMenu,
-      sidebarWidth,
-      sidebarClass,
-      onToggleClick,
-      onRouteChange: updateCurrentRoute,
-    }
-  },
+const onToggleClick = () => {
+  unsetMobileItem()
+  updateIsCollapsed(!isCollapsed.value)
+  emits('update:collapsed', isCollapsed.value)
 }
+
+watch(
+  () => props.collapsed,
+  (currentCollapsed) => {
+    unsetMobileItem()
+    updateIsCollapsed(currentCollapsed)
+  }
+)
+
+const router = getCurrentInstance().appContext.config.globalProperties.$router
+if (!router) {
+  onMounted(() => {
+    window.addEventListener('hashchange', updateCurrentRoute)
+  })
+  onUnmounted(() => {
+    window.removeEventListener('hashchange', updateCurrentRoute)
+  })
+}
+
+defineExpose({
+  onRouteChange: updateCurrentRoute,
+})
 </script>
 
 <style lang="scss">
