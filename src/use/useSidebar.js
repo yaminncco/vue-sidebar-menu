@@ -20,9 +20,7 @@ export const initSidebar = (props, emits) => {
   })
   const getMobileItem = computed(() => mobileItem.item)
   const getMobileItemRect = computed(() => mobileItem.rect)
-  const currentRoute = ref(
-    window.location.pathname + window.location.search + window.location.hash
-  )
+  const currentRoute = ref('')
 
   const updateIsCollapsed = (val) => {
     isCollapsed.value = val

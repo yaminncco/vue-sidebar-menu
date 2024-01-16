@@ -171,6 +171,7 @@ watch(
 const router = getCurrentInstance().appContext.config.globalProperties.$router
 if (!router) {
   onMounted(() => {
+    updateCurrentRoute()
     window.addEventListener('hashchange', updateCurrentRoute)
   })
   onUnmounted(() => {
