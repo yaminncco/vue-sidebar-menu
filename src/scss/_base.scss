@@ -34,13 +34,6 @@
     position: relative;
     flex: 1;
     min-height: 0;
-    &:hover,
-    &:focus,
-    &:active {
-      .vsm--scroll-bar {
-        opacity: 1;
-      }
-    }
   }
 
   .vsm--scroll {
@@ -64,8 +57,6 @@
     width: 6px;
     border-radius: 4px;
     z-index: 5;
-    opacity: 0;
-    transition: 0.3s opacity ease;
   }
 
   .vsm--scroll-thumb {

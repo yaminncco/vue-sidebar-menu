@@ -1,15 +1,26 @@
 <template>
-  <div class="vsm--scroll-wrapper">
+  <div
+    class="vsm--scroll-wrapper"
+    @mousemove="onMouseIn"
+    @mouseleave="onMouseLeave"
+  >
     <div ref="scrollRef" class="vsm--scroll" @scroll="onScroll">
       <slot />
     </div>
-    <div ref="scrollBarRef" class="vsm--scroll-bar" @mousedown="onClick">
+    <transition>
       <div
-        ref="scrollThumbRef"
-        class="vsm--scroll-thumb"
-        @mousedown="onMouseDown"
-      />
-    </div>
+        v-show="visible"
+        ref="scrollBarRef"
+        class="vsm--scroll-bar"
+        @mousedown="onClick"
+      >
+        <div
+          ref="scrollThumbRef"
+          class="vsm--scroll-thumb"
+          @mousedown="onMouseDown"
+        />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -31,6 +42,8 @@ const scrollThumbRef = ref(null)
 
 let cursorY = 0
 let cursorDown = false
+
+const visible = ref(false)
 
 const onScrollUpdate = () => {
   if (!scrollRef.value) return
@@ -65,14 +78,24 @@ const onMouseMove = (e) => {
   if (!cursorDown) return
   const offset = e.clientY - scrollBarRef.value.getBoundingClientRect().y
   const thumbClickPosition = scrollThumbRef.value.offsetHeight - cursorY
+  visible.value = true
   updateScrollTop(offset - thumbClickPosition)
 }
 
 const onMouseUp = (e) => {
   cursorDown = false
   cursorY = 0
+  visible.value = false
   window.removeEventListener('mousemove', onMouseMove)
   window.removeEventListener('mouseup', onMouseUp)
+}
+
+const onMouseIn = (e) => {
+  visible.value = true
+}
+
+const onMouseLeave = (e) => {
+  visible.value = false
 }
 
 const updateThumb = () => {
@@ -108,3 +131,15 @@ onUnmounted(() => {
 
 provide('emitScrollUpdate', onScrollUpdate)
 </script>
+
+<style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: 0.3s opacity ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>
