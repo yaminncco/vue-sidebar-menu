@@ -5,9 +5,6 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   base: '/vue-sidebar-menu/',
-  build: {
-    outDir: '../docs',
-  },
   resolve: {
     alias: {
       vue: 'vue/dist/vue.esm-bundler.js',
