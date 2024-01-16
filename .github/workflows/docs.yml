@@ -36,7 +36,9 @@ jobs:
           node-version: 18
           cache: 'npm'
       - name: Install dependencies
-        run: cd demo & npm ci
+        run: |
+          npm install
+          cd demo && npm install
       - name: Build
         run: npm run build:demo
       - name: Setup Pages
