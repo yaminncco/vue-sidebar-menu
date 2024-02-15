@@ -1,6 +1,7 @@
 <template>
   <component
     :is="tag"
+    :title="isCollapsed && hasTooltip ? item.title : ''"
     v-bind="componentAttrs"
   >
     <slot />
@@ -15,6 +16,14 @@ export default {
     item: {
       type: Object,
       required: true
+    },
+    isCollapsed: {
+      type: Boolean,
+      default: false
+    },
+    hasTooltip: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {

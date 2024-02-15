@@ -22,6 +22,8 @@
     <sidebar-menu-link
       :item="item"
       :class="itemLinkClass"
+      :is-collapsed="isCollapsed"
+      :has-tooltip="hasTooltip"
       v-bind="itemLinkAttributes"
       @click.native="clickEvent"
     >
@@ -34,9 +36,7 @@
         :appear="isMobileItem"
       >
         <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
-          <span class="vsm--title" :title="isCollapsed && hasTooltip ? item.title : ''" >
-            {{ item.title }}
-          </span>
+          <span class="vsm--title">{{ item.title }}</span>
         </template>
       </transition>
       <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
