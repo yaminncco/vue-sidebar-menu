@@ -34,7 +34,9 @@
         :appear="isMobileItem"
       >
         <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
-          <span class="vsm--title">{{ item.title }}</span>
+          <span class="vsm--title" :title="isCollapsed && hasTooltip ? item.title : ''" >
+            {{ item.title }}
+          </span>
         </template>
       </transition>
       <template v-if="(isCollapsed && !isFirstLevel) || !isCollapsed || isMobileItem">
@@ -145,6 +147,10 @@ export default {
     mobileItemStyle: {
       type: Object,
       default: null
+    },
+    hasTooltip: {
+      type: Boolean,
+      default: true
     }
   },
   data () {

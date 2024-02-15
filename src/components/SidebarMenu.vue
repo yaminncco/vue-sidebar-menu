@@ -26,6 +26,7 @@
           :rtl="rtl"
           :mobile-item="mobileItem"
           :disable-hover="disableHover"
+          :has-tooltip="hasTooltip"
           @set-mobile-item="setMobileItem"
           @unset-mobile-item="unsetMobileItem"
         >
@@ -128,6 +129,10 @@ export default {
     disableHover: {
       type: Boolean,
       default: false
+    },
+    hasTooltip: {
+      type: Boolean,
+      default: true
     }
   },
   data () {

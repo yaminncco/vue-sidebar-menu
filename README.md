@@ -84,7 +84,7 @@ menu [
         you can mark link as external
         // external: true
         */
-       
+
         title: 'Dashboard',
 
         // icon class
@@ -106,7 +106,7 @@ menu [
             // element: 'span'
         }
         */
-        
+
         // child: []
         // disabled: true
         // class: ''
@@ -209,6 +209,12 @@ props: {
     disableHover: {
       type: Boolean,
       default: false
+    },
+
+    // show title as a tooltip when sidebar is collapsed and item is hovered
+    hasTooltip: {
+      type: Boolean,
+      default: true
     }
 }
 ```
