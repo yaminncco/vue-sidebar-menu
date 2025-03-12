@@ -1,20 +1,19 @@
 @use "sass:color";
-@import './theme';
-
-$base-bg: #fff;
-$item-color: #262626;
+@use './theme' as theme;
 
 .v-sidebar-menu.vsm_white-theme {
-  --vsm-base-bg: #{$base-bg};
-  --vsm-item-color: #{$item-color};
-  --vsm-item-hover-bg: #{rgba(color.adjust($base-bg, $lightness: -5%), 0.5)};
+  --vsm-base-bg: #fff;
+  --vsm-item-color: #262626;
+  --vsm-item-hover-bg: #{rgba(color.adjust(#fff, $lightness: -5%), 0.5)};
   --vsm-icon-bg: #bbc5d6;
   --vsm-icon-active-color: #FFF;
   --vsm-icon-active-bg: var(--vsm-item-color);
   --vsm-dropdown-bg: #e3e3e3;
-  --vsm-header-item-color: #{rgba($item-color, 0.7)};
+  --vsm-header-item-color: #{rgba(#262626, 0.7)};
   --vsm-toggle-btn-color: var(--vsm-item-color);
-  --vsm-toggle-btn-bg: #{color.adjust($base-bg, $lightness: -5%)};
+  --vsm-toggle-btn-bg: #{color.adjust(#fff, $lightness: -5%)};
+  --vsm-badge-color: var(--vsm-item-color);
+  --vsm-badge-bg: #{color.adjust(#fff, $lightness: -5%)};
 
-  @include sidebar-theme;
+  @include theme.sidebar-theme;
 }

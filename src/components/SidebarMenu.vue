@@ -201,5 +201,5 @@ defineExpose({
 </script>
 
 <style lang="scss">
-@import '../scss/vue-sidebar-menu';
+@use '../scss/vue-sidebar-menu';
 </style>

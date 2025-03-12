@@ -1,7 +1,8 @@
 // base styles
-@import './variables';
-@import './base';
+@forward './variables';
+@forward './root';
+@forward './base';
 
 // themes
-@import './themes/default-theme';
-@import './themes/white-theme';
+@forward './themes/default-theme';
+@forward './themes/white-theme';

@@ -1,3 +1,5 @@
+@use './variables' as *;
+
 .v-sidebar-menu {
   --vsm-primary-color: #{$primary-color};
   --vsm-base-bg: #{$base-bg};
@@ -73,6 +75,9 @@
 
   --vsm-toggle-btn-color: #{$toggle-btn-color};
   --vsm-toggle-btn-bg: #{$toggle-btn-bg};
+
+  --vsm-badge-color: #{$badge-color};
+  --vsm-badge-bg: #{$badge-bg};
 
   --vsm-item-font-size: #{$item-font-size};
   --vsm-item-line-height: #{$item-line-height};

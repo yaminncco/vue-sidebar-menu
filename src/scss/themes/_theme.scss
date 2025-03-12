@@ -1,4 +1,5 @@
 @use "sass:color";
+@use '../variables' as vars;
 
 @mixin sidebar-theme {
   background-color: var(--vsm-base-bg);
@@ -80,8 +81,8 @@
     color: var(--vsm-header-item-color);
   }
   .vsm--badge_default {
-    color: var(--vsm-item-color);
-    background-color: color.adjust($base-bg, $lightness: -5%);
+    color: var(--vsm-badge-color);
+    background-color: var(--vsm-badge-bg);
   }
   .vsm--toggle-btn {
     color: var(--vsm-toggle-btn-color);

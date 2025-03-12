@@ -267,6 +267,15 @@ You can create your own theme with SCSS or, you can edit the locally scoped CSS 
 
 **Sass variables:** (complete list of all variables can be found in `src/scss/_variables.scss`)
 
+You can now use the module system (@use and @forward rules) instead of @import.
+
+```scss
+@use 'vue-sidebar-menu/src/scss/vue-sidebar-menu.scss' with (
+  $primary-color: red
+);
+```
+⚠️ Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0
+
 ```scss
 // Your variable overrides here.
 $primary-color: red;

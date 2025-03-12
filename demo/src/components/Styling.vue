@@ -40,6 +40,21 @@
       <b>Sass variables:</b> (complete list of all variables can be found in
       `src/scss/_variables.scss`)
     </p>
+    <p>
+      You can now use the module system (@use and @forward rules) instead of
+      @import.
+    </p>
+    <prism-code lang="scss">
+      {{
+        `@use 'vue-sidebar-menu/src/scss/vue-sidebar-menu.scss' with (
+  $primary-color: red
+);`
+      }}
+    </prism-code>
+    <p>
+      ⚠️ Sass @import rules are deprecated and will be removed in Dart Sass
+      3.0.0
+    </p>
     <prism-code lang="scss">
       {{
         `// Your variable overrides here.
