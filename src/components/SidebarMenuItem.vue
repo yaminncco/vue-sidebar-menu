@@ -20,12 +20,12 @@
         : {}
     "
   >
-    <component
+    <component ref="menuItemRef"
       :is="linkComponentName ? linkComponentName : SidebarMenuLink"
       :item="item"
       :class="linkClass"
       v-bind="linkAttrs"
-      @click="onLinkClick"
+      @click="onMenuItemClick"
     >
       <template v-if="isCollapsed && isFirstLevel">
         <transition name="slide-animation">
@@ -55,14 +55,14 @@
       </div>
     </component>
     <template v-if="hasChild">
-      <transition
+      <!-- <transition
         :appear="isMobileItem"
         name="expand"
         @enter="onExpandEnter"
         @after-enter="onExpandAfterEnter"
         @before-leave="onExpandBeforeLeave"
         @after-leave="onExpandAfterLeave"
-      >
+      > -->
         <div
           v-if="show"
           :class="['vsm--child', isMobileItem && 'vsm--child_mobile']"
@@ -84,7 +84,7 @@
             </sidebar-menu-item>
           </ul>
         </div>
-      </transition>
+      <!-- </transition> -->
     </template>
   </li>
 </template>
@@ -96,7 +96,7 @@ export default {
 </script>
 
 <script setup>
-import { ref, toRefs } from 'vue'
+import { ref, toRefs, nextTick } from 'vue'
 import { useSidebar } from '../use/useSidebar'
 import useItem from '../use/useItem'
 
@@ -121,12 +121,30 @@ const props = defineProps({
 
 const emits = defineEmits(['update-active-show'])
 
-const { getSidebarProps, getIsCollapsed: isCollapsed } = useSidebar()
+const { getSidebarRef, getSidebarProps, getIsCollapsed: isCollapsed } = useSidebar()
 const { linkComponentName } = toRefs(getSidebarProps)
 const subActiveShow = ref(undefined)
 
+const menuItemRef = ref(null)
+
 const updateActiveShow = (id) => {
   subActiveShow.value = id
+}
+
+function onMenuItemClick(event) {
+
+  const vsmItemEl = menuItemRef.value.$parent.$el;
+  let showBeforeClick = show.value
+
+  onLinkClick(event)
+
+  if(hasChild.value == true && showBeforeClick == false && vsmItemEl.getBoundingClientRect().top>getSidebarRef.value.clientHeight*2/3 )
+  {
+    nextTick(() => {
+      vsmItemEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    })
+  }
+
 }
 
 const {
