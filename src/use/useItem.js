@@ -181,6 +181,7 @@ export default function useItem(props, emits) {
         }
       }
       itemShow.value = show
+      emitScrollUpdate()
     },
   })
 
