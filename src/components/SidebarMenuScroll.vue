@@ -1,7 +1,7 @@
 <template>
   <div
     class="vsm--scroll-wrapper"
-    @mousemove="onMouseIn"
+    @mouseenter="onMouseIn"
     @mouseleave="onMouseLeave"
   >
     <div ref="scrollRef" class="vsm--scroll" @scroll="onScroll">
