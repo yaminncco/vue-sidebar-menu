@@ -1,4 +1,4 @@
-import { getCurrentInstance, computed, ref, inject, watch } from 'vue'
+import { getCurrentInstance, computed, ref, inject, watch, nextTick } from 'vue'
 import { useSidebar } from '../use/useSidebar'
 import {
   activeRecordIndex,
@@ -9,6 +9,7 @@ import {
 export default function useItem(props, emits) {
   const router = getCurrentInstance().appContext.config.globalProperties.$router
   const {
+    getSidebarRef,
     getSidebarProps: sidebarProps,
     getIsCollapsed: isCollapsed,
     getMobileItem: mobileItem,
@@ -137,6 +138,12 @@ export default function useItem(props, emits) {
   const onExpandAfterEnter = (el) => {
     el.style.height = 'auto'
     if (!isCollapsed.value) {
+      if(el.getBoundingClientRect().top>getSidebarRef.value.clientHeight*2/3 )
+      {
+        nextTick(() => {
+          el.parentNode.firstElementChild.scrollIntoView({ behavior: "smooth", block: "center" });
+        })
+      }
       emitScrollUpdate()
     }
   }
