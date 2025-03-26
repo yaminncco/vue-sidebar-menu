@@ -1,7 +1,7 @@
 <template>
   <div
     class="vsm--scroll-wrapper"
-    @mouseenter="onMouseIn"
+    @mouseenter="onMouseEnter"
     @mouseleave="onMouseLeave"
   >
     <div ref="scrollRef" class="vsm--scroll" @scroll="onScroll">
@@ -17,6 +17,7 @@
         <div
           ref="scrollThumbRef"
           class="vsm--scroll-thumb"
+          :class="[cursorDown && 'vsm--scroll-thumb_clicking']"
           @mousedown="onMouseDown"
         />
       </div>
@@ -40,8 +41,9 @@ const scrollRef = ref(null)
 const scrollBarRef = ref(null)
 const scrollThumbRef = ref(null)
 
+const cursorDown = ref(false)
 let cursorY = 0
-let cursorDown = false
+let cursorIn = false
 
 const visible = ref(false)
 
@@ -66,7 +68,7 @@ const onClick = (e) => {
 
 const onMouseDown = (e) => {
   e.stopImmediatePropagation()
-  cursorDown = true
+  cursorDown.value = true
   window.addEventListener('mousemove', onMouseMove)
   window.addEventListener('mouseup', onMouseUp)
   cursorY =
@@ -75,7 +77,7 @@ const onMouseDown = (e) => {
 }
 
 const onMouseMove = (e) => {
-  if (!cursorDown) return
+  if (!cursorDown.value) return
   const offset = e.clientY - scrollBarRef.value.getBoundingClientRect().y
   const thumbClickPosition = scrollThumbRef.value.offsetHeight - cursorY
   visible.value = true
@@ -83,19 +85,25 @@ const onMouseMove = (e) => {
 }
 
 const onMouseUp = (e) => {
-  cursorDown = false
+  cursorDown.value = false
   cursorY = 0
-  visible.value = false
+  if (!cursorIn) {
+    visible.value = false
+  }
   window.removeEventListener('mousemove', onMouseMove)
   window.removeEventListener('mouseup', onMouseUp)
 }
 
-const onMouseIn = (e) => {
+const onMouseEnter = (e) => {
   visible.value = true
+  cursorIn = true
 }
 
 const onMouseLeave = (e) => {
-  visible.value = false
+  cursorIn = false
+  if (!cursorDown.value) {
+    visible.value = false
+  }
 }
 
 const updateThumb = () => {

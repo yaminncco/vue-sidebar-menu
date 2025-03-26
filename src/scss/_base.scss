@@ -67,7 +67,8 @@
     user-select: none;
     opacity: 0.5;
     transition: 0.3s opacity ease;
-    &:hover {
+    &:hover,
+    &_clicking {
       opacity: 1;
     }
   }
