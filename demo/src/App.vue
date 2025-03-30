@@ -1,7 +1,7 @@
 <template>
   <sidebar-menu
     v-model:collapsed="collapsed"
-    :menu="menu"
+    :menu="menuData.value"
     :theme="selectedTheme"
     :show-one-child="true"
     @update:collapsed="onToggleCollapse"
@@ -30,8 +30,8 @@
           </a>
         </h1>
         <p>A vue.js sidebar menu component</p>
-        <div>
-          Select theme:
+        <div style="margin-bottom: 10px;">
+          <span style="margin-right: 15px;">Select theme:</span>
           <select v-model="selectedTheme">
             <option
               v-for="(theme, index) in themes"
@@ -42,6 +42,19 @@
             </option>
           </select>
         </div>
+        <div>
+          
+          <span style="margin-right: 15px;">More Level2:&nbsp;&nbsp;</span>
+          <select v-model="level2Number">
+            <option
+              v-for="n in 16"
+              :key="n-1"
+              :value="n-1"
+            >
+              {{ n-1 }}
+            </option>
+          </select>
+        </div>
         <hr style="margin: 50px 0px; border: 1px solid #e3e3e3" />
         <router-view />
       </div>
@@ -49,144 +62,15 @@
   </div>
 </template>
 
+<script setup>
+import {menuData, level2Number} from './MenuData'
+</script>
+
 <script>
-import { h } from 'vue'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-const separator = h('hr', {
-  style: {
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-    margin: '20px',
-  },
-})
-
-const faIcon = (props) => {
-  return {
-    element: h('div', [h(FontAwesomeIcon, { size: 'lg', ...props })]),
-  }
-}
-
 export default {
   name: 'App',
   data() {
     return {
-      menu: [
-        {
-          header: 'Getting Started',
-          hiddenOnCollapse: true,
-        },
-        {
-          href: '/',
-          title: 'Installation',
-          icon: faIcon({ icon: 'fa-solid fa-download' }),
-        },
-        {
-          href: '/basic-usage',
-          title: 'Basic Usage',
-          icon: faIcon({ icon: 'fa-solid fa-code' }),
-        },
-        {
-          header: 'Usage',
-          hiddenOnCollapse: true,
-        },
-        {
-          href: '/props',
-          title: 'Props',
-          icon: faIcon({ icon: 'fa-solid fa-cogs' }),
-        },
-        {
-          href: '/events',
-          title: 'Events',
-          icon: faIcon({ icon: 'fa-solid fa-bell' }),
-        },
-        {
-          href: '/styling',
-          title: 'Styling',
-          icon: faIcon({ icon: 'fa-solid fa-palette' }),
-        },
-        {
-          href: '/slots',
-          title: 'Slots',
-          icon: faIcon({ icon: 'fa-solid fa-cubes' }),
-        },
-        {
-          component: separator,
-        },
-        {
-          header: 'Examples',
-          hiddenOnCollapse: true,
-        },
-        {
-          href: '/disabled',
-          title: 'Disabled page',
-          icon: faIcon({ icon: 'fa-solid fa-lock' }),
-          disabled: true,
-        },
-        {
-          title: 'Badge',
-          icon: faIcon({ icon: 'fa-solid fa-cog' }),
-          badge: {
-            text: 'new',
-            class: 'vsm--badge_default',
-          },
-        },
-        {
-          href: '/page',
-          title: 'Dropdown Page',
-          icon: faIcon({ icon: 'fa-solid fa-list-ul' }),
-          child: [
-            {
-              href: '/page/sub-page-1',
-              title: 'Sub Page 01',
-              icon: faIcon({ icon: 'fa-solid fa-file-alt', size: 'sm' }),
-            },
-            {
-              href: '/page/sub-page-2',
-              title: 'Sub Page 02',
-              icon: faIcon({ icon: 'fa-solid fa-file-alt', size: 'sm' }),
-            },
-          ],
-        },
-        {
-          title: 'Multiple Level',
-          icon: faIcon({ icon: 'fa-solid fa-list-alt' }),
-          child: [
-            {
-              title: 'page',
-            },
-            {
-              title: 'Level 2 ',
-              child: [
-                {
-                  title: 'page',
-                },
-                {
-                  title: 'Page',
-                },
-              ],
-            },
-            {
-              title: 'Page',
-            },
-            {
-              title: 'Another Level 2',
-              child: [
-                {
-                  title: 'Level 3',
-                  child: [
-                    {
-                      title: 'Page',
-                    },
-                    {
-                      title: 'Page',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
       collapsed: false,
       themes: [
         {
