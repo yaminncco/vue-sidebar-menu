@@ -9,7 +9,6 @@ import {
 export default function useItem(props, emits) {
   const router = getCurrentInstance().appContext.config.globalProperties.$router
   const {
-    getSidebarRef,
     getSidebarProps: sidebarProps,
     getIsCollapsed: isCollapsed,
     getMobileItem: mobileItem,
@@ -128,44 +127,6 @@ export default function useItem(props, emits) {
           unsetMobileItem(false, !isFirstLevel.value ? 300 : undefined)
         }
       }, 0)
-    }
-  }
-
-  const onExpandEnter = (el) => {
-    el.style.height = el.scrollHeight + 'px'
-  }
-
-  const onExpandAfterEnter = (el) => {
-    el.style.height = 'auto'
-
-    if (!isCollapsed.value) {
-      const sidebarWrapper = getSidebarRef.value.children[0]
-      const { bottom: collapseBottom } = el.getBoundingClientRect()
-      const { bottom: wrapperBottom } = sidebarWrapper.getBoundingClientRect()
-      if (collapseBottom > wrapperBottom) {
-        nextTick(() => {
-          el.scrollIntoView({
-            behavior: 'smooth',
-            block: 'end',
-          })
-        })
-      }
-
-      emitScrollUpdate()
-    }
-  }
-
-  const onExpandBeforeLeave = (el) => {
-    if (isCollapsed.value && isFirstLevel.value) {
-      el.style.display = 'none'
-      return
-    }
-    el.style.height = el.scrollHeight + 'px'
-  }
-
-  const onExpandAfterLeave = () => {
-    if (!isCollapsed.value) {
-      emitScrollUpdate()
     }
   }
 
@@ -350,9 +311,6 @@ export default function useItem(props, emits) {
     onMouseOut,
     onMouseEnter,
     onMouseLeave,
-    onExpandEnter,
-    onExpandAfterEnter,
-    onExpandBeforeLeave,
-    onExpandAfterLeave,
+    emitScrollUpdate,
   }
 }

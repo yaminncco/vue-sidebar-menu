@@ -20,12 +20,12 @@
         : {}
     "
   >
-    <component
+    <component ref="menuItemRef"
       :is="linkComponentName ? linkComponentName : SidebarMenuLink"
       :item="item"
       :class="linkClass"
       v-bind="linkAttrs"
-      @click="onLinkClick"
+      @click="onMenuItemClick"
     >
       <template v-if="isCollapsed && isFirstLevel">
         <transition name="slide-animation">
@@ -55,14 +55,14 @@
       </div>
     </component>
     <template v-if="hasChild">
-      <transition
+      <!-- <transition
         :appear="isMobileItem"
         name="expand"
         @enter="onExpandEnter"
         @after-enter="onExpandAfterEnter"
         @before-leave="onExpandBeforeLeave"
         @after-leave="onExpandAfterLeave"
-      >
+      > -->
         <div
           v-if="show"
           :class="['vsm--child', isMobileItem && 'vsm--child_mobile']"
@@ -84,7 +84,7 @@
             </sidebar-menu-item>
           </ul>
         </div>
-      </transition>
+      <!-- </transition> -->
     </template>
   </li>
 </template>
@@ -96,13 +96,38 @@ export default {
 </script>
 
 <script setup>
-import { ref, toRefs } from 'vue'
+import { ref, toRefs, nextTick } from 'vue'
 import { useSidebar } from '../use/useSidebar'
 import useItem from '../use/useItem'
 
 import SidebarMenuLink from './SidebarMenuLink.vue'
 import SidebarMenuIcon from './SidebarMenuIcon.vue'
 import SidebarMenuBadge from './SidebarMenuBadge.vue'
+
+const menuItemRef = ref(null)
+
+function onMenuItemClick(event) {
+  const vsmItemEl = menuItemRef.value.$parent.$el.firstElementChild
+  console.log("menuItemRef:",vsmItemEl) 
+
+  console.log(vsmItemEl.getBoundingClientRect().top)
+
+  const { top: clickedItemTop } = vsmItemEl.getBoundingClientRect()
+  const { clientHeight: sideBarBottom } = getSidebarRef.value
+
+
+  let showBeforeClick = show.value
+
+  onLinkClick(event)
+  emitScrollUpdate()
+
+  if(hasChild.value == true && showBeforeClick == false && clickedItemTop>sideBarBottom*2/3 )
+  {
+    nextTick(() => {
+      vsmItemEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    })
+  }
+}
 
 const props = defineProps({
   item: {
@@ -121,7 +146,7 @@ const props = defineProps({
 
 const emits = defineEmits(['update-active-show'])
 
-const { getSidebarProps, getIsCollapsed: isCollapsed } = useSidebar()
+const {getSidebarRef, getSidebarProps, getIsCollapsed: isCollapsed } = useSidebar()
 const { linkComponentName } = toRefs(getSidebarProps)
 const subActiveShow = ref(undefined)
 
@@ -148,9 +173,6 @@ const {
   onMouseOut,
   onMouseEnter,
   onMouseLeave,
-  onExpandEnter,
-  onExpandAfterEnter,
-  onExpandBeforeLeave,
-  onExpandAfterLeave,
+  emitScrollUpdate,
 } = useItem(props, emits)
 </script>
