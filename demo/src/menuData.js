@@ -10,7 +10,7 @@ const menuData = computed(() => {
 
   multipleLevelNode.child=constMultipleLevelChild.slice()
 
-  for (let i = 0; i <= level2Number.value; ++i) {
+  for (let i = 1; i <= level2Number.value; ++i) {
     let level2Node = {
       title: 'More Level 2+'+i,
       child: [
