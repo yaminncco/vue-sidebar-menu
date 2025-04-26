@@ -139,17 +139,19 @@ export default function useItem(props, emits) {
     el.style.height = 'auto'
 
     if (!isCollapsed.value) {
-      const sidebarWrapper = getSidebarRef.value.children[0]
-      const itemEl = el.parentElement
-      const itemBottom = itemEl.getBoundingClientRect().bottom
-      const wrapperBottom = sidebarWrapper.getBoundingClientRect().bottom
-      if (itemBottom > wrapperBottom) {
-        nextTick(() => {
-          itemEl.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest',
+      if (sidebarProps.smoothScroll) {
+        const sidebarWrapper = getSidebarRef.value.children[0]
+        const itemEl = el.parentElement
+        const itemBottom = itemEl.getBoundingClientRect().bottom
+        const wrapperBottom = sidebarWrapper.getBoundingClientRect().bottom
+        if (itemBottom > wrapperBottom) {
+          nextTick(() => {
+            itemEl.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest',
+            })
           })
-        })
+        }
       }
 
       emitScrollUpdate()

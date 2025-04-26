@@ -114,6 +114,10 @@ const props = defineProps({
     type: String,
     default: undefined,
   },
+  smoothScroll: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emits = defineEmits({

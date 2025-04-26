@@ -217,7 +217,13 @@ props: {
   linkComponentName: {
     type: String,
     default: undefined
-  }
+  },
+
+  // Smooth scroll on item expand
+  smoothScroll: {
+    type: Boolean,
+    default: false,
+  },
 }
 ```
 

@@ -142,6 +142,12 @@ export class SidebarMenu {
    *
    */
   linkComponentName?: string;
+
+  /**
+   * Smooth scroll on item expand
+   *
+   */
+  smoothScroll?: boolean;
 }
 
 export default function install (app: App): void

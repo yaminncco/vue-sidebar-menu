@@ -4,6 +4,7 @@
     :menu="menu"
     :theme="selectedTheme"
     :show-one-child="true"
+    :smooth-scroll="true"
     @update:collapsed="onToggleCollapse"
     @item-click="onItemClick"
   />
