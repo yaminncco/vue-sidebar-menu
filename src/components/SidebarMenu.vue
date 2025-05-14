@@ -30,6 +30,7 @@
       class="vsm--toggle-btn"
       :aria-label="collapsed ? 'Expand sidebar' : 'Collapse sidebar'"
       @click="onToggleClick"
+      @keydown="onToggleKeyDown"
     >
       <slot name="toggle-icon">
         <span class="vsm--toggle-btn_default" />
@@ -178,6 +179,13 @@ const onToggleClick = () => {
   unsetMobileItem()
   updateIsCollapsed(!isCollapsed.value)
   emits('update:collapsed', isCollapsed.value)
+}
+
+const onToggleKeyDown = (event) => {
+  if (event.key === 'Tab') {
+    event.preventDefault(); 
+    sidebarMenuRef.value.querySelector(".vsm--link").focus();
+  }
 }
 
 watch(
