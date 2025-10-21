@@ -30,7 +30,7 @@
   "scripts": {
     "dev": "cd demo && npm run dev",
     "build:demo": "cd demo && npm run build",
-    "build:lib": "rollup -c rollup.config.js --bundleConfigAsCjs",
+    "build:lib": "vite build",
     "preview": "cd demo && npm run preview",
     "lint": "eslint --ext .js,.vue ."
   },
@@ -45,12 +45,7 @@
     "not ie <= 8"
   ],
   "devDependencies": {
-    "@babel/core": "^7.14.6",
-    "@babel/preset-env": "^7.14.7",
-    "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^28.0.0",
-    "@rollup/plugin-node-resolve": "^15.3.0",
-    "@rollup/plugin-terser": "^0.4.4",
+    "@vitejs/plugin-vue": "^6.0.1",
     "@vue/compiler-sfc": "^3.2.39",
     "autoprefixer": "^10.4.2",
     "eslint": "^8.56.0",
@@ -58,10 +53,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.19.2",
     "prettier": "^2.8.8",
-    "rollup": "^4.22.4",
-    "rollup-plugin-postcss": "^4.0.2",
-    "rollup-plugin-vue": "^6.0.0",
     "sass": "^1.85.1",
+    "vite": "^7.1.11",
     "vue": "^3.2.39"
   }
 }
