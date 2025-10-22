@@ -201,7 +201,7 @@ props: {
     default: false
   },
 
-  // Sidebar theme (available themes: 'white-theme')
+  // Sidebar theme (available themes: 'light-theme', 'dark-theme')
   theme: {
     type: String,
     default: ''
@@ -270,6 +270,25 @@ All styles customization can be done in normal CSS by using this classes
 ## Theming
 
 You can create your own theme with SCSS or, you can edit the locally scoped CSS variables.
+
+### Deprecation: `white-theme` → `light-theme`
+
+The `white-theme` name is deprecated. Please use `light-theme` instead.
+
+- New names: `light-theme`, `dark-theme`
+- Old name: `white-theme` (still works for now for backward compatibility via `src/scss/themes/white-theme.scss`), but will be removed in a future major release.
+
+If you were previously using:
+
+```html
+<sidebar-menu :menu="menu" theme="white-theme" />
+```
+
+Update to:
+
+```html
+<sidebar-menu :menu="menu" theme="light-theme" />
+```
 
 **Sass variables:** (complete list of all variables can be found in `src/scss/_variables.scss`)
 

@@ -58,7 +58,7 @@
     default: false
   },
 
-  // Sidebar theme (available themes: 'white-theme')
+  // Sidebar theme (available themes: 'light-theme', 'dark-theme')
   theme: {
     type: String,
     default: ''

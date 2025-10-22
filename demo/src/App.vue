@@ -195,11 +195,15 @@ export default {
           input: '',
         },
         {
-          name: 'White theme',
-          input: 'white-theme',
+          name: 'Light theme',
+          input: 'light-theme',
+        },
+        {
+          name: 'Dark theme',
+          input: 'dark-theme',
         },
       ],
-      selectedTheme: 'white-theme',
+      selectedTheme: 'light-theme',
       isOnMobile: false,
     }
   },

@@ -81,7 +81,7 @@ const props = defineProps({
   theme: {
     type: String,
     default: undefined,
-    validator: (value) => ['', 'white-theme'].includes(value),
+    validator: (value) => ['', 'light-theme', 'dark-theme'].includes(value),
   },
   showOneChild: {
     type: [Boolean, String],

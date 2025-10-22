@@ -126,10 +126,10 @@ export class SidebarMenu {
   hideToggle?: boolean;
 
   /**
-   * Sidebar theme (available themes: 'white-theme').
+   * Sidebar theme (available themes: 'light-theme', 'dark-theme').
    *
    */
-  theme?: '' | 'white-theme';
+  theme?: '' | 'light-theme' | 'dark-theme';
 
   /**
    * Disable hover on collapse mode.

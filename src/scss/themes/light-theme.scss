@@ -1,8 +1,7 @@
-/* DEPRECATED: use 'light-theme.scss' and theme="light-theme" instead. This file remains for backward compatibility. */
 @use "sass:color";
-@use './theme' as theme;
+@use './_theme' as theme;
 
-.v-sidebar-menu.vsm_white-theme {
+.v-sidebar-menu.vsm_light-theme {
   --vsm-base-bg: #fff;
   --vsm-item-color: #262626;
   --vsm-item-hover-bg: #{rgba(color.adjust(#fff, $lightness: -5%), 0.5)};

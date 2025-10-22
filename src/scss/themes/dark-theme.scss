@@ -1,0 +1,24 @@
+@use "sass:color";
+@use './_theme' as theme;
+
+.v-sidebar-menu.vsm_dark-theme {
+  --vsm-base-bg: #1e1e21;
+  --vsm-item-color: #ffffff;
+  --vsm-item-hover-bg: #{rgba(color.adjust(#1e1e21, $lightness: 8%), 0.18)};
+  --vsm-icon-bg: #2a2a2e;
+  --vsm-icon-active-color: #fff;
+  --vsm-icon-active-bg: var(--vsm-primary-color, #4285f4);
+  --vsm-dropdown-bg: #2a2a2e;
+  --vsm-header-item-color: #{rgba(#ffffff, 0.7)};
+  --vsm-toggle-btn-color: var(--vsm-item-color);
+  --vsm-toggle-btn-bg: #2a2a2e;
+  --vsm-badge-color: var(--vsm-item-color);
+  --vsm-badge-bg: #{rgba(#ffffff, 0.08)};
+
+  /* active/open defaults for dark theme */
+  --vsm-item-active-line-color: var(--vsm-primary-color, #4285f4);
+  --vsm-item-open-bg: var(--vsm-primary-color, #4285f4);
+  --vsm-mobile-item-bg: var(--vsm-primary-color, #4285f4);
+
+  @include theme.sidebar-theme;
+}
