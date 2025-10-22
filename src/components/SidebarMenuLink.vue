@@ -9,7 +9,11 @@
   </router-link>
 </template>
 
-<script>
+<script lang="ts">
+interface Props {
+  item: SidebarItem
+}
+
 export default {
   compatConfig: {
     MODE: 3,
@@ -18,17 +22,13 @@ export default {
 }
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed, getCurrentInstance } from 'vue'
+import type { SidebarItem } from '../types'
 
-const props = defineProps({
-  item: {
-    type: Object,
-    required: true,
-  },
-})
+const props = defineProps<Props>()
 
-const router = getCurrentInstance().appContext.config.globalProperties.$router
+const router = getCurrentInstance()?.appContext.config.globalProperties.$router
 
 const isHyperLink = computed(() => {
   return !!(!props.item.href || props.item.external || !router)

@@ -1,7 +1,7 @@
-// Adapted from vue-router-next
-// See: https://github.com/vuejs/vue-router-next/blob/master/src/RouterLink.ts
+// Adapted from vue-router
+// See: https://github.com/vuejs/router/blob/main/packages/router/src/RouterLink.ts
 
-export function activeRecordIndex(route, currentRoute) {
+export function activeRecordIndex(route: any, currentRoute: any): number {
   const { matched } = route
   const { length } = matched
   const routeMatched = matched[length - 1]
@@ -23,7 +23,7 @@ export function activeRecordIndex(route, currentRoute) {
     : index
 }
 
-export function isSameRouteLocationParams(a, b) {
+export function isSameRouteLocationParams(a: any, b: any): boolean {
   if (Object.keys(a).length !== Object.keys(b).length) return false
   for (const key in a) {
     if (!isSameRouteLocationParamsValue(a[key], b[key])) return false
@@ -31,7 +31,10 @@ export function isSameRouteLocationParams(a, b) {
   return true
 }
 
-export function includesParams(outer, inner) {
+export function includesParams(
+  outer: Record<string, string | string[]>,
+  inner: Record<string, string | string[]>
+): boolean {
   for (const key in inner) {
     const innerValue = inner[key]
     const outerValue = outer[key]
@@ -50,15 +53,15 @@ export function includesParams(outer, inner) {
   return true
 }
 
-function getOriginalPath(record) {
+function getOriginalPath(record: any): string {
   return record ? (record.aliasOf ? record.aliasOf.path : record.path) : ''
 }
 
-function isSameRouteRecord(a, b) {
+function isSameRouteRecord(a: any, b: any): boolean {
   return (a.aliasOf || a) === (b.aliasOf || b)
 }
 
-function isSameRouteLocationParamsValue(a, b) {
+function isSameRouteLocationParamsValue(a: any, b: any): boolean {
   return Array.isArray(a)
     ? isEquivalentArray(a, b)
     : Array.isArray(b)
@@ -66,7 +69,7 @@ function isSameRouteLocationParamsValue(a, b) {
     : a === b
 }
 
-function isEquivalentArray(a, b) {
+function isEquivalentArray(a: any[], b: any[]): boolean {
   return Array.isArray(b)
     ? a.length === b.length && a.every((value, i) => value === b[i])
     : a.length === 1 && a[0] === b

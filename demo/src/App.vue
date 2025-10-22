@@ -50,9 +50,14 @@
   </div>
 </template>
 
-<script>
-import { h } from 'vue'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+<script setup lang="ts">
+import { h, ref, onMounted } from 'vue'
+import {
+  FontAwesomeIcon,
+  type FontAwesomeIconProps,
+} from '@fortawesome/vue-fontawesome'
+import type { SidebarMenuProps, SidebarItem } from '../../src/types/index'
+// import { SidebarMenu } from '../../src'
 
 const separator = h('hr', {
   style: {
@@ -61,172 +66,166 @@ const separator = h('hr', {
   },
 })
 
-const faIcon = (props) => {
+const faIcon = (props: FontAwesomeIconProps) => {
   return {
     element: h('div', [h(FontAwesomeIcon, { size: 'lg', ...props })]),
   }
 }
 
-export default {
-  name: 'App',
-  data() {
-    return {
-      menu: [
-        {
-          header: 'Getting Started',
-          hiddenOnCollapse: true,
-        },
-        {
-          href: '/',
-          title: 'Installation',
-          icon: faIcon({ icon: 'fa-solid fa-download' }),
-        },
-        {
-          href: '/basic-usage',
-          title: 'Basic Usage',
-          icon: faIcon({ icon: 'fa-solid fa-code' }),
-        },
-        {
-          header: 'Usage',
-          hiddenOnCollapse: true,
-        },
-        {
-          href: '/props',
-          title: 'Props',
-          icon: faIcon({ icon: 'fa-solid fa-cogs' }),
-        },
-        {
-          href: '/events',
-          title: 'Events',
-          icon: faIcon({ icon: 'fa-solid fa-bell' }),
-        },
-        {
-          href: '/styling',
-          title: 'Styling',
-          icon: faIcon({ icon: 'fa-solid fa-palette' }),
-        },
-        {
-          href: '/slots',
-          title: 'Slots',
-          icon: faIcon({ icon: 'fa-solid fa-cubes' }),
-        },
-        {
-          component: separator,
-        },
-        {
-          header: 'Examples',
-          hiddenOnCollapse: true,
-        },
-        {
-          href: '/disabled',
-          title: 'Disabled page',
-          icon: faIcon({ icon: 'fa-solid fa-lock' }),
-          disabled: true,
-        },
-        {
-          title: 'Badge',
-          icon: faIcon({ icon: 'fa-solid fa-cog' }),
-          badge: {
-            text: 'new',
-            class: 'vsm--badge_default',
+const menu = ref<SidebarMenuProps['menu']>([
+  {
+    header: 'Getting Started',
+    hiddenOnCollapse: true,
+  },
+  {
+    href: '/',
+    title: 'Installation',
+    icon: faIcon({ icon: 'fa-solid fa-download' }),
+  },
+  {
+    href: '/basic-usage',
+    title: 'Basic Usage',
+    icon: faIcon({ icon: 'fa-solid fa-code' }),
+  },
+  {
+    header: 'Usage',
+    hiddenOnCollapse: true,
+  },
+  {
+    href: '/props',
+    title: 'Props',
+    icon: faIcon({ icon: 'fa-solid fa-cogs' }),
+  },
+  {
+    href: '/events',
+    title: 'Events',
+    icon: faIcon({ icon: 'fa-solid fa-bell' }),
+  },
+  {
+    href: '/styling',
+    title: 'Styling',
+    icon: faIcon({ icon: 'fa-solid fa-palette' }),
+  },
+  {
+    href: '/slots',
+    title: 'Slots',
+    icon: faIcon({ icon: 'fa-solid fa-cubes' }),
+  },
+  {
+    component: separator,
+  },
+  {
+    header: 'Examples',
+    hiddenOnCollapse: true,
+  },
+  {
+    href: '/disabled',
+    title: 'Disabled page',
+    icon: faIcon({ icon: 'fa-solid fa-lock' }),
+    disabled: true,
+  },
+  {
+    title: 'Badge',
+    icon: faIcon({ icon: 'fa-solid fa-cog' }),
+    badge: {
+      text: 'new',
+      class: 'vsm--badge_default',
+    },
+  },
+  {
+    href: '/page',
+    title: 'Dropdown Page',
+    icon: faIcon({ icon: 'fa-solid fa-list-ul' }),
+    child: [
+      {
+        href: '/page/sub-page-1',
+        title: 'Sub Page 01',
+        icon: faIcon({ icon: 'fa-solid fa-file-alt', size: 'sm' }),
+      },
+      {
+        href: '/page/sub-page-2',
+        title: 'Sub Page 02',
+        icon: faIcon({ icon: 'fa-solid fa-file-alt', size: 'sm' }),
+      },
+    ],
+  },
+  {
+    title: 'Multiple Level',
+    icon: faIcon({ icon: 'fa-solid fa-list-alt' }),
+    child: [
+      {
+        title: 'page',
+      },
+      {
+        title: 'Level 2 ',
+        child: [
+          {
+            title: 'page',
           },
-        },
-        {
-          href: '/page',
-          title: 'Dropdown Page',
-          icon: faIcon({ icon: 'fa-solid fa-list-ul' }),
-          child: [
-            {
-              href: '/page/sub-page-1',
-              title: 'Sub Page 01',
-              icon: faIcon({ icon: 'fa-solid fa-file-alt', size: 'sm' }),
-            },
-            {
-              href: '/page/sub-page-2',
-              title: 'Sub Page 02',
-              icon: faIcon({ icon: 'fa-solid fa-file-alt', size: 'sm' }),
-            },
-          ],
-        },
-        {
-          title: 'Multiple Level',
-          icon: faIcon({ icon: 'fa-solid fa-list-alt' }),
-          child: [
-            {
-              title: 'page',
-            },
-            {
-              title: 'Level 2 ',
-              child: [
-                {
-                  title: 'page',
-                },
-                {
-                  title: 'Page',
-                },
-              ],
-            },
-            {
-              title: 'Page',
-            },
-            {
-              title: 'Another Level 2',
-              child: [
-                {
-                  title: 'Level 3',
-                  child: [
-                    {
-                      title: 'Page',
-                    },
-                    {
-                      title: 'Page',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      collapsed: false,
-      themes: [
-        {
-          name: 'Default theme',
-          input: '',
-        },
-        {
-          name: 'White theme',
-          input: 'white-theme',
-        },
-      ],
-      selectedTheme: 'white-theme',
-      isOnMobile: false,
-    }
+          {
+            title: 'Page',
+          },
+        ],
+      },
+      {
+        title: 'Page',
+      },
+      {
+        title: 'Another Level 2',
+        child: [
+          {
+            title: 'Level 3',
+            child: [
+              {
+                title: 'Page',
+              },
+              {
+                title: 'Page',
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
-  mounted() {
-    this.onResize()
-    window.addEventListener('resize', this.onResize)
+])
+
+const collapsed = ref(false)
+const themes = [
+  {
+    name: 'Default theme',
+    input: '',
   },
-  methods: {
-    onToggleCollapse(collapsed) {
-      console.log('onToggleCollapse')
-    },
-    onItemClick(event, item) {
-      console.log('onItemClick')
-      // console.log(event)
-      // console.log(item)
-    },
-    onResize() {
-      if (window.innerWidth <= 767) {
-        this.isOnMobile = true
-        this.collapsed = true
-      } else {
-        this.isOnMobile = false
-        this.collapsed = false
-      }
-    },
+  {
+    name: 'White theme',
+    input: 'white-theme',
   },
+] as const
+
+const selectedTheme = ref(themes[1].input)
+const isOnMobile = ref(false)
+
+function onToggleCollapse(collapsed: boolean) {
+  console.log('onToggleCollapse')
 }
+
+function onItemClick(event: Event, item: SidebarItem) {
+  console.log('onItemClick')
+}
+
+function onResize() {
+  if (window.innerWidth <= 767) {
+    isOnMobile.value = true
+    collapsed.value = true
+  } else {
+    isOnMobile.value = false
+    collapsed.value = false
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('resize', onResize)
+})
 </script>
 
 <style lang="scss">

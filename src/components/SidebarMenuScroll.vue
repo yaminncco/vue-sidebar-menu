@@ -25,21 +25,21 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   compatConfig: { MODE: 3 },
 }
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, watch, nextTick, provide, onUnmounted } from 'vue'
 import { useSidebar } from '../use/useSidebar'
 
-const { getIsCollapsed: isCollapsed } = useSidebar()
+const { getIsCollapsed: isCollapsed } = useSidebar()!
 
-const scrollRef = ref(null)
-const scrollBarRef = ref(null)
-const scrollThumbRef = ref(null)
+const scrollRef = ref<HTMLElement | null>(null)
+const scrollBarRef = ref<HTMLElement | null>(null)
+const scrollThumbRef = ref<HTMLElement | null>(null)
 
 const cursorDown = ref(false)
 let cursorY = 0
@@ -58,7 +58,8 @@ const onScroll = () => {
   requestAnimationFrame(onScrollUpdate)
 }
 
-const onClick = (e) => {
+const onClick = (e: MouseEvent) => {
+  if (!scrollRef.value || !scrollBarRef.value || !scrollThumbRef.value) return
   const offset = Math.abs(
     scrollBarRef.value.getBoundingClientRect().y - e.clientY
   )
@@ -66,7 +67,8 @@ const onClick = (e) => {
   updateScrollTop(offset - thumbHalf)
 }
 
-const onMouseDown = (e) => {
+const onMouseDown = (e: MouseEvent) => {
+  if (!scrollRef.value || !scrollBarRef.value || !scrollThumbRef.value) return
   e.stopImmediatePropagation()
   cursorDown.value = true
   window.addEventListener('mousemove', onMouseMove)
@@ -76,7 +78,8 @@ const onMouseDown = (e) => {
     (e.clientY - scrollThumbRef.value.getBoundingClientRect().y)
 }
 
-const onMouseMove = (e) => {
+const onMouseMove = (e: MouseEvent) => {
+  if (!scrollRef.value || !scrollBarRef.value || !scrollThumbRef.value) return
   if (!cursorDown.value) return
   const offset = e.clientY - scrollBarRef.value.getBoundingClientRect().y
   const thumbClickPosition = scrollThumbRef.value.offsetHeight - cursorY
@@ -84,7 +87,7 @@ const onMouseMove = (e) => {
   updateScrollTop(offset - thumbClickPosition)
 }
 
-const onMouseUp = (e) => {
+const onMouseUp = (_e: MouseEvent) => {
   cursorDown.value = false
   cursorY = 0
   if (!cursorIn) {
@@ -94,12 +97,12 @@ const onMouseUp = (e) => {
   window.removeEventListener('mouseup', onMouseUp)
 }
 
-const onMouseEnter = (e) => {
+const onMouseEnter = (_e: MouseEvent) => {
   visible.value = true
   cursorIn = true
 }
 
-const onMouseLeave = (e) => {
+const onMouseLeave = (_e: MouseEvent) => {
   cursorIn = false
   if (!cursorDown.value) {
     visible.value = false
@@ -107,6 +110,7 @@ const onMouseLeave = (e) => {
 }
 
 const updateThumb = () => {
+  if (!scrollRef.value || !scrollBarRef.value || !scrollThumbRef.value) return
   const heightPerc =
     (scrollRef.value.clientHeight * 100) / scrollRef.value.scrollHeight
   const thumbHeightPerc = heightPerc < 100 ? heightPerc : 0
@@ -117,7 +121,8 @@ const updateThumb = () => {
   scrollThumbRef.value.style.transform = `translateY(${thumbYPerc}%)`
 }
 
-const updateScrollTop = (y) => {
+const updateScrollTop = (y: number) => {
+  if (!scrollRef.value || !scrollBarRef.value || !scrollThumbRef.value) return
   const scrollPerc = (y * 100) / scrollBarRef.value.offsetHeight
   scrollRef.value.scrollTop = (scrollPerc * scrollRef.value.scrollHeight) / 100
 }
@@ -137,7 +142,7 @@ onUnmounted(() => {
   window.removeEventListener('resize', onScrollUpdate)
 })
 
-provide('emitScrollUpdate', onScrollUpdate)
+provide('SidebarMenuScroll', onScrollUpdate)
 </script>
 
 <style scoped>

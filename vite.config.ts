@@ -11,7 +11,7 @@ export default defineConfig({
       formats: ['es', 'umd', 'iife'],
       fileName: (format) => {
         const { main, module, unpkg, name } = pkg
-        const file = {
+        const file: Record<string, string | undefined> = {
           umd: main.split('/').pop(),
           es: module.split('/').pop(),
           iife: unpkg.split('/').pop(),

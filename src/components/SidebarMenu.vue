@@ -1,7 +1,7 @@
 <template>
   <div
-    ref="sidebarMenuRef"
-    :class="[sidebarClass]"
+    ref="sidebarRef"
+    :class="sidebarClass"
     :style="{ 'max-width': sidebarWidth }"
   >
     <div class="vsm--wrapper">
@@ -12,10 +12,11 @@
             v-for="item in computedMenu"
             :key="item.id"
             :item="item"
+            :level="1"
             :active-show="activeShow"
             @update-active-show="updateActiveShow"
           >
-            <template #dropdown-icon="{ isOpen }">
+            <template #dropdown-icon="{ isOpen }: { isOpen: boolean }">
               <slot name="dropdown-icon" v-bind="{ isOpen }">
                 <span class="vsm--arrow_default" />
               </slot>
@@ -25,6 +26,7 @@
       </sidebar-menu-scroll>
       <slot name="footer" />
     </div>
+
     <button
       v-if="!hideToggle"
       class="vsm--toggle-btn"
@@ -38,157 +40,230 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   compatConfig: { MODE: 3 },
 }
 </script>
 
-<script setup>
+<script setup lang="ts">
 import {
   ref,
+  reactive,
+  computed,
   watch,
+  toRefs,
   getCurrentInstance,
   onMounted,
   onUnmounted,
-  computed,
+  provide,
 } from 'vue'
-import { initSidebar } from '../use/useSidebar'
 import SidebarMenuItem from './SidebarMenuItem.vue'
 import SidebarMenuScroll from './SidebarMenuScroll.vue'
+import type {
+  SidebarMenuProps,
+  SidebarMenuEmits,
+  SidebarItem,
+  MobileItem,
+  MobileItemRect,
+  SidebarItemType,
+} from '../types'
+import { useProvideSidebar } from '../use/useSidebar'
 
-const props = defineProps({
-  menu: {
-    type: Array,
-    required: true,
+const props = withDefaults(defineProps<SidebarMenuProps>(), {
+  width: '290px',
+  widthCollapsed: '65px',
+})
+const emit = defineEmits<SidebarMenuEmits>()
+
+const { collapsed } = toRefs(props)
+const sidebarRef = ref<HTMLElement | null>(null)
+const isCollapsed = ref<boolean>(collapsed.value)
+
+const mobileItem: MobileItem = reactive({
+  item: null,
+  rect: {
+    top: 0,
+    height: 0,
+    padding: [0, 0],
+    maxHeight: 0,
+    maxWidth: 0,
+    dropup: 0,
   },
-  collapsed: {
-    type: Boolean,
-    default: false,
-  },
-  width: {
-    type: String,
-    default: '290px',
-  },
-  widthCollapsed: {
-    type: String,
-    default: '65px',
-  },
-  showChild: {
-    type: Boolean,
-    default: false,
-  },
-  theme: {
-    type: String,
-    default: undefined,
-    validator: (value) => ['', 'white-theme'].includes(value),
-  },
-  showOneChild: {
-    type: [Boolean, String],
-    default: false,
-    validator(value) {
-      if (typeof value === 'string') {
-        return ['deep'].includes(value)
-      } else {
-        return typeof value === 'boolean'
-      }
-    },
-  },
-  rtl: {
-    type: Boolean,
-    default: false,
-  },
-  relative: {
-    type: Boolean,
-    default: false,
-  },
-  hideToggle: {
-    type: Boolean,
-    default: false,
-  },
-  disableHover: {
-    type: Boolean,
-    default: false,
-  },
-  linkComponentName: {
-    type: String,
-    default: undefined,
-  },
-  smoothScroll: {
-    type: Boolean,
-    default: false,
-  },
+  timeout: null as ReturnType<typeof setTimeout> | null,
 })
 
-const emits = defineEmits({
-  'item-click'(event, item) {
-    return !!(event && item)
-  },
-  'update:collapsed'(collapsed) {
-    return !!(typeof collapsed === 'boolean')
-  },
-})
+const currentRoute = ref<string>('')
+const activeShow = ref<string | undefined>(undefined)
 
-const {
-  getSidebarRef: sidebarMenuRef,
-  getIsCollapsed: isCollapsed,
-  updateIsCollapsed,
-  unsetMobileItem,
-  updateCurrentRoute,
-} = initSidebar(props, emits)
+const getMobileItem = computed(() => mobileItem.item)
+const getMobileItemRect = computed(() => mobileItem.rect)
 
-const activeShow = ref(undefined)
+const sidebarWidth = computed(() =>
+  isCollapsed.value ? props.widthCollapsed : props.width
+)
+const sidebarClass = computed(() => [
+  'v-sidebar-menu',
+  !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
+  props.theme && `vsm_${props.theme}`,
+  props.rtl && 'vsm_rtl',
+  props.relative && 'vsm_relative',
+])
 
-const computedMenu = computed(() => {
-  let id = 0
-  function transformItems(items) {
-    function randomId() {
-      return `${Date.now() + '' + id++}`
-    }
-    return items.map((item) => {
-      return {
-        id: randomId(),
-        ...item,
-        ...(item.child && { child: transformItems(item.child) }),
-      }
-    })
+let _idCounter = 0
+const nextId = () => `${Date.now()}${_idCounter++}`
+function transformItems(items: SidebarItemType[]): SidebarItemType[] {
+  if (!items) return []
+  return items.map((it) => {
+    const base = { ...(it as any), id: (it as any).id ?? nextId() }
+    if (base.child) base.child = transformItems(base.child)
+    return base
+  })
+}
+const computedMenu = computed(() => transformItems(props.menu))
+
+const clearMobileItemTimeout = () => {
+  if (mobileItem.timeout) {
+    clearTimeout(mobileItem.timeout)
+    mobileItem.timeout = null
   }
-  return transformItems(props.menu)
-})
+}
 
-const sidebarWidth = computed(() => {
-  return isCollapsed.value ? props.widthCollapsed : props.width
-})
+const updateMobileItem = (item: SidebarItem | null) => {
+  mobileItem.item = item
+}
 
-const sidebarClass = computed(() => {
-  return [
-    'v-sidebar-menu',
-    !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
-    props.theme && `vsm_${props.theme}`,
-    props.rtl && 'vsm_rtl',
-    props.relative && 'vsm_relative',
-  ]
-})
+const updateMobileItemRect = (rect: MobileItemRect) => {
+  for (const key in rect) {
+    ;(mobileItem.rect as any)[key] = rect[key as keyof MobileItemRect]
+  }
+}
 
-const updateActiveShow = (id) => {
+const unsetMobileItem = (immediate = true, delay = 800) => {
+  if (!getMobileItem.value) return
+  clearMobileItemTimeout()
+  if (immediate) {
+    updateMobileItem(null)
+    return
+  }
+  mobileItem.timeout = setTimeout(() => updateMobileItem(null), delay)
+}
+
+const getMobileItemRectFromEl = (
+  el: HTMLElement
+): MobileItemRect | undefined => {
+  if (!sidebarRef.value) return
+  const {
+    top: elTop,
+    bottom: elBottom,
+    height: elHeight,
+  } = el.getBoundingClientRect()
+  const { left: sidebarLeft, right: sidebarRight } =
+    sidebarRef.value.getBoundingClientRect()
+  const wrapperEl = sidebarRef.value.firstElementChild as HTMLElement
+  const { bottom: wrapperBottom, height: wrapperHeight } =
+    wrapperEl.getBoundingClientRect()
+
+  const scrollWrapperEl = el.offsetParent as HTMLElement
+  const scrollWrapperOffsetTop = scrollWrapperEl.offsetTop
+  const { top: scrollWrapperTop, height: scrollWrapperHeight } =
+    scrollWrapperEl.getBoundingClientRect()
+
+  let parentHeight = window.innerHeight
+  let parentWidth = window.innerWidth
+  let parentTop = 0
+  let parentRight = parentWidth
+  let maxWidth = Math.max(
+    parseInt(props.width) - parseInt(props.widthCollapsed),
+    0
+  )
+  const parent = sidebarRef.value.parentElement
+
+  if (parent && props.relative) {
+    parentHeight = parent.clientHeight
+    parentWidth = parent.clientWidth
+    const pRect = parent.getBoundingClientRect()
+    parentTop = pRect.top
+    parentRight = pRect.right
+  }
+
+  const rectWidth = props.rtl
+    ? parentWidth - (parentRight - sidebarLeft)
+    : parentRight - sidebarRight
+  maxWidth = rectWidth <= maxWidth ? rectWidth : maxWidth
+
+  const cs = window.getComputedStyle(el)
+  const paddingLeft = parseInt(cs.paddingLeft || '0', 10)
+  const paddingRight = parseInt(cs.paddingRight || '0', 10)
+
+  const absoluteTop = elTop - scrollWrapperTop
+  const absoluteBottom =
+    wrapperBottom -
+    elTop -
+    (wrapperHeight - (scrollWrapperHeight + scrollWrapperOffsetTop))
+
+  let maxHeight = parentHeight - (elBottom - parentTop)
+  const parentVisibleHeight = Math.min(
+    window.innerHeight,
+    window.innerHeight - parentTop,
+    parentHeight,
+    parentHeight + parentTop
+  )
+  const maxVisible =
+    parentVisibleHeight - (Math.max(elBottom, 0) - Math.max(parentTop, 0))
+  const dropup = maxVisible < parentVisibleHeight * 0.25 ? absoluteBottom : 0
+  maxHeight = dropup ? elTop - parentTop : maxHeight
+
+  return {
+    top: absoluteTop,
+    height: elHeight,
+    padding: [paddingLeft, paddingRight],
+    maxWidth,
+    maxHeight,
+    dropup,
+  }
+}
+
+const setMobileItem = ({
+  item,
+  itemEl,
+}: {
+  item: SidebarItem
+  itemEl: HTMLElement
+}) => {
+  clearMobileItemTimeout()
+  const linkEl = itemEl.children[0] as HTMLElement
+  const rect = getMobileItemRectFromEl(linkEl)
+  if (!rect) return
+  updateMobileItem(item)
+  updateMobileItemRect(rect)
+}
+
+const updateCurrentRoute = () => {
+  console.log('updateCurrentRoute')
+  currentRoute.value =
+    window.location.pathname + window.location.search + window.location.hash
+}
+
+const onItemClick = (event: Event, item: SidebarItem) => {
+  emit('item-click', event, item)
+}
+
+const updateActiveShow = (id: string | undefined) => {
   activeShow.value = id
+}
+
+const updateIsCollapsed = (val: boolean) => {
+  isCollapsed.value = val
 }
 
 const onToggleClick = () => {
   unsetMobileItem()
   updateIsCollapsed(!isCollapsed.value)
-  emits('update:collapsed', isCollapsed.value)
+  emit('update:collapsed', isCollapsed.value)
 }
 
-watch(
-  () => props.collapsed,
-  (currentCollapsed) => {
-    unsetMobileItem()
-    updateIsCollapsed(currentCollapsed)
-  }
-)
-
-const router = getCurrentInstance().appContext.config.globalProperties.$router
+const router = getCurrentInstance()?.appContext.config.globalProperties.$router
 if (!router) {
   onMounted(() => {
     updateCurrentRoute()
@@ -198,6 +273,31 @@ if (!router) {
     window.removeEventListener('hashchange', updateCurrentRoute)
   })
 }
+
+watch(
+  () => collapsed.value,
+  (newValue) => {
+    unsetMobileItem()
+    updateIsCollapsed(newValue)
+  }
+)
+
+useProvideSidebar(
+  props,
+  sidebarRef,
+  isCollapsed,
+  getMobileItem,
+  getMobileItemRect,
+  currentRoute,
+  updateIsCollapsed,
+  setMobileItem,
+  unsetMobileItem,
+  clearMobileItemTimeout,
+  updateCurrentRoute,
+  onItemClick
+)
+// Todo depreciate
+provide('onRouteChange', updateCurrentRoute)
 
 defineExpose({
   onRouteChange: updateCurrentRoute,

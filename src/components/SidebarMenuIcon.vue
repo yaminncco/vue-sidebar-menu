@@ -14,21 +14,21 @@
   <i v-else v-bind="attributes" />
 </template>
 
-<script>
+<script lang="ts">
+interface Props {
+  icon: string | ItemIcon
+}
+
 export default {
   compatConfig: { MODE: 3 },
 }
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
+import type { ItemIcon } from '../types'
 
-const props = defineProps({
-  icon: {
-    type: [String, Object],
-    default: '',
-  },
-})
+const props = defineProps<Props>()
 
 const attributes = computed(() => {
   return {
@@ -37,7 +37,7 @@ const attributes = computed(() => {
       typeof props.icon === 'object' ? props.icon.class : props.icon,
     ],
     'aria-hidden': true,
-    ...props.icon.attributes,
+    ...(typeof props.icon === 'object' ? props.icon.attributes : {}),
   }
 })
 </script>

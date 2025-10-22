@@ -13,21 +13,21 @@
   />
 </template>
 
-<script>
+<script lang="ts">
+interface Props {
+  badge: ItemBadge
+}
+
 export default {
   compatConfig: { MODE: 3 },
 }
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
+import type { ItemBadge } from '../types'
 
-const props = defineProps({
-  badge: {
-    type: Object,
-    default: () => {},
-  },
-})
+const props = defineProps<Props>()
 
 const attributes = computed(() => {
   return {
