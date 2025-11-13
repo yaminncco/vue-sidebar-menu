@@ -41,6 +41,7 @@
         <div
           v-if="hasChild"
           :class="['vsm--arrow', { 'vsm--arrow_open': show }]"
+          @click.stop="onDropdownIconClick"
         >
           <slot name="dropdown-icon" v-bind="{ isOpen: show }" />
         </div>
@@ -204,9 +205,28 @@ const onLinkClick = (event: Event) => {
   emitMobileItem(event, (event.currentTarget as HTMLElement).parentElement!)
 
   if (hasChild.value) {
+    // Prevent toggling if toggleDropdownOnIconOnly is true
+    if (item.value.toggleDropdownOnIconOnly) {
+      emitItemClick(event, item.value)
+      return
+    }
+
     if (!item.value.href || active.value) {
       show.value = !show.value
     }
+  }
+
+  emitItemClick(event, item.value)
+}
+
+const onDropdownIconClick = (event: Event) => {
+  event.stopPropagation()
+  event.preventDefault()
+  if (item.value.disabled) return
+
+  // Only toggle dropdown, do not navigate
+  if (hasChild.value) {
+    show.value = !show.value
   }
 
   emitItemClick(event, item.value)
@@ -413,8 +433,20 @@ const mobileItemBackgroundStyle = computed<StyleValue>(() => ({
 
 watch(
   () => active.value,
-  () => {
-    if (active.value) show.value = true
+  (isActive, wasActive) => {
+    // Skip auto-opening if openDropdownOnIcon is true and the item has an href
+    if (
+      item.value.toggleDropdownOnIconOnly &&
+      item.value.href &&
+      !wasActive &&
+      isActive
+    ) {
+      return
+    }
+
+    if (isActive) {
+      show.value = true
+    }
   },
   { immediate: true }
 )

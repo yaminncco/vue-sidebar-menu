@@ -98,6 +98,7 @@ export interface SidebarItem {
   exact?: boolean
   isActive?: (item: SidebarItem) => boolean
   id?: string
+  toggleDropdownOnIconOnly?: boolean
 }
 
 export interface SidebarHeaderItem {

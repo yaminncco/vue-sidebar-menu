@@ -124,6 +124,8 @@ menu: [
     // exact: true // apply active class when current route is exactly the same. (based on route records, query & hash are not relevant)
 
     // isActive: (item) => boolean | void // return a boolean to override the default active matcher
+
+    // toggleDropdownOnIconOnly: true // When you would like your parent item to act as a menu item whilst having the dropdown toggle on the icon only, you can set this to true.
   },
   // header item
   {
