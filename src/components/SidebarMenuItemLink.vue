@@ -41,8 +41,12 @@
         <div
           v-if="hasChild"
           :class="['vsm--arrow', { 'vsm--arrow_open': show }]"
+          @click.stop="onDropdownIconClick"
         >
-          <slot name="dropdown-icon" v-bind="{ isOpen: show }" />
+          <slot
+            name="dropdown-icon"
+            v-bind="{ isOpen: show, toggle: onDropdownIconClick }"
+          />
         </div>
       </div>
     </component>
@@ -72,8 +76,16 @@
               @update-active-show="updateSubActiveShow"
             >
               <!-- @vue-ignore -->
-              <template #dropdown-icon="{ isOpen }: { isOpen: boolean }">
-                <slot name="dropdown-icon" v-bind="{ isOpen }" />
+              <template
+                #dropdown-icon="{
+                  isOpen,
+                  toggle,
+                }: {
+                  isOpen: boolean,
+                  toggle: (event: Event) => void,
+                }"
+              >
+                <slot name="dropdown-icon" v-bind="{ isOpen, toggle }" />
               </template>
             </sidebar-menu-item>
           </ul>
@@ -207,6 +219,18 @@ const onLinkClick = (event: Event) => {
     if (!item.value.href || active.value) {
       show.value = !show.value
     }
+  }
+
+  emitItemClick(event, item.value)
+}
+
+const onDropdownIconClick = (event: Event) => {
+  event.stopPropagation()
+  event.preventDefault()
+  if (item.value.disabled) return
+
+  if (hasChild.value) {
+    show.value = !show.value
   }
 
   emitItemClick(event, item.value)
@@ -413,8 +437,10 @@ const mobileItemBackgroundStyle = computed<StyleValue>(() => ({
 
 watch(
   () => active.value,
-  () => {
-    if (active.value) show.value = true
+  (isActive) => {
+    if (isActive) {
+      show.value = true
+    }
   },
   { immediate: true }
 )

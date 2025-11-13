@@ -18,8 +18,16 @@
       @update-active-show="$emit('update-active-show', $event)"
     >
       <!-- @vue-ignore -->
-      <template #dropdown-icon="{ isOpen }: { isOpen: boolean }">
-        <slot name="dropdown-icon" v-bind="{ isOpen }" />
+      <template
+        #dropdown-icon="{
+          isOpen,
+          toggle,
+        }: {
+          isOpen: boolean,
+          toggle: (event: Event) => void,
+        }"
+      >
+        <slot name="dropdown-icon" v-bind="{ isOpen, toggle }" />
       </template>
     </sidebar-menu-item-link>
   </template>

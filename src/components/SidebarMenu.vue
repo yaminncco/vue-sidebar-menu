@@ -16,8 +16,16 @@
             :active-show="activeShow"
             @update-active-show="updateActiveShow"
           >
-            <template #dropdown-icon="{ isOpen }: { isOpen: boolean }">
-              <slot name="dropdown-icon" v-bind="{ isOpen }">
+            <template
+              #dropdown-icon="{
+                isOpen,
+                toggle,
+              }: {
+                isOpen: boolean,
+                toggle: (event: Event) => void,
+              }"
+            >
+              <slot name="dropdown-icon" v-bind="{ isOpen, toggle }">
                 <span class="vsm--arrow_default" />
               </slot>
             </template>

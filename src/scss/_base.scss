@@ -156,9 +156,11 @@
     align-items: center;
     &_default {
       position: relative;
-      width: 12px;
-      height: 12px;
-      transition: transform 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
       &:before {
         content: '';
         width: 6px;
@@ -167,15 +169,15 @@
         border-bottom: 2px solid;
         transform: rotate(-135deg);
         display: inline-block;
-        position: absolute;
-        top: 2px;
-        left: 0;
         box-sizing: content-box;
+        transition: transform 0.3s ease;
       }
     }
     &_open {
       .vsm--arrow_default {
-        transform: rotate(90deg);
+        &:before {
+          transform: rotate(-45deg);
+        }
       }
     }
   }
@@ -270,15 +272,8 @@
       margin-right: 0px;
     }
 
-    .vsm--arrow {
-      &_default {
-        transform: scaleX(-1);
-      }
-      &_open {
-        .vsm--arrow_default {
-          transform: rotate(-90deg) scaleX(-1);
-        }
-      }
+    .vsm--arrow_default {
+      transform: scaleX(-1);
     }
 
     .vsm--toggle-btn_default {

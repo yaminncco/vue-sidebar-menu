@@ -7,7 +7,11 @@
     :smooth-scroll="true"
     @update:collapsed="onToggleCollapse"
     @item-click="onItemClick"
-  />
+  >
+    <template #dropdown-icon="{ toggle }">
+      <div class="vsm--arrow_default" @click="toggle" />
+    </template>
+  </sidebar-menu>
   <div
     v-if="isOnMobile && !collapsed"
     class="sidebar-overlay"

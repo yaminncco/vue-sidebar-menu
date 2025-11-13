@@ -331,9 +331,12 @@ $primary-color: red;
   <template v-slot:header>header</template>
   <template v-slot:footer>footer</template>
   <template v-slot:toggle-icon>toggle-icon</template>
-  <template v-slot:dropdown-icon="{ isOpen }">
-    <span v-if="!isOpen">+</span>
-    <span v-else>-</span>
+  <template v-slot:dropdown-icon="{ isOpen, toggle }">
+    <!-- toggle without triggering navigation -->
+    <div @click="toggle">
+      <span v-if="!isOpen">+</span>
+      <span v-else>-</span>
+    </div>
   </template>
 </sidebar-menu>
 ```
