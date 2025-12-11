@@ -248,7 +248,6 @@ const setMobileItem = ({
 }
 
 const updateCurrentRoute = () => {
-  console.log('updateCurrentRoute')
   currentRoute.value =
     window.location.pathname + window.location.search + window.location.hash
 }
