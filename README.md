@@ -1,12 +1,10 @@
-# vue-sidebar-menu (for Vue 3)
+# vue-sidebar-menu
 
 A Vue.js sidebar menu component with vue-router compatibility
 
 ## Demo
 
 [vue-sidebar-menu-demo](https://yaminncco.github.io/vue-sidebar-menu/)
-
-### :warning: This documentation is for Vue 3, for Vue 2 [click here](https://github.com/yaminncco/vue-sidebar-menu/tree/vue2)
 
 ## Installation
 
@@ -231,7 +229,11 @@ props: {
 
 ```html
 <sidebar-menu @update:collapsed="onToggleCollapse" @item-click="onItemClick" />
-... methods: { onToggleCollapse(collapsed) {}, onItemClick(event, item) {} } ...
+...
+methods: {
+  onToggleCollapse(collapsed) {},
+  onItemClick(event, item) {}
+}
 ```
 
 **@update:collapsed(collapsed)** Trigger on toggle btn click
